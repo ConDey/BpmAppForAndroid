@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile rootProject.ext.supportAppcompatV7
+    compile rootProject.ext.supportDesign
+    compile rootProject.ext.supportRecyclerView
+    compile rootProject.ext.supportCardView
+
+    compile rootProject.ext.eventBus
+
+    // RxAndroid 响应式编程
+    compile rootProject.ext.rxJava
+    compile rootProject.ext.rxAndroid
+    compile rootProject.ext.rxPermissions
+    compile rootProject.ext.rxBinding
+    compile rootProject.ext.rxBindingSupportV4
+    compile rootProject.ext.rxBindingSupportAppcompatV7
+    compile rootProject.ext.rxBindingSupportDesign
+    compile rootProject.ext.rxBindingSupportRecyclerView
+    compile rootProject.ext.rxLifecycle
+    compile rootProject.ext.rxLifecycleComponents
+
+    // Retrofit2 网络请求框架
+    compile rootProject.ext.retrofit
+    compile rootProject.ext.retrofitConverterGson
+    compile rootProject.ext.retrofitAdapterRxJava
+
+    compile rootProject.ext.materialDialog
+
+    compile 'com.github.GrenderG:Toasty:1.2.5'
+
+}

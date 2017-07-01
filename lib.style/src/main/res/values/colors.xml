@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 专用颜色  -->
+    <color name="color_primary">#3892FF</color>
+    <color name="color_primarydark">#3892FF</color>
+    <color name="color_accent">#3892FF</color>
+
+    <color name="color_toolbar">#f4f5f6</color>
+    <color name="color_black_primary">#2d2d2d</color>
+    <color name="color_grey_primary">#8f8f8f</color>
+
+
+    <!-- 通用颜色  -->
+
+    <color name="color_divider">@color/grey_300</color>
+    <color name="color_none">#00000000</color>
+
+</resources>

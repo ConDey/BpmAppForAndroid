@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/bg_authentication"
+                tools:context=".authentication.AuthenticationActivity">
+
+    <LinearLayout
+        android:id="@+id/lt_authentication_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/authentication_panel_margin_left"
+        android:layout_marginRight="@dimen/authentication_panel_margin_right"
+        android:background="@drawable/bg_authentication_shadow"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/authentication_head"
+            android:textColor="@color/color_primary"
+            android:textSize="@dimen/font_16"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_1"
+            android:layout_marginBottom="@dimen/authentication_head_divider_margin_bottom"
+            android:layout_marginLeft="@dimen/authentication_head_divider_margin_left"
+            android:layout_marginRight="@dimen/authentication_head_divider_margin_right"
+            android:layout_marginTop="@dimen/authentication_head_divider_margin_top"
+            android:background="@color/color_divider">
+        </LinearLayout>
+
+        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+            android:id="@+id/et_authentication_username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/authentication_et_height"
+            android:layout_marginTop="@dimen/authentication_username_et_margin_top"
+            android:background="@drawable/bg_authentication_et"
+            android:drawableLeft="@mipmap/ic_authentication_username"
+            android:drawablePadding="@dimen/authentication_et_drawable_padding"
+            android:hint="@string/authentication_username_hint"
+            android:paddingLeft="@dimen/authentication_et_ic_padding_left"
+            android:textColor="@color/color_black_primary"
+            android:textColorHint="@color/color_grey_primary"
+            android:textSize="@dimen/font_14"/>
+
+        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+            android:id="@+id/et_authentication_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/authentication_et_height"
+            android:layout_marginTop="@dimen/authentication_password_et_margin_top"
+            android:background="@drawable/bg_authentication_et"
+            android:drawableLeft="@mipmap/ic_authentication_password"
+            android:drawablePadding="@dimen/authentication_et_drawable_padding"
+            android:hint="@string/authentication_password_hint"
+            android:inputType="textPassword"
+            android:paddingLeft="@dimen/authentication_et_ic_padding_left"
+            android:textColor="@color/color_black_primary"
+            android:textColorHint="@color/color_grey_primary"
+            android:textSize="@dimen/font_14"/>
+
+        <Button
+            android:id="@+id/bt_authentication"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/authentication_button_height"
+            android:layout_marginTop="@dimen/authentication_bt_margin_top"
+            android:background="@color/color_primary"
+            android:text="@string/authentication_button"
+            android:textColor="@android:color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spacing_1"
+            android:layout_marginBottom="@dimen/authentication_bottom_divdier_margin_bottom"
+            android:layout_marginTop="@dimen/authentication_bottom_divdier_margin_top"
+            android:background="@color/color_divider">
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

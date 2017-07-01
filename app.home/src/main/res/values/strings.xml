@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">app.home</string>
+
+    <string name="authentication_head">登录</string>
+    <string name="authentication_username_hint">点击输入用户名</string>
+    <string name="authentication_password_hint">点击输入密码</string>
+    <string name="authentication_button">登&#160;&#160;录</string>
+    <string name="authentication_username_cannot_empty">用户名不能为空</string>
+    <string name="authentication_password_cannot_empty">用户密码不能为空</string>
+    <string name="authentication_login_error">登录失败：</string>
+
+    <string name="userhome_message">消息</string>
+    <string name="userhome_app">应用</string>
+    <string name="userhome_contact">通讯录</string>
+    <string name="userhome_setting">设置</string>
+
+</resources>

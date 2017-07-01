@@ -1,0 +1,20 @@
+<resources>
+
+    <dimen name="authentication_panel_margin_left">40dp</dimen>
+    <dimen name="authentication_panel_margin_right">40dp</dimen>
+    <dimen name="authentication_et_height">40dp</dimen>
+    <dimen name="authentication_button_height">36dp</dimen>
+    <dimen name="authentication_head_divider_margin_bottom">5dp</dimen>
+    <dimen name="authentication_head_divider_margin_left">-3dp</dimen>
+    <dimen name="authentication_head_divider_margin_right">-3dp</dimen>
+    <dimen name="authentication_head_divider_margin_top">5dp</dimen>
+    <dimen name="authentication_username_et_margin_top">5dp</dimen>
+    <dimen name="authentication_password_et_margin_top">10dp</dimen>
+    <dimen name="authentication_et_drawable_padding">5dp</dimen>
+    <dimen name="authentication_et_ic_padding_left">10dp</dimen>
+    <dimen name="authentication_bt_margin_top">20dp</dimen>
+    <dimen name="authentication_bottom_divdier_margin_bottom">10dp</dimen>
+    <dimen name="authentication_bottom_divdier_margin_top">10dp</dimen>
+
+
+</resources>

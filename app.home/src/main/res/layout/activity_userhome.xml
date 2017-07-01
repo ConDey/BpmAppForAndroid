@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true"
+                                                 tools:context=".userhome.UserHomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/lt_userhome_toolbar"
+            layout="@layout/common_toolbar"></include>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/cl_userhome_bottomnav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <com.eazytec.bpm.appstub.view.mdbottom.BottomNavigation
+                android:id="@+id/bn_userhome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:bbn_badgeProvider="@string/bbn_badgeProvider"
+                app:bbn_entries="@menu/userhome_bottom_navigation"
+                ></com.eazytec.bpm.appstub.view.mdbottom.BottomNavigation>
+        </android.support.design.widget.CoordinatorLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/cl_userhome_bottomnav"
+            android:layout_below="@id/lt_userhome_toolbar">
+        </FrameLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

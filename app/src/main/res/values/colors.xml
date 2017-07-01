@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#3892FF</color>
+    <color name="color_primarydark">#303F9F</color>
+    <color name="color_accent">#FF4081</color>
+
+    <color name="appLaunch_background">#2E2E2E</color>
+    <color name="appLaunch_textColor">#FFF</color>
+
+</resources>

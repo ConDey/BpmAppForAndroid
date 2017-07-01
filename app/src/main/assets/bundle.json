@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "bundles": [
+    {
+      "uri": "lib.style",
+      "pkg": "com.eazytec.bpm.lib.style"
+    },
+    {
+      "uri": "lib.utils",
+      "pkg": "com.eazytec.bpm.lib.utils"
+    },
+    {
+      "uri": "lib.common",
+      "pkg": "com.eazytec.bpm.lib.common"
+    },
+    {
+      "uri": "app.home",
+      "pkg": "com.eazytec.bpm.app.home"
+    },
+    {
+      "uri": "app.contact",
+      "pkg": "com.eazytec.bpm.app.contact",
+      "rules": {
+        "forhomefragment": "HomeContactFragment"
+      }
+    }
+  ]
+}
