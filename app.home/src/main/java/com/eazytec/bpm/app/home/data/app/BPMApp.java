@@ -1,7 +1,6 @@
 package com.eazytec.bpm.app.home.data.app;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
 
 import com.eazytec.bpm.lib.utils.StringUtils;
@@ -28,11 +27,33 @@ public class BPMApp implements Installable {
     private String id;
 
     /**
-     * 应用的显示名称
+     * 应用名称，用于描述一个应用
      */
     private String name;
 
 
+    /**
+     * 应用的显示名称
+     */
+    private String displayName;
+
+    /**
+     * @return
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    /**
+     * @param displayName
+     */
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    /**
+     * 图片路径
+     */
     private String imageUrl;
 
     /**
@@ -209,7 +230,7 @@ public class BPMApp implements Installable {
      * @return
      */
     @Override public boolean installed() {
-        if (StringUtils.equals(getType(), APP_TYPE_INNER) || StringUtils.equals(getType(), APP_TYPE_WEB)) {
+        if (StringUtils.equals(getType(), APP_TYPE_WEB)) {
             return true; // 这两个应用不需要安装
         }
 
@@ -241,5 +262,19 @@ public class BPMApp implements Installable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 通过Small进入App应用
+     *
+     * @param context
+     */
+    public void getIntoApp(Context context) {
+        // 进入应用
+        // 如果应用没有安装，则方法无效
+        if (!installed()) {
+            return;
+        }
+        Small.openUri(getBundleName(), context);
     }
 }
