@@ -74,7 +74,8 @@ public class HomeAppFragment extends CommonFragment {
 
         // 通讯录模块
         BPMApp contactBpmApp = new BPMApp();
-        contactBpmApp.setId("com.eazytec.bpm.contact");
+        contactBpmApp.setId("com.eazytec.bpm.app.contact");
+        contactBpmApp.setPackageName("com.eazytec.bpm.app.contact");
         contactBpmApp.setDisplayName("通讯录");
         contactBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
         contactBpmApp.setImageUrl("ic_homeapp_card");
@@ -84,7 +85,8 @@ public class HomeAppFragment extends CommonFragment {
 
         // 通知公告模块
         BPMApp noticeBpmApp = new BPMApp();
-        noticeBpmApp.setId("com.eazytec.bpm.notice");
+        noticeBpmApp.setId("com.eazytec.bpm.app.notice");
+        noticeBpmApp.setPackageName("com.eazytec.bpm.app.notice");
         noticeBpmApp.setDisplayName("公告");
         noticeBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
         noticeBpmApp.setImageUrl("ic_homeapp_notice");
@@ -95,7 +97,8 @@ public class HomeAppFragment extends CommonFragment {
 
         // JS测试模块
         BPMApp jsTestBpmApp = new BPMApp();
-        jsTestBpmApp.setId("com.eazytec.bpm.jswebview");
+        jsTestBpmApp.setId("com.eazytec.bpm.app.webkit");
+        jsTestBpmApp.setPackageName("com.eazytec.bpm.app.webkit");
         jsTestBpmApp.setDisplayName("JSWEB");
         jsTestBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
         jsTestBpmApp.setImageUrl("ic_homeapp_process");

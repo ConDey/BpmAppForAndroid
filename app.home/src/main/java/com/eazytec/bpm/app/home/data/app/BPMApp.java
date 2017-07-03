@@ -207,6 +207,7 @@ public class BPMApp implements Installable {
      */
     private String bundleName;
 
+
     /**
      * 获取插件所在Bundle的ID
      *
@@ -225,6 +226,31 @@ public class BPMApp implements Installable {
         this.bundleName = bundleName;
     }
 
+
+    /**
+     * Bundle的packageName, Small用于判断Bundle的唯一性
+     */
+    private String packageName;
+
+
+    /**
+     * 获取packageName
+     *
+     * @return
+     */
+    public String getPackageName() {
+        return packageName;
+    }
+
+    /**
+     * 设置packageName
+     *
+     * @param packageName
+     */
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
     /**
      * 返回插件或应用是否被安装
      *
@@ -237,7 +263,7 @@ public class BPMApp implements Installable {
 
         // 主要还是看没有这个Bundle，如果有则代表已经安装
         // 如果没有的话需要从插件库中下载和安装
-        if (Small.getBundle(getBundleName()) != null) {
+        if (Small.getBundle(getPackageName()) != null) {
             return true;
         }
         return false;
