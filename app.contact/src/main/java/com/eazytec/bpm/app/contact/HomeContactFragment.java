@@ -22,6 +22,10 @@ public class HomeContactFragment extends CommonFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View parentView = inflater.inflate(R.layout.fragment_homecontact, container, false);
 
+        /**
+         * 这里是我提交的注释！！！！！！
+         */
+
         return parentView;
     }
 
