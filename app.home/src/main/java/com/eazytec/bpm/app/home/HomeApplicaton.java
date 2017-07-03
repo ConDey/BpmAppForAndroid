@@ -1,6 +1,7 @@
 package com.eazytec.bpm.app.home;
 
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
+import com.eazytec.bpm.lib.utils.Utils;
 
 /**
  * app.home插件
@@ -12,5 +13,16 @@ import com.eazytec.bpm.lib.common.bundle.BundleApplication;
  */
 public class HomeApplicaton extends BundleApplication {
 
+    private static HomeApplicaton instance;
 
+    public static HomeApplicaton getInstance() {
+        return instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        instance = this;
+    }
 }

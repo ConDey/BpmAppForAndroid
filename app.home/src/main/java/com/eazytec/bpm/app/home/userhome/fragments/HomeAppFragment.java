@@ -13,6 +13,7 @@ import com.eazytec.bpm.app.home.userhome.adapters.HomeAppAdapter;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.gridview.SingleDividerGridView;
 import com.eazytec.bpm.lib.common.fragment.CommonFragment;
+import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
@@ -77,6 +78,7 @@ public class HomeAppFragment extends CommonFragment {
         contactBpmApp.setDisplayName("通讯录");
         contactBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
         contactBpmApp.setImageUrl("ic_homeapp_card");
+        contactBpmApp.setType(BPMApp.APP_TYPE_INNER);
         contactBpmApp.setBundleName("app.contact");
         bpmApps.add(contactBpmApp);
 
@@ -86,8 +88,20 @@ public class HomeAppFragment extends CommonFragment {
         noticeBpmApp.setDisplayName("公告");
         noticeBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
         noticeBpmApp.setImageUrl("ic_homeapp_notice");
+        noticeBpmApp.setType(BPMApp.APP_TYPE_INNER);
         noticeBpmApp.setBundleName("app.notice");
         bpmApps.add(noticeBpmApp);
+
+
+        // JS测试模块
+        BPMApp jsTestBpmApp = new BPMApp();
+        jsTestBpmApp.setId("com.eazytec.bpm.jswebview");
+        jsTestBpmApp.setDisplayName("JSWEB");
+        jsTestBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
+        jsTestBpmApp.setImageUrl("ic_homeapp_process");
+        jsTestBpmApp.setType(BPMApp.APP_TYPE_WEB);
+        jsTestBpmApp.setBundleName(WebViewUtil.getLocalHTMLUrl("jswebview.html"));
+        bpmApps.add(jsTestBpmApp);
 
         homeAppAdapter.setItems(bpmApps);
         homeAppAdapter.notifyDataSetChanged();

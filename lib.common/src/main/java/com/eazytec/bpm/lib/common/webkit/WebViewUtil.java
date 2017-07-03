@@ -38,6 +38,6 @@ public class WebViewUtil {
      * @return
      */
     public static String getLocalHTMLUrl(String url) {
-        return "file:///android_asset/html/" + url;
+        return "file:///android_asset/" + url;
     }
 }

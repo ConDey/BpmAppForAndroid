@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eazytec.bpm.app.home.HomeApplicaton;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.ViewHolder;
+
+import net.wequick.small.Small;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +73,7 @@ public class HomeAppAdapter extends BaseAdapter {
                 // 设置显示图片
                 String imageurl = appitem.getImageUrl();
                 if (StringUtils.equals(appitem.getImageUrlType(), BPMApp.IMAGE_URL_TYPE_INNER)) {
-                    int imageRes = context.getResources().getIdentifier(imageurl, "mipmap", context.getPackageName());
+                    int imageRes = context.getResources().getIdentifier(imageurl, "mipmap", HomeApplicaton.getInstance().getPackageName());
                     ImageView imageView = ViewHolder.get(convertView, R.id.iv_item_homeapp);
                     if (imageRes != 0x0) {
                         imageView.setImageResource(imageRes);
@@ -90,8 +93,11 @@ public class HomeAppAdapter extends BaseAdapter {
         this.items.addAll(items);
         if (items != null && items.size() % 4 != 0) {
             // 补全 items.size() % 4
-            for (int index = 0; index < items.size() % 4; index++) {
+            for (int index = 0; ; index++) {
                 this.items.add(new BPMApp()); // 占位用
+                if (this.items.size() % 4 == 0) {
+                    break;
+                }
             }
         }
     }

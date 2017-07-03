@@ -3,6 +3,7 @@ package com.eazytec.bpm.app.home.data.app;
 import android.content.Context;
 import android.support.annotation.StringDef;
 
+import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
 import net.wequick.small.Small;
@@ -273,6 +274,13 @@ public class BPMApp implements Installable {
         // 进入应用
         // 如果应用没有安装，则方法无效
         if (!installed()) {
+            return;
+        }
+
+        if (StringUtils.equals(getType(), APP_TYPE_WEB)) {
+
+            String url = EncodeUtils.urlEncode(bundleName).toString();
+            Small.openUri("app.webkit?url=" + url + "&title=" + displayName, context);
             return;
         }
         Small.openUri(getBundleName(), context);
