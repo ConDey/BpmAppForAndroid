@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>测试</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <style>
+			input, button, .mui-btn {
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+
+    </style>
+</head>
+
+<body>
+<div class="mui-content">
+    <div class="mui-content-padded">
+        <button type="button" class="mui-btn mui-btn-outlined" onclick="closewindow()">
+            关闭页面
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitle()">
+            设置标题:AABBCC
+        </button>
+        <button type="button" class="mui-btn mui-btn-success mui-btn-outlined"
+                onclick="startActiviForm()">
+            跳转到流程表单
+        </button>
+        <button type="button" class="mui-btn mui-btn-warning mui-btn-outlined"
+                onclick="startImageSelector()">
+            跳转到拍照页面
+        </button>
+        <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined"
+                onclick="contactChooseSelector()">
+            跳转到人员选择页面
+        </button>
+    </div>
+</div>
+</body>
+<script src="js/mui.min.js"></script>
+<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+
+		var bpmbridget = getJsBridge();
+
+		function closewindow() {
+               bpmbridget.call("close");
+        }
+
+        function setTitle() {
+               bpmbridget.call("setToolBarTitle",{title: "AABBCC"});
+        }
+
+
+
+</script>
+</html>
