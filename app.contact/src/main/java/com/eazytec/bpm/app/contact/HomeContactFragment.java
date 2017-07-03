@@ -10,6 +10,8 @@ import com.eazytec.bpm.lib.common.fragment.CommonFragment;
 /**
  * 提供给App.home的通讯录模块Fragment
  *
+ * 989899898
+ *
  * @author ConDey
  * @version Id: HomeContactFragment, v 0.1 2017/6/30 上午9:06 ConDey Exp $$
  */
