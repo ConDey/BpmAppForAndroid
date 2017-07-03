@@ -20,13 +20,9 @@ public class HomeContactFragment extends CommonFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View parentView = inflater.inflate(R.layout.fragment_homecontact, container, false);
 
-        /**
-         * 这里是我提交的注释！！！！！！
-         */
+        return inflater.inflate(R.layout.fragment_homecontact, container, false);
 
-        return parentView;
     }
 
 
