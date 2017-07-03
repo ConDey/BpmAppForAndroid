@@ -1,7 +1,9 @@
 package com.eazytec.bpm.app.webkit;
 
-import com.eazytec.bpm.lib.common.activity.WebViewActivity;
-import com.eazytec.bpm.lib.common.webkit.CommonjsApi;
+import android.webkit.JavascriptInterface;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 /**
  * 通用的JsApi, 所有插件如果要扩展JsApi必须继承此类
@@ -9,26 +11,40 @@ import com.eazytec.bpm.lib.common.webkit.CommonjsApi;
  * @author ConDey
  * @version Id: BPMJsApi, v 0.1 2017/7/3 下午1:40 ConDey Exp $$
  */
-public class BPMJsApi extends CommonjsApi {
+public class BPMJsApi {
 
+    private BPMWebViewActivity activity;
 
     /**
      * 必须注入Activity
      *
      * @param activity
      */
-    public BPMJsApi(WebViewActivity activity) {
-        super(activity);
+    public BPMJsApi(BPMWebViewActivity activity) {
+        this.activity = activity;
     }
 
+    /**
+     * 标题，jswebview参数，用于设置BPMWebViewActivity.toolbar的标题
+     */
+    public static final String API_PARAM_TITLE = "title";
 
     /**
-     * 获取BPM WebViewActivity
-     *
-     * @return
+     * 关闭此页面
      */
-    private BPMWebViewActivity getBpmWebViewActivity() {
-        return (BPMWebViewActivity) activity;
+    @JavascriptInterface
+    public void close(JSONObject jsonObject) {
+        if (activity != null) {
+            activity.finish();
+        }
+    }
+
+    /**
+     * 设置当前页面的Toobar标题
+     */
+    @JavascriptInterface
+    public void setTitle(JSONObject jsonObject) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString()));
     }
 
 }

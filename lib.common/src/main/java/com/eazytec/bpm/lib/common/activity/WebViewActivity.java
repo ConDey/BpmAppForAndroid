@@ -13,9 +13,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.eazytec.bpm.lib.common.webkit.CommonjsApi;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,6 @@ public abstract class WebViewActivity extends CommonActivity {
     @Override @CallSuper
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     /**
@@ -109,9 +109,7 @@ public abstract class WebViewActivity extends CommonActivity {
      *
      * @return
      */
-    protected CommonjsApi jsApi() {
-        return new CommonjsApi(this);
-    }
+    protected abstract Object jsApi();
 
     /**
      * 绑定后退键

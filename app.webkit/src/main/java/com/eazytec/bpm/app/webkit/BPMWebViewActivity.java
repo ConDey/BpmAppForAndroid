@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.eazytec.bpm.lib.common.activity.WebViewActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
-import com.eazytec.bpm.lib.common.webkit.CommonjsApi;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
@@ -17,8 +16,13 @@ import com.eazytec.bpm.lib.utils.StringUtils;
 
 import net.wequick.small.Small;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -83,7 +87,17 @@ public class BPMWebViewActivity extends WebViewActivity {
             toolbarTitleTextView.setText("JSWEB");
             this.url = WebViewUtil.getLocalHTMLUrl("jswebview.html");
         }
+
+        // eventBus注册事件
+        EventBus.getDefault().register(this);
         initWebView();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //取消注册事件
+        EventBus.getDefault().unregister(this);
     }
 
     @Override protected JsWebView jsWebView() {
@@ -109,8 +123,35 @@ public class BPMWebViewActivity extends WebViewActivity {
         return headers;
     }
 
-    @Override protected CommonjsApi jsApi() {
+    @Override protected Object jsApi() {
         return new BPMJsApi(this);
+    }
+
+
+    /**
+     * 设置Toolbar的标题
+     *
+     * @param title
+     */
+    private void setToolbarTitle(String title) {
+        toolbarTitleTextView.setText(title);
+    }
+
+    /**
+     *  在Main线程执行的订阅
+     *
+     * @param messageEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainMessageEvent(BPMJsMsgEvent messageEvent) {
+        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLE)) {
+            try {
+                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                setToolbarTitle(jsonObject.getString(BPMJsApi.API_PARAM_TITLE));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
