@@ -20,6 +20,7 @@
 
 
 
+
     </style>
 </head>
 
@@ -30,19 +31,7 @@
             关闭页面
         </button>
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitle()">
-            设置标题:AABBCC
-        </button>
-        <button type="button" class="mui-btn mui-btn-success mui-btn-outlined"
-                onclick="startActiviForm()">
-            跳转到流程表单
-        </button>
-        <button type="button" class="mui-btn mui-btn-warning mui-btn-outlined"
-                onclick="startImageSelector()">
-            跳转到拍照页面
-        </button>
-        <button type="button" class="mui-btn mui-btn-danger mui-btn-outlined"
-                onclick="contactChooseSelector()">
-            跳转到人员选择页面
+            设置修改标题
         </button>
     </div>
 </div>
@@ -60,8 +49,9 @@
         }
 
         function setTitle() {
-               bpmbridget.call("setTitle",{title: "修改后的toolbar标题"});
+               bpmbridget.call("setTitle",{title: "我被修改了"});
         }
+
 
 
 </script>
