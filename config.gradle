@@ -26,7 +26,7 @@ ext {
     //Rx家族，响应式编程
     rxJava = "io.reactivex:rxjava:1.1.9"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
-    rxPermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar"
+    rxPermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar"
     rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     rxBindingSupportV4 = "com.jakewharton.rxbinding:rxbinding-support-v4:${rxBindingVersion}"
     rxBindingSupportAppcompatV7 = "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"

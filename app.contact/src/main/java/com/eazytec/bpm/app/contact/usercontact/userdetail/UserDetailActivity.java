@@ -99,7 +99,8 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
                 final String tel = telTextView.getText().toString();
 
                 if (!StringUtils.isEmpty(tel)) {
-                    RxPermissions.getInstance(UserDetailActivity.this)
+                    RxPermissions rxPermissions = new RxPermissions(UserDetailActivity.this);
+                    rxPermissions
                             .request(Manifest.permission.CALL_PHONE)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<Boolean>() {

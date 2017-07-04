@@ -22,7 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile rootProject.ext.rxPermissions
     compile project(':lib.style')
     compile project(':lib.common')
     compile project(':lib.utils')
