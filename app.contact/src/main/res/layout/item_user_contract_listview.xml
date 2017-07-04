@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_listview"
+    android:orientation="vertical"
+    android:paddingLeft="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
+
+        <com.eazytec.bpm.appstub.view.imageview.LetterImageView
+            android:id="@+id/item_user_contract_imageview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/item_user_contract_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/color_black_primary"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
+
+
+    <include layout="@layout/bpm_single_line"></include>
+
+</LinearLayout>

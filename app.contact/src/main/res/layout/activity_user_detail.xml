@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/bpm_toolbar"></include>
+
+
+    <ScrollView
+        android:id="@+id/detail_contract_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/app_banner"/>
+
+                <com.eazytec.bpm.appstub.view.imageview.LetterImageView
+                    android:id="@+id/user_detail_imageview"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="30dp"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="基本信息"
+                    android:textColor="@color/color_grey_primary"
+                    android:textSize="12sp"/>
+
+                <include layout="@layout/bpm_single_line"></include>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_item_listview"
+                    android:clickable="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_contact_user"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:text="人员姓名"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+
+                    <TextView
+                        android:id="@+id/user_detail_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/bpm_single_line"></include>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_item_listview"
+                    android:clickable="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_contact_group"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:text="所属部门"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+
+                    <TextView
+                        android:id="@+id/user_detail_departmentname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_grey_primary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/bpm_single_line"></include>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_item_listview"
+                    android:clickable="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_contact_position"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:text="工作职位"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/user_detail_postition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_grey_primary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="联系信息"
+                    android:textColor="@color/color_grey_primary"
+                    android:textSize="12sp"/>
+
+                <include layout="@layout/bpm_single_line"></include>
+
+                <RelativeLayout
+                    android:id="@+id/user_detail_tel_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_item_listview"
+                    android:clickable="true"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_contact_tel"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:text="联系方式"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/user_detail_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_grey_primary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/bpm_single_line"></include>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_item_listview"
+                    android:clickable="false"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@mipmap/icon_contact_email"
+                        android:drawablePadding="12dp"
+                        android:gravity="center_vertical"
+                        android:text="电子邮件"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:id="@+id/user_detail_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_grey_primary"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+
