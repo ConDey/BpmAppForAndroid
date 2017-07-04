@@ -31,7 +31,7 @@ import rx.functions.Action1;
  * Created by Administrator on 2017/7/4.
  */
 
-public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter> implements  UserDetailContract.View{
+public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter> implements UserDetailContract.View {
 
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
@@ -105,12 +105,13 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
                             .subscribe(new Observer<Boolean>() {
                                 @Override
                                 public void onCompleted() {
-                                    IntentUtils.getCallIntent(tel);
+                                    Intent intent = IntentUtils.getCallIntent(tel);
+                                    startActivity(intent);
                                 }
 
                                 @Override
                                 public void onError(Throwable throwable) {
-                                    ToastDelegate.info(getContext(),"您没有授权拨打电话");
+                                    ToastDelegate.info(getContext(), "您没有授权拨打电话");
                                 }
 
                                 @Override
@@ -119,7 +120,7 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
                                 }
                             });
                 } else {
-                    ToastDelegate.info(getContext(),"该用户没有电话号码");
+                    ToastDelegate.info(getContext(), "该用户没有电话号码");
                 }
             }
         });
