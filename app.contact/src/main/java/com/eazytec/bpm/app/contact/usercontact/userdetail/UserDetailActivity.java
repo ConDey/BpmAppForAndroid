@@ -65,6 +65,7 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
         String id = getIntent().getStringExtra("id");
         String name = getIntent().getStringExtra("name");
 
+        // todo common_left_back的命名方式不对，以及下面所有的图标 应该以ic开头而不是icon
         toolbar = (Toolbar) findViewById(R.id.user_detail_toolbar);
         toolbar.setNavigationIcon(R.mipmap.common_left_back);
         toolbar.setTitleTextColor(Color.BLACK);

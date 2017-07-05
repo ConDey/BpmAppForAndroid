@@ -72,6 +72,8 @@
                 android:layout_weight="1.0"
                 android:gravity="center"
                 >
+
+                <!-- todo 图片不和谐啊。。。整体看起来，并且下面的基本信息，为什么人员姓名是黑色的其他都是灰色的，左边的图标现在看起来太大了，应该小一点 -->
                 <ImageView
                     android:layout_marginTop="13dp"
                     android:id="@+id/home_main_menu_health"

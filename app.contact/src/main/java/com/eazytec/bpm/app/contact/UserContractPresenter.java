@@ -16,6 +16,8 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2017/7/3.
  */
 
+// // TODO: 2017/7/5 姓名有问题 UserContractPresenter 应该是UserContactPresenter
+
 public class UserContractPresenter extends RxPresenter<UserContactContract.View> implements UserContactContract.Presenter<UserContactContract.View>{
     @Override public void loadDepSuccess() {
 
