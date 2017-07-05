@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:paddingLeft="15dp">
 
+    <!--  todo: 这几个item的命名有问题，应该是contact不是contract -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
