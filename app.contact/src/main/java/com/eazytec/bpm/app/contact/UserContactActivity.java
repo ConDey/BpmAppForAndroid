@@ -1,9 +1,5 @@
 package com.eazytec.bpm.app.contact;
 
-/**
- * Created by Administrator on 2017/7/3.
- */
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,8 +61,9 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usercontact);
 
-        toolbar = (Toolbar) findViewById(R.id.tb_common_toolbar);
-        toolbarTitleTextView = (TextView) findViewById(R.id.tv_common_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
+        toolbar.setNavigationIcon(R.mipmap.common_left_back);
+        toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -140,6 +137,13 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
 
                     }
                 });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               UserContactActivity.this.finish();
+            }
+        });
 
     }
 

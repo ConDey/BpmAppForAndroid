@@ -12,7 +12,7 @@ android:layout_height="match_parent">
     >
     <include
         android:id="@+id/lt_userhome_toolbar"
-        layout="@layout/common_toolbar"></include>
+        layout="@layout/bpm_toolbar"></include>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +41,33 @@ android:layout_height="match_parent">
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
                 android:text="人员搜索"
+                android:textColor="@color/color_black_primary"
+                android:textSize="14sp"/>
+
+        </RelativeLayout>
+
+        <include layout="@layout/bpm_single_line"></include>
+
+        <RelativeLayout
+            android:id="@+id/contract_local_relativelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_item_listview"
+            android:clickable="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@mipmap/icon_contact_local"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:text="手机通讯录"
                 android:textColor="@color/color_black_primary"
                 android:textSize="14sp"/>
 
