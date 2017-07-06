@@ -56,12 +56,12 @@ public class DepartmentViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_dep_contract_listview, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_dep_contact_listview, parent, false);
         }
         if (position < items.size() && items.get(position) != null) {
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contract_imageview)).setLetter(items.get(position).getName().substring(0, 1));
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contract_imageview)).setOval(true);
-            ((TextView) ViewHolder.get(convertView, R.id.item_contract_title)).setText(items.get(position).getName());
+            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setLetter(items.get(position).getName().substring(0, 1));
+            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setOval(true);
+            ((TextView) ViewHolder.get(convertView, R.id.item_contact_title)).setText(items.get(position).getName());
         }
         return convertView;
     }

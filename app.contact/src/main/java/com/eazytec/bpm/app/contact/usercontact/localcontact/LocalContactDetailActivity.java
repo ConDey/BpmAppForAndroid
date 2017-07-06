@@ -1,11 +1,10 @@
-package com.eazytec.bpm.app.contact.usercontact.userdetail;
+package com.eazytec.bpm.app.contact.usercontact.localcontact;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
-import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
-import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
+import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.utils.IntentUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.view.RxView;
@@ -29,20 +27,18 @@ import java.util.concurrent.TimeUnit;
 import rx.functions.Action1;
 
 /**
- * Created by Administrator on 2017/7/4.
+ * @author Administrator
+ * @version Id: LocalContactDetailActivity, v 0.1 2017/7/6 18:51 Administrator Exp $$
  */
-
-public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter> implements UserDetailContact.View {
+public class LocalContactDetailActivity extends CommonActivity {
 
     private Toolbar toolbar;
 
     private AvatarImageView avatarImageView;
 
     private TextView usernameTextView;
-    private TextView departmentTextView;
-    private TextView positionTextView;
     private TextView telTextView;
-    private TextView emailTextView;
+
 
     private RelativeLayout telLayout;
 
@@ -52,15 +48,13 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
 
     private NestedScrollView scrollView;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_detail);
+        setContentView(R.layout.activity_local_user_detail);
 
-        String id = getIntent().getStringExtra("id");
-        String name = getIntent().getStringExtra("name");
-
-        toolbar = (Toolbar) findViewById(R.id.user_detail_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.local_user_detail_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
@@ -68,33 +62,34 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.user_detail_collapasingtoolbar);
+        String name = getIntent().getStringExtra("name");
+        String phone = getIntent().getStringExtra("phoneNum");
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.local_user_detail_collapasingtoolbar);
         collapsingToolbarLayout.setTitleEnabled(false);
 
-        avatarImageView = (AvatarImageView) findViewById(R.id.user_detail_avatarImageView);
+        avatarImageView = (AvatarImageView) findViewById(R.id.local_user_detail_avatarImageView);
         avatarImageView.setTextAndColor(name,0xffff6655);
 
-        usernameTextView = (TextView) findViewById(R.id.user_detail_username);
-        departmentTextView = (TextView) findViewById(R.id.user_detail_departmentname);
-        positionTextView = (TextView) findViewById(R.id.user_detail_postition);
-        telTextView = (TextView) findViewById(R.id.user_detail_tel);
-        emailTextView = (TextView) findViewById(R.id.user_detail_email);
+        usernameTextView = (TextView) findViewById(R.id.local_user_detail_username);
+        telTextView = (TextView) findViewById(R.id.local_user_detail_tel);
 
-        telLayout = (RelativeLayout) findViewById(R.id.user_detail_tel_layout);
+        usernameTextView.setText(name);
+        telTextView.setText(phone);
 
-        SendMsgLayout = (LinearLayout) findViewById(R.id.user_detail_contact_way_msg);
-        TelphoneLayout = (LinearLayout) findViewById(R.id.user_detail_contact_way_tel);
+        telLayout = (RelativeLayout) findViewById(R.id.local_user_detail_tel_layout);
 
-        scrollView = (NestedScrollView) findViewById(R.id.user_detail_scrollview);
+        SendMsgLayout = (LinearLayout) findViewById(R.id.local_user_detail_contact_way_msg);
+        TelphoneLayout = (LinearLayout) findViewById(R.id.local_user_detail_contact_way_tel);
+
+        scrollView = (NestedScrollView) findViewById(R.id.local_user_detail_scrollview);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserDetailActivity.this.finish();
+                LocalContactDetailActivity.this.finish();
             }
         });
-
-        getPresenter().loadUserDetail(id);
 
         RxView.clicks(this.telLayout).throttleFirst(2, TimeUnit.MINUTES).subscribe(new Action1<Void>() {
             @Override
@@ -102,19 +97,19 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
                 final String tel = telTextView.getText().toString();
 
                 if (!StringUtils.isEmpty(tel)) {
-                    RxPermissions rxPermissions = new RxPermissions(UserDetailActivity.this);
+                    RxPermissions rxPermissions = new RxPermissions(LocalContactDetailActivity.this);
                     rxPermissions.request(Manifest.permission.CALL_PHONE)
-                                .subscribe(new Action1<Boolean>() {
-                                    @Override
-                                    public void call(Boolean aBoolean) {
-                                        if(aBoolean){
-                                            Intent intent = IntentUtils.getCallIntent(tel);
-                                            startActivity(intent);
-                                        }else{
-                                            ToastDelegate.info(getContext(), "您没有授权拨打电话");
-                                        }
+                            .subscribe(new Action1<Boolean>() {
+                                @Override
+                                public void call(Boolean aBoolean) {
+                                    if(aBoolean){
+                                        Intent intent = IntentUtils.getCallIntent(tel);
+                                        startActivity(intent);
+                                    }else{
+                                        ToastDelegate.info(getContext(), "您没有授权拨打电话");
                                     }
-                                });
+                                }
+                            });
                 } else {
                     ToastDelegate.info(getContext(), "该用户没有电话号码");
                 }
@@ -126,7 +121,7 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
             public void onClick(View v) {
                 final String tel = telTextView.getText().toString();
                 if (!StringUtils.isEmpty(tel)) {
-                    RxPermissions rxPermissions = new RxPermissions(UserDetailActivity.this);
+                    RxPermissions rxPermissions = new RxPermissions(LocalContactDetailActivity.this);
                     rxPermissions.request(Manifest.permission.CALL_PHONE)
                             .subscribe(new Action1<Boolean>() {
                                 @Override
@@ -150,7 +145,7 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
             public void onClick(View v) {
                 final String tel = telTextView.getText().toString();
                 if (!StringUtils.isEmpty(tel)) {
-                    RxPermissions rxPermissions = new RxPermissions(UserDetailActivity.this);
+                    RxPermissions rxPermissions = new RxPermissions(LocalContactDetailActivity.this);
                     rxPermissions.request(Manifest.permission.SEND_SMS)
                             .subscribe(new Action1<Boolean>() {
                                 @Override
@@ -169,27 +164,5 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
             }
         });
 
-
     }
-
-    @Override
-    public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-        return super.registerReceiver(receiver, filter);
-
-    }
-
-    @Override
-    public void loadSuccess(UserDetailDataTObject userDetailDataTObject) {
-        usernameTextView.setText(userDetailDataTObject.getFullName());
-        departmentTextView.setText(userDetailDataTObject.getDepartmentName());
-        positionTextView.setText(userDetailDataTObject.getPosition());
-        telTextView.setText(userDetailDataTObject.getMobile());
-        emailTextView.setText(userDetailDataTObject.getEmail());
-    }
-
-    @Override
-    protected UserDetailPresenter createPresenter() {
-        return new UserDetailPresenter();
-    }
-
 }

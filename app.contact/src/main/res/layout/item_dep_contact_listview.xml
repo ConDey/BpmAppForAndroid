@@ -15,12 +15,12 @@
         android:paddingTop="10dp">
 
         <com.eazytec.bpm.appstub.view.imageview.LetterImageView
-            android:id="@+id/item_user_contract_imageview"
+            android:id="@+id/item_contact_imageview"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 
         <TextView
-            android:id="@+id/item_user_contract_title"
+            android:id="@+id/item_contact_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"

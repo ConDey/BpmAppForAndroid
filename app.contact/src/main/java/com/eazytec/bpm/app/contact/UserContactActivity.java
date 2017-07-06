@@ -1,6 +1,6 @@
 package com.eazytec.bpm.app.contact;
 
-import android.content.Intent;
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +17,15 @@ import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.app.contact.usercontact.department.DepartmentActivity;
+import com.eazytec.bpm.app.contact.usercontact.localcontact.LocalContactActivity;
 import com.eazytec.bpm.app.contact.usercontact.search.UserSearchActivity;
 import com.eazytec.bpm.app.contact.usercontact.userdetail.UserDetailActivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
-import com.eazytec.bpm.lib.utils.IntentUtils;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
+import com.tbruyelle.rxpermissions.Permission;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,13 +38,14 @@ import rx.functions.Action1;
  * Created by beckett_W on 2017/7/3.
  */
 
-public class UserContactActivity extends ContractViewActivity<UserContractPresenter> implements UserContactContract.View{
+public class UserContactActivity extends ContractViewActivity<UserContactPresenter> implements UserContactContract.View{
 
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
 
     private ScrollView scrollView;
     private RelativeLayout contractSearchRelativeLayout;
+    private RelativeLayout localContactRelativeLayout;
 
     private LinearLayout departmentLayout;
     private ListView deparmentRecyclerView;
@@ -62,7 +65,7 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
         setContentView(R.layout.activity_usercontact);
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
-        toolbar.setNavigationIcon(R.mipmap.common_left_back);
+        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -71,6 +74,7 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
 
         scrollView = (ScrollView) findViewById(R.id.contract_scrollview);
         contractSearchRelativeLayout = (RelativeLayout) findViewById(R.id.contract_search_relativelayout);
+        localContactRelativeLayout = (RelativeLayout) findViewById(R.id.contract_local_relativelayout);
 
         departmentLayout = (LinearLayout) findViewById(R.id.department_layout);
         deparmentRecyclerView = (ListView) findViewById(R.id.department_listview);
@@ -100,6 +104,28 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
                     @Override
                     public void call(Void aVoid) {
                         startActivity(UserContactActivity.this,UserSearchActivity.class);
+                    }
+                });
+
+        //手机通讯录
+        RxView.clicks(this.localContactRelativeLayout).throttleFirst(100, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        RxPermissions rxPermissions = new RxPermissions(UserContactActivity.this);
+                        rxPermissions.requestEach(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS)
+                                     .subscribe(new Action1<Permission>() {
+                                         @Override
+                                         public void call(Permission permission) {
+                                              if(permission.granted){
+                                                  startActivity(UserContactActivity.this, LocalContactActivity.class);
+                                              }else{
+                                                  ToastDelegate.info(getContext(),"您没有授权查看手机通讯录");
+                                              }
+
+                                         }
+                                     });
+
                     }
                 });
 
@@ -151,8 +177,8 @@ public class UserContactActivity extends ContractViewActivity<UserContractPresen
 
 
     @Override
-    protected UserContractPresenter createPresenter() {
-        return new UserContractPresenter();
+    protected UserContactPresenter createPresenter() {
+        return new UserContactPresenter();
     }
 
     /**

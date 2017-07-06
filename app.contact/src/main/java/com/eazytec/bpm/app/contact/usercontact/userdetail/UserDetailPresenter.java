@@ -16,7 +16,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2017/7/4.
  */
 
-public class UserDetailPresenter extends RxPresenter<UserDetailContract.View> implements UserDetailContract.Presenter<UserDetailContract.View> {
+public class UserDetailPresenter extends RxPresenter<UserDetailContact.View> implements UserDetailContact.Presenter<UserDetailContact.View> {
 
     @Override public void loadUserDetail(String id) {
         Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).loadUserDetail(id)

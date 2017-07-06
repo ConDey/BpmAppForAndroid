@@ -10,14 +10,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
-import com.eazytec.bpm.app.contact.UserContactActivity;
 import com.eazytec.bpm.app.contact.adapters.UserViewAdapter;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.data.UsersDataTObject;
 import com.eazytec.bpm.app.contact.usercontact.userdetail.UserDetailActivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
-import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class UserSearchActivity extends ContractViewActivity<UserSearchPresenter
         setContentView(R.layout.activity_search);
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
-        toolbar.setNavigationIcon(R.mipmap.common_left_back);
+        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
