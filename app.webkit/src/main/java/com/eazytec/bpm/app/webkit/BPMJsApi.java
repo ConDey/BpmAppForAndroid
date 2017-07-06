@@ -40,11 +40,24 @@ public class BPMJsApi {
     }
 
     /**
+     * html文件名，jswebview参数，用于设置新的BPMWebViewActivity
+     */
+    public static final String API_PARAM_NEW_HTML = "html";
+
+    /**
      * 设置当前页面的Toobar标题
      */
     @JavascriptInterface
     public void setTitle(JSONObject jsonObject) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString()));
+    }
+
+    /**
+     * 新建WebViewActivity
+     */
+    @JavascriptInterface
+    public void newWebViewActivity(JSONObject jsonObject) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_NEW_WEBVIEW_ACTIVITY, jsonObject.toString()));
     }
 
 }

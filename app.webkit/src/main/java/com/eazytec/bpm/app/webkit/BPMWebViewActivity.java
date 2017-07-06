@@ -1,5 +1,6 @@
 package com.eazytec.bpm.app.webkit;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -70,6 +71,13 @@ public class BPMWebViewActivity extends WebViewActivity {
             }
         }
 
+        // 测试模式下自动加载本地的main
+        // 这个代码要删除
+        if (BundleApplication.isDebug()) {
+            toolbarTitleTextView.setText("JSWEB");
+            this.url = WebViewUtil.getLocalHTMLUrl("jswebview.html");
+        }
+
         // 以Intent为准
         String title = getIntent().getStringExtra(INTENT_TITLE);
         if (!StringUtils.isSpace(title)) {
@@ -81,23 +89,28 @@ public class BPMWebViewActivity extends WebViewActivity {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
 
-        // 测试模式下自动加载本地的main
-        // 这个代码要删除
-        if (BundleApplication.isDebug()) {
-            toolbarTitleTextView.setText("JSWEB");
-            this.url = WebViewUtil.getLocalHTMLUrl("jswebview.html");
-        }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         // eventBus注册事件
         EventBus.getDefault().register(this);
         initWebView();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         //取消注册事件
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 
     @Override protected JsWebView jsWebView() {
@@ -148,6 +161,18 @@ public class BPMWebViewActivity extends WebViewActivity {
             try {
                 JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                 setToolbarTitle(jsonObject.getString(BPMJsApi.API_PARAM_TITLE));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_NEW_WEBVIEW_ACTIVITY)) {
+            try {
+                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                String htmlName = jsonObject.getString(BPMJsApi.API_PARAM_NEW_HTML);
+                Intent it = new Intent(this, BPMWebViewActivity.class);
+                it.putExtra(INTENT_URL, WebViewUtil.getLocalHTMLUrl(htmlName));
+                startActivity(it);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

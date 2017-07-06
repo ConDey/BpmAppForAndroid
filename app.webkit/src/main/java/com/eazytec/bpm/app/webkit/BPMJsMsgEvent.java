@@ -14,9 +14,10 @@ public class BPMJsMsgEvent {
      * 设置BPMWebViewActivity.title(),需要由主线程执行
      */
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
+    public static final String JS_NEW_WEBVIEW_ACTIVITY = "JS_NEW_WEBVIEW_ACTIVITY";
 
     // 自定义一个注解MyState
-    @StringDef({JS_SET_TITLE})
+    @StringDef({JS_SET_TITLE,JS_NEW_WEBVIEW_ACTIVITY})
     public @interface BPM_JS_ID {
     }
 
