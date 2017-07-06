@@ -9,7 +9,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
-import com.eazytec.bpm.app.contact.UserContactActivity;
 import com.eazytec.bpm.app.contact.adapters.DepartmentViewAdapter;
 import com.eazytec.bpm.app.contact.adapters.UserViewAdapter;
 import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
@@ -60,7 +59,7 @@ public class DepartmentActivity extends ContractViewActivity<DepartmentPresenter
         String name = getIntent().getStringExtra("name");
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
-        toolbar.setNavigationIcon(R.mipmap.common_left_back);
+        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

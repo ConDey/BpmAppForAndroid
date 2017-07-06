@@ -85,6 +85,10 @@
         <attr name="aiv_CornerRadius" format="reference|dimension" />
     </declare-styleable>
 
-    <!--LetterListView-->
-
+    <!--SideBar-->
+        <declare-styleable name="SideBar">
+            <attr name="scaleSize" format="integer"/>
+            <attr name="scaleItemCount" format="integer"/>
+            <attr name="scaleWidth" format="dimension"/>
+        </declare-styleable>
 </resources>

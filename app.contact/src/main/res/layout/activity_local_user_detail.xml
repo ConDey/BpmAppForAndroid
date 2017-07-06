@@ -13,7 +13,7 @@
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/user_detail_collapasingtoolbar"
+            android:id="@+id/local_user_detail_collapasingtoolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -34,7 +34,7 @@
                     android:src="@mipmap/app_banner"/>
 
                 <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
-                    android:id="@+id/user_detail_avatarImageView"
+                    android:id="@+id/local_user_detail_avatarImageView"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -44,7 +44,7 @@
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/user_detail_toolbar"
+                android:id="@+id/local_user_detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="pin"
@@ -65,7 +65,7 @@
             android:orientation="horizontal"
             >
             <LinearLayout
-                android:id="@+id/user_detail_contact_way_msg"
+                android:id="@+id/local_user_detail_contact_way_msg"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -89,7 +89,7 @@
                     />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/user_detail_contact_way_tel"
+                android:id="@+id/local_user_detail_contact_way_tel"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -116,7 +116,7 @@
 
     <!--下方滑动部分-->
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/user_detail_scrollview"
+        android:id="@+id/local_user_detail_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -167,7 +167,7 @@
 
 
                     <TextView
-                        android:id="@+id/user_detail_username"
+                        android:id="@+id/local_user_detail_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -180,76 +180,6 @@
 
                 <include layout="@layout/bpm_single_line"></include>
 
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
-                    android:clickable="false"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:drawableLeft="@mipmap/ic_contact_group"
-                        android:drawablePadding="12dp"
-                        android:gravity="center_vertical"
-                        android:text="所属部门"
-                        android:textColor="@color/color_black_primary"
-                        android:textSize="15sp"/>
-
-
-                    <TextView
-                        android:id="@+id/user_detail_departmentname"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/color_grey_primary"
-                        android:textSize="15sp"/>
-
-                </RelativeLayout>
-
-                <include layout="@layout/bpm_single_line"></include>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
-                    android:clickable="false"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:drawableLeft="@mipmap/ic_contact_position"
-                        android:drawablePadding="12dp"
-                        android:gravity="center_vertical"
-                        android:text="工作职位"
-                        android:textColor="@color/color_black_primary"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:id="@+id/user_detail_postition"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/color_grey_primary"
-                        android:textSize="15sp"/>
-
-                </RelativeLayout>
-
-                <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
 
 
@@ -272,7 +202,7 @@
                 <include layout="@layout/bpm_single_line"></include>
 
                 <RelativeLayout
-                    android:id="@+id/user_detail_tel_layout"
+                    android:id="@+id/local_user_detail_tel_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/bg_item_listview"
@@ -293,42 +223,7 @@
                         android:textSize="15sp"/>
 
                     <TextView
-                        android:id="@+id/user_detail_tel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/color_grey_primary"
-                        android:textSize="15sp"/>
-
-                </RelativeLayout>
-
-                <include layout="@layout/bpm_single_line"></include>
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
-                    android:clickable="false"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:drawableLeft="@mipmap/ic_contact_email"
-                        android:drawablePadding="12dp"
-                        android:gravity="center_vertical"
-                        android:text="电子邮件"
-                        android:textColor="@color/color_black_primary"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:id="@+id/user_detail_email"
+                        android:id="@+id/local_user_detail_tel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -343,7 +238,7 @@
             </LinearLayout>
 
         </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
 
 

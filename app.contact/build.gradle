@@ -25,4 +25,5 @@ dependencies {
     compile project(':lib.style')
     compile project(':lib.common')
     compile project(':lib.utils')
+    compile 'com.belerweb:pinyin4j:2.5.0'
 }

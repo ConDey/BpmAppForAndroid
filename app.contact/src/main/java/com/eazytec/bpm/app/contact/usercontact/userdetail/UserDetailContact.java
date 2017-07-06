@@ -7,7 +7,7 @@ import com.eazytec.bpm.lib.common.CommonContract;
  * Created by Administrator on 2017/7/4.
  */
 
-public interface UserDetailContract {
+public interface UserDetailContact {
 
     interface View extends CommonContract.CommonView {
 

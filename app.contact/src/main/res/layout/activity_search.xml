@@ -47,7 +47,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1.0"
                         android:background="@drawable/drawer_search_result_bg"
-                        android:drawableLeft="@mipmap/customer_search_icon"
+                        android:drawableLeft="@mipmap/ic_search_icon"
                         android:drawablePadding="3dp"
                         android:hint="点击输入搜索内容"
                         android:imeOptions="actionSearch"

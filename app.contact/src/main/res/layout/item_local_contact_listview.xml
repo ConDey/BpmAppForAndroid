@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_item_listview"
+    android:layout_marginBottom="5dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/item_local_contact_alpha"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_100"
+        android:paddingLeft="13dip"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/color_grey_primary"
+        android:visibility="gone" />
+
+    <com.eazytec.bpm.appstub.view.imageview.LetterImageView
+        android:id="@+id/item_local_contact_imageview"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/item_local_contact_alpha"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/item_local_contact_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/item_local_contact_alpha"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/item_local_contact_imageview"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/color_black_primary"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/item_local_contact_phone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/item_local_contact_name"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5.0dip"
+        android:layout_toRightOf="@+id/item_local_contact_imageview"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/color_grey_primary"
+        android:textSize="12sp" />
+    </RelativeLayout>
+
+    <include layout="@layout/bpm_single_line"></include>
+</LinearLayout>
+
+
+
+
