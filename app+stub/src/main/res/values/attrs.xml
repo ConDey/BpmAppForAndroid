@@ -86,7 +86,7 @@
     </declare-styleable>
 
     <!--SideBar-->
-        <declare-styleable name="SideBar">
+        <declare-styleable name="LetterSideBar">
             <attr name="scaleSize" format="integer"/>
             <attr name="scaleItemCount" format="integer"/>
             <attr name="scaleWidth" format="dimension"/>

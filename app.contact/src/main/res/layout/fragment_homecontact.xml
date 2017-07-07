@@ -1,9 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<ScrollView
+    android:id="@+id/fragment_contract_scrollview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/bpm_single_line"></include>
+
+            <RelativeLayout
+                android:id="@+id/fragment_contract_search_relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_listview"
+                android:clickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/ic_contact_search"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="人员搜索"
+                    android:textColor="@color/color_black_primary"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+
+            <include layout="@layout/bpm_single_line"></include>
+
+            <RelativeLayout
+                android:id="@+id/fragment_contract_local_relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_listview"
+                android:clickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/ic_contact_local"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="手机通讯录"
+                    android:textColor="@color/color_black_primary"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+
+            <include layout="@layout/bpm_single_line"></include>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_department_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="部门列表"
+                android:textColor="@color/color_grey_primary"
+                android:textSize="12sp"/>
+
+            <include layout="@layout/bpm_single_line"></include>
+
+            <ListView
+                android:id="@+id/fragment_department_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"></ListView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/fragment_user_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="员工列表"
+                android:textColor="@color/color_grey_primary"
+                android:textSize="12sp"/>
+
+            <include layout="@layout/bpm_single_line"></include>
+
+            <ListView
+                android:id="@+id/fragment_user_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"></ListView>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

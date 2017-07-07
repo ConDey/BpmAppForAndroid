@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.TextView;
 
 import com.eazytec.bpm.appstub.R;
 
@@ -15,7 +14,7 @@ import com.eazytec.bpm.appstub.R;
  * @author Beckett_W
  * @version Id: SideBar, v 0.1 2017/7/6 8:35 Administrator Exp $$
  */
-public class SideBar extends android.support.v7.widget.AppCompatTextView {
+public class LetterSideBar extends android.support.v7.widget.AppCompatTextView {
     private String[] letters = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z","#"};
@@ -49,25 +48,25 @@ public class SideBar extends android.support.v7.widget.AppCompatTextView {
     private int scaleItemCount = 6;
     private ISideBarSelectCallBack callBack;
 
-    public SideBar(Context context) {
+    public LetterSideBar(Context context) {
         this(context, null);
     }
 
-    public SideBar(Context context, AttributeSet attrs) {
+    public LetterSideBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SideBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LetterSideBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
     private void init(AttributeSet attrs) {
         if (attrs != null) {
-            TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.SideBar);
-            scaleSize = ta.getInteger(R.styleable.SideBar_scaleSize, 1);
-            scaleItemCount = ta.getInteger(R.styleable.SideBar_scaleItemCount, 6);
-            scaleWidth = ta.getDimensionPixelSize(R.styleable.SideBar_scaleWidth, dp(100));
+            TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.LetterSideBar);
+            scaleSize = ta.getInteger(R.styleable.LetterSideBar_scaleSize, 1);
+            scaleItemCount = ta.getInteger(R.styleable.LetterSideBar_scaleItemCount, 6);
+            scaleWidth = ta.getDimensionPixelSize(R.styleable.LetterSideBar_scaleWidth, dp(100));
             ta.recycle();
         }
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);

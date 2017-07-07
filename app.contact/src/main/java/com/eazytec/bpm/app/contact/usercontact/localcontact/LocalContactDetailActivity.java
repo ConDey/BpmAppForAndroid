@@ -38,6 +38,7 @@ public class LocalContactDetailActivity extends CommonActivity {
 
     private TextView usernameTextView;
     private TextView telTextView;
+    private TextView toolbarTitle;
 
 
     private RelativeLayout telLayout;
@@ -56,9 +57,9 @@ public class LocalContactDetailActivity extends CommonActivity {
 
         toolbar = (Toolbar) findViewById(R.id.local_user_detail_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
-        toolbar.setTitleTextColor(Color.BLACK);
+        toolbarTitle = (TextView) findViewById(R.id.local_user_detail_toolbar_title);
+        toolbarTitle.setText("人员信息详情");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("人员信息详情");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -66,10 +67,10 @@ public class LocalContactDetailActivity extends CommonActivity {
         String phone = getIntent().getStringExtra("phoneNum");
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.local_user_detail_collapasingtoolbar);
-        collapsingToolbarLayout.setTitleEnabled(false);
+        collapsingToolbarLayout.setTitleEnabled(true);
 
         avatarImageView = (AvatarImageView) findViewById(R.id.local_user_detail_avatarImageView);
-        avatarImageView.setTextAndColor(name,0xffff6655);
+        avatarImageView.setText(name);
 
         usernameTextView = (TextView) findViewById(R.id.local_user_detail_username);
         telTextView = (TextView) findViewById(R.id.local_user_detail_tel);

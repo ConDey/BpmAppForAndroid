@@ -60,7 +60,7 @@ public class UserDetailDataTObject extends WebDataTObject implements Parcelable 
     }
 
     public String getFullName() {
-        return fullName;
+        return fullName.trim();
     }
 
     public void setFullName(String fullName) {

@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
@@ -18,8 +19,11 @@ import android.widget.ImageView;
 
 import com.eazytec.bpm.appstub.R;
 
+import java.util.Random;
+
 /**
  * 显示头像或者文字的自定义imageview
+ * 添加了随机设置背景颜色
  * @author beckett_W
  * @version Id: AvatarImageView, v 0.1 2017/7/5 7:52 Administrator Exp $$
  */
@@ -49,7 +53,7 @@ public class AvatarImageView extends android.support.v7.widget.AppCompatImageVie
     private int mCenterX;
     private int mCenterY;
     private int mType = DEFAULT_TYPE_BITMAP;
-    private int mBgColor = COLORS[0];//background color when show text
+    private int mBgColor = randomColor();
     private int mTextColor = DEFAULT_TEXT_COLOR;
     private int mBoarderColor = DEFAULT_BOARDER_COLOR;
     private int mBoarderWidth = DEFAULT_BOARDER_WIDTH;
@@ -124,6 +128,7 @@ public class AvatarImageView extends android.support.v7.widget.AppCompatImageVie
         mPaintTextBackground = new Paint();
         mPaintTextBackground.setAntiAlias(true);
         mPaintTextBackground.setStyle(Paint.Style.FILL);
+        mPaintTextBackground.setColor(randomColor());  //设置背景色随机
 
         mPaintDraw = new Paint();
         mPaintDraw.setAntiAlias(true);
@@ -156,13 +161,22 @@ public class AvatarImageView extends android.support.v7.widget.AppCompatImageVie
     }
 
     private void refreshTextConfig(){
-        if(mBgColor != mPaintTextBackground.getColor()) {
-            mPaintTextBackground.setColor(mBgColor);
-        }
+
+        mPaintTextBackground.setColor(randomColor());
+
         if(mTextColor != mPaintTextForeground.getColor()) {
             mPaintTextForeground.setColor(mTextColor);
         }
     }
+
+    public void setText(String text) {
+        if (this.mType != DEFAULT_TYPE_TEXT || !stringEqual(text, this.mText) ) {
+            this.mText = text;
+            this.mType = DEFAULT_TYPE_TEXT;
+            invalidate();
+        }
+    }
+
 
     public void setTextAndColor(String text, int bgColor) {
         if (this.mType != DEFAULT_TYPE_TEXT || !stringEqual(text, this.mText) || bgColor != this.mBgColor) {
@@ -337,5 +351,13 @@ public class AvatarImageView extends android.support.v7.widget.AppCompatImageVie
             }
             return a.equals(b);
         }
+    }
+
+    //随机设置颜色
+    private int randomColor() {
+        Random random = new Random();
+        String[] colorsArr = {"#EE4542", "#F2725E", "#0099cc", "#f36c60", "#ab47bc",
+                "#FF943D", "#17C295"};
+        return Color.parseColor(colorsArr[random.nextInt(colorsArr.length)]);
     }
 }

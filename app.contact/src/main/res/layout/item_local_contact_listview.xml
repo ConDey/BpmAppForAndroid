@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/bg_item_listview"
-    android:layout_marginBottom="5dp" >
+    android:layout_marginBottom="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,13 +21,16 @@
         android:textColor="@color/color_grey_primary"
         android:visibility="gone" />
 
-    <com.eazytec.bpm.appstub.view.imageview.LetterImageView
+    <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
         android:id="@+id/item_local_contact_imageview"
         android:layout_width="40dip"
         android:layout_height="40dip"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
+        app:aiv_ShowBoarder="false"
+        app:aiv_TextSizeRatio="0.4"
         android:layout_below="@id/item_local_contact_alpha"
+
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp" />
 

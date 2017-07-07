@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_item_listview"
     android:orientation="vertical"
     android:paddingLeft="15dp">
@@ -14,10 +15,13 @@
         android:paddingRight="15dp"
         android:paddingTop="10dp">
 
-        <com.eazytec.bpm.appstub.view.imageview.LetterImageView
+        <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
             android:id="@+id/item_contact_imageview"
             android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            app:aiv_ShowBoarder="false"
+            app:aiv_TextSizeRatio="0.4"
+            />
 
         <TextView
             android:id="@+id/item_contact_title"

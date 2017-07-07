@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.data.UserContactData;
 import com.eazytec.bpm.app.contact.utils.CnToSpell;
+import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
 import com.eazytec.bpm.appstub.view.imageview.LetterImageView;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class UserLocalContactAdapter extends BaseAdapter{
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_local_contact_listview,null);
             viewHolder.catalog = (TextView) convertView.findViewById(R.id.item_local_contact_alpha);
-            viewHolder.letterImageView = (LetterImageView) convertView.findViewById(R.id.item_local_contact_imageview);
+            viewHolder.letterImageView = (AvatarImageView) convertView.findViewById(R.id.item_local_contact_imageview);
             viewHolder.name = (TextView) convertView.findViewById(R.id.item_local_contact_name);
             viewHolder.phone = (TextView) convertView.findViewById(R.id.item_local_contact_phone);
             convertView.setTag(viewHolder);
@@ -79,8 +80,13 @@ public class UserLocalContactAdapter extends BaseAdapter{
         }else{
             viewHolder.catalog.setVisibility(View.GONE);
         }
-        viewHolder.letterImageView.setLetter(this.list.get(position).getName().substring(0,1));
-        viewHolder.letterImageView.setOval(true);
+        //做一下判断，万一通讯录的名字十分神奇只有一个字呢
+        int length = list.get(position).getName().length();
+        if(length<3){
+        viewHolder.letterImageView.setText(this.list.get(position).getName());
+        }else{
+        viewHolder.letterImageView.setText(this.list.get(position).getName().substring(length-2));
+        }
         viewHolder.name.setText(this.list.get(position).getName());
         viewHolder.phone.setText(this.list.get(position).getPhoneNum());
         return convertView;
@@ -88,7 +94,7 @@ public class UserLocalContactAdapter extends BaseAdapter{
 
     final static class ViewHolder {
         TextView catalog; //字母目录
-        LetterImageView letterImageView; //首字母，可以用另一个，能设置头像
+       AvatarImageView letterImageView; //首字母，可以用另一个，能设置头像
         TextView name;
         TextView phone;
     }
@@ -151,9 +157,9 @@ public class UserLocalContactAdapter extends BaseAdapter{
                     // 如果姓名的前缀相符或者电话相符就添加到新的集合
                     final UserContactData value = (UserContactData) values.get(i);
 
-                    if (CnToSpell.getPinYinFirstLetter(value.getName()).startsWith(
+                    if (CnToSpell.getPinYin(value.getName()).contains(
                             prefixString)
-                            || value.getPhoneNum().contains(prefixString)||value.getName().startsWith(prefixString)) {
+                            || value.getPhoneNum().contains(prefixString)||value.getName().contains(prefixString)) {
                         newValues.add(value);
                     }
                 }

@@ -37,6 +37,7 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
     private Toolbar toolbar;
 
     private AvatarImageView avatarImageView;
+    private TextView toolbarTitle;
 
     private TextView usernameTextView;
     private TextView departmentTextView;
@@ -62,14 +63,14 @@ public class UserDetailActivity extends ContractViewActivity<UserDetailPresenter
 
         toolbar = (Toolbar) findViewById(R.id.user_detail_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
-        toolbar.setTitleTextColor(Color.BLACK);
+        toolbarTitle = (TextView) findViewById(R.id.user_detail_toolbar_title);
+        toolbarTitle.setText("人员信息详情");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("人员信息详情");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.user_detail_collapasingtoolbar);
-        collapsingToolbarLayout.setTitleEnabled(false);
+        collapsingToolbarLayout.setTitleEnabled(true);
 
         avatarImageView = (AvatarImageView) findViewById(R.id.user_detail_avatarImageView);
         avatarImageView.setTextAndColor(name,0xffff6655);

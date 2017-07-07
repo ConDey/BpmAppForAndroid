@@ -22,7 +22,7 @@ import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.adapters.UserLocalContactAdapter;
 import com.eazytec.bpm.app.contact.data.UserContactData;
 import com.eazytec.bpm.app.contact.utils.CnToSpell;
-import com.eazytec.bpm.appstub.view.listview.SideBar;
+import com.eazytec.bpm.appstub.view.listview.LetterSideBar;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 
 import java.text.Collator;
@@ -41,7 +41,7 @@ public class LocalContactActivity extends CommonActivity{
     private TextView toolbarTitleTextView;
     private EditText searcheditText;
     private ListView listView;
-    private SideBar sideBar;
+    private LetterSideBar sideBar;
     private ArrayList<UserContactData> list;
 
     private UserLocalContactAdapter adapter;
@@ -89,11 +89,11 @@ public class LocalContactActivity extends CommonActivity{
 
         listView = (ListView) findViewById(R.id.local_contact_listview);
         searcheditText = (EditText) findViewById(R.id.local_input_edittext);
-        sideBar = (SideBar) findViewById(R.id.local_contact_sidebar);
+        sideBar = (LetterSideBar) findViewById(R.id.local_contact_sidebar);
 
         initData();
 
-        sideBar.setOnStrSelectCallBack(new SideBar.ISideBarSelectCallBack() {
+        sideBar.setOnStrSelectCallBack(new LetterSideBar.ISideBarSelectCallBack() {
             @Override
             public void onSelectStr(int index, String s) {
                 for (int i = 0; i < list.size(); i++) {

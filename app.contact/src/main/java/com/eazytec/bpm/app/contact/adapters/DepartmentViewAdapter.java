@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
+import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
 import com.eazytec.bpm.appstub.view.imageview.LetterImageView;
 import com.eazytec.bpm.lib.utils.ViewHolder;
 
@@ -59,8 +60,7 @@ public class DepartmentViewAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_dep_contact_listview, parent, false);
         }
         if (position < items.size() && items.get(position) != null) {
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setLetter(items.get(position).getName().substring(0, 1));
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setOval(true);
+            ((AvatarImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setText(items.get(position).getName().substring(0, 1));
             ((TextView) ViewHolder.get(convertView, R.id.item_contact_title)).setText(items.get(position).getName());
         }
         return convertView;

@@ -113,18 +113,18 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
                     @Override
                     public void call(Void aVoid) {
                         RxPermissions rxPermissions = new RxPermissions(UserContactActivity.this);
-                        rxPermissions.requestEach(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS)
-                                     .subscribe(new Action1<Permission>() {
+                        rxPermissions.request(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS)
+                                     .subscribe(new Action1<Boolean>() {
                                          @Override
-                                         public void call(Permission permission) {
-                                              if(permission.granted){
-                                                  startActivity(UserContactActivity.this, LocalContactActivity.class);
-                                              }else{
-                                                  ToastDelegate.info(getContext(),"您没有授权查看手机通讯录");
-                                              }
-
+                                         public void call(Boolean aBoolean) {
+                                                 if(aBoolean){
+                                                     startActivity(UserContactActivity.this, LocalContactActivity.class);
+                                                 }else{
+                                                     ToastDelegate.info(getContext(),"您没有权限查看手机通讯录");
+                                                 }
                                          }
                                      });
+
 
                     }
                 });

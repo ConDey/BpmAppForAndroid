@@ -74,7 +74,7 @@
             android:layout_height="match_parent"
             android:divider="@null"></ListView>
 
-        <com.eazytec.bpm.appstub.view.listview.SideBar
+        <com.eazytec.bpm.appstub.view.listview.LetterSideBar
             android:id="@+id/local_contact_sidebar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

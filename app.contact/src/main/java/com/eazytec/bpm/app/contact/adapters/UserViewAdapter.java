@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
+import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
 import com.eazytec.bpm.appstub.view.imageview.LetterImageView;
 import com.eazytec.bpm.lib.utils.ViewHolder;
 
@@ -58,9 +59,13 @@ public class UserViewAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_user_contact_listview, parent, false);
         }
+        int length = items.get(position).getFullName().length();
         if (position < items.size() && items.get(position) != null) {
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setLetter(items.get(position).getFullName().substring(0, 1));
-            ((LetterImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setOval(true);
+             if(length<3){
+              ((AvatarImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setText(items.get(position).getFullName());
+             }else{
+            ((AvatarImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setText(items.get(position).getFullName().substring(length-2));
+             }
             ((TextView) ViewHolder.get(convertView, R.id.item_user_contact_title)).setText(items.get(position).getFullName());
         }
         return convertView;
