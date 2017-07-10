@@ -14,4 +14,17 @@
     <!-- default badge provider -->
     <string name="bbn_badgeProvider" translatable="false" tools:ignore="UnusedResources">com.eazytec.bpm.appstub.view.mdbottom.BadgeProvider</string>
     <!--MD Bottom-->
+
+    <!-- 下拉刷新的文本 -->
+    <string name="pull_to_refresh_header_text">下拉可以刷新&#8230;</string>
+    <string name="pull_to_refresh_header_hint_ready">松开即可刷新&#8230;</string>
+
+    <!--上拉加载更多的文本-->
+    <string name="pull_to_refresh_bottom_hint_normal">上拉可以刷新</string>
+    <string name="pull_to_refresh_bottom_hint_onclick">点击加载更多</string>
+    <string name="pull_to_refresh_bottom_no_more_msg">已经到底啦</string>
+
+    <string name="pull_to_refresh_update_time">最后更新时间:</string>
+    <string name="pull_to_refresh_load_more_text">正在努力加载&#8230;</string>
+
 </resources>

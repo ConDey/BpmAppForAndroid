@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -684,5 +685,77 @@ public final class AppUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 返回当前SDK版本号
+     *
+     * @return
+     */
+    public static int getVersionSDK() {
+        return Build.VERSION.SDK_INT;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ Donut） Android 1.6或以上
+     *
+     * @return
+     */
+    public static boolean hasDonut() {
+        return getVersionSDK() >= Build.VERSION_CODES.DONUT;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ Eclair） Android 2.0或 以上
+     *
+     * @return
+     */
+    public static boolean hasEclair() {
+        return getVersionSDK() >= Build.VERSION_CODES.ECLAIR;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ Froyo） Android 2.2或 Android 2.2以上
+     *
+     * @return
+     */
+    public static boolean hasFroyo() {
+        return getVersionSDK() >= Build.VERSION_CODES.FROYO;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ Gingerbread） Android 2.3x或 Android 2.3x 以上
+     *
+     * @return
+     */
+    public static boolean hasGingerbread() {
+        return getVersionSDK() >= Build.VERSION_CODES.GINGERBREAD;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ Honeycomb） Android3.1或 Android3.1以上
+     *
+     * @return
+     */
+    public static boolean hasHoneycomb() {
+        return getVersionSDK() >= Build.VERSION_CODES.HONEYCOMB;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ HoneycombMR1） Android3.1.1或 Android3.1.1以上
+     *
+     * @return
+     */
+    public static boolean hasHoneycombMR1() {
+        return getVersionSDK() >= Build.VERSION_CODES.HONEYCOMB_MR1;
+    }
+
+    /**
+     * 当前Android系统版本是否在（ IceCreamSandwich） Android4.0或 Android4.0以上
+     *
+     * @return
+     */
+    public static boolean hasIcecreamsandwich() {
+        return getVersionSDK() >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
 }

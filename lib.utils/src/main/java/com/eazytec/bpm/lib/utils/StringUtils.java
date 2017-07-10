@@ -14,6 +14,16 @@ public final class StringUtils {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
+
+    /**
+     * 返回一个空String
+     *
+     * @return
+     */
+    public static String blank() {
+        return "";
+    }
+
     /**
      * 获得一个空的占位字符串""
      *

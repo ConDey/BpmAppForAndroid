@@ -2,6 +2,7 @@ package com.eazytec.bpm.lib.common.webservice;
 
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.lib.common.authentication.TokenIntercepter;
+import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public abstract class BPMRetrofit {
 
     private static Retrofit retrofit;
+    private static Retrofit downloadRetrofit;
+
     private static OkHttpClient okHttpClient;
+    private static OkHttpClient downloadOkHttpClient;
     
     private static long SERVICE_CONNECT_TIMEOUT = 10;
     private static long SERVICE_READ_TIMEOUT = 20;
@@ -61,5 +65,29 @@ public abstract class BPMRetrofit {
                     .build();
         }
         return okHttpClient;
+    }
+
+    public static synchronized Retrofit downloadRetrofit() {
+        if (downloadRetrofit == null) {
+            downloadRetrofit = new Retrofit.Builder()
+                    .baseUrl(Config.WEB_SERVICE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .client(downloadOkHttpClient())
+                    .build();
+        }
+        return downloadRetrofit;
+    }
+
+    public static synchronized OkHttpClient downloadOkHttpClient() {
+        if (downloadOkHttpClient == null) {
+            downloadOkHttpClient = ProgressHelper.addProgress(null).connectTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(10 * 1000, TimeUnit.MILLISECONDS)
+                    .readTimeout(10 * 1000, TimeUnit.MILLISECONDS)
+                    .retryOnConnectionFailure(true)
+                    .addInterceptor(new TokenIntercepter())
+                    .build();
+        }
+        return downloadOkHttpClient;
     }
 }

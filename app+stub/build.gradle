@@ -50,4 +50,6 @@ dependencies {
 
     compile 'com.github.GrenderG:Toasty:1.2.5'
 
+    // 图片引擎
+    compile rootProject.ext.imageloader
 }

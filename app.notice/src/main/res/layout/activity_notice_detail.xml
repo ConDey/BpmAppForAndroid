@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/bpm_toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/notice_detail_title_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/color_black_primary"
+            android:textSize="16sp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/notice_detail_author_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/drawer_listview_item_circle_bg"
+                android:gravity="center_vertical"
+                android:padding="3dp"
+                android:textColor="@color/color_primary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/notice_detail_time_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/notice_detail_author_textview"
+                android:background="@drawable/drawer_listview_item_circle_bg"
+                android:gravity="center_vertical"
+                android:padding="3dp"
+                android:textColor="@color/color_primary"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/notice_detail_attachments_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/drawer_listview_purple_item_circle_bg"
+                android:gravity="center_vertical"
+                android:padding="3dp"
+                android:text="查看附件"
+                android:textColor="@color/purple_300"
+                android:textSize="12sp"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+
+        <com.eazytec.bpm.appstub.view.textview.HtmlTextView
+            android:id="@+id/notice_detail_content_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:lineSpacingExtra="5dp"
+            android:textColor="@color/color_black_primary"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
