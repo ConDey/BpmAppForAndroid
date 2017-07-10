@@ -353,7 +353,7 @@ public class AvatarImageView extends android.support.v7.widget.AppCompatImageVie
         }
     }
 
-    //随机设置颜色
+    //随机设置颜色，颜色可以自行选择
     private int randomColor() {
         Random random = new Random();
         String[] colorsArr = {"#EE4542", "#F2725E", "#0099cc", "#f36c60", "#ab47bc",
