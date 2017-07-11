@@ -16,6 +16,7 @@
     <color name="bbn_top_shadow_center_color">#66000000</color>
     <!--MD Bottom-->
 
+    <!--singlegridview的分割线-->
     <color name="single_divider_color">#e0e0e0</color>
 
 </resources>

@@ -18,9 +18,9 @@ public class ImageOptHelper {
                 .cacheInMemory(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.htmltextview_image_loading)
-                .showImageForEmptyUri(R.drawable.htmltextview_image_loading)
-                .showImageOnFail(R.drawable.htmltextview_image_loading)
+                .showImageOnLoading(R.drawable.ic_htmltextview_image_loading)
+                .showImageForEmptyUri(R.drawable.ic_htmltextview_image_loading)
+                .showImageOnFail(R.drawable.ic_htmltextview_image_loading)
                 .build();
         return imgOptions;
     }
@@ -41,9 +41,9 @@ public class ImageOptHelper {
                 .cacheInMemory(true)
                 .considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.htmltextview_image_loading)
-                .showImageForEmptyUri(R.drawable.htmltextview_image_loading)
-                .showImageOnFail(R.drawable.htmltextview_image_loading)
+                .showImageOnLoading(R.drawable.ic_htmltextview_image_loading)
+                .showImageForEmptyUri(R.drawable.ic_htmltextview_image_loading)
+                .showImageOnFail(R.drawable.ic_htmltextview_image_loading)
                 .build();
         return avatarOptions;
     }
@@ -53,9 +53,9 @@ public class ImageOptHelper {
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageOnLoading(R.drawable.htmltextview_image_loading)
-                .showImageForEmptyUri(R.drawable.htmltextview_image_loading)
-                .showImageOnFail(R.drawable.htmltextview_image_loading)
+                .showImageOnLoading(R.drawable.ic_htmltextview_image_loading)
+                .showImageForEmptyUri(R.drawable.ic_htmltextview_image_loading)
+                .showImageOnFail(R.drawable.ic_htmltextview_image_loading)
                 .displayer(new RoundedBitmapDisplayer(cornerRadiusPixels)).build();
         return options;
     }

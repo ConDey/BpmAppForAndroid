@@ -17,6 +17,7 @@ import rx.schedulers.Schedulers;
  */
 public class NoticeListPresenter extends RxPresenter<NoticeListContract.View> implements NoticeListContract.Presenter<NoticeListContract.View> {
 
+
     @Override public void loadNoticeList(int pageNo, int pageSize, String title) {
         Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).loadNoticeList(title, String.valueOf(pageNo), String.valueOf(pageSize))
                 .subscribeOn(Schedulers.io())
@@ -40,5 +41,6 @@ public class NoticeListPresenter extends RxPresenter<NoticeListContract.View> im
                 });
         addSubscrebe(rxSubscription);
     }
+
 }
 
