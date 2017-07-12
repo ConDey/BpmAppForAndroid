@@ -1,19 +1,28 @@
 package com.eazytec.bpm.app.notice.notice.detail;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.notice.R;
 import com.eazytec.bpm.app.notice.data.AttachmentsDataTObject;
 import com.eazytec.bpm.app.notice.data.NoticeDetailDataTObject;
+import com.eazytec.bpm.app.notice.notice.download.DownloadActivity;
 import com.eazytec.bpm.app.notice.notice.list.NoticeListActivity;
 import com.eazytec.bpm.appstub.view.textview.HtmlTextView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
+import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 /**
  * 通知公告详情页
@@ -58,7 +67,36 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
 
         id = getIntent().getStringExtra("id");
 
-        //差一个下载附件功能
+        /**
+        RxView.clicks(this.attachmentsTextView).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                     new MaterialDialog.Builder(getContext())
+                             .title("请选择公告附件进行下载")
+                              .items(attachmentNames)
+                              .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                  @Override
+                                  public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                      DownloadHelper.download(NoticeDetailActivity.this, attachments.get(which).getId(), attachments.get(which).getName());
+                                      return true;
+                                  }
+                              })
+                              .positiveText("确认下载")
+                              .negativeText("取消")
+                              .negativeColor(Color.RED)
+                              .show();
+                    }
+                });
+         **/
+        attachmentsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("id", id);
+                startActivity(NoticeDetailActivity.this, DownloadActivity.class, bundle);
+            }
+        });
 
         getPresenter().loadNoticeDetail(id);
 

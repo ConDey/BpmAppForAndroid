@@ -82,8 +82,8 @@ public abstract class BPMRetrofit {
     public static synchronized OkHttpClient downloadOkHttpClient() {
         if (downloadOkHttpClient == null) {
             downloadOkHttpClient = ProgressHelper.addProgress(null).connectTimeout(10, TimeUnit.SECONDS)
-                    .connectTimeout(10 * 1000, TimeUnit.MILLISECONDS)
-                    .readTimeout(10 * 1000, TimeUnit.MILLISECONDS)
+                    .connectTimeout(SERVICE_CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(SERVICE_READ_TIMEOUT, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .addInterceptor(new TokenIntercepter())
                     .build();
