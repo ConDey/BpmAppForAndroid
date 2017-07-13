@@ -36,7 +36,7 @@
                 android:gravity="center_vertical"
                 android:padding="3dp"
                 android:textColor="@color/color_primary"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/notice_detail_time_textview"
@@ -48,7 +48,7 @@
                 android:gravity="center_vertical"
                 android:padding="3dp"
                 android:textColor="@color/color_primary"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/notice_detail_attachments_textview"
@@ -60,13 +60,13 @@
                 android:padding="3dp"
                 android:text="查看附件"
                 android:textColor="@color/purple_300"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:visibility="invisible"/>
 
         </RelativeLayout>
 
 
-        <com.eazytec.bpm.appstub.view.textview.HtmlTextView
+        <com.eazytec.bpm.appstub.view.textview.htmltextview.HtmlTextView
             android:id="@+id/notice_detail_content_textview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

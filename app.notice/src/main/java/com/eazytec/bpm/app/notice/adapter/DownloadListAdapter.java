@@ -54,10 +54,10 @@ public class DownloadListAdapter extends BaseAdapter {
         }
         if (position < items.size() && items.get(position) != null) {
 
-            if(items.get(position).getName().contains("png")){
-            ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.drawable.ic_download_type_img);
+            if(items.get(position).getName().contains("png")||items.get(position).getName().contains("jpg")){
+            ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_img);
             }else{
-                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.drawable.ic_download_type_file);
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_file);
             }
 
             ((TextView) ViewHolder.get(convertView, R.id.item_notice_download_title)).setText(items.get(position).getName());

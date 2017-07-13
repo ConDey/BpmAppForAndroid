@@ -1,4 +1,4 @@
-package com.eazytec.bpm.appstub.view.textview;
+package com.eazytec.bpm.appstub.view.textview.htmltextview;
 
 import android.content.Context;
 import android.content.res.TypedArray;

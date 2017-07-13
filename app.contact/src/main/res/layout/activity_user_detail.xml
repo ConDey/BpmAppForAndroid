@@ -154,7 +154,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
+                    android:background="@drawable/drawer_listview_item_bg"
                     android:clickable="false"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp">
@@ -190,7 +190,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
+                    android:background="@drawable/drawer_listview_item_bg"
                     android:clickable="false"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp">
@@ -226,7 +226,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
+                    android:background="@drawable/drawer_listview_item_bg"
                     android:clickable="false"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp">
@@ -281,7 +281,7 @@
                     android:id="@+id/user_detail_tel_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
+                    android:background="@drawable/drawer_listview_item_bg"
                     android:clickable="true"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp">
@@ -316,7 +316,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_item_listview"
+                    android:background="@drawable/drawer_listview_item_bg"
                     android:clickable="false"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp">

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/bpm_toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+            android:id="@+id/updatepwd_origin_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/drawer_updatepwd_edittext_bg"
+            android:hint="点击输入现在的密码"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:textColor="@color/color_black_primary"
+            android:textColorHint="@color/color_grey_primary"
+            android:textSize="14sp"/>
+
+
+        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+            android:id="@+id/updatepwd_new_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/drawer_updatepwd_edittext_bg"
+            android:hint="点击输入新的密码"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:textColor="@color/color_black_primary"
+            android:textColorHint="@color/color_grey_primary"
+            android:textSize="14sp"/>
+
+
+        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+            android:id="@+id/updatepwd_confirm_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/drawer_updatepwd_edittext_bg"
+            android:hint="点击再次输入新的密码"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:textColor="@color/color_black_primary"
+            android:textColorHint="@color/color_grey_primary"
+            android:textSize="14sp"/>
+
+
+        <Button
+            android:id="@+id/updatepwd_button"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/color_primary"
+            android:text="确认修改"
+            android:textColor="@android:color/white"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

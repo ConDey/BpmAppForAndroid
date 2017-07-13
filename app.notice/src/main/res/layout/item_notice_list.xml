@@ -5,6 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?android:selectableItemBackground"
     android:padding="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout

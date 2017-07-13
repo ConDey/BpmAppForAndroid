@@ -1,28 +1,19 @@
 package com.eazytec.bpm.app.notice.notice.detail;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.notice.R;
 import com.eazytec.bpm.app.notice.data.AttachmentsDataTObject;
 import com.eazytec.bpm.app.notice.data.NoticeDetailDataTObject;
 import com.eazytec.bpm.app.notice.notice.download.DownloadActivity;
-import com.eazytec.bpm.app.notice.notice.list.NoticeListActivity;
-import com.eazytec.bpm.appstub.view.textview.HtmlTextView;
+import com.eazytec.bpm.appstub.view.textview.htmltextview.HtmlTextView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
-import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
-import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import rx.functions.Action1;
 
 /**
  * 通知公告详情页

@@ -26,5 +26,8 @@
             android:name=".userhome.UserHomeActivity"
             android:screenOrientation="portrait"></activity>
 
+        <activity android:name=".updatepwd.UpdatePwdActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>

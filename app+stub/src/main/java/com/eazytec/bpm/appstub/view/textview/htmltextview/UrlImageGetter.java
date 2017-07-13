@@ -1,4 +1,4 @@
-package com.eazytec.bpm.appstub.view.textview;
+package com.eazytec.bpm.appstub.view.textview.htmltextview;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +8,8 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.eazytec.bpm.appstub.view.textview.htmltextview.HtmlTextView;
+import com.eazytec.bpm.appstub.view.textview.htmltextview.ImageLoaderUtils;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.InputStream;

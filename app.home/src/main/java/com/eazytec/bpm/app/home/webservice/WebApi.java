@@ -5,8 +5,10 @@ import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -37,4 +39,6 @@ public interface WebApi {
     @FormUrlEncoded
     @POST("password/change")
     Observable<WebDataTObject> updatePwd(@Field("oldPassword") String oldPassword, @Field("newPassword") String newPassword, @Field("confirmPassword") String confirmPassword);
+
+
 }

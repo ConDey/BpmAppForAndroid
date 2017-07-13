@@ -6,8 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.appstub.view.progressdialog.AnimatedProgressDialog;
-import com.eazytec.bpm.lib.common.RxPresenter;
+import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
@@ -21,8 +20,6 @@ import java.io.InputStream;
 
 import okhttp3.ResponseBody;
 import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -34,9 +31,8 @@ public class DownloadHelper{
 
 
    public static void download(final CommonActivity activity, final String id, final String name) {
-        /**
-        final ProgressDialog dialog = new ProgressDialog(activity);
-        dialog.setProgressNumberFormat("%1d KB/%2d KB");
+
+        final CommonProgressDialog dialog = new CommonProgressDialog(activity);
         dialog.setTitle("下载");
         dialog.setMessage("正在下载，请稍后...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -46,31 +42,13 @@ public class DownloadHelper{
         ProgressHelper.setProgressHandler(new DownloadProgressHandler() {
             @Override
             protected void onProgress(long bytesRead, long contentLength, boolean done) {
-                dialog.setMax((int) (contentLength / 1024));
-                dialog.setProgress((int) (bytesRead / 1024));
-
+                dialog.setProgress((int) (bytesRead *100/ contentLength));
                 if (done) {
                     dialog.dismiss();
                 }
             }
         });
 
-        **/
-       final AnimatedProgressDialog dialog = new AnimatedProgressDialog(activity);
-       dialog.show();
-
-
-       ProgressHelper.setProgressHandler(new DownloadProgressHandler() {
-           @Override
-           protected void onProgress(long bytesRead, long contentLength, boolean done) {
-
-                   dialog.setProgress((int) (bytesRead*100 /contentLength));  
-
-               if (done) {
-                   dialog.dismiss();
-               }
-           }
-       });
 
        new Thread(new Runnable() {
            @Override public void run() {
