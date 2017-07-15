@@ -1,4 +1,4 @@
-package com.eazytec.bpm.app.notice.applicaion;
+package com.eazytec.bpm.app.notice.application;
 
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 
