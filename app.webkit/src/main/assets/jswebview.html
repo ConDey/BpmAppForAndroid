@@ -30,16 +30,31 @@
         <button type="button" class="mui-btn mui-btn-outlined" onclick="closewindow()">
             关闭页面
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitle()">
-            设置修改标题
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarVisible()">
+            显示标题栏
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="bindBack()">
-            绑定退出键
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarInvisible()">
+            隐藏标题栏
         </button>
-        </br>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="newWebViewActivity()">
-            新建webviewActivity
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarBgColor()">
+            设置标题栏背景颜色
         </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarBgImage()">
+            设置标题栏背景图片
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarRightBtn()">
+            设置标题栏右边按钮
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarTextView()">
+            修改标题栏title
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="startWindow()">
+            新建WebViewActivity
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="skipWindow()">
+            新建WebViewActivity并结束当前activity
+        </button>
+
     </div>
 </div>
 </body>
@@ -49,23 +64,56 @@
 			swipeBack:true //启用右滑关闭功能
 		});
 
+        // 初始化
 		var bpmbridget = getJsBridge();
 
+        // 关闭当前窗口
 		function closewindow() {
                bpmbridget.call("close");
         }
 
-        function setTitle() {
-               bpmbridget.call("setTitle",{title: "我被修改了"});
+        // 设置标题栏显示
+        function setTitlebarVisible() {
+               bpmbridget.call("setTitlebarVisible",{visible: "yes"});
         }
 
-        function bindBack() {
-               bpmbridget.call("bindBack");
+        // 设置标题栏隐藏
+        function setTitlebarInvisible() {
+               bpmbridget.call("setTitlebarVisible",{visible: "no"});
         }
 
-        // 这里暂时加载本地html文件
-        function newWebViewActivity() {
-               bpmbridget.call("newWebViewActivity",{html: "newjswebview.html"});
+        // 设置标题栏右边图片按钮
+        function setTitleBarRightBtn() {
+            bpmbridget.call("setTitlebarRightBtn", {"url": "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png", "callback": "rightBtnCallback"});
+        }
+        // 回调函数
+        function rightBtnCallback(result) {
+            alert("view is clicked!");
+        }
+
+        // 设置标题栏背景颜色
+        function setTitlebarBgColor() {
+               bpmbridget.call("setTitlebarBgColor",{bgColor: "#3892FF"});
+        }
+
+        // 设置标题栏背景图片
+        function setTitlebarBgImage() {
+               bpmbridget.call("setTitlebarBgImage",{bgImgUrl: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png"});
+        }
+
+        // 设置标题
+        function setTitleBarTextView() {
+               bpmbridget.call("setTitlebarTextView",{title: "XXXX", fontSize: "19", fontColor: "#3892FF"});
+        }
+
+        // 新建窗口
+        function startWindow() {
+               bpmbridget.call("startWindow",{url: "https://58.215.198.210:9997/bpmapp/newjswebview.html", title: "hello"});
+        }
+
+        // 新建窗口并结束当前窗口
+        function skipWindow() {
+               bpmbridget.call("skipWindow",{url: "https://58.215.198.210:9997/bpmapp/newjswebview.html", title: "hello"});
         }
 
 </script>

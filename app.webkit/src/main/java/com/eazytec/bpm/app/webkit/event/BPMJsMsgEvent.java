@@ -1,4 +1,4 @@
-package com.eazytec.bpm.app.webkit;
+package com.eazytec.bpm.app.webkit.event;
 
 import android.support.annotation.StringDef;
 
@@ -13,17 +13,27 @@ public class BPMJsMsgEvent {
     /**
      * 设置BPMWebViewActivity.title(),需要由主线程执行
      */
+    public static final String JS_SET_TITLEBAR_VISIBLE = "JS_SET_TITLEBAR_VISIBLE";
+    public static final String JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE = "JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE";
+    public static final String JS_SET_TITLEBAR_BGCOLOR = "JS_SET_TITLEBAR_BGCOLOR";
+    public static final String JS_SET_TITLEBAR_BGIMAGE = "JS_SET_TITLEBAR_BGIMAGE";
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
-    public static final String JS_NEW_WEBVIEW_ACTIVITY = "JS_NEW_WEBVIEW_ACTIVITY";
 
     // 自定义一个注解MyState
-    @StringDef({JS_SET_TITLE,JS_NEW_WEBVIEW_ACTIVITY})
+    @StringDef({JS_SET_TITLE,JS_SET_TITLEBAR_VISIBLE,
+                JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
+                JS_SET_TITLEBAR_BGCOLOR,
+                JS_SET_TITLEBAR_BGIMAGE})
     public @interface BPM_JS_ID {
     }
 
     private String id;
 
     private String message;
+
+    public BPMJsMsgEvent() {
+
+    }
 
     /**
      * 默认的构造函数

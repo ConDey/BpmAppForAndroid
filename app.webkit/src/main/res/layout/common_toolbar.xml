@@ -10,13 +10,21 @@
         android:id="@+id/tb_common_toolbar"
         style="@style/ToolBarTheme">
 
-        <TextView
-            android:id="@+id/tv_common_toolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/color_black_primary"
-            android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_common_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_black_primary"
+                android:layout_gravity="center"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/iv_right_common_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"/>
+
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout style="@style/DivideLineTheme"></LinearLayout>
