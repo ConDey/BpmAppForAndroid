@@ -18,12 +18,15 @@ public class BPMJsMsgEvent {
     public static final String JS_SET_TITLEBAR_BGCOLOR = "JS_SET_TITLEBAR_BGCOLOR";
     public static final String JS_SET_TITLEBAR_BGIMAGE = "JS_SET_TITLEBAR_BGIMAGE";
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
+    public static final String JS_DOWNLOAD_FILE = "JS_DOWNLOAD_FILE";
 
     // 自定义一个注解MyState
-    @StringDef({JS_SET_TITLE,JS_SET_TITLEBAR_VISIBLE,
+    @StringDef({JS_SET_TITLE,
+                JS_SET_TITLEBAR_VISIBLE,
                 JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
                 JS_SET_TITLEBAR_BGCOLOR,
-                JS_SET_TITLEBAR_BGIMAGE})
+                JS_SET_TITLEBAR_BGIMAGE,
+                JS_DOWNLOAD_FILE})
     public @interface BPM_JS_ID {
     }
 

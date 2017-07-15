@@ -21,6 +21,7 @@ import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
+import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -64,6 +65,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bpmwebview);
+
+        //DownloadHelper.download(this, "ff8080815d3aa2af015d3ed479200920", "ic_flicker_bg.png");
 
         toolbar = (Toolbar) findViewById(R.id.tb_common_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
@@ -112,6 +115,7 @@ public class BPMWebViewActivity extends WebViewActivity {
         if (!StringUtils.isSpace(url)) {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
+
 
 
     }
@@ -274,6 +278,20 @@ public class BPMWebViewActivity extends WebViewActivity {
                 e.printStackTrace();
             }
         }
+        /**
+         *  因为DownloadHelper中用到了一些需要在主线程执行的UI操作。所以这里post到主线程
+         */
+        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_DOWNLOAD_FILE)) {
+            try {
+                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
+                String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
+                DownloadHelper.download(this, id, name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
@@ -317,8 +335,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         it.putExtra(INTENT_TITLE, title);
         skipActivity(this, it);
     }
-
-
 
 
 }

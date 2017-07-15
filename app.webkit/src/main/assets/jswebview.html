@@ -48,11 +48,22 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarTextView()">
             修改标题栏title
         </button>
+
+        </br>
+        </br>
+
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="startWindow()">
             新建WebViewActivity
         </button>
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="skipWindow()">
             新建WebViewActivity并结束当前activity
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="downloadFile()">
+            文件下载
         </button>
 
     </div>
@@ -82,7 +93,7 @@
                bpmbridget.call("setTitlebarVisible",{visible: "no"});
         }
 
-        // 设置标题栏右边图片按钮
+        // 设置标题栏右边按钮
         function setTitleBarRightBtn() {
             bpmbridget.call("setTitlebarRightBtn", {"url": "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png", "callback": "rightBtnCallback"});
         }
@@ -114,6 +125,11 @@
         // 新建窗口并结束当前窗口
         function skipWindow() {
                bpmbridget.call("skipWindow",{url: "https://58.215.198.210:9997/bpmapp/newjswebview.html", title: "hello"});
+        }
+
+        // 文件下载
+        function downloadFile() {
+               bpmbridget.call("downloadFile",{attachmentId: "ff8080815d3aa2af015d3ed479200920", attachmentName: "ic_flicker_bg.png"});
         }
 
 </script>

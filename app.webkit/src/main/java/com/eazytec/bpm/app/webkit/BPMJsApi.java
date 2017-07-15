@@ -149,7 +149,9 @@ public class BPMJsApi {
         try {
             String url = jsonObject.getString(URL);
             String title = jsonObject.getString(API_PARAM_NEW_WEBVIEW_TITLE);
-            activity.startWebViewActivity(url, title);
+            if (activity != null) {
+                activity.startWebViewActivity(url, title);
+            }
         }catch (JSONException e) {
             e.printStackTrace();
         }
@@ -160,10 +162,25 @@ public class BPMJsApi {
         try {
             String url = jsonObject.getString(URL);
             String title = jsonObject.getString(API_PARAM_NEW_WEBVIEW_TITLE);
-            activity.skipWebViewActivity(url, title);
+            if (activity != null) {
+                activity.skipWebViewActivity(url, title);
+            }
         }catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_ATTACHMENT_ID = "attachmentId";
+    public static final String API_PARAM_ATTACHMENT_NAME = "attachmentName";
+
+    @JavascriptInterface
+    public void downloadFile(JSONObject jsonObject) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_DOWNLOAD_FILE, jsonObject.toString()));
     }
 
 }
