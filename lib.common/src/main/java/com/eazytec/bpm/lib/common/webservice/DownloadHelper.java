@@ -1,6 +1,8 @@
 package com.eazytec.bpm.lib.common.webservice;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -11,6 +13,7 @@ import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
+import com.eazytec.bpm.lib.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -72,13 +75,13 @@ public class DownloadHelper{
                                    bis.close();
                                    is.close();
 
+
                                    Intent intent = new Intent("android.intent.action.VIEW");
                                    intent.addCategory("android.intent.category.DEFAULT");
                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                    Uri uri = Uri.fromFile(file);
                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
                                    activity.startActivity(intent);
-
                                } catch (IOException e) {
                                    e.printStackTrace();
                                }
@@ -95,5 +98,7 @@ public class DownloadHelper{
            }
        }).start();
    }
+
+
 
 }

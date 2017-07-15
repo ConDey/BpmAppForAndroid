@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.notice.R;
 import com.eazytec.bpm.app.notice.data.AttachmentsDataTObject;
+import com.eazytec.bpm.lib.utils.MIMETypeUtil;
 import com.eazytec.bpm.lib.utils.ViewHolder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +56,36 @@ public class DownloadListAdapter extends BaseAdapter {
         }
         if (position < items.size() && items.get(position) != null) {
 
-            if(items.get(position).getName().contains("png")||items.get(position).getName().contains("jpg")){
-            ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_img);
+            String type;
+            String fName = items.get(position).getName().trim();
+            int dotIndex = fName.lastIndexOf(".");
+            if (dotIndex < 0) {
+            type = "*/*";    //不认识的
             }else{
-                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_file);
+         /* 获取文件的后缀名*/
+            String end = fName.substring(dotIndex, fName.length()).toLowerCase(); //转小写
+            type = end;
+            }
+
+            if(type.contains("gif")||type.contains("bmp")||type.contains("jpeg")||type.contains("jpg")||type.contains("png")){
+            ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_img);
+            }else if(type.contains("doc")||type.contains("docx")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_doc);
+            }else if(type.contains("xls")||type.contains("xlsx")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_xls);
+            }else if(type.contains("zip")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_zip);
+            }else if(type.contains("txt")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_txt);
+            }else if(type.contains("pdf")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_pdf);
+            }else if(type.contains("ppt")||type.contains("pptx")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_ppt);
+            }else if(type.contains("apk")){
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_apk);
+            }
+            else {
+                ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_unkonw);
             }
 
             ((TextView) ViewHolder.get(convertView, R.id.item_notice_download_title)).setText(items.get(position).getName());

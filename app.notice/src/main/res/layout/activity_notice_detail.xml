@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
     <include layout="@layout/bpm_toolbar"></include>
 
@@ -32,10 +38,9 @@
                 android:id="@+id/notice_detail_author_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/drawer_listview_item_circle_bg"
                 android:gravity="center_vertical"
                 android:padding="3dp"
-                android:textColor="@color/color_primary"
+                android:textColor="@color/color_grey_primary"
                 android:textSize="14sp"/>
 
             <TextView
@@ -44,12 +49,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/notice_detail_author_textview"
-                android:background="@drawable/drawer_listview_item_circle_bg"
                 android:gravity="center_vertical"
                 android:padding="3dp"
-                android:textColor="@color/color_primary"
+                android:textColor="@color/color_grey_primary"
                 android:textSize="14sp"/>
-
+             <!--
             <TextView
                 android:id="@+id/notice_detail_attachments_textview"
                 android:layout_width="wrap_content"
@@ -62,10 +66,13 @@
                 android:textColor="@color/purple_300"
                 android:textSize="14sp"
                 android:visibility="invisible"/>
+                -->
 
         </RelativeLayout>
 
-
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <com.eazytec.bpm.appstub.view.textview.htmltextview.HtmlTextView
             android:id="@+id/notice_detail_content_textview"
             android:layout_width="match_parent"
@@ -75,7 +82,20 @@
             android:textColor="@color/color_black_primary"
             android:textSize="14sp"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/notice_detail_download"
+            app:rippleColor="@color/color_primary"
+            app:backgroundTint="@color/color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/ic_floatingbutton_bg"
+            android:visibility="invisible"
+            />
+        </FrameLayout>
     </LinearLayout>
+  </LinearLayout>
 
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

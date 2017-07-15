@@ -1,6 +1,7 @@
 package com.eazytec.bpm.app.notice.notice.detail;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -30,7 +31,8 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
     private TextView authorTextView;
     private TextView timeTextView;
 
-    private TextView attachmentsTextView;
+    //private TextView attachmentsTextView;
+    private FloatingActionButton floatingActionButton;
 
     private String id;
     private List<AttachmentsDataTObject> attachments;
@@ -54,7 +56,8 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
         contentTextView = (HtmlTextView) findViewById(R.id.notice_detail_content_textview);
         authorTextView = (TextView) findViewById(R.id.notice_detail_author_textview);
         timeTextView = (TextView) findViewById(R.id.notice_detail_time_textview);
-        attachmentsTextView = (TextView) findViewById(R.id.notice_detail_attachments_textview);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.notice_detail_download);
+
 
         id = getIntent().getStringExtra("id");
 
@@ -80,7 +83,8 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
                     }
                 });
          **/
-        attachmentsTextView.setOnClickListener(new View.OnClickListener() {
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
@@ -107,7 +111,7 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
         timeTextView.setText(dataTObject.getCreatedTime());
 
         if (dataTObject.getAttachments() != null && dataTObject.getAttachments().size() > 0) {
-            this.attachmentsTextView.setVisibility(View.VISIBLE);
+            this.floatingActionButton.setVisibility(View.VISIBLE);
             this.attachments = dataTObject.getAttachments();
 
             this.attachmentNames = new ArrayList<>();
