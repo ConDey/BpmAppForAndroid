@@ -1,1 +1,1 @@
-include ':app', ':app.home', ':lib.style', ':lib.common', ':lib.utils', ':app+stub', ':app.contact', ':app.webkit', ':app.notice'
+include ':app', ':app.home', ':lib.style', ':lib.common', ':lib.utils', ':app+stub', ':app.contact', ':app.webkit', ':app.notice', ':app.photo'
