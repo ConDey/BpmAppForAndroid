@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 
 /**
  * @author Administrator
- * @version Id: FullyGridLayoutManager, v 0.1 2017/7/15 11:25 Administrator Exp $$
+ * @version Id: FullyGridLayoutManager, v 0.1 2017/7/17 11:18 Administrator Exp $$
  */
 public class FullyGridLayoutManager extends GridLayoutManager {
-
     public FullyGridLayoutManager(Context context, int spanCount) {
         super(context, spanCount);
     }

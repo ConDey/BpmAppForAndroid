@@ -9,22 +9,24 @@
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/gv_filter_image_fiv"
+            android:id="@+id/item_medium_grid_fiv"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:src="@color/grey_100" />
 
         <LinearLayout
-            android:id="@+id/gv_filter_image_ll_del"
+            android:id="@+id/item_medium_grid_ll_del"
             android:layout_width="30dp"
             android:layout_height="35dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="2dp"
             android:layout_alignParentRight="true"
             android:gravity="right"
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/gv_filter_image_iv_del"
+                android:id="@+id/item_medium_grid_iv_del"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="center"
@@ -32,7 +34,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/gv_filter_image_tv_duration"
+            android:id="@+id/item_medium_grid_tv_duration"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"

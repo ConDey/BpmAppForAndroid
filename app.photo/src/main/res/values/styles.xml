@@ -8,23 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
-
-    <!--数字风格样式，注意每一项都不能少-->
+    <!--自定义样式，带数字的那种，一下每一个都不能少，少了就会出错！-->
     <style name="picture.Custom.style" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <!--标题栏背景色-->
-        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimary">@color/bar_grey</item>
         <!--状态栏背景色-->
-        <item name="colorPrimaryDark">@color/color_primarydark</item>
+        <item name="colorPrimaryDark">@color/bar_grey</item>
         <!--是否改变图片列表界面状态栏字体颜色为黑色-->
         <item name="picture.statusFontColor">false</item>
         <!--返回键图标-->
-        <item name="picture.leftBack.icon">@mipmap/ic_common_left_back</item>
+        <item name="picture.leftBack.icon">@mipmap/ic_picture_back</item>
         <!--标题下拉箭头-->
-        <item name="picture.arrow_down.icon">@mipmap/ic_black_arrow_down</item>
+        <item name="picture.arrow_down.icon">@mipmap/ic_arrow_down</item>
         <!--标题上拉箭头-->
-        <item name="picture.arrow_up.icon">@mipmap/ic_black_arrow_up</item>
+        <item name="picture.arrow_up.icon">@mipmap/ic_arrow_up</item>
         <!--标题文字颜色-->
         <item name="picture.title.textColor">@color/white</item>
         <!--标题栏右边文字-->
@@ -48,13 +45,13 @@
         <!--预览界面已完成文字颜色-->
         <item name="picture.ac_preview.complete.textColor">@color/color_primary</item>
         <!--预览界面标题栏背景色-->
-        <item name="picture.ac_preview.title.bg">@color/color_primary</item>
+        <item name="picture.ac_preview.title.bg">@color/bar_grey</item>
         <!--预览界面底部背景色-->
         <item name="picture.ac_preview.bottom.bg">@color/color_fa</item>
         <!--预览界面状态栏颜色-->
-        <item name="picture.status.color">@color/color_primary</item>
+        <item name="picture.status.color">@color/bar_grey</item>
         <!--预览界面返回箭头-->
-        <item name="picture.preview.leftBack.icon">@mipmap/ic_common_left_back</item>
+        <item name="picture.preview.leftBack.icon">@mipmap/ic_picture_back</item>
         <!--是否改变预览界面状态栏字体颜色为黑色-->
         <item name="picture.preview.statusFontColor">false</item>
         <!--裁剪页面标题背景色-->
@@ -66,5 +63,4 @@
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>
-
 </resources>
