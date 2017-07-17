@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!-- APP internal storage 下的 images目录-->
+        <files-path path="files/" name="myfiles"/>
+        <!-- APP external storage 下的 images目录-->
+        <external-path path="files/" name="externalfiles"/>
+        <!-- APP 缓存目录 下的 images目录-->
+        <cache-path path="files" name = "cachefiles"/>
+    </paths>
+</resources>

@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
@@ -75,13 +77,23 @@ public class DownloadHelper{
                                    bis.close();
                                    is.close();
 
-
+                                   if(Build.VERSION.SDK_INT>=24) {
+                                   // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
+                                       Uri uri = FileProvider.getUriForFile(activity.getContext(), "android.support.v4.content.FileProvider", file);
+                                       Intent intent = new Intent("android.intent.action.VIEW");
+                                       intent.addCategory("android.intent.category.DEFAULT");
+                                       intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                       intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                       activity.startActivity(intent);
+                                   }else
+                                   {
                                    Intent intent = new Intent("android.intent.action.VIEW");
                                    intent.addCategory("android.intent.category.DEFAULT");
                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                    Uri uri = Uri.fromFile(file);
                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
                                    activity.startActivity(intent);
+                                   }
                                } catch (IOException e) {
                                    e.printStackTrace();
                                }
