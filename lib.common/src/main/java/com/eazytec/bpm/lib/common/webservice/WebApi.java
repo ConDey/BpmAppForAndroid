@@ -1,7 +1,12 @@
 package com.eazytec.bpm.lib.common.webservice;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -20,4 +25,14 @@ public interface WebApi {
     @GET("attachment/down")
     Observable<ResponseBody> download(@Query("attachmentId") String id);
 
+    /**
+     * 通用的文件上传器
+     *
+     * @param file
+     * @param body
+     * @return
+     */
+
+    @POST("attachment/upload")
+    Observable<ResponseBody> upload(@Header("fileName") String file, @Body RequestBody body);
 }

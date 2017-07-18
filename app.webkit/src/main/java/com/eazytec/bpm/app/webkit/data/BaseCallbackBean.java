@@ -36,6 +36,10 @@ public class BaseCallbackBean {
         this.success = success;
     }
 
+    public boolean getSuccess() {
+        return success;
+    }
+
     public String getErrorMsg() {
         return errorMsg;
     }
@@ -46,10 +50,9 @@ public class BaseCallbackBean {
 
     public HashMap<String, String> toJson() {
         HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put(ERRORMSG, this.errorMsg);
         String isSuccess = this.success?"true":"false";
         hashMap.put(SUCCESS, isSuccess );
-        hashMap.put(ERRORMSG, this.errorMsg);
-
         return hashMap;
     }
 }

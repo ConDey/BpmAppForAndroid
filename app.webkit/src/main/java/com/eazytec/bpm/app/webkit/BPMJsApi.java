@@ -183,4 +183,42 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_DOWNLOAD_FILE, jsonObject.toString()));
     }
 
+    /**
+     * 文件上传
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_FILE_PATH = "filePath";
+
+    @JavascriptInterface
+    public void uploadFile(JSONObject jsonObject) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UPLOAD_FILE, jsonObject.toString()));
+    }
+
+    /**
+     * 获得当前用户信息
+     */
+    @JavascriptInterface
+    public void getUser(JSONObject jsonObject) {
+        try {
+            String callback = jsonObject.getString(CALL_BACK);
+            activity.getUser(callback);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获得Token
+     */
+    @JavascriptInterface
+    public void getToken(JSONObject jsonObject) {
+        try {
+            String callback = jsonObject.getString(CALL_BACK);
+            activity.getToken(callback);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -65,6 +65,20 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="downloadFile()">
             文件下载
         </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="uploadFile()">
+            文件上传
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="getUser()">
+            获得用户信息
+        </button>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="getToken()">
+            获得Token
+        </button>
 
     </div>
 </div>
@@ -95,7 +109,7 @@
 
         // 设置标题栏右边按钮
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {"url": "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png", "callback": "rightBtnCallback"});
+            bpmbridget.call("setTitlebarRightBtn", {url: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png", callback: "rightBtnCallback"});
         }
         // 回调函数
         function rightBtnCallback(result) {
@@ -129,7 +143,30 @@
 
         // 文件下载
         function downloadFile() {
-               bpmbridget.call("downloadFile",{attachmentId: "ff8080815d3aa2af015d3ed479200920", attachmentName: "ic_flicker_bg.png"});
+               bpmbridget.call("downloadFile",{attachmentId: "402836585d4e8b78015d54578f12000b", attachmentName: "3.doc"});
+        }
+
+        // 文件上传
+        function uploadFile() {
+               bpmbridget.call("uploadFile",{filePath: "/storage/emulated/0/1.pdf"});
+        }
+
+        // 获得当前用户信息
+        function getUser() {
+               bpmbridget.call("getUser",{callback: "getUserCallback"});
+        }
+        // 回调函数
+        function getUserCallback(result) {
+            alert(result);
+        }
+
+        // 获得Token
+        function getToken() {
+               bpmbridget.call("getToken", {callback: "getTokenCallback"});
+        }
+        // 回调函数
+        function getTokenCallback(result) {
+            alert(result)
         }
 
 </script>
