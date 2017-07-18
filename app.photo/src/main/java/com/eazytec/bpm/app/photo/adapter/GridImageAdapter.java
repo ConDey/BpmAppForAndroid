@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * @author Administrator
- * @version Id: GridImageAdapter, v 0.1 2017/7/15 10:34 Administrator Exp $$
+ * @version Id: GridImageAdapter, v 0.1 2017/7/17 11:10 Administrator Exp $$
  */
 public class GridImageAdapter extends
         RecyclerView.Adapter<GridImageAdapter.ViewHolder> {
@@ -40,7 +40,7 @@ public class GridImageAdapter extends
     private int selectMax = 9;
     private Context context;
     /**
-     * 点击添加图片跳转
+     * 点击添加图片跳转,进行裁剪
      */
     private onAddPicClickListener mOnAddPicClickListener;
 
@@ -70,9 +70,9 @@ public class GridImageAdapter extends
 
         public ViewHolder(View view) {
             super(view);
-            mImg = (ImageView) view.findViewById(R.id.gv_filter_image_fiv);
-            ll_del = (LinearLayout) view.findViewById(R.id.gv_filter_image_ll_del);
-            tv_duration = (TextView) view.findViewById(R.id.gv_filter_image_tv_duration);
+            mImg = (ImageView) view.findViewById(R.id.item_medium_grid_fiv);
+            ll_del = (LinearLayout) view.findViewById(R.id.item_medium_grid_ll_del);
+            tv_duration = (TextView) view.findViewById(R.id.item_medium_grid_tv_duration);
         }
     }
 
@@ -99,7 +99,7 @@ public class GridImageAdapter extends
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.gv_filter_image,
+        View view = mInflater.inflate(R.layout.item_medium_grid,
                 viewGroup, false);
         final ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -117,7 +117,7 @@ public class GridImageAdapter extends
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         //少于8张，显示继续添加的图标
         if (getItemViewType(position) == TYPE_CAMERA) {
-            viewHolder.mImg.setImageResource(R.mipmap.ic_addimg_1x);
+            viewHolder.mImg.setImageResource(R.mipmap.ic_addpic_focused);
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,13 +131,10 @@ public class GridImageAdapter extends
                 @Override
                 public void onClick(View view) {
                     int index = viewHolder.getAdapterPosition();
-                    // 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
-                    // 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
                     if (index != RecyclerView.NO_POSITION) {
                         list.remove(index);
                         notifyItemRemoved(index);
                         notifyItemRangeChanged(index, list.size());
-                        DebugUtil.i("delete position:", index + "--->remove after:" + list.size());
                     }
                 }
             });
@@ -180,6 +177,7 @@ public class GridImageAdapter extends
             if (mimeType == PictureMimeType.ofAudio()) {
                 viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
             } else {
+                //显示图片的
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
                         .placeholder(R.color.grey_100)

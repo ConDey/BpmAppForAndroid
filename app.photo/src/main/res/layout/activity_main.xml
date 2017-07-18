@@ -4,73 +4,216 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent" tools:context="com.eazytec.bpm.app.photo.MainActivity">
+    android:layout_height="match_parent" tools:context="com.eazytec.bpm.app.photo.MediumPickerMainActivity">
 
     <include layout="@layout/bpm_toolbar"></include>
 
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/media_picker_recycler"
+        android:id="@+id/medium_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:overScrollMode="never" />
 
-    <ScrollView
+    <!--选择多媒体模式-->
+    <RadioGroup
+        android:id="@+id/rgb_medium_mode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioButton
+            android:id="@+id/medium_rb_all"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:checked="true"
+            android:text="全部"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
 
-            <RadioGroup
-                android:id="@+id/media_picker_photo_mode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/medium_rb_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="图片"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/media_picker_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="全部"
-                    android:textColor="@color/color_53"
-                    android:textSize="14sp" />
+        <RadioButton
+            android:id="@+id/medium_rb_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="视频"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/media_picker_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="图片"
-                    android:textColor="@color/color_53"
-                    android:textSize="14sp" />
+        <RadioButton
+            android:id="@+id/medium_rb_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="音频"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+    </RadioGroup>
 
-                <RadioButton
-                    android:id="@+id/media_picker_video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="视频"
-                    android:textColor="@color/color_53"
-                    android:textSize="14sp" />
+    <!--是否压缩图片，用哪种方式压缩-->
+    <CheckBox
+        android:id="@+id/medium_cb_compress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="是否压缩图片"
+        android:textColor="@color/color_53"
+        android:textSize="14sp" />
 
-                <RadioButton
-                    android:id="@+id/media_picker_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="音频"
-                    android:textColor="@color/color_53"
-                    android:textSize="14sp" />
-            </RadioGroup>
+    <RadioGroup
+        android:id="@+id/rgb_medium_compress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        </LinearLayout>
+        <RadioButton
+            android:id="@+id/medium_rb_compress_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="系统自带"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
 
-    </ScrollView>
+        <RadioButton
+            android:id="@+id/medium_rb_compress_luban"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Luban压缩"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <!--裁剪功能-->
+    <CheckBox
+        android:id="@+id/medium_cb_crop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="是否裁剪图片"
+        android:textColor="@color/color_53"
+        android:textSize="14sp" />
+
+    <RadioGroup
+        android:id="@+id/medium_rgb_crop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <RadioButton
+            android:id="@+id/medium_rb_crop_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="默认"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/medium_rb_crop_1to1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="1:1"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/medium_rb_crop_3to4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="3:4"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/medium_rb_crop_3to2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="3:2"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/medium_rb_crop_16to9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="16:9"
+            android:textColor="@color/color_53"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/medium_cb_crop_circular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="圆形头像裁剪模式"
+        android:textColor="@color/color_53"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+
+    <CheckBox
+        android:id="@+id/medium_cb_showCropGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:gravity="center_vertical"
+        android:text="是否显示裁剪框网格"
+        android:textColor="@color/color_53"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/medium_cb_showCropFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:gravity="center_vertical"
+        android:text="是否显示裁剪边框"
+        android:textColor="@color/color_53"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/medium_cb_styleCrop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="裁剪框or图片拖动"
+        android:textColor="@color/color_53"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/medium_cb_hide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="是否显示裁剪菜单栏"
+        android:textColor="@color/color_53"
+        android:textSize="14sp"
+        android:visibility="gone" />
 </LinearLayout>
