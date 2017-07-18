@@ -171,7 +171,7 @@ public class HomeContactFragment extends ContractViewFragment <UserContactPresen
 
             DepartmentDataTObject[] childs = new DepartmentDataTObject[departmentDataTObject.getChilds().size()];
             departmentDataTObject.getChilds().toArray(childs);
-            Arrays.sort(childs);
+         //   Arrays.sort(childs);
             departmentViewAdapter.resetList(departmentDataTObjects = Arrays.asList(childs));
             departmentViewAdapter.notifyDataSetChanged();
             ListViewHelper.setListViewHeightBasedOnChildren(deparmentRecyclerView);

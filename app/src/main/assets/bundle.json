@@ -27,6 +27,15 @@
       "rules": {
         "forhomefragment": "HomeContactFragment"
       }
+    },
+    {
+      "uri": "app.notice",
+      "pkg": "com.eazytec.bpm.app.notice"
+    },
+    {
+      "uri": "app.photo",
+      "pkg": "com.eazytec.bpm.app.photo"
     }
+
   ]
 }

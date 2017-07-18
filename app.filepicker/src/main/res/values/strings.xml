@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">App.filepicker</string>
+    <string name="empty_directory_hint">空文件夹</string>
+    <string name="type_archive">压缩文件</string>
+    <string name="type_certificate">证书</string>
+    <string name="type_directory">目录</string>
+    <string name="type_document">文件</string>
+    <string name="type_drawing">图片</string>
+    <string name="type_excel">工作表</string>
+    <string name="type_image">照片</string>
+    <string name="type_music">音乐</string>
+    <string name="type_video">视频</string>
+    <string name="type_pdf">PDF 文件</string>
+    <string name="type_power_point">PPT</string>
+    <string name="type_word">文件</string>
+    <string name="type_apk">APK</string>
+    <string name="Selected">选中</string>
+</resources>
