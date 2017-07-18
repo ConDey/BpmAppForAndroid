@@ -28,6 +28,8 @@ import com.tbruyelle.rxpermissions.Permission;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -194,7 +196,7 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
 
             DepartmentDataTObject[] childs = new DepartmentDataTObject[departmentDataTObject.getChilds().size()];
             departmentDataTObject.getChilds().toArray(childs);
-            Arrays.sort(childs);
+          //  Arrays.sort(childs, Collections.reverseOrder());
             departmentViewAdapter.resetList(departmentDataTObjects = Arrays.asList(childs));
             departmentViewAdapter.notifyDataSetChanged();
             ListViewHelper.setListViewHeightBasedOnChildren(deparmentRecyclerView);

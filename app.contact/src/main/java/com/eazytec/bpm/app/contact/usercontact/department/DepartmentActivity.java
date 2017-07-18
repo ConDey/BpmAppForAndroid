@@ -20,6 +20,7 @@ import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -143,7 +144,7 @@ public class DepartmentActivity extends ContractViewActivity<DepartmentPresenter
 
             DepartmentDataTObject[] childs = new DepartmentDataTObject[departmentDataTObject.getChilds().size()];
             departmentDataTObject.getChilds().toArray(childs);
-            Arrays.sort(childs);
+          //  Arrays.sort(childs, Collections.<DepartmentDataTObject>reverseOrder());
             departmentViewAdapter.resetList(departmentDataTObjects = Arrays.asList(childs));
             departmentViewAdapter.notifyDataSetChanged();
             ListViewHelper.setListViewHeightBasedOnChildren(deparmentRecyclerView);

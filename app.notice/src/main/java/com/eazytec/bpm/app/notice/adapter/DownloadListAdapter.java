@@ -73,7 +73,7 @@ public class DownloadListAdapter extends BaseAdapter {
                 ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_doc);
             }else if(type.contains("xls")||type.contains("xlsx")){
                 ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_xls);
-            }else if(type.contains("zip")){
+            }else if(type.contains("zip")||type.contains("rar")){
                 ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_zip);
             }else if(type.contains("txt")){
                 ((ImageView) ViewHolder.get(convertView, R.id.item_notice_download_head)).setImageResource(R.mipmap.ic_download_type_txt);

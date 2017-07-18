@@ -14,16 +14,15 @@ import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.gridview.SingleDividerGridView;
 import com.eazytec.bpm.lib.common.fragment.CommonFragment;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
-import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import es.dmoral.toasty.Toasty;
 import rx.functions.Action1;
+
+import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
 
 /**
  * APP列表页的Fragment
@@ -61,6 +60,9 @@ public class HomeAppFragment extends CommonFragment {
                 }
             }
         });
+
+
+
         return parentView;
     }
 
@@ -105,6 +107,17 @@ public class HomeAppFragment extends CommonFragment {
         jsTestBpmApp.setType(BPMApp.APP_TYPE_WEB);
         jsTestBpmApp.setBundleName(WebViewUtil.getLocalHTMLUrl("jswebview.html"));
         bpmApps.add(jsTestBpmApp);
+
+        // 多媒体选择器模块
+        BPMApp mediumBpmApp = new BPMApp();
+        mediumBpmApp.setId("com.eazytec.bpm.app.photo");
+        mediumBpmApp.setPackageName("com.eazytec.bpm.app.photo");
+        mediumBpmApp.setDisplayName("媒体选择器");
+        mediumBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
+        mediumBpmApp.setImageUrl("ic_homeapp_image");
+        mediumBpmApp.setType(BPMApp.APP_TYPE_INNER);
+        mediumBpmApp.setBundleName("app.photo");
+        bpmApps.add(mediumBpmApp);
 
         homeAppAdapter.setItems(bpmApps);
         homeAppAdapter.notifyDataSetChanged();
