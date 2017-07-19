@@ -12,16 +12,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
+import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
 import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
+import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.WebViewActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
+import com.eazytec.bpm.lib.common.authentication.Token;
+import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
+import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -33,7 +40,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -292,6 +303,22 @@ public class BPMWebViewActivity extends WebViewActivity {
             }
         }
 
+        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_UPLOAD_FILE)) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
+                File file = new File(filePath);
+                if (!file.exists()) {
+                    ToastDelegate.error(this,"文件不存在");
+                    return;
+                }
+                UploadHelper.upload(this, file);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
@@ -334,6 +361,42 @@ public class BPMWebViewActivity extends WebViewActivity {
         it.putExtra(INTENT_URL, htmlUrl);
         it.putExtra(INTENT_TITLE, title);
         skipActivity(this, it);
+    }
+
+    /**
+     * 获得当前用户
+     *
+     * @param callback
+     */
+    public void getUser(String callback) {
+        // 构造回调json数据
+        UserCallbackBean callbackBean;
+        UserDetails user = CurrentUser.getCurrentUser().getUserDetails();
+        if (user != null) {
+            callbackBean = new UserCallbackBean(true,"", user);
+        }else {
+            callbackBean = new UserCallbackBean(false,"当前用户不存在", null);
+        }
+        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+        jsWebView.callHandler(callback, new Object[]{jsonObject.toString()});
+    }
+
+    /**
+     * 获取 Token
+     *
+     * @param callback
+     */
+    public void getToken(String callback) {
+        // 构造回调json数据
+        TokenCallbackBean callbackBean;
+        String token = CurrentUser.getCurrentUser().getToken().toString();
+        if (!StringUtils.isEmpty(token)) {
+            callbackBean = new TokenCallbackBean(true, "", token);
+        }else {
+            callbackBean = new TokenCallbackBean(false, "Token不存在", null);
+        }
+        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+        jsWebView.callHandler(callback, new Object[]{jsonObject.toString()});
     }
 
 
