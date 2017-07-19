@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">App.filepicker</string>
-    <string name="empty_directory_hint">空文件夹</string>
+    <string name="empty_directory_hint">无文件</string>
     <string name="type_archive">压缩文件</string>
     <string name="type_certificate">证书</string>
     <string name="type_directory">目录</string>
@@ -14,5 +14,8 @@
     <string name="type_power_point">PPT</string>
     <string name="type_word">文件</string>
     <string name="type_apk">APK</string>
-    <string name="Selected">选中</string>
+    <string name="Selected">完成</string>
+    <string name="attachments_title_text" formatted="false">附件 (%d/%d)</string>
+    <string name="select_photo_text">选择附件</string>
+    <string name="select_doc_text">选择附件</string>
 </resources>

@@ -1,209 +1,118 @@
 package com.eazytec.bpm.app.filepicker.filepicker;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.v4.app.Fragment;
 
-import com.eazytec.bpm.app.filepicker.filter.CompositeFilter;
-import com.eazytec.bpm.app.filepicker.filter.HiddenFilter;
-import com.eazytec.bpm.app.filepicker.filter.PatternFilter;
+import com.eazytec.bpm.app.filepicker.models.FileType;
 
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
- * FilePickerBuilder
+ * 
  * @author Administrator
- * @version Id: FilePickerBuilder, v 0.1 2017/7/18 18:02 Administrator Exp $$
+ * @version Id: FilePickerBuilder, v 0.1 2017/7/19 10:43 Administrator Exp $$
  */
 public class FilePickerBuilder {
-    private Activity mActivity;
-    private Fragment mFragment;
-    private android.support.v4.app.Fragment mSupportFragment;
+    
+    
+    private final Bundle mPickerOptionsBundle;
 
-    private Class<? extends FilePickerActivity> mFilePickerClass = FilePickerActivity.class;
-
-    private Integer mRequestCode;
-    private Pattern mFileFilter;
-    private Boolean mDirectoriesFilter = false;
-    private String mRootPath;
-    private String mCurrentPath;
-    private Boolean mShowHidden = false;
-    private Boolean mCloseable = true;
-    private CharSequence mTitle;
-
-    public FilePickerBuilder() {
+    public FilePickerBuilder()
+    {
+        mPickerOptionsBundle = new Bundle();
     }
 
+    public static FilePickerBuilder getInstance()
+    {
+        return new FilePickerBuilder();
+    }
 
-    /**
-     */
-    public FilePickerBuilder withActivity(Activity activity) {
-        if (mSupportFragment != null || mFragment != null) {
-            throw new RuntimeException("You must pass either Activity, Fragment or SupportFragment");
-        }
-
-        mActivity = activity;
+    public FilePickerBuilder setMaxCount(int maxCount)
+    {
+        FilePickerManager.getInstance().setMaxCount(maxCount);
         return this;
     }
 
-    /**
-     */
-    public FilePickerBuilder withFragment(Fragment fragment) {
-        if (mSupportFragment != null || mActivity != null) {
-            throw new RuntimeException("You must pass either Activity, Fragment or SupportFragment");
-        }
-
-        mFragment = fragment;
+    public FilePickerBuilder setActivityTheme(int theme)
+    {
+        FilePickerManager.getInstance().setTheme(theme);
         return this;
     }
 
-    /**
-     */
-    public FilePickerBuilder withSupportFragment(android.support.v4.app.Fragment fragment) {
-        if (mActivity != null || mFragment != null) {
-            throw new RuntimeException("You must pass either Activity, Fragment or SupportFragment");
-        }
-
-        mSupportFragment = fragment;
+    public FilePickerBuilder setSelectedFiles(ArrayList<String> selectedPhotos)
+    {
+        mPickerOptionsBundle.putStringArrayList(FilePickerConst.KEY_SELECTED_MEDIA, selectedPhotos);
         return this;
     }
 
-    /**
-     */
-    public FilePickerBuilder withRequestCode(int requestCode) {
-        mRequestCode = requestCode;
+    public FilePickerBuilder showFolderView(boolean status)
+    {
+        FilePickerManager.getInstance().setShowFolderView(status);
+        return this;
+    }
+
+    public FilePickerBuilder enableDocSupport(boolean status)
+    {
+        FilePickerManager.getInstance().setDocSupport(status);
+        return this;
+    }
+
+    public FilePickerBuilder enableOrientation(boolean status)
+    {
+        FilePickerManager.getInstance().setEnableOrientation(status);
+        return this;
+    }
+
+    public FilePickerBuilder addFileSupport(String title, String[] extensions, @DrawableRes int drawable)
+    {
+        FilePickerManager.getInstance().addFileType(new FileType(title,extensions,drawable));
+        return this;
+    }
+
+    public FilePickerBuilder addFileSupport(String title, String[] extensions)
+    {
+        FilePickerManager.getInstance().addFileType(new FileType(title,extensions,0));
         return this;
     }
 
 
-    /**
-     */
-    public FilePickerBuilder withFilter(Pattern pattern) {
-        mFileFilter = pattern;
-        return this;
+    public void pickFile(Activity context)
+    {
+        mPickerOptionsBundle.putInt(FilePickerConst.EXTRA_PICKER_TYPE,FilePickerConst.DOC_PICKER);
+        start(context,FilePickerConst.DOC_PICKER);
     }
 
-    /**
-     *
-     * @see FilePickerBuilder#withFilter
-     */
-    public FilePickerBuilder withFilterDirectories(boolean directoriesFilter) {
-        mDirectoriesFilter = directoriesFilter;
-        return this;
+    public void pickFile(Fragment context)
+    {
+        mPickerOptionsBundle.putInt(FilePickerConst.EXTRA_PICKER_TYPE,FilePickerConst.DOC_PICKER);
+        start(context,FilePickerConst.DOC_PICKER);
     }
 
-    /**
-     */
-    public FilePickerBuilder withRootPath(String rootPath) {
-        mRootPath = rootPath;
-        return this;
+    private void start(Activity context, int pickerType)
+    {
+        FilePickerManager.getInstance().setProviderAuthorities(context.getApplicationContext().getPackageName() + ".filepicker.provider");
+
+        Intent intent = new Intent(context, FilePickerActivity.class);
+        intent.putExtras(mPickerOptionsBundle);
+
+        if(pickerType==FilePickerConst.MEDIA_PICKER)
+            context.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_PHOTO);
+        else
+            context.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
     }
 
-    /**
-     */
-    public FilePickerBuilder withPath(String path) {
-        mCurrentPath = path;
-        return this;
-    }
+    private void start(Fragment fragment, int pickerType)
+    {
+        FilePickerManager.getInstance().setProviderAuthorities(fragment.getContext().getApplicationContext().getPackageName() + ".filepicker.provider");
 
-    /**
-     * 是否要显示隐藏文件夹
-     */
-    public FilePickerBuilder withHiddenFiles(boolean show) {
-        mShowHidden = show;
-        return this;
-    }
-
-    /**
-     * 完成按钮是否要显示
-     */
-    public FilePickerBuilder withCloseMenu(boolean closeable) {
-        mCloseable = closeable;
-        return this;
-    }
-
-    /**
-     * 设置标题
-     */
-    public FilePickerBuilder withTitle(CharSequence title) {
-        mTitle = title;
-        return this;
-    }
-
-    public FilePickerBuilder withCustomActivity(Class<? extends FilePickerActivity> customActivityClass) {
-        mFilePickerClass = customActivityClass;
-        return this;
-    }
-
-    public CompositeFilter getFilter() {
-        ArrayList<FileFilter> filters = new ArrayList<>();
-
-        if (!mShowHidden) {
-            filters.add(new HiddenFilter());
-        }
-
-        if (mFileFilter != null) {
-            filters.add(new PatternFilter(mFileFilter, mDirectoriesFilter));
-        }
-
-        return new CompositeFilter(filters);
-    }
-
-
-    /**
-     * @return Intent that can be used to start Material File Picker
-     */
-    public Intent getIntent() {
-        CompositeFilter filter = getFilter();
-
-        Activity activity = null;
-        if (mActivity != null) {
-            activity = mActivity;
-        } else if (mFragment != null) {
-            activity = mFragment.getActivity();
-        } else if (mSupportFragment != null) {
-            activity = mSupportFragment.getActivity();
-        }
-
-        Intent intent = new Intent(activity, mFilePickerClass);
-        intent.putExtra(FilePickerActivity.ARG_FILTER, filter);
-        intent.putExtra(FilePickerActivity.ARG_CLOSEABLE, mCloseable);
-
-        if (mRootPath != null) {
-            intent.putExtra(FilePickerActivity.ARG_START_PATH, mRootPath);
-        }
-
-        if (mCurrentPath != null) {
-            intent.putExtra(FilePickerActivity.ARG_CURRENT_PATH, mCurrentPath);
-        }
-
-        if (mTitle != null) {
-            intent.putExtra(FilePickerActivity.ARG_TITLE, mTitle);
-        }
-
-        return intent;
-    }
-
-
-    public void start() {
-        if (mActivity == null && mFragment == null && mSupportFragment == null) {
-            throw new RuntimeException("You must pass Activity/Fragment by calling withActivity/withFragment/withSupportFragment method");
-        }
-
-        if (mRequestCode == null) {
-            throw new RuntimeException("You must pass request code by calling withRequestCode method");
-        }
-
-        Intent intent = getIntent();
-
-        if (mActivity != null) {
-            mActivity.startActivityForResult(intent, mRequestCode);
-        } else if (mFragment != null) {
-            mFragment.startActivityForResult(intent, mRequestCode);
-        } else {
-            mSupportFragment.startActivityForResult(intent, mRequestCode);
-        }
+        Intent intent = new Intent(fragment.getActivity(), FilePickerActivity.class);
+        intent.putExtras(mPickerOptionsBundle);
+        if(pickerType==FilePickerConst.MEDIA_PICKER)
+            fragment.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_PHOTO);
+        else
+            fragment.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
     }
 }
