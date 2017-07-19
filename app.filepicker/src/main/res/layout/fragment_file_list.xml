@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--指定格式的文件列表-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/file_list_recyclerview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        />
+
+     <!--当没有扫描到该类型文件时，显示恐怖剧-->
+    <LinearLayout
+        android:id="@+id/file_list_empty_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/grey_0"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_file_gray_116dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_gravity="center"
+            android:textColor="@color/color_black_primary"
+            android:text="@string/empty_directory_hint"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
