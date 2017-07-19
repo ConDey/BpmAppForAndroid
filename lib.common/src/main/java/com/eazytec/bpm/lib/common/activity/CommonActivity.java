@@ -79,4 +79,8 @@ public abstract class CommonActivity extends AppCompatActivity {
         intent.setClass(aty, cls);
         aty.startActivity(intent);
     }
+
+    public void fileHandler(boolean isSuccess){
+
+    }
 }

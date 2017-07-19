@@ -80,6 +80,15 @@
             获得Token
         </button>
 
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getImage()">
+            选择本地图片
+        </button>
+
+        <img id="imgname" height="50" width="50" src=""/>
+
     </div>
 </div>
 </body>
@@ -99,36 +108,44 @@
 
         // 设置标题栏显示
         function setTitlebarVisible() {
-               bpmbridget.call("setTitlebarVisible",{visible: "yes"});
+               bpmbridget.call("setTitlebarVisible",{visible: "yes"}, function(result){
+                    alert(result);
+               });
         }
 
         // 设置标题栏隐藏
         function setTitlebarInvisible() {
-               bpmbridget.call("setTitlebarVisible",{visible: "no"});
+               bpmbridget.call("setTitlebarVisible",{visible: "no"}, function(result){
+                    alert(result);
+               });
         }
 
         // 设置标题栏右边按钮
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {url: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png", callback: "rightBtnCallback"});
-        }
-        // 回调函数
-        function rightBtnCallback(result) {
-            alert("view is clicked!");
+            bpmbridget.call("setTitlebarRightBtn", {url: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png"}, function(result) {
+                alert(result);
+            });
         }
 
         // 设置标题栏背景颜色
         function setTitlebarBgColor() {
-               bpmbridget.call("setTitlebarBgColor",{bgColor: "#3892FF"});
+               bpmbridget.call("setTitlebarBgColor",{bgColor: "#3892FF"}, function(result){
+                    alert(result);
+               });
         }
 
         // 设置标题栏背景图片
         function setTitlebarBgImage() {
-               bpmbridget.call("setTitlebarBgImage",{bgImgUrl: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png"});
+               bpmbridget.call("setTitlebarBgImage",{bgImgUrl: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png"}, function(result){
+                    alert(result);
+               });
         }
 
         // 设置标题
         function setTitleBarTextView() {
-               bpmbridget.call("setTitlebarTextView",{title: "XXXX", fontSize: "19", fontColor: "#3892FF"});
+               bpmbridget.call("setTitlebarTextView",{title: "XXXX", fontSize: "19", fontColor: "#3892FF"}, function(result){
+                    alert(result);
+               });
         }
 
         // 新建窗口
@@ -143,30 +160,33 @@
 
         // 文件下载
         function downloadFile() {
-               bpmbridget.call("downloadFile",{attachmentId: "402836585d4e8b78015d54578f12000b", attachmentName: "3.doc"});
+               bpmbridget.call("downloadFile",{attachmentId: "402836585d4e8b78015d54578f12000b", attachmentName: "3.doc"}, function(result){
+                    alert(result);
+               });
         }
 
         // 文件上传
         function uploadFile() {
-               bpmbridget.call("uploadFile",{filePath: "/storage/emulated/0/1.pdf"});
+               bpmbridget.call("uploadFile",{filePath: "/storage/emulated/0/1.pdf"}, function(result){
+                    alert(result);
+               });
         }
 
-        // 获得当前用户信息
+        //[sync] 获得当前用户信息
         function getUser() {
-               bpmbridget.call("getUser",{callback: "getUserCallback"});
-        }
-        // 回调函数
-        function getUserCallback(result) {
-            alert(result);
+               alert(bpmbridget.call("getUser"));
         }
 
-        // 获得Token
+        //[sync] 获得Token
         function getToken() {
-               bpmbridget.call("getToken", {callback: "getTokenCallback"});
+               alert(bpmbridget.call("getToken"));
         }
-        // 回调函数
-        function getTokenCallback(result) {
-            alert(result)
+
+        // 选择本地图片
+        function getImage() {
+               bpmbridget.call("getImage", {selectNum: 3}, function(result) {
+                    document.getElementById("imgname").setAttribute("src", result);
+               });
         }
 
 </script>

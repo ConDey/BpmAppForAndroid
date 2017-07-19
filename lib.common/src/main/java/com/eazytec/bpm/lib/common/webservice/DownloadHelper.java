@@ -77,6 +77,8 @@ public class DownloadHelper{
                                    bis.close();
                                    is.close();
 
+                                   activity.fileHandler(true);
+
                                    if(Build.VERSION.SDK_INT>=24) {
                                    // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
                                        Uri uri = FileProvider.getUriForFile(activity.getContext(), "android.support.v4.content.FileProvider", file);
@@ -103,6 +105,7 @@ public class DownloadHelper{
                            }
 
                            @Override public void onError(Throwable e) {
+                               activity.fileHandler(false);
                                ToastDelegate.error(activity.getContext(),"文件下载失败，请稍后再试");
                                dialog.dismiss();
                            }

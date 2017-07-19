@@ -6,6 +6,7 @@ import android.webkit.JavascriptInterface;
 
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,8 +57,8 @@ public class BPMJsApi {
     public static final String API_PARAM_TITLEBAR_VISIBLE = "visible";
 
     @JavascriptInterface
-    public void setTitlebarVisible(JSONObject jsonObject) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_VISIBLE, jsonObject.toString()));
+    public void setTitlebarVisible(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_VISIBLE, jsonObject.toString(), handler));
     }
 
     /**
@@ -66,12 +67,10 @@ public class BPMJsApi {
      */
 
     @JavascriptInterface
-    public void setTitlebarRightBtn(JSONObject jsonObject) {
+    public void setTitlebarRightBtn(JSONObject jsonObject, CompletionHandler handler) {
         String imgUrl = "";
-        String callback = "";
         try {
             imgUrl = jsonObject.getString(URL);
-            callback = jsonObject.getString(CALL_BACK);
         }catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,7 +78,7 @@ public class BPMJsApi {
             try {
                 try {
                     Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
-                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, callback, image));
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Log.e("TAG", "resolve image url failed.");
@@ -96,8 +95,8 @@ public class BPMJsApi {
     public static final String API_PARAM_TITLEBAR_BGCOLOR = "bgColor";
 
     @JavascriptInterface
-    public void setTitlebarBgColor(JSONObject jsonObject) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR, jsonObject.toString()));
+    public void setTitlebarBgColor(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR, jsonObject.toString(), handler));
     }
 
     /**
@@ -106,7 +105,7 @@ public class BPMJsApi {
     public static final String API_PARAM_TITLEBAR_BGIMAGE = "bgImgUrl";
 
     @JavascriptInterface
-    public void setTitlebarBgImage(JSONObject jsonObject) {
+    public void setTitlebarBgImage(JSONObject jsonObject, CompletionHandler handler) {
         String imgUrl = "";
         try {
             imgUrl = jsonObject.getString(API_PARAM_TITLEBAR_BGIMAGE);
@@ -117,7 +116,7 @@ public class BPMJsApi {
             try {
                 try {
                     Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
-                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_BGIMAGE, image));
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_BGIMAGE, handler, image));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Log.e("TAG", "resolve image url failed.");
@@ -135,8 +134,8 @@ public class BPMJsApi {
     public static final String API_PARAM_FONT_SIZE = "fontSize";
     public static final String API_PARAM_FONT_COLOR = "fontColor";
     @JavascriptInterface
-    public void setTitlebarTextView(JSONObject jsonObject) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString()));
+    public void setTitlebarTextView(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString(), handler));
     }
 
     /**
@@ -179,8 +178,8 @@ public class BPMJsApi {
     public static final String API_PARAM_ATTACHMENT_NAME = "attachmentName";
 
     @JavascriptInterface
-    public void downloadFile(JSONObject jsonObject) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_DOWNLOAD_FILE, jsonObject.toString()));
+    public void downloadFile(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_DOWNLOAD_FILE, jsonObject.toString(), handler));
     }
 
     /**
@@ -191,32 +190,42 @@ public class BPMJsApi {
     public static final String API_PARAM_FILE_PATH = "filePath";
 
     @JavascriptInterface
-    public void uploadFile(JSONObject jsonObject) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UPLOAD_FILE, jsonObject.toString()));
+    public void uploadFile(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UPLOAD_FILE, jsonObject.toString(), handler));
     }
 
     /**
      * 获得当前用户信息
      */
     @JavascriptInterface
-    public void getUser(JSONObject jsonObject) {
-        try {
-            String callback = jsonObject.getString(CALL_BACK);
-            activity.getUser(callback);
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public String getUser(JSONObject jsonObject) {
+            return activity.getUser();
     }
 
     /**
      * 获得Token
      */
     @JavascriptInterface
-    public void getToken(JSONObject jsonObject) {
+    public String getToken(JSONObject jsonObject) {
+            return activity.getToken();
+    }
+
+    /**
+     * 选择本地图片
+     */
+    protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
+
+    @JavascriptInterface
+    public void getImage(JSONObject jsonObject, CompletionHandler handler) {
         try {
-            String callback = jsonObject.getString(CALL_BACK);
-            activity.getToken(callback);
-        }catch (JSONException e) {
+            int selectNum = jsonObject.getInt(API_PARAM_IMAGE_SELECTOR_NUM);
+
+            if (selectNum > 9) {
+                selectNum = 9; // 最多选择9张
+            }
+
+
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
