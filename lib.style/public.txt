@@ -274,3 +274,4 @@ int color yellow_a100 0x79050104
 int color yellow_a200 0x79050105
 int color yellow_a400 0x79050106
 int color yellow_a700 0x79050107
+int mipmap ic_common_left_back 0x79060000

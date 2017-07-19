@@ -11,6 +11,8 @@ import android.view.KeyEvent;
 import com.eazytec.bpm.lib.utils.ActivityUtils;
 import com.eazytec.bpm.lib.utils.KeyboardUtils;
 
+import org.json.JSONObject;
+
 /**
  * 封装的基础Activity，主要负责约束Activity的通用行为，封装了一些默认的规则和方法，比如插件之间以及插件内部的跳转规则
  * 基础Activity跟之间不一样的是，不再约束Activity创建和执行规则链，使插件使用起来更开放。
@@ -80,7 +82,7 @@ public abstract class CommonActivity extends AppCompatActivity {
         aty.startActivity(intent);
     }
 
-    public void fileHandler(boolean isSuccess){
+    public void fileHandler(boolean isSuccess, JSONObject jsonObject){
 
     }
 }

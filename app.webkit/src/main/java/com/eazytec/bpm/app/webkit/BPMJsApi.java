@@ -176,6 +176,7 @@ public class BPMJsApi {
      */
     public static final String API_PARAM_ATTACHMENT_ID = "attachmentId";
     public static final String API_PARAM_ATTACHMENT_NAME = "attachmentName";
+    public static final String API_PARAM_AUTO_OPEN = "autoOpen";
 
     @JavascriptInterface
     public void downloadFile(JSONObject jsonObject, CompletionHandler handler) {
@@ -214,16 +215,19 @@ public class BPMJsApi {
      * 选择本地图片
      */
     protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
+    protected static final String API_PARAM_IMAGE_CHOOSE_MODE = "chooseMode";
 
     @JavascriptInterface
     public void getImage(JSONObject jsonObject, CompletionHandler handler) {
         try {
             int selectNum = jsonObject.getInt(API_PARAM_IMAGE_SELECTOR_NUM);
+            int chooseMode = jsonObject.getInt(API_PARAM_IMAGE_CHOOSE_MODE);
 
             if (selectNum > 9) {
                 selectNum = 9; // 最多选择9张
             }
 
+            activity.getImage(chooseMode, selectNum);
 
         } catch (JSONException e) {
             e.printStackTrace();

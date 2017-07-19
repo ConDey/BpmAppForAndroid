@@ -108,14 +108,14 @@
 
         // 设置标题栏显示
         function setTitlebarVisible() {
-               bpmbridget.call("setTitlebarVisible",{visible: "yes"}, function(result){
+               bpmbridget.call("setTitlebarVisible",{visible: true}, function(result){
                     alert(result);
                });
         }
 
         // 设置标题栏隐藏
         function setTitlebarInvisible() {
-               bpmbridget.call("setTitlebarVisible",{visible: "no"}, function(result){
+               bpmbridget.call("setTitlebarVisible",{visible: false}, function(result){
                     alert(result);
                });
         }
@@ -160,7 +160,7 @@
 
         // 文件下载
         function downloadFile() {
-               bpmbridget.call("downloadFile",{attachmentId: "402836585d4e8b78015d54578f12000b", attachmentName: "3.doc"}, function(result){
+               bpmbridget.call("downloadFile",{attachmentId: "402836585d4e8b78015d54578f12000b", attachmentName: "3.doc", autoOpen: true}, function(result){
                     alert(result);
                });
         }
@@ -184,7 +184,7 @@
 
         // 选择本地图片
         function getImage() {
-               bpmbridget.call("getImage", {selectNum: 3}, function(result) {
+               bpmbridget.call("getImage", {selectNum: 3, chooseMode: 0}, function(result) {
                     document.getElementById("imgname").setAttribute("src", result);
                });
         }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class UserCallbackBean extends BaseCallbackBean {
 
-    public final String DATAS = "datas";
+    public final String DATAS = "user";
 
     private UserDetails user;
 
@@ -35,16 +35,16 @@ public class UserCallbackBean extends BaseCallbackBean {
         this.user = user;
     }
 
-    public HashMap<String, String> toJson() {
+    public HashMap<String, Object> toJson() {
         String userStr = "";
-        HashMap<String, String> hashMap = new HashMap<>();
+        HashMap<String, Object> hashMap = new HashMap<>();
         if (user != null) {
             Gson gson = new Gson();
             userStr = gson.toJson(user);
             hashMap.put(DATAS, userStr);
         }
         hashMap.put(ERRORMSG, getErrorMsg());
-        String isSuccess = getSuccess()?"true":"false";
+        boolean isSuccess = getSuccess()?true:false;
         hashMap.put(SUCCESS, isSuccess );
 
         return hashMap;

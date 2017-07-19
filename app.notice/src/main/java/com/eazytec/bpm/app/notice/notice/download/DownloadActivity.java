@@ -74,7 +74,7 @@ public class DownloadActivity extends ContractViewActivity<DownloadPresenter> im
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              DownloadHelper.download(DownloadActivity.this, attachments.get(position).getId(), attachments.get(position).getName());
+              DownloadHelper.download(DownloadActivity.this, attachments.get(position).getId(), attachments.get(position).getName(), true);
             }
         });
 

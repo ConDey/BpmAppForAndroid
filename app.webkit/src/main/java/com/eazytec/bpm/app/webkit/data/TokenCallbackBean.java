@@ -29,9 +29,9 @@ public class TokenCallbackBean extends BaseCallbackBean {
         this.token = token;
     }
 
-    public HashMap<String, String> toJson() {
-        HashMap<String, String> hashMap = new HashMap<>();
-        String isSuccess = getSuccess()?"true":"false";
+    public HashMap<String, Object> toJson() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        boolean isSuccess = getSuccess()?true:false;
         hashMap.put(SUCCESS, isSuccess );
         hashMap.put(ERRORMSG, getErrorMsg());
         hashMap.put(TOKEN, token);

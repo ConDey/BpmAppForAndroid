@@ -1,5 +1,7 @@
 package com.eazytec.bpm.app.webkit.data;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -48,11 +50,12 @@ public class BaseCallbackBean {
         this.errorMsg = errorMsg;
     }
 
-    public HashMap<String, String> toJson() {
-        HashMap<String, String> hashMap = new HashMap<>();
+    public HashMap<String, Object> toJson() {
+        HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(ERRORMSG, this.errorMsg);
-        String isSuccess = this.success?"true":"false";
-        hashMap.put(SUCCESS, isSuccess );
+        boolean isSuccess = this.success?true:false;
+        hashMap.put(SUCCESS, isSuccess);
+
         return hashMap;
     }
 }

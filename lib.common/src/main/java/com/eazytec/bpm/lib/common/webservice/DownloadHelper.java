@@ -17,6 +17,9 @@ import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +38,7 @@ import rx.schedulers.Schedulers;
 public class DownloadHelper{
 
 
-   public static void download(final CommonActivity activity, final String id, final String name) {
+   public static void download(final CommonActivity activity, final String id, final String name, final boolean isAutoOpen ) {
 
         final CommonProgressDialog dialog = new CommonProgressDialog(activity);
         dialog.setTitle("下载");
@@ -77,24 +80,25 @@ public class DownloadHelper{
                                    bis.close();
                                    is.close();
 
-                                   activity.fileHandler(true);
+                                   activity.fileHandler(true, null);
 
-                                   if(Build.VERSION.SDK_INT>=24) {
-                                   // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                                       Uri uri = FileProvider.getUriForFile(activity.getContext(), "android.support.v4.content.FileProvider", file);
-                                       Intent intent = new Intent("android.intent.action.VIEW");
-                                       intent.addCategory("android.intent.category.DEFAULT");
-                                       intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                       intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                       activity.startActivity(intent);
-                                   }else
-                                   {
-                                   Intent intent = new Intent("android.intent.action.VIEW");
-                                   intent.addCategory("android.intent.category.DEFAULT");
-                                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                   Uri uri = Uri.fromFile(file);
-                                   intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                   activity.startActivity(intent);
+                                   if (isAutoOpen) {
+                                       if (Build.VERSION.SDK_INT >= 24) {
+                                           // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
+                                           Uri uri = FileProvider.getUriForFile(activity.getContext(), "android.support.v4.content.FileProvider", file);
+                                           Intent intent = new Intent("android.intent.action.VIEW");
+                                           intent.addCategory("android.intent.category.DEFAULT");
+                                           intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                           intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                           activity.startActivity(intent);
+                                       } else {
+                                           Intent intent = new Intent("android.intent.action.VIEW");
+                                           intent.addCategory("android.intent.category.DEFAULT");
+                                           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                           Uri uri = Uri.fromFile(file);
+                                           intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                           activity.startActivity(intent);
+                                       }
                                    }
                                } catch (IOException e) {
                                    e.printStackTrace();
@@ -105,7 +109,7 @@ public class DownloadHelper{
                            }
 
                            @Override public void onError(Throwable e) {
-                               activity.fileHandler(false);
+                               activity.fileHandler(false, null);
                                ToastDelegate.error(activity.getContext(),"文件下载失败，请稍后再试");
                                dialog.dismiss();
                            }

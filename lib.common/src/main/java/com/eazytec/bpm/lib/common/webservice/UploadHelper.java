@@ -8,6 +8,9 @@ import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 
 import okhttp3.MediaType;
@@ -59,7 +62,7 @@ public class UploadHelper {
 
                             @Override
                             public void onError(Throwable e) {
-                                activity.fileHandler(false);
+                                activity.fileHandler(false, null);
                                 ToastDelegate.error(activity.getContext(),"上传文件失败，请稍后再试");
                                 dialog.dismiss();
                             }
@@ -67,7 +70,12 @@ public class UploadHelper {
                             @Override
                             public void onNext(ResponseBody responseBody) {
                                 String response = responseBody.toString();
-                                activity.fileHandler(true);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    activity.fileHandler(true, jsonObject);
+                                }catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
             }
