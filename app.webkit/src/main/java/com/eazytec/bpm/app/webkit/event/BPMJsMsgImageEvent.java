@@ -2,6 +2,8 @@ package com.eazytec.bpm.app.webkit.event;
 
 import android.graphics.drawable.Drawable;
 
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
+
 /**
  * @version Id: BPMJsMsgImageEvent, v 0.1 2017-7-14 8:01 16735 Exp $$
  * @author 16735
@@ -15,9 +17,9 @@ public class BPMJsMsgImageEvent extends BPMJsMsgEvent {
         this.image = img;
     }
 
-    public BPMJsMsgImageEvent(@BPM_JS_ID String id, String message, Drawable img) {
+    public BPMJsMsgImageEvent(@BPM_JS_ID String id, CompletionHandler handler, Drawable img) {
         setId(id);
-        setMessage(message);
+        setHandler(handler);
         this.image = img;
     }
 
@@ -28,4 +30,6 @@ public class BPMJsMsgImageEvent extends BPMJsMsgEvent {
     public void setImage(Drawable image) {
         this.image = image;
     }
+
+
 }

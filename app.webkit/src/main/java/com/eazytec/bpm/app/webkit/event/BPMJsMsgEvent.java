@@ -2,6 +2,8 @@ package com.eazytec.bpm.app.webkit.event;
 
 import android.support.annotation.StringDef;
 
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
+
 /**
  * jswebview与activity通信事件，主要作用还是解耦
  *
@@ -36,6 +38,8 @@ public class BPMJsMsgEvent {
 
     private String message;
 
+    private CompletionHandler handler;
+
     public BPMJsMsgEvent() {
 
     }
@@ -49,6 +53,12 @@ public class BPMJsMsgEvent {
     public BPMJsMsgEvent(@BPM_JS_ID String id, String message) {
         this.id = id;
         this.message = message;
+    }
+
+    public BPMJsMsgEvent(@BPM_JS_ID String id, String message, CompletionHandler handler) {
+        this.id = id;
+        this.message = message;
+        this.handler = handler;
     }
 
     @BPM_JS_ID
@@ -66,5 +76,13 @@ public class BPMJsMsgEvent {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public CompletionHandler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(CompletionHandler handler) {
+        this.handler = handler;
     }
 }

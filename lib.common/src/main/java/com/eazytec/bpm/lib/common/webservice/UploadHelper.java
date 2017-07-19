@@ -59,6 +59,7 @@ public class UploadHelper {
 
                             @Override
                             public void onError(Throwable e) {
+                                activity.fileHandler(false);
                                 ToastDelegate.error(activity.getContext(),"上传文件失败，请稍后再试");
                                 dialog.dismiss();
                             }
@@ -66,6 +67,7 @@ public class UploadHelper {
                             @Override
                             public void onNext(ResponseBody responseBody) {
                                 String response = responseBody.toString();
+                                activity.fileHandler(true);
                             }
                         });
             }

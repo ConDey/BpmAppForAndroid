@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +26,16 @@ import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.authentication.Token;
 import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.compress.Luban;
+import com.luck.picture.lib.config.PictureConfig;
 
 import net.wequick.small.Small;
 
@@ -71,6 +76,10 @@ public class BPMWebViewActivity extends WebViewActivity {
     private TextView toolbarTitleTextView;
     private ImageView toolbarRightIv;
     private String url;
+
+    // 单独为文件上传下载服务
+    private CompletionHandler mHandler;
+    private String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,32 +191,36 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      *设置titlebar的隐藏与显示
      */
-    private void setTitleBarVisible(Boolean isVisible) {
+    private void setTitleBarVisible(Boolean isVisible, CompletionHandler handler, String result) {
         if (isVisible) {
             toolbar.setVisibility(View.VISIBLE);
         }else {
             toolbar.setVisibility(View.GONE);
         }
+
+        handler.complete(result);
     }
 
     /**
      *设置titlebar的背景颜色
      */
-    private void setTitleBarBgColor(String color) {
+    private void setTitleBarBgColor(String color, CompletionHandler handler, String result) {
         if (!StringUtils.isEmpty(color)) {
             toolbar.setBackgroundColor(Color.parseColor(color));
+            handler.complete(result);
         }
     }
 
     /**
      *设置titlebar的背景图片
      */
-    private void setTitleBarBgImage(Drawable image) {
+    private void setTitleBarBgImage(Drawable image, CompletionHandler handler, String result) {
         if (Build.VERSION.SDK_INT > 15) {
             toolbar.setBackground(image);
         }else {
             toolbar.setBackgroundDrawable(image);
         }
+        handler.complete(result);
     }
 
     /**
@@ -224,11 +237,11 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      *设置titlebar右边按钮的Callback
      */
-    private void setTitleBarRightBtnCallback(final String callback, final JSONObject jsonObject) {
+    private void setTitleBarRightBtnCallback(final CompletionHandler handler, final String result) {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jsWebView.callHandler(callback, new Object[]{jsonObject.toString()});
+                handler.complete(result);
             }
         });
     }
@@ -238,7 +251,7 @@ public class BPMWebViewActivity extends WebViewActivity {
      *
      * @param title
      */
-    private void setToolbarTitle(String title, String fontSize, String fontColor) {
+    private void setToolbarTitle(String title, String fontSize, String fontColor, CompletionHandler handler, String result) {
         if (!StringUtils.isEmpty(title)) {
             toolbarTitleTextView.setText(title);
         }
@@ -248,6 +261,7 @@ public class BPMWebViewActivity extends WebViewActivity {
         if (!StringUtils.isEmpty(fontColor)) {
             toolbarTitleTextView.setTextColor(Color.parseColor(fontColor));
         }
+        handler.complete(result);
 
     }
 
@@ -258,65 +272,95 @@ public class BPMWebViewActivity extends WebViewActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainMessageEvent(BPMJsMsgEvent messageEvent) {
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLE)) {
-            try {
-                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                setToolbarTitle(jsonObject.getString(BPMJsApi.API_PARAM_TITLE),
-                                jsonObject.getString(BPMJsApi.API_PARAM_FONT_SIZE),
-                                jsonObject.getString(BPMJsApi.API_PARAM_FONT_COLOR));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLEBAR_VISIBLE)) {
-            try {
-                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                if (jsonObject.getString(BPMJsApi.API_PARAM_TITLEBAR_VISIBLE).equals("yes")) {
-                    setTitleBarVisible(true);
-                }else {
-                    setTitleBarVisible(false);
+        switch(messageEvent.getId()){
+            case BPMJsMsgEvent.JS_SET_TITLE:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+
+                    setToolbarTitle(jsonObject.getString(BPMJsApi.API_PARAM_TITLE),
+                                    jsonObject.getString(BPMJsApi.API_PARAM_FONT_SIZE),
+                                    jsonObject.getString(BPMJsApi.API_PARAM_FONT_COLOR),
+                                    handler,
+                                    object.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR)) {
-            try {
-                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                String color = jsonObject.getString(BPMJsApi.API_PARAM_TITLEBAR_BGCOLOR);
-                setTitleBarBgColor(color);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_VISIBLE:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+
+                    if (jsonObject.getString(BPMJsApi.API_PARAM_TITLEBAR_VISIBLE).equals("yes")) {
+                        setTitleBarVisible(true, handler, object.toString());
+                    }else {
+                        setTitleBarVisible(false, handler, object.toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+
+                    String color = jsonObject.getString(BPMJsApi.API_PARAM_TITLEBAR_BGCOLOR);
+                    setTitleBarBgColor(color, handler, object.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
         /**
          *  因为DownloadHelper中用到了一些需要在主线程执行的UI操作。所以这里post到主线程
          */
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_DOWNLOAD_FILE)) {
-            try {
-                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
-                String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
-                DownloadHelper.download(this, id, name);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+            case BPMJsMsgEvent.JS_DOWNLOAD_FILE:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    mHandler = handler;
+                    result = object.toString();
 
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_UPLOAD_FILE)) {
-
-            try {
-                JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
-                File file = new File(filePath);
-                if (!file.exists()) {
-                    ToastDelegate.error(this,"文件不存在");
-                    return;
+                    String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
+                    String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
+                    DownloadHelper.download(this, id, name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                UploadHelper.upload(this, file);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            case BPMJsMsgEvent.JS_UPLOAD_FILE:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    mHandler = handler;
+                    result = object.toString();
+
+                    String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
+                    File file = new File(filePath);
+                    if (!file.exists()) {
+                        ToastDelegate.error(this,"文件不存在");
+                        return;
+                    }
+                    UploadHelper.upload(this, file);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         }
 
     }
@@ -328,21 +372,26 @@ public class BPMWebViewActivity extends WebViewActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainMessageImageEvent(BPMJsMsgImageEvent messageEvent) {
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLEBAR_BGIMAGE)) {
-            Drawable image = messageEvent.getImage();
-            setTitleBarBgImage(image);
-        }
-        if (StringUtils.equals(messageEvent.getId(), BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE)) {
-            Drawable image = messageEvent.getImage();
-            String callback = messageEvent.getMessage();
-            setTitleBarRightBtnBgImage(image);
+        switch (messageEvent.getId()) {
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_BGIMAGE:
+                Drawable image = messageEvent.getImage();
+                CompletionHandler handler = messageEvent.getHandler();
+                // 构造回调json数据
+                BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                JSONObject object = new JSONObject(callbackBean.toJson());
 
-            // 构造回调json数据
-            BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
-            JSONObject object = new JSONObject(callbackBean.toJson());
+                setTitleBarBgImage(image, handler, object.toString());
 
-            setTitleBarRightBtnCallback(callback, object);
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
+                Drawable img = messageEvent.getImage();
+                CompletionHandler handlerIv = messageEvent.getHandler();
+                setTitleBarRightBtnBgImage(img);
 
+                // 构造回调json数据
+                BaseCallbackBean callbackBeanIv = new BaseCallbackBean(true, StringUtils.blank());
+                JSONObject objectIv = new JSONObject(callbackBeanIv.toJson());
+
+                setTitleBarRightBtnCallback(handlerIv, objectIv.toString());
         }
     }
 
@@ -366,9 +415,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 获得当前用户
      *
-     * @param callback
      */
-    public void getUser(String callback) {
+    public String getUser() {
         // 构造回调json数据
         UserCallbackBean callbackBean;
         UserDetails user = CurrentUser.getCurrentUser().getUserDetails();
@@ -378,15 +426,14 @@ public class BPMWebViewActivity extends WebViewActivity {
             callbackBean = new UserCallbackBean(false,"当前用户不存在", null);
         }
         JSONObject jsonObject = new JSONObject(callbackBean.toJson());
-        jsWebView.callHandler(callback, new Object[]{jsonObject.toString()});
+        return jsonObject.toString();
     }
 
     /**
      * 获取 Token
      *
-     * @param callback
      */
-    public void getToken(String callback) {
+    public String getToken() {
         // 构造回调json数据
         TokenCallbackBean callbackBean;
         String token = CurrentUser.getCurrentUser().getToken().toString();
@@ -396,8 +443,28 @@ public class BPMWebViewActivity extends WebViewActivity {
             callbackBean = new TokenCallbackBean(false, "Token不存在", null);
         }
         JSONObject jsonObject = new JSONObject(callbackBean.toJson());
-        jsWebView.callHandler(callback, new Object[]{jsonObject.toString()});
+        return jsonObject.toString();
     }
 
+    /**
+     * 选取本地图片
+     */
+    public void getImage(){
+
+    }
+
+    /**
+     * 文件上传下载 Callback
+     *
+     */
+    public void fileHandler(boolean isSuccess) {
+        if (isSuccess) {
+            mHandler.complete(result);
+        }else {
+            BaseCallbackBean callbackBean = new BaseCallbackBean(false, StringUtils.blank());
+            JSONObject object = new JSONObject(callbackBean.toJson());
+            mHandler.complete(object.toString());
+        }
+    }
 
 }
