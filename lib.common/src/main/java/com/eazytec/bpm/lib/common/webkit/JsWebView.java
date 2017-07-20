@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Keep;
@@ -43,19 +42,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 支持Native和js互相通信的webview
- *
- * @author ConDey
- * @version Id: JsWebView, v 0.1 2017/5/22 下午4:08 ConDey Exp $$
- */
-public class JsWebView extends WebView {
 
+/**
+ * Created by du on 16/12/29.
+ */
+
+public class JsWebView extends WebView {
     private static final String BRIDGE_NAME = "_dsbridge";
     private Object jsb;
     private String APP_CACAHE_DIRNAME;
     int callID = 0;
-    Map<Integer, CompletionHandler> handlerMap = new HashMap<>();
+    Map<Integer, OnReturnValue> handlerMap = new HashMap<>();
 
     public JsWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -68,7 +65,6 @@ public class JsWebView extends WebView {
     }
 
     @Keep
-    @TargetApi(17)
     void init() {
         APP_CACAHE_DIRNAME = getContext().getFilesDir().getAbsolutePath() + "/webcache";
         WebSettings settings = getSettings();
@@ -90,7 +86,7 @@ public class JsWebView extends WebView {
         settings.setUseWideViewPort(true);
         super.setWebChromeClient(mWebChromeClient);
         super.addJavascriptInterface(new Object() {
-            @Keep
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) @Keep
             @JavascriptInterface
             public String call(String methodName, String args) {
                 String error = "Js bridge method called, but there is " +
@@ -102,7 +98,7 @@ public class JsWebView extends WebView {
 
                 Class<?> cls = jsb.getClass();
                 try {
-                    Method method = null;
+                    Method method;
                     boolean asyn = false;
                     JSONObject arg = new JSONObject(args);
                     String callback = "";
@@ -113,16 +109,7 @@ public class JsWebView extends WebView {
                                 new Class[]{JSONObject.class, CompletionHandler.class});
                         asyn = true;
                     } catch (Exception e) {
-                        for (cls = jsb.getClass(); cls != Object.class; cls = cls.getSuperclass()) {
-                            try {
-                                method = cls.getDeclaredMethod(methodName, new Class[]{JSONObject.class});
-                                if (method != null) {
-                                    break;
-                                }
-                            } catch (Exception ee) {
-
-                            }
-                        }
+                        method = cls.getDeclaredMethod(methodName, new Class[]{JSONObject.class});
                     }
 
                     if (method == null) {
@@ -138,12 +125,30 @@ public class JsWebView extends WebView {
                         if (asyn) {
                             final String cb = callback;
                             ret = method.invoke(jsb, arg, new CompletionHandler() {
+
                                 @Override
                                 public void complete(String retValue) {
+                                    complete(retValue,true);
+                                }
+
+                                @Override
+                                public void complete() {
+                                    complete("",true);
+                                }
+
+                                @Override
+                                public void setProgressData(String value) {
+                                    complete(value,false);
+                                }
+
+                                private void complete(String retValue,boolean complete) {
                                     try {
                                         if (retValue == null) retValue = "";
                                         retValue = URLEncoder.encode(retValue, "UTF-8").replaceAll("\\+", "%20");
-                                        String script = String.format("%s(decodeURIComponent(\"%s\"));delete window.%s", cb, retValue, cb);
+                                        String script = String.format("%s(decodeURIComponent(\"%s\"));", cb, retValue);
+                                        if(complete) {
+                                            script += "delete window."+cb;
+                                        }
                                         evaluateJavascript(script);
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();
@@ -169,15 +174,14 @@ public class JsWebView extends WebView {
                 }
                 return "";
             }
-
-            int i = 0;
+            int i=0;
 
             @Keep
             @JavascriptInterface
             public void returnValue(int id, String value) {
-                CompletionHandler handler = handlerMap.get(id);
+                OnReturnValue handler = handlerMap.get(id);
                 if (handler != null) {
-                    handler.complete(value);
+                    handler.onValue(value);
                     handlerMap.remove(id);
                 }
             }
@@ -213,33 +217,6 @@ public class JsWebView extends WebView {
             } else {
                 super.onReceivedTitle(view, title);
             }
-        }
-
-        @Override
-        public boolean onJsAlert(WebView view, String url, final String message, JsResult result) {
-            if (webChromeClient != null) {
-                if (webChromeClient.onJsAlert(view, url, message, result)) {
-                    return true;
-                }
-            }
-            result.confirm();
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    Dialog alertDialog = new AlertDialog.Builder(getContext()).
-                            setTitle("提示").
-                            setMessage(message).
-                            setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create();
-                    alertDialog.show();
-                }
-            });
-            return true;
         }
 
         @Override
@@ -314,8 +291,28 @@ public class JsWebView extends WebView {
             } else {
                 super.onCloseWindow(window);
             }
+        }    @Override
+        public boolean onJsAlert(WebView view, String url, final String message, final JsResult result) {
+            if (webChromeClient != null) {
+                if (webChromeClient.onJsAlert(view, url, message, result)) {
+                    return true;
+                }
+            }
+            Dialog alertDialog = new AlertDialog.Builder(getContext()).
+                    setTitle("提示").
+                    setMessage(message).
+                    setCancelable(false).
+                    setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            result.confirm();
+                        }
+                    })
+                    .create();
+            alertDialog.show();
+            return true;
         }
-
 
         @Override
         public boolean onJsConfirm(WebView view, String url, String message,
@@ -323,12 +320,6 @@ public class JsWebView extends WebView {
             if (webChromeClient != null && webChromeClient.onJsConfirm(view, url, message, result)) {
                 return true;
             } else {
-                final Handler mHandler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        throw new RuntimeException();
-                    }
-                };
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -337,7 +328,6 @@ public class JsWebView extends WebView {
                         } else {
                             result.cancel();
                         }
-                        mHandler.sendEmptyMessage(1);
                     }
                 };
                 new AlertDialog.Builder(getContext()).setTitle("提示")
@@ -345,11 +335,6 @@ public class JsWebView extends WebView {
                         .setCancelable(false)
                         .setPositiveButton("确定", listener)
                         .setNegativeButton("取消", listener).show();
-
-                try {
-                    Looper.getMainLooper().loop();
-                } catch (RuntimeException e) {
-                }
                 return true;
 
             }
@@ -359,17 +344,15 @@ public class JsWebView extends WebView {
         @Override
         public boolean onJsPrompt(WebView view, String url, final String message,
                                   String defaultValue, final JsPromptResult result) {
+            super.onJsPrompt(view,url,message,defaultValue,result);
             if (webChromeClient != null && webChromeClient.onJsPrompt(view, url, message, defaultValue, result)) {
                 return true;
             } else {
-                final Handler mHandler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        throw new RuntimeException();
-                    }
-                };
                 final EditText editText = new EditText(getContext());
                 editText.setText(defaultValue);
+                if (defaultValue!=null){
+                    editText.setSelection(defaultValue.length());
+                }
                 float dpi = getContext().getResources().getDisplayMetrics().density;
                 DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
                     @Override
@@ -379,7 +362,6 @@ public class JsWebView extends WebView {
                         } else {
                             result.cancel();
                         }
-                        mHandler.sendEmptyMessage(1);
                     }
                 };
                 new AlertDialog.Builder(getContext())
@@ -398,10 +380,6 @@ public class JsWebView extends WebView {
                 editText.setLayoutParams(layoutParams);
                 int padding = (int) (15 * dpi);
                 editText.setPadding(padding - (int) (5 * dpi), padding, padding, padding);
-                try {
-                    Looper.getMainLooper().loop();
-                } catch (RuntimeException e) {
-                }
                 return true;
             }
 
@@ -539,7 +517,7 @@ public class JsWebView extends WebView {
         }
 
         private void injectJs() {
-            evaluateJavascript("function getJsBridge(){return{call:function(e,c,a){var b='';if(typeof c=='function'){a=c;c={}}if(typeof a=='function'){window.dscb=window.dscb||0;var d='dscb'+window.dscb++;window[d]=a;c._dscbstub=d}c=JSON.stringify(c||{});if(window._dswk){b=prompt(window._dswk+e,c)}else{if(typeof _dsbridge=='function'){b=_dsbridge(e,c)}else{b=_dsbridge.call(e,c)}}return b}}};");
+            evaluateJavascript("function getJsBridge(){window._dsf=window._dsf||{};return{call:function(b,a,c){\"function\"==typeof a&&(c=a,a={});if(\"function\"==typeof c){window.dscb=window.dscb||0;var d=\"dscb\"+window.dscb++;window[d]=c;a._dscbstub=d}a=JSON.stringify(a||{});return window._dswk?prompt(window._dswk+b,a):\"function\"==typeof _dsbridge?_dsbridge(b,a):_dsbridge.call(b,a)},register:function(b,a){\"object\"==typeof b?Object.assign(window._dsf,b):window._dsf[b]=a}}}bpmbridget=getJsBridge();");
         }
     };
 
@@ -620,15 +598,15 @@ public class JsWebView extends WebView {
     }
 
     public void callHandler(String method, Object[] args) {
-        callHandler(method, args, null);
+        callHandler(method,args,null);
     }
 
-    public void callHandler(String method, Object[] args, final CompletionHandler handler) {
+    public void callHandler(String method, Object[] args, final OnReturnValue handler) {
         if (args == null) args = new Object[0];
         String arg = new JSONArray(Arrays.asList(args)).toString();
-        String script = String.format("%s.apply(null,%s)", method, arg);
-        if (handler != null) {
-            script = String.format("%s.returnValue(%d,%s)", BRIDGE_NAME, callID, script);
+        String script = String.format("(window._dsf.%s||window.%s).apply(window._dsf||window,%s)", method,method, arg);
+        if(handler!=null){
+            script = String.format("%s.returnValue(%d,%s)",BRIDGE_NAME,callID, script);
             handlerMap.put(callID++, handler);
         }
         evaluateJavascript(script);

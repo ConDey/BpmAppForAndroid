@@ -6,4 +6,6 @@ package com.eazytec.bpm.lib.common.webkit;
 public interface CompletionHandler {
 
     void complete(String retValue);
+    void complete();
+    void setProgressData(String value);
 }
