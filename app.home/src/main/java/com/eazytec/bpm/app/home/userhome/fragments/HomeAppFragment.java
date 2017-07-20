@@ -80,7 +80,7 @@ public class HomeAppFragment extends CommonFragment {
     }
 
     private List<BPMApp> getBpmApps() {
-        List<BPMApp> bpmApps = new ArrayList<>();
+        bpmApps = new ArrayList<>();
 
         try {
             InputStreamReader isr = new InputStreamReader(getCommonActivity().getAssets().open("app.json"), "UTF-8");
