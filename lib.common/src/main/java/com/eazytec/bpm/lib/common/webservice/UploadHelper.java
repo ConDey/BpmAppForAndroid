@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 
@@ -26,7 +27,11 @@ import rx.schedulers.Schedulers;
  */
 public class UploadHelper {
 
-    public static void upload(final CommonActivity activity, final File file) {
+    private static CompletionHandler mHandler;
+
+    public static void upload(final CommonActivity activity, final File file, final CompletionHandler handler) {
+
+        mHandler = handler;
 
         final CommonProgressDialog dialog = new CommonProgressDialog(activity);
         dialog.setTitle("上传");
@@ -62,7 +67,9 @@ public class UploadHelper {
 
                             @Override
                             public void onError(Throwable e) {
-                                activity.fileHandler(false, null);
+                                if (mHandler != null) {
+                                    DownloadHelper.fileHandler(false, null);
+                                }
                                 ToastDelegate.error(activity.getContext(),"上传文件失败，请稍后再试");
                                 dialog.dismiss();
                             }
@@ -72,7 +79,9 @@ public class UploadHelper {
                                 String response = responseBody.toString();
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
-                                    activity.fileHandler(true, jsonObject);
+                                    if (mHandler != null) {
+                                        DownloadHelper.fileHandler(false, jsonObject);
+                                    }
                                 }catch (JSONException e) {
                                     e.printStackTrace();
                                 }

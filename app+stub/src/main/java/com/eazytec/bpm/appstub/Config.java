@@ -30,4 +30,13 @@ public abstract class Config {
      */
     public static boolean IS_DEBUG = true;
 
+    /**
+     * 更新地址 IP + PORT
+     */
+    public static final String UPDATE_URL = "https://58.215.198.210:9997/bpmapp/android.jsp";
+
+    /**
+     * 更新APK地址 IP + PORT
+     */
+    public static final String UPDATE_APK_URL = "https://58.215.198.210:9997/bpmapp/android.apk";
 }

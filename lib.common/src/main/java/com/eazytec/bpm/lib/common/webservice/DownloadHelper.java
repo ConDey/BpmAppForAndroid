@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
+import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
@@ -37,8 +38,11 @@ import rx.schedulers.Schedulers;
  */
 public class DownloadHelper{
 
+   private static CompletionHandler mHandler;
 
-   public static void download(final CommonActivity activity, final String id, final String name, final boolean isAutoOpen ) {
+   public static void download(final CommonActivity activity, final String id, final String name, final boolean isAutoOpen, final CompletionHandler handler ) {
+
+       mHandler = handler;
 
         final CommonProgressDialog dialog = new CommonProgressDialog(activity);
         dialog.setTitle("下载");
@@ -80,7 +84,9 @@ public class DownloadHelper{
                                    bis.close();
                                    is.close();
 
-                                   activity.fileHandler(true, null);
+                                   if (mHandler != null) {
+                                       fileHandler(true, null);
+                                   }
 
                                    if (isAutoOpen) {
                                        if (Build.VERSION.SDK_INT >= 24) {
@@ -109,7 +115,9 @@ public class DownloadHelper{
                            }
 
                            @Override public void onError(Throwable e) {
-                               activity.fileHandler(false, null);
+                               if (mHandler != null) {
+                                   fileHandler(false, null);
+                               }
                                ToastDelegate.error(activity.getContext(),"文件下载失败，请稍后再试");
                                dialog.dismiss();
                            }
@@ -118,6 +126,27 @@ public class DownloadHelper{
        }).start();
    }
 
-
+    public static void fileHandler(boolean isSuccess, JSONObject jsonObject) {
+        if (jsonObject == null) {
+            jsonObject = new JSONObject();
+        }
+        if (isSuccess) {
+                try {
+                    jsonObject.put("success", true);
+                    jsonObject.put("errorMsg", "");
+                    mHandler.complete(jsonObject.toString());
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }else {
+            try {
+                jsonObject.put("success", false);
+                jsonObject.put("errorMsg", "");
+                mHandler.complete(jsonObject.toString());
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

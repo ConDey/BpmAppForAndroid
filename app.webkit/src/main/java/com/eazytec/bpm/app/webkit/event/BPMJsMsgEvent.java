@@ -22,6 +22,10 @@ public class BPMJsMsgEvent {
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
     public static final String JS_DOWNLOAD_FILE = "JS_DOWNLOAD_FILE";
     public static final String JS_UPLOAD_FILE = "JS_UPLOAD_FILE";
+    public static final String JS_GET_USER = "JS_GET_USER";
+    public static final String JS_GET_TOKEN = "JS_GET_USER";
+    public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
+    public static final String JS_GET_VIDEOS = "JS_GET_VIDEOS";
 
     // 自定义一个注解MyState
     @StringDef({JS_SET_TITLE,
@@ -30,7 +34,11 @@ public class BPMJsMsgEvent {
                 JS_SET_TITLEBAR_BGCOLOR,
                 JS_SET_TITLEBAR_BGIMAGE,
                 JS_DOWNLOAD_FILE,
-                JS_UPLOAD_FILE})
+                JS_UPLOAD_FILE,
+                JS_GET_USER,
+                JS_GET_TOKEN,
+                JS_GET_IMAGES,
+                JS_GET_VIDEOS})
     public @interface BPM_JS_ID {
     }
 

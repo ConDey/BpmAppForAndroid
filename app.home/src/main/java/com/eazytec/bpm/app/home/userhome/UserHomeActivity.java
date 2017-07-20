@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.home.R;
+import com.eazytec.bpm.app.home.update.UpdateHelper;
 import com.eazytec.bpm.app.home.userhome.fragments.HomeAppFragment;
 import com.eazytec.bpm.app.home.userhome.fragments.HomeSettingFragment;
 import com.eazytec.bpm.appstub.view.mdbottom.BottomNavigation;
@@ -66,6 +67,9 @@ public class UserHomeActivity extends CommonActivity implements BottomNavigation
         bottomNavigation.setDefaultSelectedIndex(0);
         toolbarTitleTextView.setText(Small.getContext().getString(R.string.app_name));
         switchContentFragment(HOME_MESSAGE_FRAGMENT);
+
+        // 执行更新操作
+        UpdateHelper.doUpdate(false, getContext(), this);
 
     }
 

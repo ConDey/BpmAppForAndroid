@@ -83,11 +83,20 @@
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getImage()">
+        <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getImages()">
             选择本地图片
         </button>
 
         <img id="imgname" height="50" width="50" src=""/>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getVideos()">
+            选择本地视频
+        </button>
+
+        <img id="videoname" height="50" width="50" src=""/>
 
     </div>
 </div>
@@ -174,18 +183,31 @@
 
         //[sync] 获得当前用户信息
         function getUser() {
-               alert(bpmbridget.call("getUser"));
+               bpmbridget.call("getUser", function(result){
+                    alert(result);
+               });
         }
 
         //[sync] 获得Token
         function getToken() {
-               alert(bpmbridget.call("getToken"));
+               bpmbridget.call("getToken", function(result){
+                    alert(result);
+               });
         }
 
         // 选择本地图片
-        function getImage() {
-               bpmbridget.call("getImage", {selectNum: 3, chooseMode: 0}, function(result) {
+        function getImages() {
+               bpmbridget.call("getImages", {selectNum: 3, chooseMode: 1}, function(result) {
+                    alert(result);
                     document.getElementById("imgname").setAttribute("src", result);
+               });
+        }
+
+        // 选择本地视频
+        function getVideos() {
+               bpmbridget.call("getVideos", {selectNum: 3, chooseMode: 2}, function(result) {
+                    alert(result);
+                    document.getElementById("videoname").setAttribute("src", result);
                });
         }
 

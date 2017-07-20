@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/color_primary"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary" >
+
+        <ImageView
+            android:id="@+id/upgrade_icon_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="35dip"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/upgrade_icon_iv"
+            android:text="更新"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/upgrade_downloading_version"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip"
+        android:layout_marginBottom="30dip"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary" >
+
+        <ProgressBar
+            android:id="@+id/upgrade_pb"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"/>
+
+        <TextView
+            android:id="@+id/upgrade_progress_tv"
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/upgrade_pb"
+            android:layout_toRightOf="@id/upgrade_pb"
+            android:text="0%"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

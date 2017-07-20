@@ -82,7 +82,4 @@ public abstract class CommonActivity extends AppCompatActivity {
         aty.startActivity(intent);
     }
 
-    public void fileHandler(boolean isSuccess, JSONObject jsonObject){
-
-    }
 }

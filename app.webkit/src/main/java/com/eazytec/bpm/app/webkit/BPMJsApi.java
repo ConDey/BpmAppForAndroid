@@ -4,8 +4,12 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
+import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
+import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
+import com.eazytec.bpm.lib.common.authentication.CurrentUser;
+import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -199,16 +203,35 @@ public class BPMJsApi {
      * 获得当前用户信息
      */
     @JavascriptInterface
-    public String getUser(JSONObject jsonObject) {
-            return activity.getUser();
+    public void getUser(JSONObject jsonObject, CompletionHandler handler) {
+        // 构造回调json数据
+        UserCallbackBean callbackBean;
+        UserDetails user = CurrentUser.getCurrentUser().getUserDetails();
+        if (user != null) {
+            callbackBean = new UserCallbackBean(true,"", user);
+        }else {
+            callbackBean = new UserCallbackBean(false,"当前用户不存在", null);
+        }
+        JSONObject jsonObj = new JSONObject(callbackBean.toJson());
+        handler.complete(jsonObj.toString());
     }
 
     /**
      * 获得Token
      */
     @JavascriptInterface
-    public String getToken(JSONObject jsonObject) {
-            return activity.getToken();
+    public void getToken(JSONObject jsonObject, CompletionHandler handler) {
+        // 构造回调json数据
+        TokenCallbackBean callbackBean;
+        String token = CurrentUser.getCurrentUser().getToken().toString();
+        if (!StringUtils.isEmpty(token)) {
+            callbackBean = new TokenCallbackBean(true, "", token);
+        }else {
+            callbackBean = new TokenCallbackBean(false, "Token不存在", null);
+        }
+        JSONObject jsonObj = new JSONObject(callbackBean.toJson());
+        handler.complete(jsonObj.toString());
+
     }
 
     /**
@@ -218,20 +241,16 @@ public class BPMJsApi {
     protected static final String API_PARAM_IMAGE_CHOOSE_MODE = "chooseMode";
 
     @JavascriptInterface
-    public void getImage(JSONObject jsonObject, CompletionHandler handler) {
-        try {
-            int selectNum = jsonObject.getInt(API_PARAM_IMAGE_SELECTOR_NUM);
-            int chooseMode = jsonObject.getInt(API_PARAM_IMAGE_CHOOSE_MODE);
+    public void getImages(JSONObject jsonObject, CompletionHandler handler) {
+         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_IMAGES, jsonObject.toString(), handler));
+    }
 
-            if (selectNum > 9) {
-                selectNum = 9; // 最多选择9张
-            }
-
-            activity.getImage(chooseMode, selectNum);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    /**
+     * 选择本地视频
+     */
+    @JavascriptInterface
+    public void getVideos(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_VIDEOS, jsonObject.toString(), handler));
     }
 
 }

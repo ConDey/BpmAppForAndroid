@@ -29,5 +29,9 @@
         <activity android:name=".updatepwd.UpdatePwdActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".update.UpdateActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:screenOrientation="portrait" />
+
     </application>
 </manifest>

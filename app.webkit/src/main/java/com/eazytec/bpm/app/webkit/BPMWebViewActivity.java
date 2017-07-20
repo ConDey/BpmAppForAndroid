@@ -87,6 +87,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
     private String result;
+    // 图片下载
+    private CompletionHandler mediaHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,6 +298,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
 
             case BPMJsMsgEvent.JS_SET_TITLEBAR_VISIBLE:
                 try {
@@ -313,6 +316,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
 
             case BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR:
                 try {
@@ -327,6 +331,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
 
         /**
          *  因为DownloadHelper中用到了一些需要在主线程执行的UI操作。所以这里post到主线程
@@ -344,10 +349,11 @@ public class BPMWebViewActivity extends WebViewActivity {
                     String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
                     String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
                     boolean isAutoOpen = jsonObject.getBoolean(BPMJsApi.API_PARAM_AUTO_OPEN);
-                    DownloadHelper.download(this, id, name, isAutoOpen);
+                    DownloadHelper.download(this, id, name, isAutoOpen, mHandler);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
 
             case BPMJsMsgEvent.JS_UPLOAD_FILE:
                 try {
@@ -365,10 +371,53 @@ public class BPMWebViewActivity extends WebViewActivity {
                         ToastDelegate.error(this,"文件不存在");
                         return;
                     }
-                    UploadHelper.upload(this, file);
+                    UploadHelper.upload(this, file, mHandler);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                break;
+
+            case BPMJsMsgEvent.JS_GET_IMAGES:
+                try{
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_SELECTOR_NUM);
+                    int chooseMode = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_CHOOSE_MODE);
+
+                    if (selectNum > 9) {
+                        selectNum = 9; // 最多选择9张
+                    }
+
+                    getImages(chooseMode, selectNum, handler);
+
+                }catch(JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case BPMJsMsgEvent.JS_GET_VIDEOS:
+                try{
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_SELECTOR_NUM);
+                    int chooseMode = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_CHOOSE_MODE);
+
+                    if (selectNum > 9) {
+                        selectNum = 9; // 最多选择9张
+                    }
+
+                    getImages(chooseMode, selectNum, handler);
+
+                }catch(JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -389,6 +438,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 JSONObject object = new JSONObject(callbackBean.toJson());
 
                 setTitleBarBgImage(image, handler, object.toString());
+                break;
 
             case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
                 Drawable img = messageEvent.getImage();
@@ -400,6 +450,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 JSONObject objectIv = new JSONObject(callbackBeanIv.toJson());
 
                 setTitleBarRightBtnCallback(handlerIv, objectIv.toString());
+                break;
         }
     }
 
@@ -420,70 +471,16 @@ public class BPMWebViewActivity extends WebViewActivity {
         skipActivity(this, it);
     }
 
-    /**
-     * 获得当前用户
-     *
-     */
-    public String getUser() {
-        // 构造回调json数据
-        UserCallbackBean callbackBean;
-        UserDetails user = CurrentUser.getCurrentUser().getUserDetails();
-        if (user != null) {
-            callbackBean = new UserCallbackBean(true,"", user);
-        }else {
-            callbackBean = new UserCallbackBean(false,"当前用户不存在", null);
-        }
-        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
-        return jsonObject.toString();
-    }
-
-    /**
-     * 获取 Token
-     *
-     */
-    public String getToken() {
-        // 构造回调json数据
-        TokenCallbackBean callbackBean;
-        String token = CurrentUser.getCurrentUser().getToken().toString();
-        if (!StringUtils.isEmpty(token)) {
-            callbackBean = new TokenCallbackBean(true, "", token);
-        }else {
-            callbackBean = new TokenCallbackBean(false, "Token不存在", null);
-        }
-        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
-        return jsonObject.toString();
-    }
 
     /**
      * 选取本地图片
      */
-    public void getImage(int chooseMode, int maxSelectNum){
+    private void getImages(int chooseMode, int maxSelectNum, CompletionHandler handler){
 
+        mediaHandler = handler;
         pictureSelector(chooseMode, maxSelectNum);
     }
 
-    /**
-     * 文件上传下载 Callback
-     *
-     */
-    public void fileHandler(boolean isSuccess, JSONObject jsonObject) {
-        if (isSuccess) {
-            if (jsonObject != null) {
-                try {
-                    jsonObject.put("errorMsg", "");
-                    mHandler.complete(jsonObject.toString());
-                    return;
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            mHandler.complete(result);
-        }else {
-            BaseCallbackBean callbackBean = new BaseCallbackBean(false, StringUtils.blank());
-            JSONObject object = new JSONObject(callbackBean.toJson());
-            mHandler.complete(object.toString());
-        }
-    }
 
     /**
      *  图片选择方法
@@ -492,7 +489,7 @@ public class BPMWebViewActivity extends WebViewActivity {
      * @param maxSelectNum  最大图片/视频数
      */
 
-    public void pictureSelector(int chooseMode, int maxSelectNum ) {
+    private void pictureSelector(int chooseMode, int maxSelectNum ) {
         PictureSelector.create(this)
                 .openGallery(chooseMode)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.picture_Custom_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style
@@ -551,6 +548,10 @@ public class BPMWebViewActivity extends WebViewActivity {
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
                     // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+                    String url = selectList.get(0).getPath();
+                    if (mediaHandler != null) {
+                        mediaHandler.complete(url);
+                    }
                     break;
             }
         }
