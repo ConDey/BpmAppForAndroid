@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,8 @@ import com.eazytec.bpm.app.filepicker.utils.PickerFileUtils;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
+import net.wequick.small.Small;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -144,6 +147,7 @@ public class MainActivity extends CommonActivity {
             }
         });
 
+        Uri uri;
     }
 
     //返回路径

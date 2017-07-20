@@ -15,6 +15,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
+import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
 import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
 import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
@@ -29,6 +31,7 @@ import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
+import com.eazytec.bpm.lib.common.webkit.event.BPMFileMsgEvent;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
@@ -86,9 +89,10 @@ public class BPMWebViewActivity extends WebViewActivity {
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
-    private String result;
     // 图片下载
     private CompletionHandler mediaHandler;
+    // 文件选择
+    private CompletionHandler fileHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -344,7 +348,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
                     mHandler = handler;
-                    result = object.toString();
+                    //result = object.toString();
 
                     String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
                     String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
@@ -363,7 +367,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
                     mHandler = handler;
-                    result = object.toString();
+                    //result = object.toString();
 
                     String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
                     File file = new File(filePath);
@@ -373,6 +377,21 @@ public class BPMWebViewActivity extends WebViewActivity {
                     }
                     UploadHelper.upload(this, file, mHandler);
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case BPMJsMsgEvent.JS_FILE_SELECT:
+                try{
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_FILE_NUM);
+                    String selectNumStr = String.valueOf(selectNum);
+                    fileHandler = handler;
+
+                    Small.openUri("app.filepicker/forFilePicker?CUSTOM_MAX_COUNT="+selectNumStr+"&SELECTED_DOCS=",getContext());
+
+                }catch(JSONException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -450,6 +469,19 @@ public class BPMWebViewActivity extends WebViewActivity {
                 JSONObject objectIv = new JSONObject(callbackBeanIv.toJson());
 
                 setTitleBarRightBtnCallback(handlerIv, objectIv.toString());
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMainMessageFileEvent(BPMFileMsgEvent messageEvent) {
+        switch (messageEvent.getId()) {
+            case BPMFileMsgEvent.FILE_SELECT:
+                if (fileHandler != null) {
+                    FileCallbackBean callbackBean = new FileCallbackBean(true, "", messageEvent.getMessage());
+                    JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+                    mediaHandler.complete(jsonObject.toString());
+                }
                 break;
         }
     }
@@ -548,9 +580,10 @@ public class BPMWebViewActivity extends WebViewActivity {
                     // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
                     // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
                     // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-                    String url = selectList.get(0).getPath();
                     if (mediaHandler != null) {
-                        mediaHandler.complete(url);
+                        MediaCallbackBean callbackBean = new MediaCallbackBean(true, "", selectList);
+                        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+                        mediaHandler.complete(jsonObject.toString());
                     }
                     break;
             }

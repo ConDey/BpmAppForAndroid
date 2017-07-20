@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.authentication.AuthenticationActivity;
 import com.eazytec.bpm.app.home.data.authenication.AuthenicationDataHelper;
+import com.eazytec.bpm.app.home.update.UpdateHelper;
 import com.eazytec.bpm.app.home.updatepwd.UpdatePwdActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.authentication.UserDetails;
@@ -53,6 +54,15 @@ public class HomeSettingFragment extends CommonFragment {
         nameTextView.setText(CurrentUser.getCurrentUser().getUserDetails().getFullName());
         departmentNameTextView.setText(CurrentUser.getCurrentUser().getUserDetails().getDepartmentName());
         positionTextView.setText(CurrentUser.getCurrentUser().getUserDetails().getPosition());
+
+        // 更新apk
+        RxView.clicks(this.updateApkLayout).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        UpdateHelper.doUpdate(true, getContext(), getActivity());
+                    }
+                });
 
         //退出
         RxView.clicks(this.loginoutLayout).throttleFirst(2, TimeUnit.SECONDS)

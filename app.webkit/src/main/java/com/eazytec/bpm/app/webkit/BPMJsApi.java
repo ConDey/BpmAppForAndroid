@@ -200,6 +200,18 @@ public class BPMJsApi {
     }
 
     /**
+     * 文件选择
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_FILE_NUM = "selectNum";
+
+    @JavascriptInterface
+    public void fileSelector(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_FILE_SELECT, jsonObject.toString(), handler));
+    }
+
+    /**
      * 获得当前用户信息
      */
     @JavascriptInterface

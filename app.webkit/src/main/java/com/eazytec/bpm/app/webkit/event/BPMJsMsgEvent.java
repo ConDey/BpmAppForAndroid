@@ -22,6 +22,7 @@ public class BPMJsMsgEvent {
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
     public static final String JS_DOWNLOAD_FILE = "JS_DOWNLOAD_FILE";
     public static final String JS_UPLOAD_FILE = "JS_UPLOAD_FILE";
+    public static final String JS_FILE_SELECT = "JS_FILE_SELECT";
     public static final String JS_GET_USER = "JS_GET_USER";
     public static final String JS_GET_TOKEN = "JS_GET_USER";
     public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
@@ -35,6 +36,7 @@ public class BPMJsMsgEvent {
                 JS_SET_TITLEBAR_BGIMAGE,
                 JS_DOWNLOAD_FILE,
                 JS_UPLOAD_FILE,
+                JS_FILE_SELECT,
                 JS_GET_USER,
                 JS_GET_TOKEN,
                 JS_GET_IMAGES,
