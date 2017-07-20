@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="color_primary">#3892FF</color>
+    <color name="color_primarydark">#3892FF</color>
+    <color name="color_accent">#3892FF</color>
+
     <!-- 框架颜色 -->
     <!--MD Bottom-->
     <!-- default ripple color for shifting items -->
