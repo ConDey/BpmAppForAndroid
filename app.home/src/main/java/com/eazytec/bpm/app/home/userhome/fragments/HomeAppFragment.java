@@ -16,6 +16,11 @@ import com.eazytec.bpm.lib.common.fragment.CommonFragment;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +67,6 @@ public class HomeAppFragment extends CommonFragment {
         });
 
 
-
         return parentView;
     }
 
@@ -71,56 +75,60 @@ public class HomeAppFragment extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 初始化APP数据，在没有插件管理平台的情况下，这里先写死
-        bpmApps = new ArrayList<>();
-
-        // 通讯录模块
-        BPMApp contactBpmApp = new BPMApp();
-        contactBpmApp.setId("com.eazytec.bpm.app.contact");
-        contactBpmApp.setPackageName("com.eazytec.bpm.app.contact");
-        contactBpmApp.setDisplayName("通讯录");
-        contactBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
-        contactBpmApp.setImageUrl("ic_homeapp_card");
-        contactBpmApp.setType(BPMApp.APP_TYPE_INNER);
-        contactBpmApp.setBundleName("app.contact");
-        bpmApps.add(contactBpmApp);
-
-        // 通知公告模块
-        BPMApp noticeBpmApp = new BPMApp();
-        noticeBpmApp.setId("com.eazytec.bpm.app.notice");
-        noticeBpmApp.setPackageName("com.eazytec.bpm.app.notice");
-        noticeBpmApp.setDisplayName("公告");
-        noticeBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
-        noticeBpmApp.setImageUrl("ic_homeapp_notice");
-        noticeBpmApp.setType(BPMApp.APP_TYPE_INNER);
-        noticeBpmApp.setBundleName("app.notice");
-        bpmApps.add(noticeBpmApp);
-
-
-        // JS测试模块
-        BPMApp jsTestBpmApp = new BPMApp();
-        jsTestBpmApp.setId("com.eazytec.bpm.app.webkit");
-        jsTestBpmApp.setPackageName("com.eazytec.bpm.app.webkit");
-        jsTestBpmApp.setDisplayName("JSWEB");
-        jsTestBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
-        jsTestBpmApp.setImageUrl("ic_homeapp_process");
-        jsTestBpmApp.setType(BPMApp.APP_TYPE_WEB);
-        jsTestBpmApp.setBundleName(WebViewUtil.getLocalHTMLUrl("jswebview.html"));
-        bpmApps.add(jsTestBpmApp);
-
-        // 多媒体选择器模块
-        BPMApp mediumBpmApp = new BPMApp();
-        mediumBpmApp.setId("com.eazytec.bpm.app.photo");
-        mediumBpmApp.setPackageName("com.eazytec.bpm.app.photo");
-        mediumBpmApp.setDisplayName("媒体选择器");
-        mediumBpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
-        mediumBpmApp.setImageUrl("ic_homeapp_image");
-        mediumBpmApp.setType(BPMApp.APP_TYPE_INNER);
-        mediumBpmApp.setBundleName("app.photo");
-        bpmApps.add(mediumBpmApp);
-
-        homeAppAdapter.setItems(bpmApps);
+        homeAppAdapter.setItems(getBpmApps());
         homeAppAdapter.notifyDataSetChanged();
+    }
+
+    private List<BPMApp> getBpmApps() {
+        List<BPMApp> bpmApps = new ArrayList<>();
+
+        try {
+            InputStreamReader isr = new InputStreamReader(getCommonActivity().getAssets().open("app.json"), "UTF-8");
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+            }
+            br.close();
+            isr.close();
+            JSONObject testjson = new JSONObject(builder.toString());//builder读取了JSON中的数据。
+            JSONArray array = testjson.getJSONArray("apps");         //从JSONObject中取出数组对象
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject appobject = array.getJSONObject(i);    //取出数组中的对象
+
+                BPMApp bpmApp = new BPMApp();
+                bpmApp.setId(appobject.getString("id"));
+                bpmApp.setPackageName(appobject.getString("packagename"));
+                bpmApp.setName(appobject.getString("name"));
+                bpmApp.setDisplayName(appobject.getString("diplayname"));
+
+                String imgUrlType = appobject.getString("imageurltype");
+
+                if (imgUrlType.equals("IMAGE_URL_TYPE_INNER")) {
+                    bpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_INNER);
+                } else if (imgUrlType.equals("IMAGE_URL_TYPE_REMOTE")) {
+                    bpmApp.setImageUrlType(BPMApp.IMAGE_URL_TYPE_REMOTE);
+                }
+
+                bpmApp.setImageUrl(appobject.getString("imageurl"));
+
+                String type = appobject.getString("type");
+
+                if (type.equals("APP_TYPE_INNER")) {
+                    bpmApp.setType(BPMApp.APP_TYPE_INNER);
+                } else if (type.equals("APP_TYPE_REMOTE")) {
+                    bpmApp.setType(BPMApp.APP_TYPE_REMOTE);
+                } else {
+                    bpmApp.setType(BPMApp.APP_TYPE_WEB);
+                }
+                bpmApp.setBundleName(appobject.getString("bundlename"));
+                bpmApps.add(bpmApp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bpmApps;
     }
 
 

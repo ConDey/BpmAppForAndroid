@@ -1,0 +1,46 @@
+{
+  "version" : "1.0.0",
+  "platform": "android",
+  "apps": [
+    {
+      "id": "com.eazytec.bpm.app.contact",
+      "packagename": "com.eazytec.bpm.app.contact",
+      "name": "通讯录",
+      "diplayname":"通讯录",
+      "imageurl":"ic_homeapp_card",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_INNER",
+      "bundlename":"app.contact"
+    },
+    {
+      "id": "com.eazytec.bpm.app.notice",
+      "packagename": "com.eazytec.bpm.app.notice",
+      "name": "通知公告",
+      "diplayname":"公告",
+      "imageurl":"ic_homeapp_notice",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_INNER",
+      "bundlename":"app.notice"
+    },
+    {
+      "id": "com.eazytec.bpm.app.webkit",
+      "packagename": "com.eazytec.bpm.app.webkit",
+      "name": "JSWEB演示应用",
+      "diplayname":"JSWEB",
+      "imageurl":"ic_homeapp_process",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_INNER",
+      "bundlename":"file:///android_asset/jswebview.html"
+    },
+    {
+      "id": "com.eazytec.bpm.app.photo",
+      "packagename": "com.eazytec.bpm.app.photo",
+      "name": "多媒体选择器",
+      "diplayname":"媒体",
+      "imageurl":"ic_homeapp_image",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_INNER",
+      "bundlename":"app.photo"
+    }
+  ]
+}

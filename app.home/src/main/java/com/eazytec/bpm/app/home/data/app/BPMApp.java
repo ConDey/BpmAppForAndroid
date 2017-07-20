@@ -132,7 +132,7 @@ public class BPMApp implements Installable {
     /**
      * WEB应用，WEB应用特指可以需要远程加载HTML的应用，此类应用不需要被插件化，由small.webview渲染并显示
      */
-    public static final String APP_TYPE_WEB = "APP_TYPE_REMOTE";
+    public static final String APP_TYPE_WEB = "APP_TYPE_WEB";
 
     // 自定义一个注解MyState
     @StringDef({APP_TYPE_INNER, APP_TYPE_REMOTE, APP_TYPE_WEB})
