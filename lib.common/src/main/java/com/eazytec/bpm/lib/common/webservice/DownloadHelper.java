@@ -1,8 +1,6 @@
 package com.eazytec.bpm.lib.common.webservice;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -10,13 +8,12 @@ import android.os.Environment;
 import android.support.v4.content.FileProvider;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
+import com.eazytec.bpm.appstub.view.progressdialog.DownloadProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
-import com.eazytec.bpm.lib.utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +41,7 @@ public class DownloadHelper{
 
        mHandler = handler;
 
-        final CommonProgressDialog dialog = new CommonProgressDialog(activity);
+        final DownloadProgressDialog dialog = new DownloadProgressDialog(activity);
         dialog.setTitle("下载");
         dialog.setMessage("正在下载，请稍后...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

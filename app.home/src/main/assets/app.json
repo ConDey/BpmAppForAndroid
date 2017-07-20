@@ -41,6 +41,17 @@
       "imageurltype":"IMAGE_URL_TYPE_INNER",
       "type":"APP_TYPE_INNER",
       "bundlename":"app.photo"
+    },
+    {
+      "id":"com.eazytec.bpm.app.filepicker",
+      "packagename": "com.eazytec.bpm.app.filepicker",
+      "name": "文件选择器",
+      "diplayname":"文件",
+      "imageurl":"ic_homeapp_filepicker",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_INNER",
+      "bundlename":"app.filepicker"
+
     }
   ]
 }

@@ -3,7 +3,7 @@ package com.eazytec.bpm.lib.common.webservice;
 import android.app.ProgressDialog;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.appstub.view.progressdialog.CommonProgressDialog;
+import com.eazytec.bpm.appstub.view.progressdialog.DownloadProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
@@ -33,7 +33,7 @@ public class UploadHelper {
 
         mHandler = handler;
 
-        final CommonProgressDialog dialog = new CommonProgressDialog(activity);
+        final DownloadProgressDialog dialog = new DownloadProgressDialog(activity);
         dialog.setTitle("上传");
         dialog.setMessage("正在上传，请稍后...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

@@ -2,7 +2,7 @@
 <resources>
     <paths>
         <external-path
-            name="camera_photos"
+            name="com_eazytec_bpm_photos"
             path="" />
     </paths>
 </resources>

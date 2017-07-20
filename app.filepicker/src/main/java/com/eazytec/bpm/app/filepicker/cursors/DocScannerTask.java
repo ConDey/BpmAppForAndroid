@@ -19,7 +19,7 @@ import static android.provider.BaseColumns._ID;
 import static android.provider.MediaStore.MediaColumns.DATA;
 
 /**
- * 扫描符合后缀的文件
+ * 扫描符合类型的文件
  * @author Administrator
  * @version Id: DocScannerTask, v 0.1 2017/7/19 10:07 Administrator Exp $$
  */

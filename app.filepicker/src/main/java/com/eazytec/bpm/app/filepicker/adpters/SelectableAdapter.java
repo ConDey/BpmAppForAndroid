@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * @author Administrator
  * @version Id: SelectableAdapter, v 0.1 2017/7/19 9:39 Administrator Exp $$
  */
@@ -17,11 +18,11 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder, T ex
     private static final String TAG = SelectableAdapter.class.getSimpleName();
     private List<T> items;
 
-    protected List<T> selectedPhotos;
+    protected List<T> selectedFiles;
 
     public SelectableAdapter(List<T> items, List<String> selectedPaths) {
         this.items = items;
-        selectedPhotos = new ArrayList<>();
+        selectedFiles = new ArrayList<>();
 
         addPathsToSelections(selectedPaths);
     }
@@ -34,7 +35,7 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder, T ex
             for (int jindex = 0; jindex < selectedPaths.size(); jindex++) {
                 if(items.get(index).getPath().equals(selectedPaths.get(jindex)))
                 {
-                    selectedPhotos.add(items.get(index));
+                    selectedFiles.add(items.get(index));
                 }
             }
         }
@@ -43,28 +44,28 @@ public abstract class SelectableAdapter<VH extends RecyclerView.ViewHolder, T ex
 
     @Override
     public boolean isSelected(T photo) {
-        return selectedPhotos.contains(photo);
+        return selectedFiles.contains(photo);
     }
 
 
     @Override
     public void toggleSelection(T photo) {
-        if (selectedPhotos.contains(photo)) {
-            selectedPhotos.remove(photo);
+        if (selectedFiles.contains(photo)) {
+            selectedFiles.remove(photo);
         } else {
-            selectedPhotos.add(photo);
+            selectedFiles.add(photo);
         }
     }
 
 
     @Override
     public void clearSelection() {
-        selectedPhotos.clear();
+        selectedFiles.clear();
     }
 
     @Override
     public int getSelectedItemCount() {
-        return selectedPhotos.size();
+        return selectedFiles.size();
     }
 
     public void setData(List<T> items) {

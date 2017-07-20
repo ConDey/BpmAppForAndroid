@@ -6,10 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.eazytec.bpm.appstub.R;
@@ -18,9 +14,9 @@ import java.text.NumberFormat;
 
 /**
  * @author Administrator
- * @version Id: CommonProgressDialog, v 0.1 2017/7/12 15:44 Administrator Exp $$
+ * @version Id: DownloadProgressDialog, v 0.1 2017/7/12 15:44 Administrator Exp $$
  */
-public class CommonProgressDialog extends AlertDialog {
+public class DownloadProgressDialog extends AlertDialog {
 
 
     private FlikerProgressBar mProgress;
@@ -32,10 +28,10 @@ public class CommonProgressDialog extends AlertDialog {
     private boolean mHasStarted;
     private int mProgressVal;
 
-    private String TAG="CommonProgressDialog";
+    private String TAG="DownloadProgressDialog";
     private String mProgressNumberFormat;
     private NumberFormat mProgressPercentFormat;
-    public CommonProgressDialog(Context context) {
+    public DownloadProgressDialog(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
         initFormats();
@@ -46,7 +42,7 @@ public class CommonProgressDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.common_progress_dialog);
+        setContentView(R.layout.download_progress_dialog);
         mProgress=(FlikerProgressBar) findViewById(R.id.progress);
         mProgressMessage=(TextView) findViewById(R.id.progress_message);
         mViewUpdateHandler = new Handler() {

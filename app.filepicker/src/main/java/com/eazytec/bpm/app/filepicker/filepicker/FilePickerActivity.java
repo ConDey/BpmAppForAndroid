@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.eazytec.bpm.app.filepicker.R;
 import com.eazytec.bpm.app.filepicker.fragments.DocFragment;
 import com.eazytec.bpm.app.filepicker.fragments.DocPickerFragment;
+import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.utils.FragmentUtil;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class FilePickerActivity extends AppCompatActivity implements
         DocPickerFragment.DocPickerFragmentListener{
 
     private static final String TAG = FilePickerActivity.class.getSimpleName();
-    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +43,13 @@ public class FilePickerActivity extends AppCompatActivity implements
         if (intent != null) {
             if(getSupportActionBar()!=null)
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA);
-            type = intent.getIntExtra(FilePickerConst.EXTRA_PICKER_TYPE, FilePickerConst.MEDIA_PICKER);
-
+            ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
             if(selectedPaths!=null) {
-                if (type == FilePickerConst.MEDIA_PICKER) {
-                    FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_MEDIA);
-                } else {
-                    FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
-                }
+                FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
             }
 
             setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
-            openSpecificFragment(type, selectedPaths);
+            openSpecificFragment(FilePickerConst.DOC_PICKER, selectedPaths);
         }
     }
 
@@ -69,15 +62,11 @@ public class FilePickerActivity extends AppCompatActivity implements
             selectedPaths.clear();
         }
 
-        if (type == FilePickerConst.MEDIA_PICKER) {
-
-        } else {
             if(FilePickerManager.getInstance().isDocSupport())
                 FilePickerManager.getInstance().addDocTypes();
-
             DocPickerFragment photoFragment = DocPickerFragment.newInstance(selectedPaths);
             FragmentUtil.addFragment(this, R.id.file_picker_container, photoFragment);
-        }
+
     }
 
     private void setToolbarTitle(int count) {
@@ -86,9 +75,6 @@ public class FilePickerActivity extends AppCompatActivity implements
             if (FilePickerManager.getInstance().getMaxCount() > 1)
                 actionBar.setTitle(String.format(getString(R.string.attachments_title_text), count, FilePickerManager.getInstance().getMaxCount()));
             else {
-                if (type == FilePickerConst.MEDIA_PICKER)
-                    actionBar.setTitle(R.string.select_photo_text);
-                else
                     actionBar.setTitle(R.string.select_doc_text);
             }
         }
@@ -132,6 +118,7 @@ public class FilePickerActivity extends AppCompatActivity implements
             case FilePickerConst.REQUEST_CODE_MEDIA_DETAIL:
                 if(resultCode== Activity.RESULT_OK)
                 {
+                    //返回数据
                     returnData(FilePickerManager.getInstance().getSelectedFiles());
                 }
                 else
@@ -142,12 +129,10 @@ public class FilePickerActivity extends AppCompatActivity implements
         }
     }
 
+    //返回的数据
     private void returnData(ArrayList<String> paths) {
         Intent intent = new Intent();
-        if (type == FilePickerConst.MEDIA_PICKER)
-            intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA, paths);
-        else
-            intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS, paths);
+        intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS, paths);
         setResult(RESULT_OK, intent);
         finish();
     }

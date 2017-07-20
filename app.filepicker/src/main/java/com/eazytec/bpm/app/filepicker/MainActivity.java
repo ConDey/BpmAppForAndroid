@@ -27,12 +27,14 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.filepicker.filepicker.FilePickerBuilder;
 import com.eazytec.bpm.app.filepicker.filepicker.FilePickerConst;
+import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.utils.PickerFileUtils;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import rx.functions.Action1;
 
@@ -50,7 +52,8 @@ public class MainActivity extends CommonActivity {
     private GridView gridView;
 
     private int MAX_ATTACHMENT_COUNT = 5; //最多选择附件数,可以单选，多选，根据需要自定义
-    private ArrayList<String> docPaths = new ArrayList<>();
+    private ArrayList<String> docPaths = new ArrayList<>();  //文件路径
+
     private Bitmap addPicBitmap;
     private AttachmentGridAdapter attachmentGridAdapter;
 

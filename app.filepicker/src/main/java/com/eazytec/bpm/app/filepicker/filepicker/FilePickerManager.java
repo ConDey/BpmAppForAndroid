@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.filepicker.filepicker;
 
 import com.eazytec.bpm.app.filepicker.R;
 import com.eazytec.bpm.app.filepicker.models.BaseFile;
+import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.models.FileType;
 
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ public class FilePickerManager {
             currentCount--;
         }
     }
+
 
     public boolean shouldAdd() {
         return currentCount < maxCount;

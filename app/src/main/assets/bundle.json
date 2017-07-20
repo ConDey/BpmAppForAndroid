@@ -35,6 +35,10 @@
     {
       "uri": "app.photo",
       "pkg": "com.eazytec.bpm.app.photo"
+    },
+    {
+      "uri": "app.filepicker",
+      "pkg": "com.eazytec.bpm.app.filepicker"
     }
 
   ]

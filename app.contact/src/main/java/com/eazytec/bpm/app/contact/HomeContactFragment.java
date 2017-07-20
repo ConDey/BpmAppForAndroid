@@ -105,18 +105,18 @@ public class HomeContactFragment extends ContractViewFragment <UserContactPresen
                     @Override
                     public void call(Void aVoid) {
                         RxPermissions rxPermissions = new RxPermissions(getCommonActivity());
-                        rxPermissions.requestEach(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS)
-                                .subscribe(new Action1<Permission>() {
+                        rxPermissions.request(Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_CONTACTS)
+                                .subscribe(new Action1<Boolean>() {
                                     @Override
-                                    public void call(Permission permission) {
-                                        if(permission.granted){
+                                    public void call(Boolean aBoolean) {
+                                        if(aBoolean){
                                             getCommonActivity().startActivity(getCommonActivity(), LocalContactActivity.class);
                                         }else{
-                                            ToastDelegate.info(getContext(),"您没有授权查看手机通讯录");
+                                            ToastDelegate.info(getContext(),"您没有权限查看手机通讯录");
                                         }
-
                                     }
                                 });
+
 
                     }
                 });

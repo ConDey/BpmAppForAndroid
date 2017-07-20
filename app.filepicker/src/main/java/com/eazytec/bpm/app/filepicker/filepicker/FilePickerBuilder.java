@@ -42,9 +42,9 @@ public class FilePickerBuilder {
         return this;
     }
 
-    public FilePickerBuilder setSelectedFiles(ArrayList<String> selectedPhotos)
+    public FilePickerBuilder setSelectedFiles(ArrayList<String> selectedFiles)
     {
-        mPickerOptionsBundle.putStringArrayList(FilePickerConst.KEY_SELECTED_MEDIA, selectedPhotos);
+        mPickerOptionsBundle.putStringArrayList(FilePickerConst.KEY_SELECTED_DOCS, selectedFiles);
         return this;
     }
 
@@ -97,11 +97,8 @@ public class FilePickerBuilder {
 
         Intent intent = new Intent(context, FilePickerActivity.class);
         intent.putExtras(mPickerOptionsBundle);
-
-        if(pickerType==FilePickerConst.MEDIA_PICKER)
-            context.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_PHOTO);
-        else
-            context.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
+        
+        context.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
     }
 
     private void start(Fragment fragment, int pickerType)
@@ -110,9 +107,6 @@ public class FilePickerBuilder {
 
         Intent intent = new Intent(fragment.getActivity(), FilePickerActivity.class);
         intent.putExtras(mPickerOptionsBundle);
-        if(pickerType==FilePickerConst.MEDIA_PICKER)
-            fragment.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_PHOTO);
-        else
-            fragment.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
+         fragment.startActivityForResult(intent,FilePickerConst.REQUEST_CODE_DOC);
     }
 }
