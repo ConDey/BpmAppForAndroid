@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.eazytec.bpm.app.filepicker.filepicker.FilePickerActivity;
 import com.eazytec.bpm.app.filepicker.filepicker.FilePickerBuilder;
 import com.eazytec.bpm.app.filepicker.filepicker.FilePickerConst;
 import com.eazytec.bpm.app.filepicker.models.Document;
@@ -32,6 +34,8 @@ import com.eazytec.bpm.app.filepicker.utils.PickerFileUtils;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
+import net.wequick.small.Small;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -107,11 +111,17 @@ public class MainActivity extends CommonActivity {
                                     @Override
                                     public void call(Boolean aBoolean) {
                                         if(aBoolean){
-                                            FilePickerBuilder.getInstance().setMaxCount(MAX_ATTACHMENT_COUNT)
-                                                    .setSelectedFiles(docPaths)
+                                           FilePickerBuilder.getInstance().setMaxCount(MAX_ATTACHMENT_COUNT)
+                                               //     .setSelectedFiles(docPaths)
                                                     //  .addFileSupport("ZIP",zips,R.mipmap.ic_zip_box) 可以自定义选特定几个格式的附件，包括该格式的文件图片，这里加载所有格式，也可以在常量文件里自定义加载的文件格式
                                                     //  .addFileSupport("PDF",pdfs , R.mipmap.ic_pdf_box)
-                                                    .pickFile(MainActivity.this);
+                                                 .pickFile(MainActivity.this);
+                                            /**
+                                            Intent intent1 = new Intent(MainActivity.this,FilePickerActivity.class);
+                                            intent1.putStringArrayListExtra("FilePickerConst.KEY_SELECTED_DOCS",docPaths);
+                                            intent1.putExtra("CUSTOM_MAX_COUNT","3");
+                                            startActivityForResult(intent1,FilePickerConst.REQUEST_CODE_DOC);
+                                             **/
                                         }else{
                                             ToastDelegate.info(getContext(),"您没有权限选择本机文件");
                                         }
@@ -137,6 +147,7 @@ public class MainActivity extends CommonActivity {
             }
         });
 
+        Uri uri;
     }
 
     //返回路径

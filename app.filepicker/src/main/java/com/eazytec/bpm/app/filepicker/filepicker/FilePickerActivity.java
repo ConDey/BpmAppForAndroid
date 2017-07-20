@@ -15,6 +15,9 @@ import com.eazytec.bpm.app.filepicker.fragments.DocFragment;
 import com.eazytec.bpm.app.filepicker.fragments.DocPickerFragment;
 import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.utils.FragmentUtil;
+import com.eazytec.bpm.lib.common.webkit.event.BPMFileMsgEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,7 @@ public class FilePickerActivity extends AppCompatActivity implements
         DocPickerFragment.DocPickerFragmentListener{
 
     private static final String TAG = FilePickerActivity.class.getSimpleName();
+    private int customMaxNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,11 @@ public class FilePickerActivity extends AppCompatActivity implements
             if(selectedPaths!=null) {
                 FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
             }
-
+            String tempnum = (intent.getStringExtra("CUSTOM_MAX_COUNT"));
+            customMaxNum = Integer.parseInt(tempnum);
+            if(customMaxNum>1){
+                FilePickerManager.getInstance().setMaxCount(customMaxNum);
+            }
             setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
             openSpecificFragment(FilePickerConst.DOC_PICKER, selectedPaths);
         }
@@ -93,6 +101,7 @@ public class FilePickerActivity extends AppCompatActivity implements
         int i = item.getItemId();
         if (i == R.id.action_done) {
 
+            EventBus.getDefault().post(new BPMFileMsgEvent(BPMFileMsgEvent.FILE_SELECT, FilePickerManager.getInstance().getSelectedFiles()));
             returnData(FilePickerManager.getInstance().getSelectedFiles());
 
             return true;

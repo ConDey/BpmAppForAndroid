@@ -1,32 +1,30 @@
 package com.eazytec.bpm.app.webkit.data;
 
-import com.google.gson.Gson;
-import com.luck.picture.lib.entity.LocalMedia;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author 16735
- * @version Id: MediaCallbackBean, v 0.1 2017-7-20 14:11 16735 Exp $$
+ * @version Id: FileCallbackBean, v 0.1 2017-7-20 19:43 16735 Exp $$
  */
-public class MediaCallbackBean extends BaseCallbackBean {
+public class FileCallbackBean extends BaseCallbackBean {
 
     private final String LIST = "list";
 
-    private List<LocalMedia> list;
+    private ArrayList<String> list;
 
-    public MediaCallbackBean(boolean isSuccess, String errorMsg, List<LocalMedia> list) {
+    public FileCallbackBean(boolean isSuccess, String errorMsg, ArrayList<String> list) {
         setSuccess(isSuccess);
         setErrorMsg(errorMsg);
         this.list = list;
     }
 
-    public List<LocalMedia> getList() {
+    public ArrayList<String> getList() {
         return list;
     }
 
-    public void setList(List<LocalMedia> list) {
+    public void setList(ArrayList<String> list) {
         this.list = list;
     }
 
@@ -34,18 +32,18 @@ public class MediaCallbackBean extends BaseCallbackBean {
         StringBuffer lists = new StringBuffer("[");
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(ERRORMSG, getErrorMsg());
-        boolean isSuccess = getSuccess()?true:false;
-        hashMap.put(SUCCESS, isSuccess );
+        boolean isSuccess = getSuccess() ? true : false;
+        hashMap.put(SUCCESS, isSuccess);
 
-        for (LocalMedia media : list) {
-            lists.append(media.getPath());
+        for (String url : list) {
+            lists.append(url);
             lists.append(",");
         }
         String mLists = lists.toString();
         if (mLists.equals("[")) {
-            mLists = mLists+"]";
-        }else {
-            mLists = lists.substring(0, mLists.length()-2) + "]";
+            mLists = mLists + "]";
+        } else {
+            mLists = lists.substring(0, mLists.length() - 2) + "]";
         }
         hashMap.put(LIST, mLists);
 

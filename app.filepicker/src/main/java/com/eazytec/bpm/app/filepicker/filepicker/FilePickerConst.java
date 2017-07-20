@@ -12,7 +12,7 @@ public class FilePickerConst {
     public static final int REQUEST_CODE_MEDIA_DETAIL = 235;
 
     public final static int DEFAULT_MAX_COUNT  = 9;
-
+    
     public final static int DOC_PICKER    = 0x11;
 
     public final static String KEY_SELECTED_DOCS  = "SELECTED_DOCS";
