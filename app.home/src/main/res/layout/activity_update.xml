@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_marginTop="10dip"
-            android:src="@mipmap/ic_launcher" />
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
