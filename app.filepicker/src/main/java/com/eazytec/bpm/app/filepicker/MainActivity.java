@@ -111,17 +111,18 @@ public class MainActivity extends CommonActivity {
                                     @Override
                                     public void call(Boolean aBoolean) {
                                         if(aBoolean){
+                                           /**
                                            FilePickerBuilder.getInstance().setMaxCount(MAX_ATTACHMENT_COUNT)
                                                //     .setSelectedFiles(docPaths)
                                                     //  .addFileSupport("ZIP",zips,R.mipmap.ic_zip_box) 可以自定义选特定几个格式的附件，包括该格式的文件图片，这里加载所有格式，也可以在常量文件里自定义加载的文件格式
                                                     //  .addFileSupport("PDF",pdfs , R.mipmap.ic_pdf_box)
                                                  .pickFile(MainActivity.this);
-                                            /**
+                                            **/
                                             Intent intent1 = new Intent(MainActivity.this,FilePickerActivity.class);
-                                            intent1.putStringArrayListExtra("FilePickerConst.KEY_SELECTED_DOCS",docPaths);
-                                            intent1.putExtra("CUSTOM_MAX_COUNT","3");
+                                            //intent1.putStringArrayListExtra("FilePickerConst.KEY_SELECTED_DOCS",null);
+                                             intent1.putExtra("CUSTOM_MAX_COUNT","3");
                                             startActivityForResult(intent1,FilePickerConst.REQUEST_CODE_DOC);
-                                             **/
+
                                         }else{
                                             ToastDelegate.info(getContext(),"您没有权限选择本机文件");
                                         }
