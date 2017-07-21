@@ -44,14 +44,15 @@ public class FilePickerActivity extends AppCompatActivity implements
         if (intent != null) {
             if(getSupportActionBar()!=null)
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
-            if(selectedPaths!=null) {
-                FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
-            }
+           // ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
+            ArrayList<String> selectedPaths = new ArrayList<>();
+            FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
             String tempnum = (intent.getStringExtra("CUSTOM_MAX_COUNT"));
             customMaxNum = Integer.parseInt(tempnum);
-            if(customMaxNum>1){
+            if(customMaxNum>=1){
                 FilePickerManager.getInstance().setMaxCount(customMaxNum);
+            }else{
+                FilePickerManager.getInstance().setMaxCount(FilePickerConst.DEFAULT_MAX_COUNT); //固定选9个文件，大小可以在常量文件里改
             }
             setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
             openSpecificFragment(FilePickerConst.DOC_PICKER, selectedPaths);
