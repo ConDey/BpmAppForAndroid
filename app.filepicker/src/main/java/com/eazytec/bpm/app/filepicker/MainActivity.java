@@ -120,7 +120,8 @@ public class MainActivity extends CommonActivity {
                                             **/
                                             Intent intent1 = new Intent(MainActivity.this,FilePickerActivity.class);
                                             //intent1.putStringArrayListExtra("FilePickerConst.KEY_SELECTED_DOCS",null);
-                                             intent1.putExtra("CUSTOM_MAX_COUNT","3");
+                                             int currentnum =  MAX_ATTACHMENT_COUNT - docPaths.size();
+                                             intent1.putExtra("CUSTOM_MAX_COUNT", String.valueOf(currentnum));
                                             startActivityForResult(intent1,FilePickerConst.REQUEST_CODE_DOC);
 
                                         }else{
@@ -160,7 +161,6 @@ public class MainActivity extends CommonActivity {
             case FilePickerConst.REQUEST_CODE_DOC:
                 if(resultCode== Activity.RESULT_OK && data!=null)
                 {
-                    docPaths = new ArrayList<>();
                     docPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
                     attachmentGridAdapter.notifyDataSetChanged();
 
