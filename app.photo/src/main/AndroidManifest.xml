@@ -27,35 +27,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.luck.picture.lib.PictureSelectorActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-
-        <activity
-            android:name="com.luck.picture.lib.PictureBaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.luck.picture.lib.PicturePreviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.luck.picture.lib.PictureVideoPlayActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensor" />
-        <activity
-            android:name="com.luck.picture.lib.PictureExternalPreviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name="com.yalantis.ucrop.PictureMultiCuttingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name="com.luck.picture.lib.PicturePlayAudioActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 </manifest>

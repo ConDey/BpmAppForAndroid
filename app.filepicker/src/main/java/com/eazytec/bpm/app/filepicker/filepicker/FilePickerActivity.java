@@ -15,6 +15,9 @@ import com.eazytec.bpm.app.filepicker.fragments.DocFragment;
 import com.eazytec.bpm.app.filepicker.fragments.DocPickerFragment;
 import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.utils.FragmentUtil;
+import com.eazytec.bpm.lib.common.webkit.event.BPMFileMsgEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -99,6 +102,7 @@ public class FilePickerActivity extends AppCompatActivity implements
         int i = item.getItemId();
         if (i == R.id.action_done) {
 
+            EventBus.getDefault().post(new BPMFileMsgEvent(BPMFileMsgEvent.FILE_SELECT, FilePickerManager.getInstance().getSelectedFiles()));
             returnData(FilePickerManager.getInstance().getSelectedFiles());
 
             return true;

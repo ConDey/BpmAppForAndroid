@@ -68,6 +68,9 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="uploadFile()">
             文件上传
         </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="fileSelector()">
+            文件选择
+        </button>
 
         </br>
         </br>
@@ -174,6 +177,13 @@
         // 文件上传
         function uploadFile() {
                bpmbridget.call("uploadFile",{filePath: "/storage/emulated/0/1.pdf"}, function(result){
+                    alert(result);
+               });
+        }
+
+        // 文件选择
+        function fileSelector() {
+               bpmbridget.call("fileSelector",{selectNum: 5}, function(result){
                     alert(result);
                });
         }

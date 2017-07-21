@@ -29,7 +29,6 @@ public class ProgressHelper {
             //该方法在子线程中运行
             @Override
             public void onProgress(long progress, long total, boolean done) {
-                Log.d("progress:", String.format("%d%% done\n",(100 * progress) / total));
                 if (mProgressHandler == null){
                     return;
                 }

@@ -29,7 +29,7 @@
       "diplayname":"JSWEB",
       "imageurl":"ic_homeapp_process",
       "imageurltype":"IMAGE_URL_TYPE_INNER",
-      "type":"APP_TYPE_INNER",
+      "type":"APP_TYPE_WEB",
       "bundlename":"file:///android_asset/jswebview.html"
     },
     {
