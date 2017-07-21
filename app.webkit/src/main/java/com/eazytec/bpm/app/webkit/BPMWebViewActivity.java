@@ -389,7 +389,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     String selectNumStr = String.valueOf(selectNum);
                     fileHandler = handler;
 
-                    Small.openUri("app.filepicker/forFilePicker?CUSTOM_MAX_COUNT="+selectNumStr+"&SELECTED_DOCS=",getContext());
+                    Small.openUri("app.filepicker/forfilepicker?CUSTOM_MAX_COUNT="+selectNumStr,getContext());
 
                 }catch(JSONException e) {
                     e.printStackTrace();
@@ -404,7 +404,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
                     int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_SELECTOR_NUM);
-                    int chooseMode = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_CHOOSE_MODE);
+                    int chooseMode = 1;
 
                     if (selectNum > 9) {
                         selectNum = 9; // 最多选择9张
@@ -425,7 +425,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
                     int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_SELECTOR_NUM);
-                    int chooseMode = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_CHOOSE_MODE);
+                    int chooseMode = 2;
 
                     if (selectNum > 9) {
                         selectNum = 9; // 最多选择9张
@@ -522,6 +522,8 @@ public class BPMWebViewActivity extends WebViewActivity {
      */
 
     private void pictureSelector(int chooseMode, int maxSelectNum ) {
+        // 清空selectList
+        selectList = new ArrayList<>();
         PictureSelector.create(this)
                 .openGallery(chooseMode)//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()
                 .theme(R.style.picture_Custom_style)//主题样式(不设置为默认样式) 也可参考demo values/styles下 例如：R.style.picture.white.style

@@ -250,7 +250,6 @@ public class BPMJsApi {
      * 选择本地图片
      */
     protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
-    protected static final String API_PARAM_IMAGE_CHOOSE_MODE = "chooseMode";
 
     @JavascriptInterface
     public void getImages(JSONObject jsonObject, CompletionHandler handler) {

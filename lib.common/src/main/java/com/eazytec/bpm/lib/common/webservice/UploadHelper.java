@@ -68,7 +68,7 @@ public class UploadHelper {
                             @Override
                             public void onError(Throwable e) {
                                 if (mHandler != null) {
-                                    DownloadHelper.fileHandler(false, null);
+                                    DownloadHelper.fileHandler(false, null, mHandler);
                                 }
                                 ToastDelegate.error(activity.getContext(),"上传文件失败，请稍后再试");
                                 dialog.dismiss();
@@ -80,7 +80,7 @@ public class UploadHelper {
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     if (mHandler != null) {
-                                        DownloadHelper.fileHandler(false, jsonObject);
+                                        DownloadHelper.fileHandler(false, jsonObject, mHandler);
                                     }
                                 }catch (JSONException e) {
                                     e.printStackTrace();

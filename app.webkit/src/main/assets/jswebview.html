@@ -42,9 +42,9 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarBgImage()">
             设置标题栏背景图片
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarRightBtn()">
-            设置标题栏右边按钮
-        </button>
+        <!--<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarRightBtn()">-->
+            <!--设置标题栏右边按钮-->
+        <!--</button>-->
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarTextView()">
             修改标题栏title
         </button>
@@ -90,16 +90,12 @@
             选择本地图片
         </button>
 
-        <img id="imgname" height="50" width="50" src=""/>
-
         </br>
         </br>
 
         <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getVideos()">
             选择本地视频
         </button>
-
-        <img id="videoname" height="50" width="50" src=""/>
 
     </div>
 </div>
@@ -204,17 +200,15 @@
 
         // 选择本地图片
         function getImages() {
-               bpmbridget.call("getImages", {selectNum: 3, chooseMode: 1}, function(result) {
+               bpmbridget.call("getImages", {selectNum: 3}, function(result) {
                     alert(result);
-                    document.getElementById("imgname").setAttribute("src", result);
                });
         }
 
         // 选择本地视频
         function getVideos() {
-               bpmbridget.call("getVideos", {selectNum: 3, chooseMode: 2}, function(result) {
+               bpmbridget.call("getVideos", {selectNum: 3}, function(result) {
                     alert(result);
-                    document.getElementById("videoname").setAttribute("src", result);
                });
         }
 
