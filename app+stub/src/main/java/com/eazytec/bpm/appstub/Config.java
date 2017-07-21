@@ -24,7 +24,6 @@ public abstract class Config {
      */
     public static final String WEB_SERVICE_URL = "http://58.215.198.212:8080/external/";
 
-
     /**
      * 是否是单模块调试模式
      */

@@ -41,12 +41,6 @@ public abstract class WebViewActivity extends CommonActivity {
      */
     protected ProgressBar progressBar;
 
-    /**
-     * 用于存放webview的回调函数，当存在回调函数的时候，activityresult才会去执行callback
-     * <p>
-     * 需要注意的是callback一定是js定义的函数，不然会报错。
-     */
-    protected Map<Integer, String> callbacks = new HashMap<>();
 
     @Override @CallSuper
     protected void onCreate(Bundle savedInstanceState) {

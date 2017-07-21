@@ -3,6 +3,7 @@ package com.eazytec.bpm.app.filepicker.filepicker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -13,11 +14,11 @@ import android.view.MenuItem;
 import com.eazytec.bpm.app.filepicker.R;
 import com.eazytec.bpm.app.filepicker.fragments.DocFragment;
 import com.eazytec.bpm.app.filepicker.fragments.DocPickerFragment;
-import com.eazytec.bpm.app.filepicker.models.Document;
 import com.eazytec.bpm.app.filepicker.utils.FragmentUtil;
-import com.eazytec.bpm.lib.common.webkit.event.BPMFileMsgEvent;
+import com.eazytec.bpm.lib.common.webkit.JsWebViewActiEvent;
+import com.eazytec.bpm.lib.utils.StringUtils;
 
-import org.greenrobot.eventbus.EventBus;
+import net.wequick.small.Small;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  */
 public class FilePickerActivity extends AppCompatActivity implements
         DocFragment.DocFragmentListener,
-        DocPickerFragment.DocPickerFragmentListener{
+        DocPickerFragment.DocPickerFragmentListener {
 
     private static final String TAG = FilePickerActivity.class.getSimpleName();
     private int customMaxNum;
@@ -37,7 +38,7 @@ public class FilePickerActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setTheme(FilePickerManager.getInstance().getTheme());
         setContentView(R.layout.activity_file_picker);
-        if(!FilePickerManager.getInstance().isEnableOrientation())
+        if (!FilePickerManager.getInstance().isEnableOrientation())
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
     }
@@ -45,16 +46,28 @@ public class FilePickerActivity extends AppCompatActivity implements
     private void initView() {
         Intent intent = getIntent();
         if (intent != null) {
-            if(getSupportActionBar()!=null)
+            if (getSupportActionBar() != null)
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-           // ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
+            // ArrayList<String> selectedPaths = intent.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS);
             ArrayList<String> selectedPaths = new ArrayList<>();
             FilePickerManager.getInstance().add(selectedPaths, FilePickerConst.FILE_TYPE_DOCUMENT);
-            String tempnum = (intent.getStringExtra("CUSTOM_MAX_COUNT"));
-            customMaxNum = Integer.parseInt(tempnum);
-            if(customMaxNum>=1){
+            String tempnum = intent.getStringExtra("CUSTOM_MAX_COUNT");
+
+            if (!StringUtils.isSpace(tempnum)) {
+                customMaxNum = Integer.parseInt(tempnum);
+            }
+
+            Uri uri = Small.getUri(this);
+            if (uri != null) {
+                String numstring = uri.getQueryParameter("CUSTOM_MAX_COUNT");
+                if (!StringUtils.isSpace(numstring)) {
+                    customMaxNum = Integer.parseInt(numstring);
+                }
+            }
+
+            if (customMaxNum >= 1) {
                 FilePickerManager.getInstance().setMaxCount(customMaxNum);
-            }else{
+            } else {
                 FilePickerManager.getInstance().setMaxCount(FilePickerConst.DEFAULT_MAX_COUNT); //固定选9个文件，大小可以在常量文件里改
             }
             setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
@@ -71,20 +84,20 @@ public class FilePickerActivity extends AppCompatActivity implements
             selectedPaths.clear();
         }
 
-            if(FilePickerManager.getInstance().isDocSupport())
-                FilePickerManager.getInstance().addDocTypes();
-            DocPickerFragment photoFragment = DocPickerFragment.newInstance(selectedPaths);
-            FragmentUtil.addFragment(this, R.id.file_picker_container, photoFragment);
+        if (FilePickerManager.getInstance().isDocSupport())
+            FilePickerManager.getInstance().addDocTypes();
+        DocPickerFragment photoFragment = DocPickerFragment.newInstance(selectedPaths);
+        FragmentUtil.addFragment(this, R.id.file_picker_container, photoFragment);
 
     }
 
     private void setToolbarTitle(int count) {
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null) {
+        if (actionBar != null) {
             if (FilePickerManager.getInstance().getMaxCount() > 1)
                 actionBar.setTitle(String.format(getString(R.string.attachments_title_text), count, FilePickerManager.getInstance().getMaxCount()));
             else {
-                    actionBar.setTitle(R.string.select_doc_text);
+                actionBar.setTitle(R.string.select_doc_text);
             }
         }
 
@@ -93,7 +106,6 @@ public class FilePickerActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.picker_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -101,8 +113,6 @@ public class FilePickerActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_done) {
-
-            EventBus.getDefault().post(new BPMFileMsgEvent(BPMFileMsgEvent.FILE_SELECT, FilePickerManager.getInstance().getSelectedFiles()));
             returnData(FilePickerManager.getInstance().getSelectedFiles());
 
             return true;
@@ -123,16 +133,12 @@ public class FilePickerActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case FilePickerConst.REQUEST_CODE_MEDIA_DETAIL:
-                if(resultCode== Activity.RESULT_OK)
-                {
+                if (resultCode == Activity.RESULT_OK) {
                     //返回数据
                     returnData(FilePickerManager.getInstance().getSelectedFiles());
-                }
-                else
-                {
+                } else {
                     setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
                 }
                 break;
@@ -143,6 +149,7 @@ public class FilePickerActivity extends AppCompatActivity implements
     private void returnData(ArrayList<String> paths) {
         Intent intent = new Intent();
         intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS, paths);
+        intent.putExtra(JsWebViewActiEvent.SMALL_RESULT,JsWebViewActiEvent.FILE_SELECTED);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -151,8 +158,8 @@ public class FilePickerActivity extends AppCompatActivity implements
     public void onItemSelected() {
         setToolbarTitle(FilePickerManager.getInstance().getCurrentCount());
 
-        if(FilePickerManager.getInstance().getMaxCount()==1)
-            returnData( FilePickerManager.getInstance().getSelectedFiles());
+        if (FilePickerManager.getInstance().getMaxCount() == 1)
+            returnData(FilePickerManager.getInstance().getSelectedFiles());
     }
 }
 

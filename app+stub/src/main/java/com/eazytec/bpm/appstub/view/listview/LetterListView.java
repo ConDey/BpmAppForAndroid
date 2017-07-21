@@ -11,53 +11,46 @@ import android.view.View;
 
 /**
  * 侧边A~Z字母搜索栏
+ *
  * @author Beckett_W
  * @version Id: MyLetterListView, v 0.1 2017/7/5 16:26 Administrator Exp $$
  */
-public class LetterListView extends View
-{
+public class LetterListView extends View {
 
     OnTouchingLetterChangedListener onTouchingLetterChangedListener;
-    String[] b = { "#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+    String[] b = {"#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     int choose = -1;
     Paint paint = new Paint();
     boolean showBkg = false;
 
-    public LetterListView(Context context, AttributeSet attrs, int defStyle)
-    {
+    public LetterListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public LetterListView(Context context, AttributeSet attrs)
-    {
+    public LetterListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public LetterListView(Context context)
-    {
+    public LetterListView(Context context) {
         super(context);
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (showBkg)
-        {
+        if (showBkg) {
             canvas.drawColor(Color.parseColor("#40000000"));
         }
 
         int height = getHeight();
         int width = getWidth();
         int singleHeight = height / b.length;
-        for (int i = 0; i < b.length; i++)
-        {
+        for (int i = 0; i < b.length; i++) {
             paint.setColor(Color.WHITE);
             paint.setTextSize(25);
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
-            if (i == choose)
-            {
+            if (i == choose) {
                 paint.setColor(Color.parseColor("#3399ff"));
                 paint.setFakeBoldText(true);
             }
@@ -70,8 +63,7 @@ public class LetterListView extends View
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event)
-    {
+    public boolean dispatchTouchEvent(MotionEvent event) {
         final int action = event.getAction();
         final float y = event.getY();
         final int oldChoose = choose;
@@ -81,10 +73,8 @@ public class LetterListView extends View
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 showBkg = true;
-                if (oldChoose != c && listener != null)
-                {
-                    if (c >= 0 && c < b.length)
-                    {
+                if (oldChoose != c && listener != null) {
+                    if (c >= 0 && c < b.length) {
                         listener.onTouchingLetterChanged(b[c]);
                         choose = c;
                         invalidate();
@@ -93,10 +83,8 @@ public class LetterListView extends View
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (oldChoose != c && listener != null)
-                {
-                    if (c >= 0 && c < b.length)
-                    {
+                if (oldChoose != c && listener != null) {
+                    if (c >= 0 && c < b.length) {
                         listener.onTouchingLetterChanged(b[c]);
                         choose = c;
                         invalidate();
@@ -113,18 +101,15 @@ public class LetterListView extends View
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         return super.onTouchEvent(event);
     }
 
-    public void setOnTouchingLetterChangedListener(OnTouchingLetterChangedListener onTouchingLetterChangedListener)
-    {
+    public void setOnTouchingLetterChangedListener(OnTouchingLetterChangedListener onTouchingLetterChangedListener) {
         this.onTouchingLetterChangedListener = onTouchingLetterChangedListener;
     }
 
-    public interface OnTouchingLetterChangedListener
-    {
+    public interface OnTouchingLetterChangedListener {
         public void onTouchingLetterChanged(String s);
     }
 

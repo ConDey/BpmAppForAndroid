@@ -7,31 +7,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
 import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
 import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
-import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
-import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
-import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.WebViewActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
-import com.eazytec.bpm.lib.common.authentication.Token;
-import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webkit.JsWebView;
+import com.eazytec.bpm.lib.common.webkit.JsWebViewActiEvent;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
-import com.eazytec.bpm.lib.common.webkit.event.BPMFileMsgEvent;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
@@ -39,7 +32,6 @@ import com.eazytec.bpm.lib.utils.StringUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import net.wequick.small.Small;
@@ -51,7 +43,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +56,7 @@ import java.util.List;
 public class BPMWebViewActivity extends WebViewActivity {
 
     /**
-     *  图片选择
+     * 图片选择
      */
     private static final int COMPRESSMODE = PictureConfig.SYSTEM_COMPRESS_MODE;  //压缩模式，系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -99,7 +90,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bpmwebview);
 
-        //DownloadHelper.download(this, "ff8080815d3aa2af015d3ed479200920", "ic_flicker_bg.png");
 
         toolbar = (Toolbar) findViewById(R.id.tb_common_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
@@ -111,7 +101,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("xxx","xx");
                 if (jsWebView != null && jsWebView.canGoBack()) {
                     jsWebView.goBack();
                 } else {
@@ -148,9 +137,7 @@ public class BPMWebViewActivity extends WebViewActivity {
         if (!StringUtils.isSpace(url)) {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
-
-
-
+        initWebView();
     }
 
     @Override
@@ -158,7 +145,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         super.onResume();
         // eventBus注册事件
         EventBus.getDefault().register(this);
-        initWebView();
     }
 
     @Override
@@ -202,12 +188,12 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
     /**
-     *设置titlebar的隐藏与显示
+     * 设置titlebar的隐藏与显示
      */
     private void setTitleBarVisible(Boolean isVisible, CompletionHandler handler, String result) {
         if (isVisible) {
             toolbar.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             toolbar.setVisibility(View.GONE);
         }
 
@@ -215,7 +201,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
     /**
-     *设置titlebar的背景颜色
+     * 设置titlebar的背景颜色
      */
     private void setTitleBarBgColor(String color, CompletionHandler handler, String result) {
         if (!StringUtils.isEmpty(color)) {
@@ -225,30 +211,30 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
     /**
-     *设置titlebar的背景图片
+     * 设置titlebar的背景图片
      */
     private void setTitleBarBgImage(Drawable image, CompletionHandler handler, String result) {
         if (Build.VERSION.SDK_INT > 15) {
             toolbar.setBackground(image);
-        }else {
+        } else {
             toolbar.setBackgroundDrawable(image);
         }
         handler.complete(result);
     }
 
     /**
-     *设置titlebar右边按钮的背景图片
+     * 设置titlebar右边按钮的背景图片
      */
     private void setTitleBarRightBtnBgImage(Drawable image) {
         if (Build.VERSION.SDK_INT > 15) {
             toolbarRightIv.setBackground(image);
-        }else {
+        } else {
             toolbarRightIv.setBackgroundDrawable(image);
         }
     }
 
     /**
-     *设置titlebar右边按钮的Callback
+     * 设置titlebar右边按钮的Callback
      */
     private void setTitleBarRightBtnCallback(final CompletionHandler handler, final String result) {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
@@ -279,13 +265,13 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
     /**
-     *  在Main线程执行的订阅
+     * 在Main线程执行的订阅
      *
      * @param messageEvent
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainMessageEvent(BPMJsMsgEvent messageEvent) {
-        switch(messageEvent.getId()){
+        switch (messageEvent.getId()) {
             case BPMJsMsgEvent.JS_SET_TITLE:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -295,10 +281,10 @@ public class BPMWebViewActivity extends WebViewActivity {
                     JSONObject object = new JSONObject(callbackBean.toJson());
 
                     setToolbarTitle(jsonObject.getString(BPMJsApi.API_PARAM_TITLE),
-                                    jsonObject.getString(BPMJsApi.API_PARAM_FONT_SIZE),
-                                    jsonObject.getString(BPMJsApi.API_PARAM_FONT_COLOR),
-                                    handler,
-                                    object.toString());
+                            jsonObject.getString(BPMJsApi.API_PARAM_FONT_SIZE),
+                            jsonObject.getString(BPMJsApi.API_PARAM_FONT_COLOR),
+                            handler,
+                            object.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -314,7 +300,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                     if (jsonObject.getBoolean(BPMJsApi.API_PARAM_TITLEBAR_VISIBLE)) {
                         setTitleBarVisible(true, handler, object.toString());
-                    }else {
+                    } else {
                         setTitleBarVisible(false, handler, object.toString());
                     }
                 } catch (JSONException e) {
@@ -337,9 +323,9 @@ public class BPMWebViewActivity extends WebViewActivity {
                 }
                 break;
 
-        /**
-         *  因为DownloadHelper中用到了一些需要在主线程执行的UI操作。所以这里post到主线程
-         */
+            /**
+             *  因为DownloadHelper中用到了一些需要在主线程执行的UI操作。所以这里post到主线程
+             */
             case BPMJsMsgEvent.JS_DOWNLOAD_FILE:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -372,7 +358,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
                     File file = new File(filePath);
                     if (!file.exists()) {
-                        ToastDelegate.error(this,"文件不存在");
+                        ToastDelegate.error(this, "文件不存在");
                         return;
                     }
                     UploadHelper.upload(this, file, mHandler);
@@ -382,22 +368,22 @@ public class BPMWebViewActivity extends WebViewActivity {
                 break;
 
             case BPMJsMsgEvent.JS_FILE_SELECT:
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                     CompletionHandler handler = messageEvent.getHandler();
                     int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_FILE_NUM);
                     String selectNumStr = String.valueOf(selectNum);
                     fileHandler = handler;
 
-                    Small.openUri("app.filepicker/forfilepicker?CUSTOM_MAX_COUNT="+selectNumStr,getContext());
+                    Small.openUri("app.filepicker/forfilepicker?CUSTOM_MAX_COUNT=" + selectNumStr, getContext());
 
-                }catch(JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
 
             case BPMJsMsgEvent.JS_GET_IMAGES:
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                     CompletionHandler handler = messageEvent.getHandler();
                     // 构造回调json数据
@@ -412,13 +398,13 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                     getImages(chooseMode, selectNum, handler);
 
-                }catch(JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
 
             case BPMJsMsgEvent.JS_GET_VIDEOS:
-                try{
+                try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                     CompletionHandler handler = messageEvent.getHandler();
                     // 构造回调json数据
@@ -433,7 +419,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                     getImages(chooseMode, selectNum, handler);
 
-                }catch(JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -442,7 +428,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
     /**
-     *  在Main线程执行的图片订阅
+     * 在Main线程执行的图片订阅
      *
      * @param messageEvent
      */
@@ -473,18 +459,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMainMessageFileEvent(BPMFileMsgEvent messageEvent) {
-        switch (messageEvent.getId()) {
-            case BPMFileMsgEvent.FILE_SELECT:
-                if (fileHandler != null) {
-                    FileCallbackBean callbackBean = new FileCallbackBean(true, "", messageEvent.getMessage());
-                    JSONObject jsonObject = new JSONObject(callbackBean.toJson());
-                    mediaHandler.complete(jsonObject.toString());
-                }
-                break;
-        }
-    }
 
     /**
      * 新建webview的回调方法
@@ -507,7 +481,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 选取本地图片
      */
-    private void getImages(int chooseMode, int maxSelectNum, CompletionHandler handler){
+    private void getImages(int chooseMode, int maxSelectNum, CompletionHandler handler) {
 
         mediaHandler = handler;
         pictureSelector(chooseMode, maxSelectNum);
@@ -515,13 +489,13 @@ public class BPMWebViewActivity extends WebViewActivity {
 
 
     /**
-     *  图片选择方法
+     * 图片选择方法
      *
-     * @param chooseMode  选择模式
-     * @param maxSelectNum  最大图片/视频数
+     * @param chooseMode   选择模式
+     * @param maxSelectNum 最大图片/视频数
      */
 
-    private void pictureSelector(int chooseMode, int maxSelectNum ) {
+    private void pictureSelector(int chooseMode, int maxSelectNum) {
         // 清空selectList
         selectList = new ArrayList<>();
         PictureSelector.create(this)
@@ -530,7 +504,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .maxSelectNum(maxSelectNum)// 最大图片选择数量 int
                 .minSelectNum(1)// 最小选择数量 int
                 .imageSpanCount(4)// 每行显示个数 int
-                .selectionMode(PictureConfig.MULTIPLE )// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
+                .selectionMode(PictureConfig.MULTIPLE)// 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                 .previewImage(true)// 是否可预览图片 true or false
                 .previewVideo(true)// 是否可预览视频 true or false
                 .enablePreviewAudio(true) // 是否可播放音频 true or false
@@ -540,7 +514,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                 //压缩功能设置
                 .compress(false)
-                .compressMode(PictureConfig.SYSTEM_COMPRESS_MODE )//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
+                .compressMode(PictureConfig.SYSTEM_COMPRESS_MODE)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
                 .compressGrade(Luban.FIRST_GEAR)// luban压缩档次，默认3档 Luban.THIRD_GEAR、Luban.FIRST_GEAR、Luban.CUSTOM_GEAR
                 //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径,可不填
                 // 是否裁剪 true or false
@@ -548,8 +522,8 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .circleDimmedLayer(false)// 是否圆形裁剪 true or false
                 .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
                 .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
-                .glideOverride(160,160)// int glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
-                .withAspectRatio(0,0)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .glideOverride(160, 160)// int glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
+                .withAspectRatio(0, 0)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                 .hideBottomControls(false)// 是否显示uCrop工具栏，默认不显示 true or false
                 .freeStyleCropEnabled(false)// 裁剪框是否可拖拽 true or false
 
@@ -586,6 +560,24 @@ public class BPMWebViewActivity extends WebViewActivity {
                         MediaCallbackBean callbackBean = new MediaCallbackBean(true, "", selectList);
                         JSONObject jsonObject = new JSONObject(callbackBean.toJson());
                         mediaHandler.complete(jsonObject.toString());
+                    }
+                    break;
+
+                case Small.REQUEST_CODE_DEFAULT:
+
+                    String code = data.getStringExtra(JsWebViewActiEvent.SMALL_RESULT);
+                    if (StringUtils.equals(code, JsWebViewActiEvent.FILE_SELECTED)) {
+                        ArrayList<String> list = data.getStringArrayListExtra("SELECTED_DOCS");
+                        if (list == null) {
+                            list = new ArrayList<>();
+                        }
+                        FileCallbackBean callbackBean = new FileCallbackBean(true, "", list);
+                        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+
+                        if (fileHandler != null) {
+                            fileHandler.complete(jsonObject.toString());
+                        }
+
                     }
                     break;
             }

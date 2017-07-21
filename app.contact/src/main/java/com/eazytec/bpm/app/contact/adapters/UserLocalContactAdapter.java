@@ -1,7 +1,6 @@
 package com.eazytec.bpm.app.contact.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.data.UserContactData;
 import com.eazytec.bpm.app.contact.utils.CnToSpell;
 import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
-import com.eazytec.bpm.appstub.view.imageview.LetterImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,7 @@ public class UserLocalContactAdapter extends BaseAdapter{
 
     final static class ViewHolder {
         TextView catalog; //字母目录
-       AvatarImageView letterImageView; //首字母，可以用另一个，能设置头像
+         AvatarImageView letterImageView; //首字母，可以用另一个，能设置头像
         TextView name;
         TextView phone;
     }

@@ -199,7 +199,7 @@ public final class IntentUtils {
      * @param phoneNumber 电话号码
      */
     public static Intent getCallIntent(final String phoneNumber) {
-        Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + phoneNumber));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
         return intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
