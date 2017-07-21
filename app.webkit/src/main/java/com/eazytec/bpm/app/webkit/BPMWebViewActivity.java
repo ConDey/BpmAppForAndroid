@@ -17,6 +17,7 @@ import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
 import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
+import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.WebViewActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
@@ -465,14 +466,29 @@ public class BPMWebViewActivity extends WebViewActivity {
      */
     public void startWebViewActivity(String htmlUrl, String title) {
         Intent it = new Intent(this, BPMWebViewActivity.class);
-        it.putExtra(INTENT_URL, htmlUrl);
+
+        if (htmlUrl.startsWith("http:") ||
+                htmlUrl.startsWith("https:") ||
+                htmlUrl.startsWith("file:")) {
+            it.putExtra(INTENT_URL, htmlUrl);
+        } else {
+
+            it.putExtra(INTENT_URL, Config.WEB_SERVICE_URL + htmlUrl);
+        }
+
         it.putExtra(INTENT_TITLE, title);
         startActivity(it);
     }
 
     public void skipWebViewActivity(String htmlUrl, String title) {
         Intent it = new Intent(this, BPMWebViewActivity.class);
-        it.putExtra(INTENT_URL, htmlUrl);
+        if (htmlUrl.startsWith("http:") ||
+                htmlUrl.startsWith("https:") ||
+                htmlUrl.startsWith("file:")) {
+            it.putExtra(INTENT_URL, htmlUrl);
+        } else {
+            it.putExtra(INTENT_URL, Config.WEB_SERVICE_URL + htmlUrl);
+        }
         it.putExtra(INTENT_TITLE, title);
         skipActivity(this, it);
     }

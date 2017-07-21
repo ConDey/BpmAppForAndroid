@@ -61,8 +61,29 @@
       "imageurl":"ic_homeapp_process",
       "imageurltype":"IMAGE_URL_TYPE_INNER",
       "type":"APP_TYPE_WEB",
-      "bundlename":"http://58.215.198.212:8080/external/h5/mybucket"
+      "bundlename":"h5/mybucket"
 
+    },
+    {
+      "id":"com.eazytec.bpm.app.webkit.start",
+      "packagename": "com.eazytec.bpm.app.webkit.start",
+      "name": "发起流程",
+      "diplayname":"发起",
+      "imageurl":"ic_homeapp_process",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_WEB",
+      "bundlename":"h5/viewProcess"
+
+    },
+    {
+      "id":"com.eazytec.bpm.app.webkit.search",
+      "packagename": "com.eazytec.bpm.app.webkit.search",
+      "name": "查询流程",
+      "diplayname":"查询",
+      "imageurl":"ic_homeapp_process",
+      "imageurltype":"IMAGE_URL_TYPE_INNER",
+      "type":"APP_TYPE_WEB",
+      "bundlename":"h5/doneList"
     }
   ]
 }

@@ -3,6 +3,7 @@ package com.eazytec.bpm.app.home.data.app;
 import android.content.Context;
 import android.support.annotation.StringDef;
 
+import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -305,7 +306,14 @@ public class BPMApp implements Installable {
 
         if (StringUtils.equals(getType(), APP_TYPE_WEB)) {
 
-            String url = EncodeUtils.urlEncode(bundleName).toString();
+            String url;
+            if (bundleName.startsWith("http:") ||
+                    bundleName.startsWith("https:") ||
+                    bundleName.startsWith("file:")) {
+                url = EncodeUtils.urlEncode(bundleName).toString();
+            } else {
+                url = EncodeUtils.urlEncode(Config.WEB_SERVICE_URL + bundleName).toString();
+            }
             Small.openUri("app.webkit?url=" + url + "&title=" + displayName, context);
             return;
         }
