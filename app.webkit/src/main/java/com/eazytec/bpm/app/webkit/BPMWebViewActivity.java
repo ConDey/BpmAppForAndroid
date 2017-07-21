@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -182,6 +183,14 @@ public class BPMWebViewActivity extends WebViewActivity {
             headers.put("token", CurrentUser.getCurrentUser().getToken().toString());
         }
         return headers;
+    }
+
+    public void syncCookie(CookieManager cookieManager) {
+        super.syncCookie(cookieManager);
+
+        // 加入BPM的Token
+        cookieManager.setCookie(Config.WEB_SERVICE_URL, "token=" + CurrentUser.getCurrentUser().getToken().toString());
+
     }
 
     @Override protected Object jsApi() {

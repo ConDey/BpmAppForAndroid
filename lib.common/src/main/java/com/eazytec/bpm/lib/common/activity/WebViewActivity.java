@@ -1,10 +1,13 @@
 package com.eazytec.bpm.lib.common.activity;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -62,6 +65,15 @@ public abstract class WebViewActivity extends CommonActivity {
 
         jsWebView.setJavascriptInterface(jsApi()); // 设置jsApi
         jsWebView.clearCache(true);
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        syncCookie(cookieManager);  // 写入自己的Cookie
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(this);
+            cookieSyncManager.sync();
+        }
+
+
         jsWebView.loadUrl(url(), headers());
     }
 
@@ -95,6 +107,14 @@ public abstract class WebViewActivity extends CommonActivity {
      */
     protected HashMap<String, String> headers() {
         return new HashMap<>();
+    }
+
+
+    /**
+     * 同步cookie
+     */
+    public void syncCookie(CookieManager cookieManager) {
+
     }
 
 
