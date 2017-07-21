@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
@@ -63,6 +64,10 @@ public class BPMWebViewActivity extends WebViewActivity {
     private static final int COMPRESSMODE = PictureConfig.SYSTEM_COMPRESS_MODE;  //压缩模式，系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
     private List<LocalMedia> selectList = new ArrayList<>();
 
+
+    private boolean hasBindBackButton = false;
+    private String backBtonCallBack = "";
+
     /**
      * 这个参数用于设置bpmwebview的标题，可以为空先不设置，由网页自己调用
      * setTitle方法设置
@@ -103,10 +108,15 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (jsWebView != null && jsWebView.canGoBack()) {
-                    jsWebView.goBack();
+
+                if (hasBindBackButton && !StringUtils.isSpace(backBtonCallBack)) {
+                    jsWebView.callHandler(backBtonCallBack, new Object[]{});
                 } else {
-                    finish();
+                    if (jsWebView != null && jsWebView.canGoBack()) {
+                        jsWebView.goBack();
+                    } else {
+                        finish();
+                    }
                 }
             }
         });
@@ -433,6 +443,41 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
+
+
+            case BPMJsMsgEvent.JS_BIND_BACKBTN:
+
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+
+                    hasBindBackButton = true;
+                    backBtonCallBack = jsonObject.getString(BPMJsApi.CALL_BACK);
+
+                    if (handler != null) {
+
+                        BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                        JSONObject object = new JSONObject(callbackBean.toJson());
+                        handler.complete(object.toString());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+
+            case BPMJsMsgEvent.JS_UNBIND_BACKBTN:
+                hasBindBackButton = false;
+                backBtonCallBack = null;
+                CompletionHandler handler = messageEvent.getHandler();
+                if (handler != null) {
+
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    handler.complete(object.toString());
+                }
+                break;
         }
 
     }
@@ -585,6 +630,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                         MediaCallbackBean callbackBean = new MediaCallbackBean(true, "", selectList);
                         JSONObject jsonObject = new JSONObject(callbackBean.toJson());
                         mediaHandler.complete(jsonObject.toString());
+                        mediaHandler = null;
                     }
                     break;
 
@@ -601,6 +647,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                         if (fileHandler != null) {
                             fileHandler.complete(jsonObject.toString());
+                            fileHandler = null;
                         }
 
                     }

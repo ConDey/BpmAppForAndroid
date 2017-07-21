@@ -16,6 +16,8 @@
 				margin-top: 10px;
 				margin-left: 10px;
 			}
+
+
     </style>
 </head>
 
@@ -25,45 +27,69 @@
         <button type="button" class="mui-btn mui-btn-outlined" onclick="closewindow()">
             关闭页面
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarVisible()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitlebarVisible()">
             显示标题栏
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarInvisible()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitlebarInvisible()">
             隐藏标题栏
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarBgColor()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitlebarBgColor()">
             设置标题栏背景颜色
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitlebarBgImage()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitlebarBgImage()">
             设置标题栏背景图片
         </button>
         <!--<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarRightBtn()">-->
-            <!--设置标题栏右边按钮-->
+        <!--设置标题栏右边按钮-->
         <!--</button>-->
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setTitleBarTextView()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitleBarTextView()">
             修改标题栏title
         </button>
 
+
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="startWindow()">
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="registerBack()">
+            绑定Back按钮
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="unRegisterBack()">
+            解绑Back按钮
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="startWindow()">
             新建WebViewActivity
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="skipWindow()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="skipWindow()">
             新建WebViewActivity并结束当前activity
         </button>
 
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="downloadFile()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="downloadFile()">
             文件下载
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="uploadFile()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="uploadFile()">
             文件上传
         </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="fileSelector()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="fileSelector()">
             文件选择
         </button>
 
@@ -206,6 +232,24 @@
                     alert(result);
                });
         }
+
+        function registerBack() {
+              bpmbridget.call("bindBackBtn", {callback: "tback"}, function(result) {
+                    alert(result);
+               });
+        }
+
+        function tback() {
+             alert(1);
+        }
+
+        function unRegisterBack() {
+               bpmbridget.call("unbindBackBtn", function(result) {
+                    alert(result);
+               });
+        }
+
+
 
 </script>
 </html>

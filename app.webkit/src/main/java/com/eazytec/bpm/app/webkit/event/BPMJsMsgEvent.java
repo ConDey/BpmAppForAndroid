@@ -28,19 +28,24 @@ public class BPMJsMsgEvent {
     public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
     public static final String JS_GET_VIDEOS = "JS_GET_VIDEOS";
 
+    public static final String JS_BIND_BACKBTN = "JS_BIND_BACKBTN";
+    public static final String JS_UNBIND_BACKBTN = "JS_UNBIND_BACKBTN";
+
     // 自定义一个注解MyState
     @StringDef({JS_SET_TITLE,
-                JS_SET_TITLEBAR_VISIBLE,
-                JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
-                JS_SET_TITLEBAR_BGCOLOR,
-                JS_SET_TITLEBAR_BGIMAGE,
-                JS_DOWNLOAD_FILE,
-                JS_UPLOAD_FILE,
-                JS_FILE_SELECT,
-                JS_GET_USER,
-                JS_GET_TOKEN,
-                JS_GET_IMAGES,
-                JS_GET_VIDEOS})
+            JS_SET_TITLEBAR_VISIBLE,
+            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
+            JS_SET_TITLEBAR_BGCOLOR,
+            JS_SET_TITLEBAR_BGIMAGE,
+            JS_DOWNLOAD_FILE,
+            JS_UPLOAD_FILE,
+            JS_FILE_SELECT,
+            JS_GET_USER,
+            JS_GET_TOKEN,
+            JS_GET_IMAGES,
+            JS_GET_VIDEOS,
+            JS_BIND_BACKBTN,
+            JS_UNBIND_BACKBTN })
     public @interface BPM_JS_ID {
     }
 

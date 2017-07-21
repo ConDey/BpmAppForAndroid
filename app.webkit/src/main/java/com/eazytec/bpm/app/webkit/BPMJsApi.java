@@ -54,7 +54,6 @@ public class BPMJsApi {
     }
 
 
-
     /**
      * 设置titleBar的隐藏与显示
      */
@@ -67,6 +66,7 @@ public class BPMJsApi {
 
     /**
      * 设置titlebar右面按钮
+     *
      * @param jsonObject
      */
 
@@ -75,7 +75,7 @@ public class BPMJsApi {
         String imgUrl = "";
         try {
             imgUrl = jsonObject.getString(URL);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         if (!StringUtils.isEmpty(imgUrl)) {
@@ -113,7 +113,7 @@ public class BPMJsApi {
         String imgUrl = "";
         try {
             imgUrl = jsonObject.getString(API_PARAM_TITLEBAR_BGIMAGE);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         if (!StringUtils.isEmpty(imgUrl)) {
@@ -137,6 +137,7 @@ public class BPMJsApi {
     public static final String API_PARAM_TITLE = "title";
     public static final String API_PARAM_FONT_SIZE = "fontSize";
     public static final String API_PARAM_FONT_COLOR = "fontColor";
+
     @JavascriptInterface
     public void setTitlebarTextView(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString(), handler));
@@ -155,7 +156,7 @@ public class BPMJsApi {
             if (activity != null) {
                 activity.startWebViewActivity(url, title);
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -168,7 +169,7 @@ public class BPMJsApi {
             if (activity != null) {
                 activity.skipWebViewActivity(url, title);
             }
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
@@ -220,9 +221,9 @@ public class BPMJsApi {
         UserCallbackBean callbackBean;
         UserDetails user = CurrentUser.getCurrentUser().getUserDetails();
         if (user != null) {
-            callbackBean = new UserCallbackBean(true,"", user);
-        }else {
-            callbackBean = new UserCallbackBean(false,"当前用户不存在", null);
+            callbackBean = new UserCallbackBean(true, "", user);
+        } else {
+            callbackBean = new UserCallbackBean(false, "当前用户不存在", null);
         }
         JSONObject jsonObj = new JSONObject(callbackBean.toJson());
         handler.complete(jsonObj.toString());
@@ -238,7 +239,7 @@ public class BPMJsApi {
         String token = CurrentUser.getCurrentUser().getToken().toString();
         if (!StringUtils.isEmpty(token)) {
             callbackBean = new TokenCallbackBean(true, "", token);
-        }else {
+        } else {
             callbackBean = new TokenCallbackBean(false, "Token不存在", null);
         }
         JSONObject jsonObj = new JSONObject(callbackBean.toJson());
@@ -253,7 +254,7 @@ public class BPMJsApi {
 
     @JavascriptInterface
     public void getImages(JSONObject jsonObject, CompletionHandler handler) {
-         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_IMAGES, jsonObject.toString(), handler));
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_IMAGES, jsonObject.toString(), handler));
     }
 
     /**
@@ -262,6 +263,17 @@ public class BPMJsApi {
     @JavascriptInterface
     public void getVideos(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_VIDEOS, jsonObject.toString(), handler));
+    }
+
+
+    @JavascriptInterface
+    public void bindBackBtn(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_BIND_BACKBTN, jsonObject.toString(), handler));
+    }
+
+    @JavascriptInterface
+    public void unbindBackBtn(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
 }
