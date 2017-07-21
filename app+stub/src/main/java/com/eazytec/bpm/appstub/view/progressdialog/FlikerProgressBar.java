@@ -350,12 +350,12 @@ public class FlikerProgressBar extends View implements Runnable{
         String text= "";
         if(!isFinish){
             if(!isStop){
-                text = "下载中" + progress + "%";
+                text = "处理中" + progress + "%";
             } else {
                 text = "继续";
             }
         } else{
-            text = "下载完成";
+            text = "任务完成";
         }
 
         return text;
