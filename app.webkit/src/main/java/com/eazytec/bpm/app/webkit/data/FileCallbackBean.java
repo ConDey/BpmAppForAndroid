@@ -43,7 +43,7 @@ public class FileCallbackBean extends BaseCallbackBean {
         if (mLists.equals("[")) {
             mLists = mLists + "]";
         } else {
-            mLists = lists.substring(0, mLists.length() - 2) + "]";
+            mLists = lists.substring(0, mLists.length() - 1) + "]";
         }
         hashMap.put(LIST, mLists);
 

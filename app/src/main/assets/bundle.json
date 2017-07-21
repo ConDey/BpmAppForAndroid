@@ -40,7 +40,7 @@
       "uri": "app.filepicker",
       "pkg": "com.eazytec.bpm.app.filepicker",
       "rules": {
-        "forFilePicker": "FilePickerActivity"
+        "forfilepicker": "filepicker.FilePicker"
       }
     }
 
