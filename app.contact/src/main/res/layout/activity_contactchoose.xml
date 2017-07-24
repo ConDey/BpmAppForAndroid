@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/bpm_toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+        <!--用来放导航栏的-->
+        <GridView
+            android:id="@+id/contactchoose_backnavigation_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#00000000"
+            android:horizontalSpacing="0px"
+            android:listSelector="#00000000"
+            android:clickable="true"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="0px">
+        </GridView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/contactchoose_haschoose_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                android:text="已选择人员"
+                android:textColor="@color/color_grey_primary"
+                android:textSize="12sp"/>
+
+
+            <Button
+                android:id="@+id/contactchoose_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_primary"
+                android:text="确认选择"
+                android:layout_marginBottom="3dp"
+                android:textColor="@android:color/white"/>
+        </RelativeLayout>
+
+
+        <include layout="@layout/bpm_single_line"></include>
+
+        <GridView
+            android:id="@+id/contactchoose_haschoose_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:horizontalSpacing="0px"
+            android:listSelector="#00000000"
+            android:numColumns="6"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="0px">
+        </GridView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/dep_and_user_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

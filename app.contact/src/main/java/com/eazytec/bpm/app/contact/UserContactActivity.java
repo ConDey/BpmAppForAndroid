@@ -16,6 +16,7 @@ import com.eazytec.bpm.app.contact.adapters.UserViewAdapter;
 import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.helper.ListViewHelper;
+import com.eazytec.bpm.app.contact.usercontact.contactchoose.UserChooseActivity;
 import com.eazytec.bpm.app.contact.usercontact.department.DepartmentActivity;
 import com.eazytec.bpm.app.contact.usercontact.localcontact.LocalContactActivity;
 import com.eazytec.bpm.app.contact.usercontact.search.UserSearchActivity;
@@ -48,6 +49,7 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
     private ScrollView scrollView;
     private RelativeLayout contractSearchRelativeLayout;
     private RelativeLayout localContactRelativeLayout;
+    private RelativeLayout selectionRelativeLayout;
 
     private LinearLayout departmentLayout;
     private ListView deparmentRecyclerView;
@@ -77,6 +79,7 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
         scrollView = (ScrollView) findViewById(R.id.contract_scrollview);
         contractSearchRelativeLayout = (RelativeLayout) findViewById(R.id.contract_search_relativelayout);
         localContactRelativeLayout = (RelativeLayout) findViewById(R.id.contract_local_relativelayout);
+        selectionRelativeLayout = (RelativeLayout) findViewById(R.id.contract_selection_relativelayout);
 
         departmentLayout = (LinearLayout) findViewById(R.id.department_layout);
         deparmentRecyclerView = (ListView) findViewById(R.id.department_listview);
@@ -131,6 +134,14 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
                     }
                 });
 
+        //人员选择
+        RxView.clicks(this.selectionRelativeLayout).throttleFirst(100, TimeUnit.MILLISECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                      startActivity(UserContactActivity.this,UserChooseActivity.class);
+                    }
+                });
         //部门条目点击
         RxAdapterView.itemClicks(this.deparmentRecyclerView).throttleFirst(100,TimeUnit.MILLISECONDS)
                 .subscribe(new Action1<Integer>() {
