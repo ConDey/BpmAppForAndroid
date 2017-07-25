@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="wrap_content"
     android:gravity="center"
     android:layout_height="40dp">
     <TextView
         android:id="@+id/contactchoose_backnavigation_textview"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2.0"
-        android:textSize = "16sp"
+        android:textSize = "18sp"
         android:layout_gravity="center"
         android:textColor="@color/color_primary"
         />
     <ImageView
         android:id="@+id/contactchoose_backnavigation_imageview"
-        android:layout_width="0dp"
-        android:layout_weight="1.0"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
         android:layout_gravity="center"
         android:src="@mipmap/ic_arror_belowdepartment"
         />

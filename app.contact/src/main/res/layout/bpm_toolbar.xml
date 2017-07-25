@@ -13,6 +13,7 @@
             android:id="@+id/bpm_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@color/color_toolbar"
             android:minHeight="?attr/actionBarSize">
 
@@ -23,6 +24,17 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/color_black_primary"
                 android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/contactchoose_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/drawer_toolbar_rightbutton_bg"
+                android:text="确认选择"
+                android:visibility="gone"
+                android:textColor="@android:color/white"/>
 
         </android.support.v7.widget.Toolbar>
 
