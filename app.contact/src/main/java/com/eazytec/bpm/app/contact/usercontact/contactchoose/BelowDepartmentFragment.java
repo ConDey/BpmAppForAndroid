@@ -168,7 +168,7 @@ public class BelowDepartmentFragment extends ContractViewFragment<BelowDepartmen
             @Override
             public void onItemClick(View view, int position) {
                 chooseDataTObjects.remove(position); //移除这个
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
                 contactChooseAdapter.notifyDataSetChanged();
@@ -245,6 +245,7 @@ public class BelowDepartmentFragment extends ContractViewFragment<BelowDepartmen
         userRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 SmoothCheckBox checkBox = (SmoothCheckBox) view.findViewById(R.id.item_contactchoose_checkbox);
 
                 if (checkBox.isChecked()) {
@@ -267,16 +268,20 @@ public class BelowDepartmentFragment extends ContractViewFragment<BelowDepartmen
                     }
 
                 } else {
-
-
-                    checkBox.setChecked(true);
-
-                    UserDetailDataTObject needAddObject = allDataTObjects.get(position);
-                    chooseDataTObjects.add(needAddObject);
+                    if(chooseDataTObjects.size() < (UserChooseManager.getOurInstance().getMaxCount())) {
+                        checkBox.setChecked(true);
+                        UserDetailDataTObject needAddObject = allDataTObjects.get(position);
+                        chooseDataTObjects.add(needAddObject);
+                    } else{
+                        checkBox.setChecked(false);
+                        ToastDelegate.info(getContext(),"最多只能选"+UserChooseManager.getOurInstance().getMaxCount()+"个人！");
+                        return;
+                    }
                 }
+
                 // hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseHasChooseAdapter.setItems(chooseDataTObjects);
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
             }
@@ -335,7 +340,7 @@ public class BelowDepartmentFragment extends ContractViewFragment<BelowDepartmen
             contactChooseAdapter.resetList(departmentDataTObject.getUsers());
             //防止多选
             contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-            hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+            hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
             contactChooseAdapter.notifyDataSetChanged();
             ListViewHelper.setListViewHeightBasedOnChildren(userRecyclerView);
         } else {

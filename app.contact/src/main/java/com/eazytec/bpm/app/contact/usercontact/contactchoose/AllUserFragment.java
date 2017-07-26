@@ -137,7 +137,7 @@ public class AllUserFragment extends ContractViewFragment<AllUserPresenter> impl
             @Override
             public void onItemClick(View view, int position) {
                 chooseDataTObjects.remove(position); //移除这个
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
                 contactChooseAdapter.notifyDataSetChanged();
@@ -208,15 +208,18 @@ public class AllUserFragment extends ContractViewFragment<AllUserPresenter> impl
                     }
 
                 } else {
-
-
-                    checkBox.setChecked(true);
-
-                    UserDetailDataTObject needAddObject = allDataTObjects.get(position);
-                    chooseDataTObjects.add(needAddObject);
+                    if(chooseDataTObjects.size() < (UserChooseManager.getOurInstance().getMaxCount())) {
+                        checkBox.setChecked(true);
+                        UserDetailDataTObject needAddObject = allDataTObjects.get(position);
+                        chooseDataTObjects.add(needAddObject);
+                    }else{
+                        checkBox.setChecked(false);
+                        ToastDelegate.info(getContext(),"最多只能选"+UserChooseManager.getOurInstance().getMaxCount()+"个人！");
+                        return;
+                    }
                 }
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseHasChooseAdapter.setItems(chooseDataTObjects);
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
             }
@@ -277,7 +280,7 @@ public class AllUserFragment extends ContractViewFragment<AllUserPresenter> impl
             contactChooseAdapter.resetList(usersDataTObject.getDatas());
             //防止多选
             contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-            hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+            hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
         } else {
             contactChooseAdapter.resetList(new ArrayList<UserDetailDataTObject>());
             ToastDelegate.info(getContext(),"没有搜索到人员信息");

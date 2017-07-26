@@ -163,7 +163,7 @@ public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPre
                 chooseDataTObjects.remove(position); //移除这个
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseAdapter.notifyDataSetChanged();
                 //已选择列表也要监听变动
             }

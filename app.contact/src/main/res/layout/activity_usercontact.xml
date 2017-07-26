@@ -84,7 +84,9 @@ android:layout_height="match_parent">
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:layout_width="wrap_content"

@@ -91,7 +91,7 @@ public class UserChooseActivity extends CommonActivity {
         searchEditText = (EditText)findViewById(R.id.contactchoose_search_input_edittext);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        hasChooseView.addItemDecoration(new SpacesItemDecoration(3));
+        hasChooseView.addItemDecoration(new SpacesItemDecoration(10));
         hasChooseView.setLayoutManager(linearLayoutManager);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -145,7 +145,7 @@ public class UserChooseActivity extends CommonActivity {
         }
 
 
-        hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+        hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
         contactChooseHasChooseAdapter.setItems(chooseDataTObjects);
         contactChooseHasChooseAdapter.notifyDataSetChanged();
 
@@ -167,7 +167,7 @@ public class UserChooseActivity extends CommonActivity {
             @Override
             public void onItemClick(View view, int position) {
                 chooseDataTObjects.remove(position); //移除这个
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
             }
         });

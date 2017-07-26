@@ -94,15 +94,21 @@ public class ContactChooseAdapter extends BaseAdapter {
 
         return convertView;
     }
-
+    /**
+     *
     @Override
     public boolean isEnabled(int position) {
         if(haschooseitems.size() > (UserChooseManager.getOurInstance().getMaxCount()-1)){
             //已经选中的那些地方要可以点击取消
-            return false;
+            if(haschooseitems.contains(items.get(position).getId())){
+                return super.isEnabled(position);
+            }else
+                ToastDelegate.info(context, "最多只能选" + UserChooseManager.getOurInstance().getMaxCount() + "个人！");
+                return false; //无选中，无点击事件
         } else
-        return super.isEnabled(position);//可以点击
+            return super.isEnabled(position);//可以点击
     }
+    **/
 
     public void resetList(List<UserDetailDataTObject> list) {
         items.clear();

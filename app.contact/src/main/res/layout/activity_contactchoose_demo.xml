@@ -4,10 +4,19 @@
     android:layout_height="match_parent">
 <!--简单使用人员选择功能-->
     <include layout="@layout/bpm_toolbar"></include>
+    <EditText
+        android:id="@+id/select_type_num"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="请输入选择人员上限数量"
+        />
     <Button
         android:id="@+id/select_type_multi"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:text = "选择"
         />

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class UserChoosedemoActivity extends CommonActivity{
 
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
+    private EditText editText;
 
     public static final int REQUEST_CODE_MULTI =  222;
     //多选
@@ -57,6 +59,7 @@ public class UserChoosedemoActivity extends CommonActivity{
         userRecyclerView.setAdapter(userViewAdapter);
         userRecyclerView.setFocusable(false);
 
+        editText = (EditText) findViewById(R.id.select_type_num);
 
         multiButton = (Button) findViewById(R.id.select_type_multi);
         multiButton.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +68,8 @@ public class UserChoosedemoActivity extends CommonActivity{
                       Intent intent = new Intent(UserChoosedemoActivity.this, UserChooseActivity.class);
                       //可以传送参数"choosedatas"，把已选的人员传进去,xxx为已选择的人
                       // intent.putParcelableArrayListExtra("choosedatas",xxx)
+                      String num = editText.getText().toString();
+                      intent.putExtra("numdatas",num); //最大选择的人数
                       startActivityForResult(intent,REQUEST_CODE_MULTI);
             }
         });

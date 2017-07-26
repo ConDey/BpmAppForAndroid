@@ -1,0 +1,30 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape>
+            <!--    边框颜色 -->
+            <solid android:color="#ffffff"/>
+        </shape>
+    </item>
+    <!-- 给View的上 左  右设置8dp的边框 -->
+    <item android:bottom="3dp" android:left="3dp" android:right="3dp" >
+        <shape>
+            <!--     View填充颜色 -->
+            <solid android:color="#c6c7cb" />
+        </shape>
+    </item>
+
+    <item android:bottom="4dp" android:left="4dp" android:right="4dp" >
+        <shape>
+            <!--     View填充颜色 -->
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+
+    <item android:bottom="15dp">
+        <shape>
+            <!--     View填充颜色 -->
+            <solid android:color="#ffffff" />
+        </shape>
+    </item>
+
+</layer-list>
