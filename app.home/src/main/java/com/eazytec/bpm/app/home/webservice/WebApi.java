@@ -1,5 +1,6 @@
 package com.eazytec.bpm.app.home.webservice;
 
+import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
 import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
@@ -40,5 +41,14 @@ public interface WebApi {
     @POST("password/change")
     Observable<WebDataTObject> updatePwd(@Field("oldPassword") String oldPassword, @Field("newPassword") String newPassword, @Field("confirmPassword") String confirmPassword);
 
+
+    /**
+     * 加载获得菜单列表
+     *
+     * @param commonUse
+     * @return
+     */
+    @GET("menu/list")
+    Observable<AppsDataTObject> menuList(@Query("commonUse") boolean commonUse);
 
 }
