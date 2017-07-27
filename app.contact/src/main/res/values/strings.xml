@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">app.contact</string>
+    <string name="contactchoose_haschoose">已选择人员(%1$s/%2$s)</string>
 </resources>
