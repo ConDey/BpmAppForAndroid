@@ -17,6 +17,8 @@ public class DownloadBroadcastReceiver extends BroadcastReceiver {
     private String DOWNLOAD_NOTIFICATION_CLICKED;
     private DownloadContract contract;
 
+
+
     public DownloadBroadcastReceiver(String downloadState, String clickState, DownloadContract contract) {
         super();
         this.DOWNLOAD_COMPLETE = downloadState;
