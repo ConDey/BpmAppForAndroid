@@ -20,9 +20,14 @@ public abstract class Config {
     public static final String DEFAULT_TOKEN = "EAZYTEC";
 
     /**
-     * 服务地址 IP + PORT
+     * 主机地址IP + PORT
      */
-    public static final String WEB_SERVICE_URL = "http://58.215.198.212:8080/external/";
+    public static final String WEB_URL = "http://192.168.182.216:8080";
+
+    /**
+     * 服务地址
+     */
+    public static final String WEB_SERVICE_URL = WEB_URL + "/external/";
 
     /**
      * 是否是单模块调试模式

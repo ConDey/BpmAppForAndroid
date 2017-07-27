@@ -9,10 +9,16 @@ import android.view.ViewGroup;
 
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
+import com.eazytec.bpm.app.home.data.app.tobject.AppDataTObjectHelper;
+import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
+import com.eazytec.bpm.app.home.userhome.UserHomeAppContract;
+import com.eazytec.bpm.app.home.userhome.UserHomeAppPresenter;
 import com.eazytec.bpm.app.home.userhome.adapters.HomeAppAdapter;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.gridview.SingleDividerGridView;
+import com.eazytec.bpm.lib.common.RxPresenter;
 import com.eazytec.bpm.lib.common.fragment.CommonFragment;
+import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
@@ -35,7 +41,7 @@ import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
  * @author ConDey
  * @version Id: HomeAppFragment, v 0.1 2017/6/30 上午9:06 ConDey Exp $$
  */
-public class HomeAppFragment extends CommonFragment {
+public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> implements UserHomeAppContract.View {
 
     private SingleDividerGridView appGridView;
     private HomeAppAdapter homeAppAdapter;
@@ -65,8 +71,6 @@ public class HomeAppFragment extends CommonFragment {
                 }
             }
         });
-
-
         return parentView;
     }
 
@@ -75,10 +79,25 @@ public class HomeAppFragment extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        homeAppAdapter.setItems(getBpmApps());
+        getPresenter().loadApps(); // 初始化apps
+    }
+
+    @Override protected UserHomeAppPresenter createPresenter() {
+        return new UserHomeAppPresenter();
+    }
+
+    @Override public void loadAppsSuccess(AppsDataTObject appsDataTObject) {
+        this.bpmApps = AppDataTObjectHelper.createBpmAppsByTObjects(appsDataTObject.getApps());
+        homeAppAdapter.setItems(this.bpmApps);
         homeAppAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 老的本地模式
+     *
+     * @return
+     */
+    @Deprecated
     private List<BPMApp> getBpmApps() {
         bpmApps = new ArrayList<>();
 
