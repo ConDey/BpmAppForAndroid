@@ -9,9 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="vertical">
-        <!--用来放导航栏的-->
+
+        <!--怕有很多子部门，所以改成横向recyclerview
         <GridView
             android:id="@+id/contactchoose_backnavigation_gridview"
             android:layout_width="match_parent"
@@ -23,11 +23,78 @@
             android:horizontalSpacing="0px"
             android:listSelector="#00000000"
             android:clickable="true"
-            android:numColumns="3"
+            android:numColumns="5"
             android:stretchMode="columnWidth"
             android:verticalSpacing="0px">
         </GridView>
+        -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/contactchoose_backnavigation_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:listSelector="#00000000"
+            android:background="#00000000"
+            />
+        <!--搜索-->
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#f5f5f5"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:id="@+id/contactchoose_search_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+                    android:background="@drawable/drawer_search_result_bg"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="4"
+                        android:orientation="horizontal">
+
+                        <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+                            android:id="@+id/contactchoose_search_input_edittext"
+                            android:layout_width="180dp"
+                            android:layout_height="38dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1.0"
+                            android:background="@drawable/drawer_search_result_bg"
+                            android:drawableLeft="@mipmap/ic_search_icon"
+                            android:drawablePadding="3dp"
+                            android:hint="点击输入搜索内容"
+                            android:imeOptions="actionSearch"
+                            android:paddingLeft="7dp"
+                            android:paddingRight="6dp"
+                            android:singleLine="true"
+                            android:textColor="@color/color_black_primary"
+                            android:textColorHint="@color/color_grey_primary"
+                            android:textSize="13sp"
+                            android:windowSoftInputMode="stateVisible"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -40,11 +107,10 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:gravity="bottom"
-                android:text="已选择人员"
+                android:text="已选人员"
                 android:textColor="@color/color_grey_primary"
                 android:textSize="12sp"/>
-
-
+             <!--
             <Button
                 android:id="@+id/contactchoose_submit"
                 android:layout_width="wrap_content"
@@ -55,25 +121,58 @@
                 android:text="确认选择"
                 android:layout_marginBottom="3dp"
                 android:textColor="@android:color/white"/>
+                -->
         </RelativeLayout>
 
 
         <include layout="@layout/bpm_single_line"></include>
-
+        <!--用这个也是可以的
         <GridView
             android:id="@+id/contactchoose_haschoose_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:background="@color/white"
             android:horizontalSpacing="0px"
             android:listSelector="#00000000"
-            android:numColumns="6"
+            android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
             android:verticalSpacing="0px">
         </GridView>
-
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/drawer_contactchoose_recycler_view"
+            >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/contactchoose_haschoose_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:listSelector="#00000000"
+            android:layout_weight="7.0"
+            android:background="@color/white"
+            />
+            <com.eazytec.bpm.appstub.view.edittext.ClearEditText
+                android:id="@+id/contactchoose_search_input_edittext"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="5.0"
+                android:background="@color/white"
+                android:drawableLeft="@mipmap/ic_search_icon"
+                android:drawablePadding="3dp"
+                android:hint="点击输入搜索"
+                android:imeOptions="actionSearch"
+                android:paddingRight="6dp"
+                android:singleLine="true"
+                android:textColor="@color/color_black_primary"
+                android:textColorHint="@color/color_grey_primary"
+                android:textSize="14sp"
+                android:windowSoftInputMode="stateVisible"/>
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout

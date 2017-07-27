@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.contact.R;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
+import com.eazytec.bpm.app.contact.usercontact.contactchoose.UserChooseManager;
+import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox;
 import com.eazytec.bpm.appstub.view.imageview.AvatarImageView;
 import com.eazytec.bpm.lib.utils.ViewHolder;
@@ -24,7 +26,6 @@ import java.util.List;
 public class ContactChooseAdapter extends BaseAdapter {
 
     private List<UserDetailDataTObject> items;
-    private List<UserDetailDataTObject> chooseitems;
     private List<String> haschooseitems;
 
     private Context context;
@@ -61,6 +62,7 @@ public class ContactChooseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_contactchoose, parent, false);
         }
@@ -77,6 +79,7 @@ public class ContactChooseAdapter extends BaseAdapter {
 
             if (haschooseitems.contains(items.get(position).getId())) {
                 checkBox.setChecked(true);
+                isEnabled(position);
             } else {
                 checkBox.setChecked(false);
             }
@@ -87,8 +90,25 @@ public class ContactChooseAdapter extends BaseAdapter {
                 }
             });
         }
+
+
         return convertView;
     }
+    /**
+     *
+    @Override
+    public boolean isEnabled(int position) {
+        if(haschooseitems.size() > (UserChooseManager.getOurInstance().getMaxCount()-1)){
+            //已经选中的那些地方要可以点击取消
+            if(haschooseitems.contains(items.get(position).getId())){
+                return super.isEnabled(position);
+            }else
+                ToastDelegate.info(context, "最多只能选" + UserChooseManager.getOurInstance().getMaxCount() + "个人！");
+                return false; //无选中，无点击事件
+        } else
+            return super.isEnabled(position);//可以点击
+    }
+    **/
 
     public void resetList(List<UserDetailDataTObject> list) {
         items.clear();

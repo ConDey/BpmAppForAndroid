@@ -17,6 +17,7 @@ import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.app.contact.usercontact.contactchoose.UserChooseActivity;
+import com.eazytec.bpm.app.contact.usercontact.contactchoose.UserChoosedemoActivity;
 import com.eazytec.bpm.app.contact.usercontact.department.DepartmentActivity;
 import com.eazytec.bpm.app.contact.usercontact.localcontact.LocalContactActivity;
 import com.eazytec.bpm.app.contact.usercontact.search.UserSearchActivity;
@@ -139,7 +140,7 @@ public class UserContactActivity extends ContractViewActivity<UserContactPresent
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                      startActivity(UserContactActivity.this,UserChooseActivity.class);
+                      startActivity(UserContactActivity.this,UserChoosedemoActivity.class);
                     }
                 });
         //部门条目点击

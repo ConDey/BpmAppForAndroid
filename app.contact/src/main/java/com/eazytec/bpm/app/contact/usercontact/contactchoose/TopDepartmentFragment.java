@@ -1,11 +1,16 @@
 package com.eazytec.bpm.app.contact.usercontact.contactchoose;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -23,6 +28,8 @@ import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
+import com.eazytec.bpm.lib.utils.StringUtils;
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
 import java.util.ArrayList;
@@ -39,15 +46,18 @@ import rx.functions.Action1;
 public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPresenter> implements TopDepartmentContract.View{
 
     //返回相关
-    private GridView doBackView;
+    private RecyclerView doBackView;
     private ContactBackNavigationAdapter contactBackNavigationAdapter;
     private ArrayList<BackInfoDataTObject> backTObjects;
 
     //已选人员
-    private GridView hasChooseView;
+    private RecyclerView hasChooseView;
     private TextView hasChooseTextView;
     private ArrayList<UserDetailDataTObject> chooseDataTObjects;
     private ContactChooseHasChooseAdapter contactChooseHasChooseAdapter;
+
+    //提交按钮
+    private Button submitbutton;
 
     private ScrollView scrollView;
 
@@ -65,15 +75,22 @@ public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPre
     private List<UserDetailDataTObject> allDataTObjects = new ArrayList<>();
     private boolean singlechoose;
 
+    //搜索
+    private EditText searchEditText;
+    private String keyword;
+    private AllUserFragment allUserFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_dep_and_user, container, false);
 
         //获取父控件
-        hasChooseView = (GridView) getCommonActivity().findViewById(R.id.contactchoose_haschoose_gridview);
+        hasChooseView = (RecyclerView) getCommonActivity().findViewById(R.id.contactchoose_haschoose_recyclerview);
         hasChooseTextView = (TextView) getCommonActivity().findViewById(R.id.contactchoose_haschoose_textview);
-        doBackView = (GridView) getCommonActivity().findViewById(R.id.contactchoose_backnavigation_gridview);
+        searchEditText = (EditText) getCommonActivity().findViewById(R.id.contactchoose_search_input_edittext);
+        doBackView = (RecyclerView) getCommonActivity().findViewById(R.id.contactchoose_backnavigation_gridview);
+        submitbutton = (Button) getCommonActivity().findViewById(R.id.contactchoose_submit);
 
         contactChooseHasChooseAdapter = new ContactChooseHasChooseAdapter(getContext());
         hasChooseView.setAdapter(contactChooseHasChooseAdapter);
@@ -121,18 +138,34 @@ public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPre
         scrollView.setFocusableInTouchMode(true);
         scrollView.requestFocus();
 
+        initListener();
+        return parentView;
+    }
+
+    private void initListener(){
+        //提交
+        RxView.clicks(this.submitbutton).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+
+                        Intent intent = new Intent();
+                        intent.putParcelableArrayListExtra("datas", chooseDataTObjects);
+                        getCommonActivity().setResult(Activity.RESULT_OK, intent);
+                        getCommonActivity().finish();
+                    }
+                });
 
         //监听已选择人员的动态删除
-        hasChooseView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        contactChooseHasChooseAdapter.setOnItemClickListener(new ContactChooseHasChooseAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 chooseDataTObjects.remove(position); //移除这个
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
                 contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
                 contactChooseAdapter.notifyDataSetChanged();
                 //已选择列表也要监听变动
-
             }
         });
 
@@ -175,7 +208,29 @@ public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPre
                         //总的组织架构下没有员工，我就不写了，如果有的话，参照子部门传递参数选择即可
                     }
                 });
-        return parentView;
+
+        //搜索
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyword = searchEditText.getText().toString();
+                if(StringUtils.isSpace(keyword)){
+                    // 不做变化
+                    return;
+                }else{
+                    //进行搜索
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", "Organization");
+                    bundle.putString("name", "全部");
+                    bundle.putParcelableArrayList("choosedatas",chooseDataTObjects);  //当前有没有选择的人员
+                    bundle.putParcelableArrayList("backdatas",backTObjects);   //用来返回组织架构的
+                    allUserFragment = new AllUserFragment();
+                    allUserFragment.setArguments(bundle);
+                    getFragmentManager().beginTransaction().replace(R.id.dep_and_user_layout,allUserFragment).addToBackStack(null).commit();
+                }
+            }
+        });
+
     }
 
     @Override

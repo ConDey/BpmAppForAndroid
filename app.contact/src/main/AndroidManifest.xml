@@ -47,6 +47,8 @@
         <activity android:name=".usercontact.contactchoose.UserChooseActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".usercontact.contactchoose.UserChoosedemoActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
