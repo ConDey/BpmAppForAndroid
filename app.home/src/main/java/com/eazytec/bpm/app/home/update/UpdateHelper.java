@@ -1,12 +1,14 @@
 package com.eazytec.bpm.app.home.update;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
+import android.os.Environment;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.lib.common.webservice.download.DownloadManagerHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -29,6 +31,8 @@ public class UpdateHelper {
     private static String UpdateData;
     private static HashMap<String, String> hm;
 
+    private static String filePath;
+
     /**
      * 检查更新
      *
@@ -37,6 +41,8 @@ public class UpdateHelper {
      * @param activity 当前activity
      */
     public static void doUpdate(final boolean showToast, final Context context, final Activity activity){
+
+        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bpmapp.apk";
 
         OkHttpClient httpCient = new OkHttpClient();
         Request request = new Request.Builder()
@@ -66,7 +72,7 @@ public class UpdateHelper {
                         int NewVersionCode = Integer.parseInt(hm.get("VersionCode")
                                 .toString());
                         int OldVersionCode = VersionUtil.getVersionCode(context);
-                        if (NewVersionCode > OldVersionCode) {
+                        if (NewVersionCode == OldVersionCode) {
 
                             // 跳转到更新页面
                             activity.runOnUiThread(new Runnable() {
@@ -84,12 +90,14 @@ public class UpdateHelper {
                                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                 @Override
                                                 public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                    Intent it = new Intent(context, UpdateActivity.class);
-                                                    it.putExtra("VersionName", hm.get("VersionName").toString());
-                                                    it.putExtra("VersionDescription", hm.get("VersionDescription")
-                                                            .toString());
-                                                    it.putExtra("VersionURL", hm.get("VersionURL").toString());
-                                                    activity.startActivity(it);
+//                                                    Intent it = new Intent(context, UpdateActivity.class);
+//                                                    it.putExtra("VersionName", hm.get("VersionName").toString());
+//                                                    it.putExtra("VersionDescription", hm.get("VersionDescription")
+//                                                            .toString());
+//                                                    it.putExtra("VersionURL", hm.get("VersionURL").toString());
+//                                                    activity.startActivHeity(it);
+                                                    DownloadManagerHelper helper = new DownloadManagerHelper(context);
+                                                    helper.updateForNotification(context, Config.UPDATE_APK_URL, filePath);
                                                 }
                                             })
                                             .show();
