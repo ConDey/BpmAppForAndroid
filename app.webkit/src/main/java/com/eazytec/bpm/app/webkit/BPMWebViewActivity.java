@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
 import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
 import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
+import com.eazytec.bpm.app.webkit.data.UserChooseCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
 import com.eazytec.bpm.appstub.Config;
@@ -32,6 +33,8 @@ import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
@@ -42,6 +45,7 @@ import net.wequick.small.Small;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +53,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -91,6 +96,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     private CompletionHandler mediaHandler;
     // 文件选择
     private CompletionHandler fileHandler;
+    // 人员选择
+    private CompletionHandler userchooseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -466,18 +473,61 @@ public class BPMWebViewActivity extends WebViewActivity {
                 }
                 break;
 
-
             case BPMJsMsgEvent.JS_UNBIND_BACKBTN:
                 hasBindBackButton = false;
                 backBtonCallBack = null;
-                CompletionHandler handler = messageEvent.getHandler();
-                if (handler != null) {
 
-                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
-                    JSONObject object = new JSONObject(callbackBean.toJson());
-                    handler.complete(object.toString());
+                if (true) {
+                    CompletionHandler handler = messageEvent.getHandler();
+                    if (handler != null) {
+
+                        BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                        JSONObject object = new JSONObject(callbackBean.toJson());
+                        handler.complete(object.toString());
+                    }
                 }
                 break;
+
+
+            case BPMJsMsgEvent.JS_USER_CHOOSE:
+
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    userchooseHandler = handler;
+                    if (handler != null) {
+
+                        int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_IMAGE_SELECTOR_NUM);
+
+                        StringBuffer selectUsersBuffer = new StringBuffer();
+                        if (jsonObject.has(BPMJsApi.API_PARAM_IMAGE_SELECTOR_USERS)) {
+
+                            JSONArray jsonArray = jsonObject.getJSONArray(BPMJsApi.API_PARAM_IMAGE_SELECTOR_USERS);
+                            if (jsonArray != null && jsonArray.length() > 0) {
+                                for (int index = 0; index < jsonArray.length(); index++) {
+
+                                    JSONObject userObject = jsonArray.getJSONObject(index);
+                                    selectUsersBuffer.append(userObject.get("id"));
+                                    selectUsersBuffer.append("-");
+                                    selectUsersBuffer.append(userObject.get("name"));
+
+                                    if (index != jsonArray.length() - 1) {
+                                        selectUsersBuffer.append(",");
+                                    }
+                                }
+
+                            }
+                        }
+
+                        String uri = "app.contact/forcontactchoose?numdatas=" + selectNum + "&choosedatas=" + selectUsersBuffer.toString();
+                        Small.openUri(uri, getContext());
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
 
     }
@@ -649,6 +699,39 @@ public class BPMWebViewActivity extends WebViewActivity {
                             fileHandler.complete(jsonObject.toString());
                             fileHandler = null;
                         }
+
+                    } else if (StringUtils.equals(code, JsWebViewActiEvent.USER_CHOOSE)) {
+                        String datas = data.getStringExtra("datas");
+
+                        JSONObject dataobject = null;
+                        List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+                        try {
+                            dataobject = new JSONObject(datas);
+                            JSONArray array = dataobject.getJSONArray("datas");
+
+                            for (int index = 0; index < array.length(); index++) {
+
+                                JSONObject object = array.getJSONObject(index);
+                                HashMap<String, String> hashMap = new HashMap<String, String>();
+
+                                hashMap.put("id", object.getString("id"));
+                                hashMap.put("name", object.getString("name"));
+                                list.add(hashMap);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            dataobject = new JSONObject();
+                        }
+
+                        UserChooseCallbackBean callbackBean = new UserChooseCallbackBean(true, "", list);
+                        JSONObject jsonObject = new JSONObject(callbackBean.toJson());
+                        if (userchooseHandler != null) {
+                            userchooseHandler.complete(jsonObject.toString());
+                            userchooseHandler = null;
+                        }
+
 
                     }
                     break;

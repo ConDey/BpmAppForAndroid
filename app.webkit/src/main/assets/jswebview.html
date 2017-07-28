@@ -18,6 +18,7 @@
 			}
 
 
+
     </style>
 </head>
 
@@ -116,6 +117,11 @@
 
         <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined" onclick="getVideos()">
             选择本地视频
+        </button>
+
+        <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined"
+                onclick="userChoose()">
+            选择人员
         </button>
 
     </div>
@@ -249,7 +255,11 @@
                });
         }
 
+        function userChoose() {
+          bpmbridget.call("userchoose", {selectNum: 5, users:[{id:"1",name:"张三"},{id:"2",name:"李四"}]},function(result) {
+                    alert(result);
+          });
 
-
+        }
 </script>
 </html>

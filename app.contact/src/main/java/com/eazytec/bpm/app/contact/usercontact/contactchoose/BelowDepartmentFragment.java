@@ -29,9 +29,14 @@ import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
+import com.eazytec.bpm.lib.common.webkit.JsWebViewActiEvent;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +162,30 @@ public class BelowDepartmentFragment extends ContractViewFragment<BelowDepartmen
                     public void call(Void aVoid) {
 
                         Intent intent = new Intent();
-                        intent.putParcelableArrayListExtra("datas", chooseDataTObjects);
+                        JSONArray jsonArray = new JSONArray();
+
+                        if (chooseDataTObjects != null && chooseDataTObjects.size() > 0) {
+                            for (UserDetailDataTObject object : chooseDataTObjects) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("id", object.getId());
+                                    jsonObject.put("name", object.getFullName());
+                                    jsonArray.put(jsonObject);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("datas", jsonArray);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        intent.putExtra("datas", jsonObject.toString());
+                        intent.putExtra(JsWebViewActiEvent.SMALL_RESULT, JsWebViewActiEvent.USER_CHOOSE);
                         getCommonActivity().setResult(Activity.RESULT_OK, intent);
                         getCommonActivity().finish();
                     }

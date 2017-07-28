@@ -265,6 +265,13 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_VIDEOS, jsonObject.toString(), handler));
     }
 
+    protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
+
+    @JavascriptInterface
+    public void userchoose(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_USER_CHOOSE, jsonObject.toString(), handler));
+    }
+
 
     @JavascriptInterface
     public void bindBackBtn(JSONObject jsonObject, CompletionHandler handler) {

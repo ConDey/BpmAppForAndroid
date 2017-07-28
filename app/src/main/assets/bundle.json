@@ -25,7 +25,8 @@
       "uri": "app.contact",
       "pkg": "com.eazytec.bpm.app.contact",
       "rules": {
-        "forhomefragment": "HomeContactFragment"
+        "forhomefragment": "HomeContactFragment",
+        "forcontactchoose": ".usercontact.contactchoose.UserChoose"
       }
     },
     {

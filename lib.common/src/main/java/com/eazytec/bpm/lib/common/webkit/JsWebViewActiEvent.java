@@ -15,4 +15,7 @@ public class JsWebViewActiEvent {
     public static final String FILE_SELECTED = "FILE_SELECTED";
 
 
+    public static final String USER_CHOOSE = "USER_CHOOSE";
+
+
 }

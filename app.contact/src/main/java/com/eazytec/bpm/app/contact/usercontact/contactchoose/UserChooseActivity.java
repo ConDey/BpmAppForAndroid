@@ -26,7 +26,9 @@ import com.eazytec.bpm.app.contact.adapters.SpacesItemDecoration;
 import com.eazytec.bpm.app.contact.data.BackInfoDataTObject;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.appstub.view.edittext.ClearEditText;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
+import com.eazytec.bpm.lib.common.webkit.JsWebViewActiEvent;
 import com.eazytec.bpm.lib.utils.ConvertUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.WindowUtil;
@@ -34,7 +36,12 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import net.wequick.small.Small;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
@@ -71,6 +78,7 @@ public class UserChooseActivity extends CommonActivity {
 
     //多选的照片数量
     private int chooseMaxNum;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +96,7 @@ public class UserChooseActivity extends CommonActivity {
         hasChooseView = (RecyclerView) findViewById(R.id.contactchoose_haschoose_recyclerview);
         hasChooseTextView = (TextView) findViewById(R.id.contactchoose_haschoose_textview);
         doBackView = (RecyclerView) findViewById(R.id.contactchoose_backnavigation_gridview);
-        searchEditText = (EditText)findViewById(R.id.contactchoose_search_input_edittext);
+        searchEditText = (ClearEditText) findViewById(R.id.contactchoose_search_input_edittext);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         hasChooseView.addItemDecoration(new SpacesItemDecoration(10));
@@ -97,8 +105,8 @@ public class UserChooseActivity extends CommonActivity {
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
         doBackView.addItemDecoration(new SpacesItemDecoration(3));
         doBackView.setLayoutManager(linearLayoutManager2);
-       // int numColumns = (WindowUtil.getScreenWidth(getContext()) - ConvertUtils.dp2px(10)) / ConvertUtils.dp2px( 55);
-       // hasChooseView.setNumColumns(numColumns);
+        // int numColumns = (WindowUtil.getScreenWidth(getContext()) - ConvertUtils.dp2px(10)) / ConvertUtils.dp2px( 55);
+        // hasChooseView.setNumColumns(numColumns);
 
         contactChooseHasChooseAdapter = new ContactChooseHasChooseAdapter(getContext());
         hasChooseView.setAdapter(contactChooseHasChooseAdapter);
@@ -117,57 +125,71 @@ public class UserChooseActivity extends CommonActivity {
 
         //看看是否有已选择的人
         chooseDataTObjects = getIntent().getParcelableArrayListExtra("choosedatas");
-        if(chooseDataTObjects == null){
+        if (chooseDataTObjects == null) {
             //没有传入
             chooseDataTObjects = new ArrayList<>();
         }
 
         //判断是否有大小传入
-            String tempnum = getIntent().getStringExtra("numdatas");
-            if (!StringUtils.isSpace(tempnum)) {
-                chooseMaxNum = Integer.parseInt(tempnum);
-            }
+        String tempnum = getIntent().getStringExtra("numdatas");
+        if (!StringUtils.isSpace(tempnum)) {
+            chooseMaxNum = Integer.parseInt(tempnum);
+        }
 
-         //插件传入判断
+        //插件传入判断
         Uri uri = Small.getUri(this);
         if (uri != null) {
             //判断是否有大小传入
             String numString = uri.getQueryParameter("numdatas");
             if (!StringUtils.isSpace(numString)) {
-                chooseMaxNum = Integer.parseInt(tempnum);
+                chooseMaxNum = Integer.parseInt(numString);
             }
+
+            String choosedatas = uri.getQueryParameter("choosedatas");
+            if (!StringUtils.isSpace(choosedatas)) {
+                // 格式暂时就是以1-XX，2-XX的格式来
+                String[] datas = choosedatas.split(",");
+                for (String data : datas) {
+                    UserDetailDataTObject object = new UserDetailDataTObject();
+                    object.setId(data.split("-")[0]);
+                    object.setFullName(data.split("-")[1]);
+                    chooseDataTObjects.add(object);
+                }
+            }
+
+
         }
 
-        if(chooseMaxNum >= 1){
+        if (chooseMaxNum >= 1) {
             UserChooseManager.getOurInstance().setMaxCount(chooseMaxNum);
-        }else{
+        } else {
             UserChooseManager.getOurInstance().setMaxCount(UserChooseConst.DEFAULT_MAX_COUNT); //这个最大值可以在常量文件里修改
         }
 
 
-        hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
+        hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "", UserChooseManager.getOurInstance().getMaxCount() + ""));
         contactChooseHasChooseAdapter.setItems(chooseDataTObjects);
         contactChooseHasChooseAdapter.notifyDataSetChanged();
 
 
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("choosedatas",chooseDataTObjects);  //有没有选择的人员
-        bundle.putParcelableArrayList("backdatas",backTObjects);   //用来返回组织架构的
+        bundle.putParcelableArrayList("choosedatas", chooseDataTObjects);  //有没有选择的人员
+        bundle.putParcelableArrayList("backdatas", backTObjects);   //用来返回组织架构的
         topDepartmentFragment = new TopDepartmentFragment();
         topDepartmentFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.dep_and_user_layout,topDepartmentFragment).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.dep_and_user_layout, topDepartmentFragment).addToBackStack(null).commit();
 
         initListener();
     }
 
-    public void initListener(){
+    public void initListener() {
 
         //监听已选择人员的动态删除
         contactChooseHasChooseAdapter.setOnItemClickListener(new ContactChooseHasChooseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 chooseDataTObjects.remove(position); //移除这个
-                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "", UserChooseManager.getOurInstance().getMaxCount() + ""));
                 contactChooseHasChooseAdapter.notifyDataSetChanged();
             }
         });
@@ -178,7 +200,30 @@ public class UserChooseActivity extends CommonActivity {
                     public void call(Void aVoid) {
 
                         Intent intent = new Intent();
-                        intent.putParcelableArrayListExtra("datas", chooseDataTObjects);
+                        JSONArray jsonArray = new JSONArray();
+
+                        if (chooseDataTObjects != null && chooseDataTObjects.size() > 0) {
+                            for (UserDetailDataTObject object : chooseDataTObjects) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("id", object.getId());
+                                    jsonObject.put("name", object.getFullName());
+                                    jsonArray.put(jsonObject);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("datas", jsonArray);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        intent.putExtra("datas", jsonObject.toString());
+                        intent.putExtra(JsWebViewActiEvent.SMALL_RESULT, JsWebViewActiEvent.USER_CHOOSE);
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     }
@@ -189,19 +234,19 @@ public class UserChooseActivity extends CommonActivity {
             @Override
             public void onClick(View v) {
                 keyword = searchEditText.getText().toString();
-                if(StringUtils.isSpace(keyword)){
-                      // 不做变化
+                if (StringUtils.isSpace(keyword)) {
+                    // 不做变化
                     return;
-                }else{
+                } else {
                     //进行搜索
                     Bundle bundle = new Bundle();
                     bundle.putString("id", "Organization");
                     bundle.putString("name", "全部");
-                    bundle.putParcelableArrayList("choosedatas",chooseDataTObjects);  //当前有没有选择的人员
-                    bundle.putParcelableArrayList("backdatas",backTObjects);   //用来返回组织架构的
+                    bundle.putParcelableArrayList("choosedatas", chooseDataTObjects);  //当前有没有选择的人员
+                    bundle.putParcelableArrayList("backdatas", backTObjects);   //用来返回组织架构的
                     allUserFragment = new AllUserFragment();
                     allUserFragment.setArguments(bundle);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.dep_and_user_layout,allUserFragment).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.dep_and_user_layout, allUserFragment).addToBackStack(null).commit();
                 }
             }
         });

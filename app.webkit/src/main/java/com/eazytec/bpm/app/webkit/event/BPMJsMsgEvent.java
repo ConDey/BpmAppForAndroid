@@ -30,6 +30,7 @@ public class BPMJsMsgEvent {
 
     public static final String JS_BIND_BACKBTN = "JS_BIND_BACKBTN";
     public static final String JS_UNBIND_BACKBTN = "JS_UNBIND_BACKBTN";
+    public static final String JS_USER_CHOOSE = "JS_USER_CHOOSE";
 
     // 自定义一个注解MyState
     @StringDef({JS_SET_TITLE,
@@ -45,7 +46,8 @@ public class BPMJsMsgEvent {
             JS_GET_IMAGES,
             JS_GET_VIDEOS,
             JS_BIND_BACKBTN,
-            JS_UNBIND_BACKBTN })
+            JS_UNBIND_BACKBTN,
+            JS_USER_CHOOSE})
     public @interface BPM_JS_ID {
     }
 
