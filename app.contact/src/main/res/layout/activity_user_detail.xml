@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:theme="@style/AppTheme"
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -22,15 +22,15 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 >
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
                     android:src="@mipmap/app_banner"/>
 
                 <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
