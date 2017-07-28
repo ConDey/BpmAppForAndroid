@@ -15,6 +15,7 @@ import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.data.UsersDataTObject;
 import com.eazytec.bpm.app.contact.usercontact.userdetail.UserDetailActivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.appstub.view.edittext.ClearEditText;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 
@@ -34,7 +35,7 @@ public class UserSearchActivity extends ContractViewActivity<UserSearchPresenter
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
 
-    private EditText searchEditText;
+    private ClearEditText searchEditText;
     private ListView searchListView;
 
     private String keyword = "";
@@ -56,7 +57,7 @@ public class UserSearchActivity extends ContractViewActivity<UserSearchPresenter
         toolbarTitleTextView.setText("人员搜索");
 
 
-        searchEditText = (EditText) findViewById(R.id.search_input_edittext);
+        searchEditText = (ClearEditText) findViewById(R.id.search_input_edittext);
         searchListView = (ListView) findViewById(R.id.user_search_listview);
 
         userViewAdapter = new UserViewAdapter(getContext());

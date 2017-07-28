@@ -21,7 +21,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.lib.utils.AppUtils;
+import com.eazytec.bpm.lib.utils.Application;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
+import com.eazytec.bpm.lib.utils.ToastUtils;
+
+import net.wequick.small.Small;
 
 import java.io.File;
 
@@ -49,6 +54,8 @@ public class DownloadManagerHelper implements DownloadContract {
     // 下载唯一ID
     private long downloadId;
 
+    private final String apkName = AppUtils.getAppName() + AppUtils.getAppVersionName() + ".apk";
+
     // 上下文
     private Context mContext;
 
@@ -59,11 +66,11 @@ public class DownloadManagerHelper implements DownloadContract {
     /**
      * Notification 更新
      *
-     * @param context 上下文
-     * @param url       下载链接
-     * @param filePath      文件保存路径
+     * @param context  上下文
+     * @param url      下载链接
+     * @param filePath 文件保存路径
      */
-    public  void updateForNotification(Context context, String url, String filePath) {
+    public void updateForNotification(Context context, String url, String filePath) {
         TYPE = TYPE_NOTIFICATION;
         DownloadManagerHelper.url = url;
         DownloadManagerHelper.filePath = filePath;
@@ -74,38 +81,43 @@ public class DownloadManagerHelper implements DownloadContract {
      * 开始下载
      */
     private void startDownload(Context context) {
-            // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // 检查该权限是否已经获取
-                int i = ContextCompat.checkSelfPermission(context, permissions[0]);
-                // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
-                if (i != PackageManager.PERMISSION_GRANTED) {
-                    // 如果没有授予该权限，就去提示用户请求
-                    showDialogTipUserRequestPermission(context);
-                } else {
-                    //已授权就开始下载
-                    DownloadBroadcastReceiver receiver = new DownloadBroadcastReceiver(DownloadManager.ACTION_DOWNLOAD_COMPLETE, DownloadManager.ACTION_NOTIFICATION_CLICKED, this);
-                    // 注册广播接收器
-                    IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-                    IntentFilter filter1 = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
-                    context.registerReceiver(receiver, filter);
-                    context.registerReceiver(receiver,filter1);
-                    File file = new File(Environment.getExternalStorageDirectory()+"/bpmapp/android.apk");
-                    if(file.exists()){
-                        //删除已经存在的文件
-                        file.delete();
-                    }
-                    manager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
-                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                    request.setDestinationInExternalPublicDir("", "/bpmapp/android.apk");
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-                    downloadId = manager.enqueue(request);
-                }
+
+        ToastUtils.showShort("系统正在后台下载新版本，完成之后将会自动打开！");
+
+        // 版本判断。当手机系统大于 23 时，才有必要去判断权限是否获取
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 检查该权限是否已经获取
+            int i = ContextCompat.checkSelfPermission(context, permissions[0]);
+            // 权限是否已经 授权 GRANTED---授权  DINIED---拒绝
+            if (i != PackageManager.PERMISSION_GRANTED) {
+                // 如果没有授予该权限，就去提示用户请求
+                showDialogTipUserRequestPermission(context);
             } else {
+                //已授权就开始下载
+                DownloadBroadcastReceiver receiver = new DownloadBroadcastReceiver(DownloadManager.ACTION_DOWNLOAD_COMPLETE, DownloadManager.ACTION_NOTIFICATION_CLICKED, this);
+                // 注册广播接收器
+                IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                IntentFilter filter1 = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+                context.registerReceiver(receiver, filter);
+                context.registerReceiver(receiver, filter1);
+
+
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + apkName);
+                if (file.exists()) {
+                    //删除已经存在的文件
+                    file.delete();
+                }
+                manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                request.setDestinationInExternalPublicDir("", "/" + apkName);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                downloadId = manager.enqueue(request);
+            }
+        } else {
 //                intent = new Intent(context, DownloadService.class);
 //                context.startService(intent);
 //                context.bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-            }
+        }
     }
 
     // 提示用户该请求权限的弹出框
@@ -134,7 +146,7 @@ public class DownloadManagerHelper implements DownloadContract {
 
     @Override
     public void downloadComplete() {
-        File file = new File(Environment.getExternalStorageDirectory()+"/bpmapp/android.apk");
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + apkName);
         if (file.exists()) {
             if (Build.VERSION.SDK_INT >= 24) {
                 // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
@@ -152,7 +164,7 @@ public class DownloadManagerHelper implements DownloadContract {
                 intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
                 mContext.startActivity(intent);
             }
-        }else {
+        } else {
 
         }
     }

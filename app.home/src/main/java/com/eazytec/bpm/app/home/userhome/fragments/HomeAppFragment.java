@@ -80,6 +80,11 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         super.onViewCreated(view, savedInstanceState);
 
         getPresenter().loadApps(); // 初始化apps
+
+        // 这里的代码是用的加载app.json的默认模式
+        //this.bpmApps = getBpmApps();
+        //homeAppAdapter.setItems(this.bpmApps);
+        //homeAppAdapter.notifyDataSetChanged();
     }
 
     @Override protected UserHomeAppPresenter createPresenter() {

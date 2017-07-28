@@ -6,26 +6,16 @@ import java.util.List;
 
 /**
  * @author 16735
- * @version Id: FileCallbackBean, v 0.1 2017-7-20 19:43 16735 Exp $$
+ * @version Id: UserChooseCallbackBean, v 0.1 2017-7-20 19:43 16735 Exp $$
  */
-public class FileCallbackBean extends BaseCallbackBean {
+public class UserChooseCallbackBean extends BaseCallbackBean {
 
-    private final String LIST = "list";
+    private List<HashMap<String, String>> datas;
 
-    private ArrayList<String> list;
-
-    public FileCallbackBean(boolean isSuccess, String errorMsg, ArrayList<String> list) {
+    public UserChooseCallbackBean(boolean isSuccess, String errorMsg, List<HashMap<String, String>> datas) {
         setSuccess(isSuccess);
         setErrorMsg(errorMsg);
-        this.list = list;
-    }
-
-    public ArrayList<String> getList() {
-        return list;
-    }
-
-    public void setList(ArrayList<String> list) {
-        this.list = list;
+        this.datas = datas;
     }
 
     public HashMap<String, Object> toJson() {
@@ -34,9 +24,7 @@ public class FileCallbackBean extends BaseCallbackBean {
         hashMap.put(ERRORMSG, getErrorMsg());
         boolean isSuccess = getSuccess() ? true : false;
         hashMap.put(SUCCESS, isSuccess);
-
-        hashMap.put(LIST, list);
-
+        hashMap.put("users", datas);
         return hashMap;
     }
 }
