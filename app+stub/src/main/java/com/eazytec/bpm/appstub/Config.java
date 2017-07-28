@@ -22,7 +22,7 @@ public abstract class Config {
     /**
      * 主机地址IP + PORT
      */
-    public static final String WEB_URL = "http://58.215.198.212:8080/";
+    public static final String WEB_URL = "http://58.215.198.212:8080";
 
     /**
      * 服务地址
