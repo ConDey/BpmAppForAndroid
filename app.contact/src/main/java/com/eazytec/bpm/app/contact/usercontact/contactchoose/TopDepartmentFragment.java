@@ -27,6 +27,7 @@ import com.eazytec.bpm.app.contact.data.DepartmentDataTObject;
 import com.eazytec.bpm.app.contact.data.UserDetailDataTObject;
 import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.webkit.JsWebViewActiEvent;
 import com.eazytec.bpm.lib.utils.StringUtils;
@@ -229,13 +230,51 @@ public class TopDepartmentFragment extends ContractViewFragment<TopDepartmentPre
 
 
         //员工条目点击事件
-        RxAdapterView.itemClicks(this.userRecyclerView).throttleFirst(100, TimeUnit.MILLISECONDS)
-                .subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        //总的组织架构下没有员工，我就不写了，如果有的话，参照子部门传递参数选择即可
+        userRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                SmoothCheckBox checkBox = (SmoothCheckBox) view.findViewById(R.id.item_contactchoose_checkbox);
+
+                if (checkBox.isChecked()) {
+                    checkBox.setChecked(false);
+
+                    String needRemoteId = allDataTObjects.get(position).getId();
+                    UserDetailDataTObject needRemoteObject = null;
+
+                    for (UserDetailDataTObject obj : chooseDataTObjects) {
+
+                        if (obj.getId().equals(needRemoteId)) {
+                            needRemoteObject = obj;
+                            break;
+                        }
                     }
-                });
+
+                    if (needRemoteObject != null) {
+                        chooseDataTObjects.remove(needRemoteObject);
+
+                    }
+
+                } else {
+                    if(chooseDataTObjects.size() < (UserChooseManager.getOurInstance().getMaxCount())) {
+                        checkBox.setChecked(true);
+                        UserDetailDataTObject needAddObject = allDataTObjects.get(position);
+                        chooseDataTObjects.add(needAddObject);
+                    } else{
+                        checkBox.setChecked(false);
+                        ToastDelegate.info(getContext(),"最多只能选"+UserChooseManager.getOurInstance().getMaxCount()+"个人！");
+                        return;
+                    }
+                }
+
+                // hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + ""));
+                contactChooseAdapter.resetHasChooseList(chooseDataTObjects);
+                hasChooseTextView.setText(getResources().getString(R.string.contactchoose_haschoose, chooseDataTObjects.size() + "",UserChooseManager.getOurInstance().getMaxCount()+""));
+                contactChooseHasChooseAdapter.setItems(chooseDataTObjects);
+                contactChooseHasChooseAdapter.notifyDataSetChanged();
+            }
+        });
+
 
         //搜索
         searchEditText.setOnClickListener(new View.OnClickListener() {
