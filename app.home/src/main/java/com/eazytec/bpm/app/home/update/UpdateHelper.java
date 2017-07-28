@@ -72,7 +72,7 @@ public class UpdateHelper {
                         int NewVersionCode = Integer.parseInt(hm.get("VersionCode")
                                 .toString());
                         int OldVersionCode = VersionUtil.getVersionCode(context);
-                        if (NewVersionCode == OldVersionCode) {
+                        if (NewVersionCode > OldVersionCode) {
 
                             // 跳转到更新页面
                             activity.runOnUiThread(new Runnable() {
