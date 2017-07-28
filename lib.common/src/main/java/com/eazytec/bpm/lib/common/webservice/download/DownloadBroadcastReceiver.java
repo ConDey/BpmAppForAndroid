@@ -1,5 +1,6 @@
 package com.eazytec.bpm.lib.common.webservice.download;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,11 +33,10 @@ public class DownloadBroadcastReceiver extends BroadcastReceiver {
         if (action.equals(DOWNLOAD_COMPLETE)) {
             // 下载完成了
             contract.downloadComplete();
-        }
-
-        if (action.equals(DOWNLOAD_NOTIFICATION_CLICKED)){
+        }else if (action.equals(DOWNLOAD_NOTIFICATION_CLICKED)){
             // 点击代表取消下载
             contract.downloadCancel();
         }
     }
+
 }

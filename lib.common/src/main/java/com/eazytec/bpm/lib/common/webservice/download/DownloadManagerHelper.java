@@ -87,7 +87,9 @@ public class DownloadManagerHelper implements DownloadContract {
                     DownloadBroadcastReceiver receiver = new DownloadBroadcastReceiver(DownloadManager.ACTION_DOWNLOAD_COMPLETE, DownloadManager.ACTION_NOTIFICATION_CLICKED, this);
                     // 注册广播接收器
                     IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                    IntentFilter filter1 = new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED);
                     context.registerReceiver(receiver, filter);
+                    context.registerReceiver(receiver,filter1);
                     File file = new File(Environment.getExternalStorageDirectory()+"/bpmapp/android.apk");
                     if(file.exists()){
                         //删除已经存在的文件
@@ -97,7 +99,6 @@ public class DownloadManagerHelper implements DownloadContract {
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
                     request.setDestinationInExternalPublicDir("", "/bpmapp/android.apk");
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
-                    request.setVisibleInDownloadsUi(true);
                     downloadId = manager.enqueue(request);
                 }
             } else {
