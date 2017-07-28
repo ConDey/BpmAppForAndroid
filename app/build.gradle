@@ -7,8 +7,8 @@ android {
         applicationId "com.eazytec.bpmapp"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0-GA"
+        versionCode 2
+        versionName "1.1Release"
     }
     buildTypes {
         release {
