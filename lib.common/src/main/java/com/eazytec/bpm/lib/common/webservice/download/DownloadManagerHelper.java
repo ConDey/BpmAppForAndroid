@@ -1,8 +1,11 @@
 package com.eazytec.bpm.lib.common.webservice.download;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.NotificationCompat;
 
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
@@ -84,11 +88,16 @@ public class DownloadManagerHelper implements DownloadContract {
                     // 注册广播接收器
                     IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
                     context.registerReceiver(receiver, filter);
-
+                    File file = new File(Environment.getExternalStorageDirectory()+"/bpmapp/android.apk");
+                    if(file.exists()){
+                        //删除已经存在的文件
+                        file.delete();
+                    }
                     manager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-                    request.setDestinationInExternalPublicDir("dirType", "/bpmapp/android.apk");
+                    request.setDestinationInExternalPublicDir("", "/bpmapp/android.apk");
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                    request.setVisibleInDownloadsUi(true);
                     downloadId = manager.enqueue(request);
                 }
             } else {
@@ -124,7 +133,7 @@ public class DownloadManagerHelper implements DownloadContract {
 
     @Override
     public void downloadComplete() {
-        File file = new File(Environment.getExternalStorageState()+"/bpmapp/android.apk");
+        File file = new File(Environment.getExternalStorageDirectory()+"/bpmapp/android.apk");
         if (file.exists()) {
             if (Build.VERSION.SDK_INT >= 24) {
                 // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
