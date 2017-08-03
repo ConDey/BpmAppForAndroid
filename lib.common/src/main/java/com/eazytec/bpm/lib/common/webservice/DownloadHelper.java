@@ -93,7 +93,7 @@ public class DownloadHelper {
                                     if (isAutoOpen) {
                                         if (Build.VERSION.SDK_INT >= 24) {
                                             // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                                            Uri uri = FileProvider.getUriForFile(activity.getContext(), "android.support.v4.content.FileProvider", file);
+                                            Uri uri = FileProvider.getUriForFile(activity.getContext(), "com.eazytec.bpm.appstub.provider", file);
                                             Intent intent = new Intent("android.intent.action.VIEW");
                                             intent.addCategory("android.intent.category.DEFAULT");
                                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
