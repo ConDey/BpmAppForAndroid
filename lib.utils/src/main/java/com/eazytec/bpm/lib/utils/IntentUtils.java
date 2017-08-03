@@ -29,7 +29,7 @@ public final class IntentUtils {
      *
      * @param filePath  文件路径
      * @param authority 7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      * @return intent
      */
     public static Intent getInstallAppIntent(final String filePath, final String authority) {
@@ -41,7 +41,7 @@ public final class IntentUtils {
      *
      * @param file      文件
      * @param authority 7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      * @return intent
      */
     public static Intent getInstallAppIntent(final File file, final String authority) {

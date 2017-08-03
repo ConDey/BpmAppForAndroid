@@ -43,4 +43,9 @@ public abstract class Config {
      * 更新APK地址 IP + PORT
      */
     public static final String UPDATE_APK_URL = "https://58.215.198.210:9997/bpmapp/android.apk";
+
+    /**
+     * APK的ApplicationId
+     */
+    public static final String APK_APPLICAITON_ID = "com.eazytec.bpm.appstub.provider";
 }

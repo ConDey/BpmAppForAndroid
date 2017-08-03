@@ -2,17 +2,21 @@ package com.eazytec.bpm.lib.common.webservice;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.compat.BuildConfig;
 import android.support.v4.content.FileProvider;
 
+import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.progressdialog.DownloadProgressDialog;
 import com.eazytec.bpm.lib.common.activity.CommonActivity;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
+import com.eazytec.bpm.lib.utils.AppUtils;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
 
 import org.json.JSONException;
@@ -27,6 +31,7 @@ import java.io.InputStream;
 import okhttp3.ResponseBody;
 import rx.Observer;
 import rx.schedulers.Schedulers;
+
 
 /**
  * 通用的下载功能
@@ -93,7 +98,8 @@ public class DownloadHelper {
                                     if (isAutoOpen) {
                                         if (Build.VERSION.SDK_INT >= 24) {
                                             // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                                            Uri uri = FileProvider.getUriForFile(activity.getContext(), "com.eazytec.bpm.appstub.provider", file);
+                                            PackageInfo packageInfo = new PackageInfo();
+                                            Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_APPLICAITON_ID, file);
                                             Intent intent = new Intent("android.intent.action.VIEW");
                                             intent.addCategory("android.intent.category.DEFAULT");
                                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

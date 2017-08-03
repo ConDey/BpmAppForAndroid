@@ -44,7 +44,7 @@ public final class AppUtils {
      *
      * @param filePath  文件路径
      * @param authority 7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      */
     public static void installApp(final String filePath, final String authority) {
         installApp(FileUtils.getFileByPath(filePath), authority);
@@ -55,7 +55,7 @@ public final class AppUtils {
      *
      * @param file      文件
      * @param authority 7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                  <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      */
     public static void installApp(final File file, final String authority) {
         if (!FileUtils.isFileExists(file)) return;
@@ -68,7 +68,7 @@ public final class AppUtils {
      * @param activity    activity
      * @param filePath    文件路径
      * @param authority   7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                    <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                    <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      * @param requestCode 请求值
      */
     public static void installApp(final Activity activity, final String filePath, final String authority, final int requestCode) {
@@ -81,7 +81,7 @@ public final class AppUtils {
      * @param activity    activity
      * @param file        文件
      * @param authority   7.0及以上安装需要传入清单文件中的{@code <provider>}的authorities属性
-     *                    <br>参看https://developer.android.com/reference/android/support/v4/content/FileProvider.html
+     *                    <br>参看https://developer.android.com/reference/android/support/v4/content/DownloadProvider.html
      * @param requestCode 请求值
      */
     public static void installApp(final Activity activity, final File file, final String authority, final int requestCode) {
