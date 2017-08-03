@@ -1,6 +1,10 @@
 # BpmAppForAndroid
 BpmApp 安卓基础演示版
 
+2017-07-28
+Android基础版V1.1已经成功发布，请期待V1.2加入消息推送
+
+
 Android基础版演示版V1.1新支持的功能
 
 1. 应用插件动态化
