@@ -17,6 +17,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+            buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
+            buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
+            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.appstub.provider\"")
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+            buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
+            buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
+            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.appstub.provider\"")
         }
     }
     //解决rxjava冲突的

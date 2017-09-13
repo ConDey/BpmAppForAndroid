@@ -22,7 +22,7 @@ public abstract class Config {
     /**
      * 主机地址IP + PORT
      */
-    public static final String WEB_URL = "http://58.215.198.212:8080";
+    public static final String WEB_URL = BuildConfig.WEB_URL;
 
     /**
      * 服务地址
@@ -37,15 +37,15 @@ public abstract class Config {
     /**
      * 更新地址 IP + PORT
      */
-    public static final String UPDATE_URL = "https://58.215.198.210:9997/bpmapp/android.jsp";
+    public static final String UPDATE_URL = BuildConfig.UPDATE_URL;
 
     /**
      * 更新APK地址 IP + PORT
      */
-    public static final String UPDATE_APK_URL = "https://58.215.198.210:9997/bpmapp/android.apk";
+    public static final String UPDATE_APK_URL = BuildConfig.UPDATE_APK_URL;
 
     /**
      * APK的ApplicationId
      */
-    public static final String APK_APPLICAITON_ID = "com.eazytec.bpm.appstub.provider";
+    public static final String APK_APPLICAITON_ID = BuildConfig.APK_APPLICAITON_ID;
 }

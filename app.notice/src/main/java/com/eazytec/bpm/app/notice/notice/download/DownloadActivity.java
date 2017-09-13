@@ -1,5 +1,6 @@
 package com.eazytec.bpm.app.notice.notice.download;
 
+import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +75,19 @@ public class DownloadActivity extends ContractViewActivity<DownloadPresenter> im
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                RxPermissions rxPermissions = new RxPermissions(DownloadActivity.this);
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .subscribe(new Action1<Boolean>() {
+                            @Override
+                            public void call(Boolean aBoolean) {
+                                if(aBoolean){
               DownloadHelper.download(DownloadActivity.this, attachments.get(position).getId(), attachments.get(position).getName(), true, null);
+                                }else{
+                                    ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                                }
+                            }
+                        });
             }
         });
 

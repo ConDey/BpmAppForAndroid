@@ -69,6 +69,14 @@
         </br>
         </br>
 
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitleBarRightBtn()">
+            设置标题栏右边按钮
+        </button>
+        </br>
+        </br>
+
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
                 onclick="startWindow()">
             新建WebViewActivity
@@ -154,7 +162,7 @@
 
         // 设置标题栏右边按钮
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {url: "https://58.215.198.210:9997/bpmapp/bpm_toolbar_bg.png"}, function(result) {
+            bpmbridget.call("setTitlebarRightBtn", {url: "http://58.215.198.212:8080/images/logo/logo.png"}, function(result) {
                 alert(result);
             });
         }

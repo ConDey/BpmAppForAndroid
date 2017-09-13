@@ -3,6 +3,7 @@ package com.eazytec.bpm.applaunch;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.compat.BuildConfig;
 
 /**
  * 应用程序相关信息工具类
@@ -69,5 +70,5 @@ public class AppInfo {
     public static String getPackageName(Context context) {
         return null == getPackageInfo(context) ? null : getPackageInfo(context).packageName;
     }
-
+    public static final String APK_AUTHORITY = BuildConfig.APPLICATION_ID+".provider";
 }

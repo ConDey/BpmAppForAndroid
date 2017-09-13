@@ -1,12 +1,16 @@
 package com.eazytec.bpm.lib.common.webservice;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.compat.BuildConfig;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 
 import com.eazytec.bpm.appstub.Config;
@@ -18,6 +22,7 @@ import com.eazytec.bpm.lib.common.webservice.progress.DownloadProgressHandler;
 import com.eazytec.bpm.lib.common.webservice.progress.ProgressHelper;
 import com.eazytec.bpm.lib.utils.AppUtils;
 import com.eazytec.bpm.lib.utils.MIMETypeUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +35,7 @@ import java.io.InputStream;
 
 import okhttp3.ResponseBody;
 import rx.Observer;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -71,65 +77,67 @@ public class DownloadHelper {
 
         new Thread(new Runnable() {
             @Override public void run() {
-                BPMRetrofit.downloadRetrofit().create(WebApi.class).download(id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .subscribe(new Observer<ResponseBody>() {
-                            @Override public void onNext(ResponseBody response) {
-                                try {
-                                    InputStream is = response.byteStream();
-                                    File file = new File(Environment.getExternalStorageDirectory(), name);
-                                    FileOutputStream fos = new FileOutputStream(file);
-                                    BufferedInputStream bis = new BufferedInputStream(is);
-                                    byte[] buffer = new byte[1024];
-                                    int len;
-                                    while ((len = bis.read(buffer)) != -1) {
-                                        fos.write(buffer, 0, len);
-                                        fos.flush();
-                                    }
-                                    fos.close();
-                                    bis.close();
-                                    is.close();
+                                    //授权了
+                                    BPMRetrofit.downloadRetrofit().create(WebApi.class).download(id)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(Schedulers.io())
+                                            .subscribe(new Observer<ResponseBody>() {
+                                                @Override public void onNext(ResponseBody response) {
+                                                    try {
+                                                        InputStream is = response.byteStream();
+                                                        File file = new File(Environment.getExternalStorageDirectory(), name);
+                                                        FileOutputStream fos = new FileOutputStream(file);
+                                                        BufferedInputStream bis = new BufferedInputStream(is);
+                                                        byte[] buffer = new byte[1024];
+                                                        int len;
+                                                        while ((len = bis.read(buffer)) != -1) {
+                                                            fos.write(buffer, 0, len);
+                                                            fos.flush();
+                                                        }
+                                                        fos.close();
+                                                        bis.close();
+                                                        is.close();
 
-                                    if (mHandler != null) {
-                                        fileHandler(true, null, mHandler);
-                                    }
+                                                        if (mHandler != null) {
+                                                            fileHandler(true, null, mHandler);
+                                                        }
 
-                                    if (isAutoOpen) {
-                                        if (Build.VERSION.SDK_INT >= 24) {
-                                            // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                                            PackageInfo packageInfo = new PackageInfo();
-                                            Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_APPLICAITON_ID, file);
-                                            Intent intent = new Intent("android.intent.action.VIEW");
-                                            intent.addCategory("android.intent.category.DEFAULT");
-                                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                            intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                            activity.startActivity(intent);
-                                        } else {
-                                            Intent intent = new Intent("android.intent.action.VIEW");
-                                            intent.addCategory("android.intent.category.DEFAULT");
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            Uri uri = Uri.fromFile(file);
-                                            intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                            activity.startActivity(intent);
-                                        }
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                                                        if (isAutoOpen) {
+                                                            if (Build.VERSION.SDK_INT >= 24) {
+                                                                // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
+                                                                PackageInfo packageInfo = new PackageInfo();
+                                                                Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_APPLICAITON_ID, file);
+                                                                Intent intent = new Intent("android.intent.action.VIEW");
+                                                                intent.addCategory("android.intent.category.DEFAULT");
+                                                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                                intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                                                activity.startActivity(intent);
+                                                            } else {
+                                                                Intent intent = new Intent("android.intent.action.VIEW");
+                                                                intent.addCategory("android.intent.category.DEFAULT");
+                                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                Uri uri = Uri.fromFile(file);
+                                                                intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                                                activity.startActivity(intent);
+                                                            }
+                                                        }
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
 
-                            @Override public void onCompleted() {
-                            }
+                                                @Override public void onCompleted() {
+                                                }
 
-                            @Override public void onError(Throwable e) {
-                                if (mHandler != null) {
-                                    fileHandler(false, null, mHandler);
-                                }
-                                ToastDelegate.error(activity.getContext(), "文件下载失败，请稍后再试");
-                                dialog.dismiss();
-                            }
-                        });
+                                                @Override public void onError(Throwable e) {
+                                                    if (mHandler != null) {
+                                                        fileHandler(false, null, mHandler);
+                                                    }
+                                                    ToastDelegate.error(activity.getContext(), "文件下载失败，请稍后再试");
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
             }
         }).start();
     }
