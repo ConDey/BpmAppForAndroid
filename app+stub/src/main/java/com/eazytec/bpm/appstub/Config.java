@@ -17,35 +17,35 @@ public abstract class Config {
      * <p>
      * 当用户开始鉴权的时候，需要传入一个默认的Token，每个系统的可能都有特殊的默认Token
      */
-    public static final String DEFAULT_TOKEN = "EAZYTEC";
+    public static String DEFAULT_TOKEN;
 
     /**
      * 主机地址IP + PORT
      */
-    public static final String WEB_URL = BuildConfig.WEB_URL;
+    public static String WEB_URL;
 
     /**
      * 服务地址
      */
-    public static final String WEB_SERVICE_URL = WEB_URL + "/external/";
-
-    /**
-     * 是否是单模块调试模式
-     */
-    public static boolean IS_DEBUG = true;
+    public static String WEB_SERVICE_URL;
 
     /**
      * 更新地址 IP + PORT
      */
-    public static final String UPDATE_URL = BuildConfig.UPDATE_URL;
+    public static String UPDATE_URL;
 
     /**
      * 更新APK地址 IP + PORT
      */
-    public static final String UPDATE_APK_URL = BuildConfig.UPDATE_APK_URL;
+    public static String UPDATE_APK_URL;
 
     /**
      * APK的ApplicationId
      */
-    public static final String APK_APPLICAITON_ID = BuildConfig.APK_APPLICAITON_ID;
+    public static String APK_APPLICAITON_ID;
+
+    /**
+     * 是否是单例调试模式
+     */
+    public static boolean IS_DEBUG;
 }

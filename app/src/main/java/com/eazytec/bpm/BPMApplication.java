@@ -1,8 +1,6 @@
 package com.eazytec.bpm;
 
 import android.app.Application;
-
-import com.eazytec.bpm.BuildConfig;
 import com.eazytec.bpm.appstub.Config;
 
 import net.wequick.small.Small;
@@ -51,5 +49,16 @@ public class BPMApplication extends Application {
         super.onCreate();
 
         Small.setLoadFromAssets(BuildConfig.LOAD_FROM_ASSETS);
+
+        initGradleConstants(); // 初始化Gradle常量
+    }
+
+    private void initGradleConstants() {
+        Config.DEFAULT_TOKEN = BuildConfig.DEFAULT_TOKEN;
+        Config.WEB_URL = BuildConfig.WEB_URL;
+        Config.WEB_SERVICE_URL = Config.WEB_URL + "/external/";
+        Config.UPDATE_URL = BuildConfig.UPDATE_URL;
+        Config.UPDATE_APK_URL = BuildConfig.UPDATE_APK_URL;
+        Config.APK_APPLICAITON_ID = BuildConfig.APK_APPLICAITON_ID;
     }
 }

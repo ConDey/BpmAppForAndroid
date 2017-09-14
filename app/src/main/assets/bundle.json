@@ -43,6 +43,14 @@
       "rules": {
         "forfilepicker": ".filepicker.FilePicker"
       }
+    },
+    {
+      "uri": "app.message",
+      "pkg": "com.eazytec.bpm.app.message"
+    },
+    {
+      "uri": "lib.push",
+      "pkg": "com.eazytec.bpm.lib.push"
     }
   ]
 }

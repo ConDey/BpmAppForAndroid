@@ -1,19 +1,81 @@
 apply plugin: 'com.android.application'
 
+//打包时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
-        applicationId "com.eazytec.bpmapp"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 2
         versionName "1.1Release"
     }
+    /**
+     * 多渠道的不同配置
+     */
+    productFlavors {
+        bpm{
+            // 每个环境包名不同
+            applicationId "com.eazytec.bpm"
+            // app名字，在 string.xml 不能有这个字段，会重名！！！改这个，名字就改了
+            resValue "string", "app_name", "bpm演示版"
+            // 修改 AndroidManifest.xml 里渠道变量
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: " bpm"]
+        }
+    }
+    /**
+     * 签名设置
+     */
+    signingConfigs {
+        release {
+            storeFile file('../jks/bpm.jks')
+            storePassword "eazytec"
+            keyAlias "eazytec"
+            keyPassword "eazytec"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
+            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+            buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
+            buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
+            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.app.provider\"")
+            signingConfig signingConfigs.release
+            ndk {
+                abiFilters  "armeabi"
+            }
+            // 批量打包
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        //输出apk名称为：渠道名_版本名_时间.apk
+                        def fileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
+            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+            buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
+            buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
+            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.app.provider.debug\"")
+            ndk {
+                abiFilters "x86", "armeabi"
+            }
         }
     }
     //解决rxjava冲突的
@@ -24,6 +86,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile rootProject.ext.supportAppcompatV7
+
 }
