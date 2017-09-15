@@ -31,32 +31,9 @@ public class BPMJsMsgEvent {
     public static final String JS_BIND_BACKBTN = "JS_BIND_BACKBTN";
     public static final String JS_UNBIND_BACKBTN = "JS_UNBIND_BACKBTN";
     public static final String JS_USER_CHOOSE = "JS_USER_CHOOSE";
-    public static final String JS_SHOW_TOAST="JS_SHOW_TOAST";
-
-    // 自定义一个注解MyState
-    @StringDef({JS_SET_TITLE,
-            JS_SET_TITLEBAR_VISIBLE,
-            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
-            JS_SET_TITLEBAR_BGCOLOR,
-            JS_SET_TITLEBAR_BGIMAGE,
-            JS_DOWNLOAD_FILE,
-            JS_UPLOAD_FILE,
-            JS_FILE_SELECT,
-            JS_GET_USER,
-            JS_GET_TOKEN,
-            JS_GET_IMAGES,
-            JS_GET_VIDEOS,
-            JS_BIND_BACKBTN,
-            JS_UNBIND_BACKBTN,
-            JS_USER_CHOOSE,
-            JS_SHOW_TOAST})
-    public @interface BPM_JS_ID {
-    }
-
+    public static final String JS_TOAST_SHOW="JS_TOAST_SHOW";
     private String id;
-
     private String message;
-
     private CompletionHandler handler;
 
     public BPMJsMsgEvent() {
@@ -103,5 +80,25 @@ public class BPMJsMsgEvent {
 
     public void setHandler(CompletionHandler handler) {
         this.handler = handler;
+    }
+
+    // 自定义一个注解MyState
+    @StringDef({JS_SET_TITLE,
+            JS_SET_TITLEBAR_VISIBLE,
+            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE,
+            JS_SET_TITLEBAR_BGCOLOR,
+            JS_SET_TITLEBAR_BGIMAGE,
+            JS_DOWNLOAD_FILE,
+            JS_UPLOAD_FILE,
+            JS_FILE_SELECT,
+            JS_GET_USER,
+            JS_GET_TOKEN,
+            JS_GET_IMAGES,
+            JS_GET_VIDEOS,
+            JS_BIND_BACKBTN,
+            JS_UNBIND_BACKBTN,
+            JS_USER_CHOOSE,
+            JS_TOAST_SHOW})
+    public @interface BPM_JS_ID {
     }
 }

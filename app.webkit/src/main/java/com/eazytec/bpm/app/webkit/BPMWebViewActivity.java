@@ -60,27 +60,21 @@ import java.util.List;
 public class BPMWebViewActivity extends WebViewActivity {
 
     /**
-     * 图片选择
-     */
-    private static final int COMPRESSMODE = PictureConfig.SYSTEM_COMPRESS_MODE;  //压缩模式，系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
-    private List<LocalMedia> selectList = new ArrayList<>();
-
-
-    private boolean hasBindBackButton = false;
-    private String backBtonCallBack = "";
-
-    /**
      * 这个参数用于设置bpmwebview的标题，可以为空先不设置，由网页自己调用
      * setTitle方法设置
      */
     public static final String INTENT_TITLE = "title";
-
-
     /**
      * bpmwebview跳转的url地址，这个参数不能空，不然跳转的就是空页面
      */
     public static final String INTENT_URL = "url";
-
+    /**
+     * 图片选择
+     */
+    private static final int COMPRESSMODE = PictureConfig.SYSTEM_COMPRESS_MODE;  //压缩模式，系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
+    private List<LocalMedia> selectList = new ArrayList<>();
+    private boolean hasBindBackButton = false;
+    private String backBtonCallBack = "";
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
     private ImageView toolbarRightIv;
@@ -523,7 +517,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
-            case BPMJsMsgEvent.JS_SHOW_TOAST:
+            case BPMJsMsgEvent.JS_TOAST_SHOW:
 
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -750,6 +744,6 @@ public class BPMWebViewActivity extends WebViewActivity {
      *
      * */
     private void toastshow(String info){
-        ToastDelegate.info(getContext(),"xxxx");
+        ToastDelegate.info(getContext(),info);
     }
 }

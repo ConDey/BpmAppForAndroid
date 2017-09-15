@@ -29,9 +29,56 @@ import java.net.URL;
  */
 public class BPMJsApi {
 
+    /**
+     * 设置titleBar的隐藏与显示
+     */
+    public static final String API_PARAM_TITLEBAR_VISIBLE = "visible";
+    /**
+     * 设置titlebar背景颜色
+     */
+    public static final String API_PARAM_TITLEBAR_BGCOLOR = "bgColor";
+    /**
+     * 设置titlebar背景图片
+     */
+    public static final String API_PARAM_TITLEBAR_BGIMAGE = "bgImgUrl";
+    /**
+     * 设置当前页面的Toobar标题
+     */
+    public static final String API_PARAM_TITLE = "title";
+    public static final String API_PARAM_FONT_SIZE = "fontSize";
+    public static final String API_PARAM_FONT_COLOR = "fontColor";
+    /**
+     * 新建WebViewActivity
+     */
+    public static final String API_PARAM_NEW_WEBVIEW_TITLE = "title";
+    /**
+     * 文件下载
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_ATTACHMENT_ID = "attachmentId";
+    public static final String API_PARAM_ATTACHMENT_NAME = "attachmentName";
+    public static final String API_PARAM_AUTO_OPEN = "autoOpen";
+    /**
+     * 文件上传
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_FILE_PATH = "filePath";
+    /**
+     * 文件选择
+     *
+     * @param jsonObject
+     */
+    public static final String API_PARAM_FILE_NUM = "selectNum";
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
-
+    /**
+     * 选择本地图片
+     */
+    protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
+    protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
+    protected static final String API_PARAM_TOAST_SHOW="toastshow";
     private BPMWebViewActivity activity;
 
     /**
@@ -52,12 +99,6 @@ public class BPMJsApi {
             activity.finish();
         }
     }
-
-
-    /**
-     * 设置titleBar的隐藏与显示
-     */
-    public static final String API_PARAM_TITLEBAR_VISIBLE = "visible";
 
     @JavascriptInterface
     public void setTitlebarVisible(JSONObject jsonObject, CompletionHandler handler) {
@@ -93,20 +134,10 @@ public class BPMJsApi {
         }
     }
 
-    /**
-     * 设置titlebar背景颜色
-     */
-    public static final String API_PARAM_TITLEBAR_BGCOLOR = "bgColor";
-
     @JavascriptInterface
     public void setTitlebarBgColor(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR, jsonObject.toString(), handler));
     }
-
-    /**
-     * 设置titlebar背景图片
-     */
-    public static final String API_PARAM_TITLEBAR_BGIMAGE = "bgImgUrl";
 
     @JavascriptInterface
     public void setTitlebarBgImage(JSONObject jsonObject, CompletionHandler handler) {
@@ -131,22 +162,10 @@ public class BPMJsApi {
         }
     }
 
-    /**
-     * 设置当前页面的Toobar标题
-     */
-    public static final String API_PARAM_TITLE = "title";
-    public static final String API_PARAM_FONT_SIZE = "fontSize";
-    public static final String API_PARAM_FONT_COLOR = "fontColor";
-
     @JavascriptInterface
     public void setTitlebarTextView(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_TITLE, jsonObject.toString(), handler));
     }
-
-    /**
-     * 新建WebViewActivity
-     */
-    public static final String API_PARAM_NEW_WEBVIEW_TITLE = "title";
 
     @JavascriptInterface
     public void startWindow(JSONObject jsonObject) {
@@ -174,38 +193,15 @@ public class BPMJsApi {
         }
     }
 
-    /**
-     * 文件下载
-     *
-     * @param jsonObject
-     */
-    public static final String API_PARAM_ATTACHMENT_ID = "attachmentId";
-    public static final String API_PARAM_ATTACHMENT_NAME = "attachmentName";
-    public static final String API_PARAM_AUTO_OPEN = "autoOpen";
-
     @JavascriptInterface
     public void downloadFile(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_DOWNLOAD_FILE, jsonObject.toString(), handler));
     }
 
-    /**
-     * 文件上传
-     *
-     * @param jsonObject
-     */
-    public static final String API_PARAM_FILE_PATH = "filePath";
-
     @JavascriptInterface
     public void uploadFile(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UPLOAD_FILE, jsonObject.toString(), handler));
     }
-
-    /**
-     * 文件选择
-     *
-     * @param jsonObject
-     */
-    public static final String API_PARAM_FILE_NUM = "selectNum";
 
     @JavascriptInterface
     public void fileSelector(JSONObject jsonObject, CompletionHandler handler) {
@@ -247,11 +243,6 @@ public class BPMJsApi {
 
     }
 
-    /**
-     * 选择本地图片
-     */
-    protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
-
     @JavascriptInterface
     public void getImages(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_IMAGES, jsonObject.toString(), handler));
@@ -265,13 +256,10 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_VIDEOS, jsonObject.toString(), handler));
     }
 
-    protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
-
     @JavascriptInterface
     public void userchoose(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_USER_CHOOSE, jsonObject.toString(), handler));
     }
-
 
     @JavascriptInterface
     public void bindBackBtn(JSONObject jsonObject, CompletionHandler handler) {
@@ -283,8 +271,7 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
-    protected static final String API_PARAM_TOAST_SHOW="toast";
     public void toastshow(JSONObject jsonObject, CompletionHandler handler){
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SHOW_TOAST, jsonObject.toString(), handler));
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_TOAST_SHOW, jsonObject.toString(), handler));
     }
 }
