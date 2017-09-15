@@ -283,4 +283,8 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
+    protected static final String API_PARAM_TOAST_SHOW="toast";
+    public void toastshow(JSONObject jsonObject, CompletionHandler handler){
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SHOW_TOAST, jsonObject.toString(), handler));
+    }
 }

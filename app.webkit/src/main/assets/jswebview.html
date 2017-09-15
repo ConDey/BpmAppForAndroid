@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -130,6 +130,39 @@
         <button type="button" class="mui-btn mui-btn-purple mui-btn-outlined"
                 onclick="userChoose()">
             选择人员
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="showToast()">
+            Toast显示
+        </button >
+
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="showAlter()">
+            Alert确认框
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+            进度条显示
+        </button>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+            进度条取消
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+            显示图片信息
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+            解除图片信息显示
         </button>
 
     </div>
@@ -267,7 +300,17 @@
           bpmbridget.call("userchoose", {selectNum: 5, users:[{id:"1",name:"张三"},{id:"2",name:"李四"}]},function(result) {
                     alert(result);
           });
-
         }
+
+       //Toast显示
+       function toastshow(){
+          bpmbridget.call("showtoast",{toast:"333"},function(result){
+          });
+       }
+
+       //Alter确认框显示
+       function showAlter(){
+          alert("#####");
+       }
 </script>
 </html>

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
@@ -33,8 +32,6 @@ import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
@@ -53,7 +50,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -527,7 +523,16 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
+            case BPMJsMsgEvent.JS_SHOW_TOAST:
 
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    toastshow(jsonObject.getString(BPMJsApi.API_PARAM_TOAST_SHOW));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -739,4 +744,12 @@ public class BPMWebViewActivity extends WebViewActivity {
         }
     }
 
+
+    /**
+     *Toast显示
+     *
+     * */
+    private void toastshow(String info){
+        ToastDelegate.info(getContext(),"xxxx");
+    }
 }
