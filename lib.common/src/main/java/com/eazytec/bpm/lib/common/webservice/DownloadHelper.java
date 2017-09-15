@@ -106,7 +106,7 @@ public class DownloadHelper {
                                                             if (Build.VERSION.SDK_INT >= 24) {
                                                                 // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
                                                                 PackageInfo packageInfo = new PackageInfo();
-                                                                Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_APPLICAITON_ID, file);
+                                                                Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_PROVIDER_ID, file);
                                                                 Intent intent = new Intent("android.intent.action.VIEW");
                                                                 intent.addCategory("android.intent.category.DEFAULT");
                                                                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

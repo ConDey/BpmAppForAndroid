@@ -8,6 +8,7 @@ import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
 import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
+import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
@@ -78,8 +79,10 @@ public class BPMJsApi {
      */
     protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
     protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
-    protected static final String API_PARAM_TOAST_SHOW="toastshow";
     private BPMWebViewActivity activity;
+
+
+    public static final String TOAST_INFO = "toast";
 
     /**
      * 必须注入Activity
@@ -271,7 +274,16 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
-    public void toastshow(JSONObject jsonObject, CompletionHandler handler){
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_TOAST_SHOW, jsonObject.toString(), handler));
+
+    @JavascriptInterface
+    public void toastshow(JSONObject jsonObject) {
+        try {
+            String info = jsonObject.getString(TOAST_INFO);
+            if(activity != null){
+                activity.ToastInfo(info);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

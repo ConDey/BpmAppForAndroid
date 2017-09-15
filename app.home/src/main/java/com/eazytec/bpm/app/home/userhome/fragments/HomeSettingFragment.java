@@ -1,6 +1,5 @@
 package com.eazytec.bpm.app.home.userhome.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.authentication.AuthenticationActivity;
-import com.eazytec.bpm.app.home.data.authenication.AuthenicationDataHelper;
 import com.eazytec.bpm.app.home.update.UpdateHelper;
 import com.eazytec.bpm.app.home.updatepwd.UpdatePwdActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
-import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.fragment.CommonFragment;
 import com.jakewharton.rxbinding.view.RxView;
 

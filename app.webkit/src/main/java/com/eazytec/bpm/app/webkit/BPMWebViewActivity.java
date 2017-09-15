@@ -517,16 +517,6 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
-            case BPMJsMsgEvent.JS_TOAST_SHOW:
-
-                try {
-                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    CompletionHandler handler = messageEvent.getHandler();
-                    toastshow(jsonObject.getString(BPMJsApi.API_PARAM_TOAST_SHOW));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
         }
 
     }
@@ -594,6 +584,10 @@ public class BPMWebViewActivity extends WebViewActivity {
         }
         it.putExtra(INTENT_TITLE, title);
         skipActivity(this, it);
+    }
+
+    public void ToastInfo(String info) {
+     ToastDelegate.info(getContext(),info);
     }
 
 
@@ -736,14 +730,5 @@ public class BPMWebViewActivity extends WebViewActivity {
                     break;
             }
         }
-    }
-
-
-    /**
-     *Toast显示
-     *
-     * */
-    private void toastshow(String info){
-        ToastDelegate.info(getContext(),info);
     }
 }

@@ -64,4 +64,6 @@ dependencies {
 
 
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.0'
+    compile project(':PushSDK')
+    compile rootProject.ext.sqlbrite
 }

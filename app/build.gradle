@@ -23,8 +23,8 @@ android {
             applicationId "com.eazytec.bpm"
             // app名字，在 string.xml 不能有这个字段，会重名！！！改这个，名字就改了
             resValue "string", "app_name", "bpm演示版"
-            // 修改 AndroidManifest.xml 里渠道变量
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: " bpm"]
+            // 修改 AndroidManifest.xml 里友盟的渠道变量
+            manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf"]
         }
     }
     /**
@@ -47,7 +47,8 @@ android {
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
-            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.app.provider\"")
+            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider\"")
+            buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             signingConfig signingConfigs.release
             ndk {
                 abiFilters  "armeabi"
@@ -66,13 +67,15 @@ android {
         }
 
         debug {
+            //applicationIdSuffix "com.eazytec.bpm.debug"  要用友盟，要保持appid一直，所以暂时先注释掉！
             debuggable true
             minifyEnabled false
             buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
-            buildConfigField("String", "APK_APPLICAITON_ID", "\"com.eazytec.bpm.app.provider.debug\"")
+            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider.debug\"")
+            buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             ndk {
                 abiFilters "x86", "armeabi"
             }

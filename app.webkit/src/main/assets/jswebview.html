@@ -135,7 +135,7 @@
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="showToast()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="toastShow()">
             Toast显示
         </button >
 
@@ -303,9 +303,9 @@
         }
 
        //Toast显示
-       function toastshow(){
-          bpmbridget.call("toastshow",{toast:"333"},function(result){});
-       }
+         function toastShow() {
+               bpmbridget.call("toastshow",{toast:"5"});
+        }
 
        //Alter确认框显示
        function showAlter(){

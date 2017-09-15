@@ -42,10 +42,15 @@ public abstract class Config {
     /**
      * APK的ApplicationId
      */
-    public static String APK_APPLICAITON_ID;
+    public static String APK_PROVIDER_ID;
 
     /**
      * 是否是单例调试模式
      */
     public static boolean IS_DEBUG;
+
+    /**
+     * 数据库名字
+     */
+    public static String DB_NAME;
 }

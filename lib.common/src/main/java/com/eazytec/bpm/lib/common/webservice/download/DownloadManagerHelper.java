@@ -151,7 +151,7 @@ public class DownloadManagerHelper implements DownloadContract {
         if (file.exists()) {
             if (Build.VERSION.SDK_INT >= 24) {
                 // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                Uri uri = FileProvider.getUriForFile(mContext, Config.APK_APPLICAITON_ID, file);
+                Uri uri = FileProvider.getUriForFile(mContext, Config.APK_PROVIDER_ID, file);
                 Intent intent = new Intent("android.intent.action.VIEW");
                 intent.addCategory("android.intent.category.DEFAULT");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

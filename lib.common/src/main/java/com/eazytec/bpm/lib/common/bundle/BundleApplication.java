@@ -1,15 +1,11 @@
 package com.eazytec.bpm.lib.common.bundle;
 
 import android.app.Application;
-import android.os.Handler;
-import android.support.annotation.WorkerThread;
 
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.DebugMockConfig;
-import com.eazytec.bpm.lib.common.ALog;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.authentication.Token;
-import com.eazytec.bpm.lib.common.authentication.TokenIntercepter;
 import com.eazytec.bpm.lib.common.authentication.UserAuthority;
 import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.webservice.BPMRetrofit;
@@ -18,14 +14,11 @@ import com.eazytec.bpm.lib.utils.Utils;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
