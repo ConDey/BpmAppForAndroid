@@ -9,14 +9,16 @@ public class MessageDataTObject {
     private String id;
     private String content;
     private String clickUrl;
-    private long gmtCreate;
+    private String createdTime;
     private String title;
-    private int topic;
     private boolean needPush;
-    private String toemp;
-    private boolean pushed;
     private boolean canClick;
-    private MessageTopicDataTObject topicObject;
+    private boolean pushed;
+
+    private String topicIcon;
+    private String topicId;
+    private String internalMsgId;
+    private String topicName;
 
     // 给数据库使用 记录是否已读
     private boolean isRead;
@@ -46,12 +48,12 @@ public class MessageDataTObject {
         this.clickUrl = clickUrl;
     }
 
-    public long getGmtCreate() {
-        return gmtCreate;
+    public String getCreatedTime() {
+        return createdTime;
     }
 
-    public void setGmtCreate(long gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setCreatedTime(String createdTime) {
+        this.createdTime = createdTime;
     }
 
     public String getTitle() {
@@ -62,36 +64,12 @@ public class MessageDataTObject {
         this.title = title;
     }
 
-    public int getTopic() {
-        return topic;
-    }
-
-    public void setTopic(int topic) {
-        this.topic = topic;
-    }
-
     public boolean isNeedPush() {
         return needPush;
     }
 
     public void setNeedPush(boolean needPush) {
         this.needPush = needPush;
-    }
-
-    public String getToemp() {
-        return toemp;
-    }
-
-    public void setToemp(String toemp) {
-        this.toemp = toemp;
-    }
-
-    public boolean isPushed() {
-        return pushed;
-    }
-
-    public void setPushed(boolean pushed) {
-        this.pushed = pushed;
     }
 
     public boolean isCanClick() {
@@ -102,12 +80,52 @@ public class MessageDataTObject {
         this.canClick = canClick;
     }
 
-    public MessageTopicDataTObject getTopicObject() {
-        return topicObject;
+    public boolean isPushed() {
+        return pushed;
     }
 
-    public void setTopicObject(MessageTopicDataTObject topicObject) {
-        this.topicObject = topicObject;
+    public void setPushed(boolean pushed) {
+        this.pushed = pushed;
+    }
+
+    public String getTopicIcon() {
+        return topicIcon;
+    }
+
+    public void setTopicIcon(String topicIcon) {
+        this.topicIcon = topicIcon;
+    }
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
+    }
+
+    public String getInternalMsgId() {
+        return internalMsgId;
+    }
+
+    public void setInternalMsgId(String internalMsgId) {
+        this.internalMsgId = internalMsgId;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public void setIsRead(boolean read) {

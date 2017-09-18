@@ -5,12 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eazytec.bpm.app.message.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    tools:context="com.eazytec.bpm.app.message.MessageMainActivity">
+    <!--消息推送的列表-->
+    <com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView
+        android:id="@+id/message_main_listview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        />
+        android:divider="@null">
+    </com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView>
 
 </LinearLayout>

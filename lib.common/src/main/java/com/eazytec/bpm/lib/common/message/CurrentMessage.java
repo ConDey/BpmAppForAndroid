@@ -41,7 +41,7 @@ public class CurrentMessage {
         }
     }
 
-    public List<MessageDataTObject> getMessagesFromDB(int topicId) {
+    public List<MessageDataTObject> getMessagesFromDB(String topicId) {
         if (this.build.messageRepository != null) {
             return this.build.messageRepository.selectMessageFromDB(topicId);
         }
@@ -49,7 +49,7 @@ public class CurrentMessage {
         return new ArrayList<>();
     }
 
-    public List<MessageDataTObject> getMessagesByPage(int topicId, int pageIndex, int pageSize) {
+    public List<MessageDataTObject> getMessagesByPage(String topicId, int pageIndex, int pageSize) {
         if (this.build.messageRepository != null) {
             return this.build.messageRepository.selectMessageByPage(topicId, pageIndex, pageSize);
         }
@@ -58,13 +58,13 @@ public class CurrentMessage {
     }
 
     /**
-     * 更新已读状态信息
+     * 更新消息的已读状态信息
      *
      * @param topicId
      */
-    public void upDateMessageIsReadState(int topicId) {
+    public void upDateMessageIsReadState(String topicId ,String id) {
         if (this.build.messageRepository != null) {
-            this.build.messageRepository.updateMessageIsReadState(topicId);
+            this.build.messageRepository.updateMessageIsReadState(topicId ,id);
         }
     }
 

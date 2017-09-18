@@ -1,4 +1,4 @@
-package com.eazytec.bpm.lib.common.commonparams;
+package com.eazytec.bpm.lib.common.message.commonparams;
 
 /**
  * @author 16735

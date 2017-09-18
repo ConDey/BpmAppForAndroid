@@ -1,4 +1,4 @@
-package com.eazytec.bpm.lib.common.topic;
+package com.eazytec.bpm.lib.common.message.topic;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -94,7 +94,7 @@ public class DefaultTopicRepository implements TopicRepository {
      * @param id
      * @return
      */
-    private List<MessageTopicDataTObject> getTopicById(int id) {
+    private List<MessageTopicDataTObject> getTopicById(String id) {
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBTopic.TABLE_TOPIC + " where " + DBTopic.COLUMN_TOPIC_ID + " == '" + id + "'", null);
         return convert(cursor);
     }
@@ -113,7 +113,7 @@ public class DefaultTopicRepository implements TopicRepository {
         try {
             while (cursor.moveToNext()) {
                 MessageTopicDataTObject topic = new MessageTopicDataTObject();
-                topic.setId(Integer.valueOf(DB.getString(cursor, DBTopic.COLUMN_TOPIC_ID)));
+                topic.setId(DB.getString(cursor, DBTopic.COLUMN_TOPIC_ID));
                 topic.setName(DB.getString(cursor, DBTopic.COLUMN_NAME));
                 topic.setIcon(DB.getString(cursor, DBTopic.COLUMN_ICON));
                 topic.setTopic(DB.getString(cursor, DBTopic.COLUMN_TOPIC));

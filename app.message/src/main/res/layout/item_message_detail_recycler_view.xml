@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/message_main_item_margin"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="@dimen/message_main_item_margin"
+        android:paddingBottom="20dp">
+
+
+        <TextView
+            android:id="@+id/message_detail_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="@drawable/bg_message_detail_time"
+            android:textSize="13sp"
+            android:text="昨天 22:00"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_message_detail_click">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/message_main_item_margin"
+                    android:layout_marginRight="@dimen/message_main_item_margin"
+                    android:layout_marginLeft="@dimen/message_main_item_margin"
+                    android:layout_marginBottom="@dimen/message_main_item_margin">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:id="@+id/message_detail_main_title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_primary"
+                            android:textSize="15sp"
+                            android:text="工作信息" />
+                        <TextView
+                            android:id="@+id/message_detail_main_read_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_primary"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/message_main_item_margin"
+                            android:textSize="15sp"
+                            android:text="未读" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/message_detail_content_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/message_main_item_margin"
+                        android:textSize="14sp"
+                        android:text="万煜东完成了易工作一期项目的开发工作"/>
+
+                    <LinearLayout
+                        android:id="@+id/message_detail_can_click_ll"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"/>
+                        <include layout="@layout/bpm_single_line"/>
+
+                        <RelativeLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:textColor="@color/color_black_primary"
+                                android:textSize="13sp"
+                                android:text="查看详情" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/ic_right_arrow"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

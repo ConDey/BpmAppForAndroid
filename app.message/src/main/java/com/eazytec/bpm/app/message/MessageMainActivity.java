@@ -1,14 +1,13 @@
 package com.eazytec.bpm.app.message;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.eazytec.bpm.app.message.detail.MessageDetailActivity;
 import com.eazytec.bpm.app.message.main.MessageMainAdapter;
@@ -17,8 +16,8 @@ import com.eazytec.bpm.app.message.main.MessageMainPresenter;
 import com.eazytec.bpm.app.message.utils.RefreshRecyclerViewUtil;
 import com.eazytec.bpm.appstub.view.recyclerview.OnRecyclerViewItemClickListener;
 import com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView;
+import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
-import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
 import com.eazytec.bpm.lib.utils.TimeUtils;
@@ -30,11 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 提供给App.home的消息模块Fragment
  * @author Beckett_W
- * @version Id: MessageFragemnt, v 0.1 2017/9/15 15:25 Beckett_W Exp $$
+ * @version Id: MessageMainFragment, v 0.1 2017/8/5 10:56 Beckett_W Exp $$
  */
-public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> implements MessageMainContract.View, OnRecyclerViewItemClickListener {
+
+public class MessageMainActivity extends ContractViewActivity<MessageMainPresenter> implements MessageMainContract.View, OnRecyclerViewItemClickListener {
 
     private static final long FIVE_MINUTES_MILLS = 180000; //三分钟（毫秒）
 
@@ -42,28 +41,24 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
     private boolean isforward = false;
     private boolean isrefresh = false;
 
-
     private RefreshRecyclerView messageMainListView;
     private MessageMainAdapter messageMainAdapter;
 
     private List<MessageTopicDataTObject> datas;
     private PushAgent mPushAgent;
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View parentView = inflater.inflate(R.layout.activity_message_main, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message_main);
 
         // 初始化
-        messageMainListView = (RefreshRecyclerView) parentView.findViewById(R.id.message_main_listview);
+        messageMainListView = (RefreshRecyclerView) findViewById(R.id.message_main_listview);
 
         initData();
         setListener();
         receivePushMessage();
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initData() {
@@ -78,6 +73,8 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
         messageMainAdapter.setListener(this);
         messageMainAdapter.notifyDataSetChanged();
         RefreshRecyclerViewUtil.initRefreshViewColorSchemeColors(messageMainListView,getResources());
+
+        getPresenter().loadTopicsByDB();
     }
 
     private void setListener() {
@@ -101,7 +98,6 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
         isforward = false;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -124,8 +120,8 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void receivePushMessage() {
@@ -151,22 +147,22 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
     }
 
 
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getPresenter().loadTopicsByDB();
+    protected MessageMainPresenter createPresenter() {
+        return new MessageMainPresenter();
     }
 
     @Override
     public void onItemClick(View view, Object data) {
-        //跳到消息详情页面
+         //跳到消息详情页面
         MessageTopicDataTObject dataTObject = (MessageTopicDataTObject)data;
 
         Bundle it = new Bundle();
         it.putString(MessageConstant.TOPIC_ID, dataTObject.getId());
         it.putString(MessageConstant.TOPIC_NAME, dataTObject.getName());
         it.putString(MessageConstant.TOPIC_TYPE, dataTObject.getTopic());
-        getCommonActivity().startActivity(getCommonActivity(), MessageDetailActivity.class,it);
+        startActivity(MessageMainActivity.this, MessageDetailActivity.class,it);
     }
 
     @Override
@@ -193,10 +189,5 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
 
     private void loadTopicFromNetworks() {
         getPresenter().loadTopics();
-    }
-
-    @Override
-    protected MessageMainPresenter createPresenter() {
-        return new MessageMainPresenter();
     }
 }

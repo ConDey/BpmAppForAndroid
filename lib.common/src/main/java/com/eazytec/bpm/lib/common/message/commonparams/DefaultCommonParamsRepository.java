@@ -1,4 +1,4 @@
-package com.eazytec.bpm.lib.common.commonparams;
+package com.eazytec.bpm.lib.common.message.commonparams;
 
 import android.content.ContentValues;
 import android.database.Cursor;

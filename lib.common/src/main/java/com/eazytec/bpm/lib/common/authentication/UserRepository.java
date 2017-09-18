@@ -51,4 +51,18 @@ public interface UserRepository {
      */
     public String getPassword();
 
+    /**
+     * 设置当前用户上次请求时间
+     *
+     * @param username
+     */
+    public void setLastRequestTimeByUsername(String username, String lastRequestTime);
+
+    /**
+     * 获取当前用户上次请求时间
+     *
+     * @param username
+     */
+    public String getLastRequestTimeByUsername(boolean isDateFormat, String username);
+
 }

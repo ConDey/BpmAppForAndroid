@@ -1,4 +1,4 @@
-package com.eazytec.bpm.lib.common.commonparams;
+package com.eazytec.bpm.lib.common.message.commonparams;
 
 import com.eazytec.bpm.appstub.db.DBConstants;
 import com.eazytec.bpm.lib.utils.TimeUtils;

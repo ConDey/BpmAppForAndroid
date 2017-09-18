@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/message_detail_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/message_detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_toolbar"
+            android:minHeight="?attr/actionBarSize">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/message_detail_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/color_black_primary"
+                    android:textSize="16sp"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/message_detail_toolbar_sub_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/color_grey_primary"
+                    android:textSize="14sp"
+                    android:text=""/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <include layout="@layout/bpm_single_line"></include>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/message_detail_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/transparent"
+        android:listSelector="@color/transparent"
+        android:background="@color/grey_300">
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/message_detail_list_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@color/white"
+        >
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/ic_empty_toast_info"
+            />
+
+        <TextView
+            android:id="@+id/listview_empty_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#E0E0E0"
+            android:text="尚无信息"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:textColor="#E0E0E0"
+            android:text="点击页面重新加载数据"
+            />
+    </LinearLayout>
+
+</LinearLayout>

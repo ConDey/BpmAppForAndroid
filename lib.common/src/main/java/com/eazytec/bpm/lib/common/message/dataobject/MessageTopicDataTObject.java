@@ -7,7 +7,7 @@ package com.eazytec.bpm.lib.common.message.dataobject;
 public class MessageTopicDataTObject {
 
     private String name;
-    private int id;
+    private String id;
     private String icon;
     private String topic;
 
@@ -32,11 +32,11 @@ public class MessageTopicDataTObject {
         this.icon = icon;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

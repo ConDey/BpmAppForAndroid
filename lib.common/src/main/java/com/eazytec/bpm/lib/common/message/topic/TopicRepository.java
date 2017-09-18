@@ -1,4 +1,4 @@
-package com.eazytec.bpm.lib.common.topic;
+package com.eazytec.bpm.lib.common.message.topic;
 
 import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
 

@@ -21,18 +21,18 @@ public interface MessageRepository {
      *
      * @return
      */
-    public List<MessageDataTObject> selectMessageFromDB(int topicId);
+    public List<MessageDataTObject> selectMessageFromDB(String topicId);
 
     /**
      * 更新消息已读状态
      *
      * @param topicId
      */
-    public void updateMessageIsReadState(int topicId);
+    public void updateMessageIsReadState(String topicId , String id);
 
     /**
      * 分页查询消息
      *
      */
-    public List<MessageDataTObject> selectMessageByPage(int topicId, int pageIndex, int pageSize);
+    public List<MessageDataTObject> selectMessageByPage(String topicId, int pageIndex, int pageSize);
 }

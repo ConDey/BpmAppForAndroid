@@ -52,4 +52,14 @@ public class SharePrefsUserRepository implements UserRepository {
     @Override public String getPassword() {
         return sharePrefsUtil.getString(PARAM_PASSWORD);
     }
+
+    @Override
+    public void setLastRequestTimeByUsername(String username, String lastRequestTime) {
+
+    }
+
+    @Override
+    public String getLastRequestTimeByUsername(boolean isDateFormat, String username) {
+        return null;
+    }
 }

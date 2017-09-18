@@ -11,13 +11,13 @@ import java.util.List;
  */
 public class MessageListDataTObject extends WebDataTObject {
 
-    private List<MessageDataTObject> messages;
+    private List<MessageDataTObject> datas;
 
-    public List<MessageDataTObject> getMessages() {
-        return messages;
+    public List<MessageDataTObject> getDatas() {
+        return datas;
     }
 
-    public void setMessages(List<MessageDataTObject> messages) {
-        this.messages = messages;
+    public void setDatas(List<MessageDataTObject> datas) {
+        this.datas = datas;
     }
 }

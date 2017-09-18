@@ -1,6 +1,9 @@
 package com.eazytec.bpm.lib.common.authentication;
 
 
+import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
+import com.eazytec.bpm.lib.utils.StringUtils;
+
 /**
  * 代表当前用户
  * <p>
@@ -31,6 +34,27 @@ public final class CurrentUser {
             currentUser = new CurrentUser.Build().userRepository(new SharePrefsUserRepository()).build();
         }
         return currentUser;
+    }
+
+    public void updateLastRequestTime() {
+        // 获取当前时间
+        String lastRequestTime = String.valueOf(System.currentTimeMillis());
+        String username = CurrentUser.getCurrentUser().getUserDetails().getUsername();
+        if (!StringUtils.isEmpty(username)) {
+            if (this.build.userRepository != null) {
+                this.build.userRepository.setLastRequestTimeByUsername(username, lastRequestTime);
+            }
+        }
+    }
+
+    public String getLastRequestTime(boolean isDateFormat) {
+        String username = CurrentUser.getCurrentUser().getUserDetails().getUsername();
+        if (!StringUtils.isEmpty(username)) {
+            if (this.build.userRepository != null) {
+                return this.build.userRepository.getLastRequestTimeByUsername(isDateFormat,username);
+            }
+        }
+        return CommonParams.getCommonParams().getFiveDaysAgoTime(isDateFormat);
     }
 
     private boolean isLogin = false;  // 是否已经登录

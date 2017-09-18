@@ -21,12 +21,12 @@ public class DBTopic {
     public static final class Builder {
         private final ContentValues values = new ContentValues();
 
-        public Builder id(long id) {
+        public Builder id(String id) {
             values.put(DBConstants.COLUMN_ID, id);
             return this;
         }
 
-        public Builder topicId(long topicId) {
+        public Builder topicId(String topicId) {
             values.put(COLUMN_TOPIC_ID, topicId);
             return this;
         }
