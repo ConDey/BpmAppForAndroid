@@ -8,7 +8,6 @@ import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
 import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgImageEvent;
-import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
@@ -34,6 +33,10 @@ public class BPMJsApi {
      * 设置titleBar的隐藏与显示
      */
     public static final String API_PARAM_TITLEBAR_VISIBLE = "visible";
+    /**
+     * 设置progressBar的隐藏与显示
+     */
+    public static final String API_PARAM_PROGRESSBAR_VISIBLE = "visible";
     /**
      * 设置titlebar背景颜色
      */
@@ -72,6 +75,11 @@ public class BPMJsApi {
      * @param jsonObject
      */
     public static final String API_PARAM_FILE_NUM = "selectNum";
+    /**
+     * Toast,Alert显示
+     * */
+    public static final String TOAST_INFO = "toast";
+    public static final String ALERT_INFO="alert";
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
     /**
@@ -80,9 +88,6 @@ public class BPMJsApi {
     protected static final String API_PARAM_IMAGE_SELECTOR_NUM = "selectNum";
     protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
     private BPMWebViewActivity activity;
-
-
-    public static final String TOAST_INFO = "toast";
 
     /**
      * 必须注入Activity
@@ -274,7 +279,12 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
+    @JavascriptInterface
+    public void setProgressbarVisible(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_PROGRESSBAR_VISIBLE, jsonObject.toString(), handler));
+    }
 
+    //Toast功能显示
     @JavascriptInterface
     public void toastshow(JSONObject jsonObject) {
         try {
@@ -286,4 +296,21 @@ public class BPMJsApi {
             e.printStackTrace();
         }
     }
+
+    //alter功能
+    @JavascriptInterface
+    public void altershow(JSONObject jsonObject) {
+        String info = null;
+        try {
+            info = jsonObject.getString(ALERT_INFO);
+            if (activity !=null){
+                activity.AlterInfo(info);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
