@@ -1,11 +1,13 @@
 package com.eazytec.bpm.app.webkit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -216,6 +218,18 @@ public class BPMWebViewActivity extends WebViewActivity {
 
         handler.complete(result);
     }
+
+    /**
+     * 设置progress的显示和取消
+     */
+    private void setProgressBar(Boolean isVisible,CompletionHandler handler,String result){
+        ProgressBar progressBar;
+        progressBar=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);
+        progressBar.setMax(100);
+        progressBar.setProgress(50);
+    }
+
+
 
     /**
      * 设置titlebar的背景颜色
@@ -586,9 +600,32 @@ public class BPMWebViewActivity extends WebViewActivity {
         skipActivity(this, it);
     }
 
+    /**
+     * toast显示
+     * */
     public void ToastInfo(String info) {
      ToastDelegate.info(getContext(),info);
     }
+
+    /**
+     * alert显示确认
+     * */
+    public void AlterInfo(String info){
+        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getContext()).setTitle("提示").setMessage(info)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ToastDelegate.info(getContext(),"成功获取");
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
 
 
     /**

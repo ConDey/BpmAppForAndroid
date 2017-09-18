@@ -140,18 +140,18 @@
         </button >
 
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="showAlter()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="alertShow()">
             Alert确认框
         </button>
 
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setprogressVisible()">
             进度条显示
         </button>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setprogressInvisible()">
             进度条取消
         </button>
 
@@ -308,8 +308,22 @@
         }
 
        //Alter确认框显示
-       function showAlter(){
-          alert("#####");
+       function alertShow(){
+          bpmbridget.call("altershow",{alert:"好奇害死喵"})
        }
+
+       // progress显示
+        function setprogressVisible() {
+               bpmbridget.call("setProgressBarVisible",{visible: true}, function(result){
+                    alert(result);
+               });
+        }
+
+        // progress隐藏
+        function setprogressInvisible() {
+               bpmbridget.call("setProgressbarVisible",{visible: false}, function(result){
+                    alert(result);
+               });
+        }
 </script>
 </html>
