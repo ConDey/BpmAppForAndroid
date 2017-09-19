@@ -5,7 +5,6 @@ import android.database.Cursor;
 
 import com.eazytec.bpm.appstub.db.DB;
 import com.eazytec.bpm.appstub.db.DBLoginUser;
-import com.eazytec.bpm.lib.common.file.ExternalFile;
 import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
 import com.eazytec.bpm.lib.utils.SPUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
