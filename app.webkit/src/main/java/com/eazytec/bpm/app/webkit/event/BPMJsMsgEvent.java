@@ -28,11 +28,13 @@ public class BPMJsMsgEvent {
     public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
     public static final String JS_GET_VIDEOS = "JS_GET_VIDEOS";
 
-    public static final String JS_SET_PROGRESSBAR_VISIBLE="JS_SET_PROGRESSBAR_VISIBLE";
-
     public static final String JS_BIND_BACKBTN = "JS_BIND_BACKBTN";
     public static final String JS_UNBIND_BACKBTN = "JS_UNBIND_BACKBTN";
     public static final String JS_USER_CHOOSE = "JS_USER_CHOOSE";
+
+    public static final String  JS_SET_DIALOG_SHOW_AC="JS_SET_DIALOG_SHOW_AC";
+    public static final String  JS_SET_DIALOG_SHOW_AL="JS_SET_DIALOG_SHOW_AL";
+
     private String id;
     private String message;
     private CompletionHandler handler;
@@ -99,7 +101,8 @@ public class BPMJsMsgEvent {
             JS_BIND_BACKBTN,
             JS_UNBIND_BACKBTN,
             JS_USER_CHOOSE,
-            JS_SET_PROGRESSBAR_VISIBLE})
+            JS_SET_DIALOG_SHOW_AC,
+            JS_SET_DIALOG_SHOW_AL})
     public @interface BPM_JS_ID {
     }
 }

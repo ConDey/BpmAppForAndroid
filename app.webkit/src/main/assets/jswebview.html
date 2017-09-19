@@ -139,9 +139,15 @@
             Toast显示
         </button >
 
+        </br>
+        </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="alertShow()">
-            Alert确认框
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="dialogShowAl()">
+            Alert确认框AL
+        </button>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="dialogShowAc()">
+            Alert确认框AC
         </button>
 
         </br>
@@ -153,16 +159,6 @@
 
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="setprogressInvisible()">
             进度条取消
-        </button>
-
-        </br>
-        </br>
-
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
-            显示图片信息
-        </button>
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined">
-            解除图片信息显示
         </button>
 
     </div>
@@ -297,33 +293,28 @@
         }
 
         function userChoose() {
-          bpmbridget.call("userchoose", {selectNum: 5, users:[{id:"1",name:"张三"},{id:"2",name:"李四"}]},function(result) {
+          bpmbridget.call("userChoose", {selectNum: 5, users:[{id:"1",name:"张三"},{id:"2",name:"李四"}]},function(result) {
                     alert(result);
           });
         }
 
-       //Toast显示
+       //Toast显示  toastType有五种类型：info,success,error,warning,normal
          function toastShow() {
-               bpmbridget.call("toastshow",{toast:"5"});
+               bpmbridget.call("toastShow",{toast:"5",toastType:"info"});
         }
 
-       //Alter确认框显示
-       function alertShow(){
-          bpmbridget.call("altershow",{alert:"好奇害死喵"})
+       //Alter确认框显示AL
+       function dialogShowAl(){
+          bpmbridget.call("dialogShowAl",{dialogAl:"好奇害死喵"},function(result){
+                    alert(result);
+          });
        }
 
-       // progress显示
-        function setprogressVisible() {
-               bpmbridget.call("setProgressBarVisible",{visible: true}, function(result){
-                    alert(result);
-               });
-        }
+       //Alter确认框显示AC type:restartAc,startAc
+       function dialogShowAc(){
+          bpmbridget.call("dialogShowAc",{dialogAc:"好奇害死喵",dialogUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",dialogTitle: "hello",dialogType:"restartAc"}，function("result"));
+       }
 
-        // progress隐藏
-        function setprogressInvisible() {
-               bpmbridget.call("setProgressbarVisible",{visible: false}, function(result){
-                    alert(result);
-               });
-        }
+
 </script>
 </html>

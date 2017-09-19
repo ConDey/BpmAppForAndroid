@@ -33,10 +33,10 @@ public class BPMJsApi {
      * 设置titleBar的隐藏与显示
      */
     public static final String API_PARAM_TITLEBAR_VISIBLE = "visible";
-    /**
-     * 设置progressBar的隐藏与显示
-     */
-    public static final String API_PARAM_PROGRESSBAR_VISIBLE = "visible";
+//    /**
+//     * 设置progressBar的隐藏与显示
+//     */
+//    public static final String API_PARAM_PROGRESSBAR_VISIBLE = "visible";
     /**
      * 设置titlebar背景颜色
      */
@@ -78,8 +78,13 @@ public class BPMJsApi {
     /**
      * Toast,Alert显示
      * */
-    public static final String TOAST_INFO = "toast";
-    public static final String ALERT_INFO="alert";
+    public static final String API_TOAST_INFO = "toast";
+    public static final String API_TOAST_TYPE = "toastType";
+    public static final String API_DIALOG_INFO_Al="dialogAl";
+    public static final String API_DIALOG_INFO_Ac="dialogAc";
+    public static final String API_DIALOG_TYPE="dialogType";
+    public static final String API_DIALOG_INFO_HTMLURL="dialogUrl";
+    public static final String API_DIALOG_INFO_HTMLTITLE="dialogTitle";
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
     /**
@@ -265,7 +270,7 @@ public class BPMJsApi {
     }
 
     @JavascriptInterface
-    public void userchoose(JSONObject jsonObject, CompletionHandler handler) {
+    public void userChoose(JSONObject jsonObject, CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_USER_CHOOSE, jsonObject.toString(), handler));
     }
 
@@ -279,38 +284,29 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
-    @JavascriptInterface
-    public void setProgressbarVisible(JSONObject jsonObject, CompletionHandler handler) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_PROGRESSBAR_VISIBLE, jsonObject.toString(), handler));
-    }
-
     //Toast功能显示
     @JavascriptInterface
-    public void toastshow(JSONObject jsonObject) {
+    public void toastShow(JSONObject jsonObject) {
         try {
-            String info = jsonObject.getString(TOAST_INFO);
+            String info = jsonObject.getString(API_TOAST_INFO);
+            String type= jsonObject.getString(API_TOAST_TYPE);
             if(activity != null){
-                activity.ToastInfo(info);
+                activity.toastInfo(info,type);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    //alter功能
+    //alter功能AL
     @JavascriptInterface
-    public void altershow(JSONObject jsonObject) {
-        String info = null;
-        try {
-            info = jsonObject.getString(ALERT_INFO);
-            if (activity !=null){
-                activity.AlterInfo(info);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
+    public void dialogShowAl(JSONObject jsonObject,CompletionHandler handler) {
+            EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL, jsonObject.toString(), handler));
     }
 
+    //alter功能AC
+    @JavascriptInterface
+    public void dialogShowAc(JSONObject jsonObject,CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AC, jsonObject.toString(), handler));
+    }
 }
