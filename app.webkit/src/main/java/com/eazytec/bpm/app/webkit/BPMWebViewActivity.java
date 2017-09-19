@@ -1,13 +1,12 @@
 package com.eazytec.bpm.app.webkit;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -15,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
 import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
 import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
@@ -81,6 +82,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     private TextView toolbarTitleTextView;
     private ImageView toolbarRightIv;
     private String url;
+    private BPMWebViewActivity activity;
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -218,16 +220,16 @@ public class BPMWebViewActivity extends WebViewActivity {
 
         handler.complete(result);
     }
-
-    /**
-     * 设置progress的显示和取消
-     */
-    private void setProgressBar(Boolean isVisible,CompletionHandler handler,String result){
-        ProgressBar progressBar;
-        progressBar=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);
-        progressBar.setMax(100);
-        progressBar.setProgress(50);
-    }
+//
+//    /**
+//     * 设置progress的显示和取消
+//     */
+//    private void setProgressBar(Boolean isVisible,CompletionHandler handler,String result){
+//        ProgressBar progressBar;
+//        progressBar=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);
+//        progressBar.setMax(100);
+//        progressBar.setProgress(50);
+//    }
 
 
 
@@ -531,6 +533,78 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
+            case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL:
+                 try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    final CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                     final JSONObject object = new JSONObject(callbackBean.toJson());
+                     MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+                           .title("提示")
+                            .content(jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al))
+                             .positiveText("确定")
+                             .negativeText("取消")
+                             .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                 @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                     dialog.dismiss();
+                                }
+                            })
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    handler.complete(object.toString());
+                                }
+                            }).build();
+                    materialDialog.show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AC:
+                try {
+                    final JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    final CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    String htmlUrl=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLURL);
+                    String title=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLTITLE);
+                    MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+                            .title("提示")
+                            .content(jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Ac))
+                            .positiveText("确定")
+                            .negativeText("取消")
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    try {
+                                        String dialogType= jsonObject.getString(BPMJsApi.API_DIALOG_TYPE);
+                                        String dialogUrl=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLURL);
+                                        String dialogTitle=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLTITLE);
+                                        if (activity!= null) {
+                                            if(dialogType.equals("restartAc")){
+                                                skipWebViewActivity(dialogUrl,dialogTitle);
+                                            }else{
+                                                startWebViewActivity(dialogUrl,dialogTitle);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).build();
+                    materialDialog.show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -603,28 +677,26 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * toast显示
      * */
-    public void ToastInfo(String info) {
-     ToastDelegate.info(getContext(),info);
+    public void toastInfo(String info,String type) {
+        switch (type) {
+            case "info":
+                ToastDelegate.info(getContext(), info);
+                break;
+            case "error":
+                ToastDelegate.info(getContext(), info);
+                break;
+            case "success":
+                ToastDelegate.success(getContext(), info);
+                break;
+            case "normal":
+                ToastDelegate.normal(getContext(), info);
+                break;
+            case "warning":
+                ToastDelegate.warning(getContext(), info);
+                break;
+        }
     }
 
-    /**
-     * alert显示确认
-     * */
-    public void AlterInfo(String info){
-        AlertDialog.Builder alertDialog=new AlertDialog.Builder(getContext()).setTitle("提示").setMessage(info)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ToastDelegate.info(getContext(),"成功获取");
-            }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
 
 
 
