@@ -58,8 +58,8 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
     private LinearLayout emptyLinearLayout;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
 
         toolbar = (Toolbar) findViewById(R.id.message_detail_toolbar);
@@ -71,14 +71,6 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         initData();
         setListener();
 
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                SystemClock.sleep(200000);
-                return null;
-            }
-        }.execute();
     }
 
     private void initData() {
@@ -95,6 +87,8 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         }
         if (!StringUtils.isEmpty(topicType)) {
             subTitleTv.setText(topicType);
+        }else{
+            subTitleTv.setVisibility(View.GONE);  //和易工作不一样，可能没有副标题
         }
 
         // 创建线性布局来显示正在加载
@@ -152,12 +146,13 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
                 }
                 if (messageDataTObject != null) {
                     if (messageDataTObject.isCanClick()) {
-                        //发生跳转的话，该消息就设置为已读，并且更新为已读
+                        //未读需要去数据库更为已读
+                        if(!messageDataTObject.getIsRead()){
                         CurrentMessage.getCurrentMessage().upDateMessageIsReadState(topicId,messageDataTObject.getId());
-                        //以下跳转到url
-
-
-
+                        //要给接口传已读，暂时没有这个接口
+                        }
+                        //根据url跳转
+                        String url = messageDataTObject.getClickUrl();
 
 
 

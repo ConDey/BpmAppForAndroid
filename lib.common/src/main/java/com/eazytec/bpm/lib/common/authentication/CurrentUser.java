@@ -1,6 +1,7 @@
 package com.eazytec.bpm.lib.common.authentication;
 
 
+import com.eazytec.bpm.appstub.db.DBConstants;
 import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -31,7 +32,7 @@ public final class CurrentUser {
      */
     public static CurrentUser getCurrentUser() {
         if (currentUser == null) {
-            currentUser = new CurrentUser.Build().userRepository(new SharePrefsUserRepository()).build();
+            currentUser = new CurrentUser.Build().userRepository(new SharePrefsUserRepository(DBConstants.getBriteDatabase())).build();
         }
         return currentUser;
     }

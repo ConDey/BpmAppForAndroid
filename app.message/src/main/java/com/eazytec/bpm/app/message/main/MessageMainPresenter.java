@@ -60,7 +60,6 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
                                     }
                                 };
 
-
                                 // 在这里开一个线程执行插数据耗时操作
                                 new Thread() {
                                     public void run() {
@@ -87,6 +86,7 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
 
     @Override
     public void loadTopicsByDB() {
+
         mView.loadSuccessFromDB(CurrentTopic.getCurrentTopic().getTopicFromDB());
     }
 

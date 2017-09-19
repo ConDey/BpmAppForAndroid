@@ -1,7 +1,7 @@
 package com.eazytec.bpm.app.message.webservice;
 
 import com.eazytec.bpm.lib.common.message.dataobject.MessageListDataTObject;
-import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicListDataTObject;
+import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -20,7 +20,7 @@ public interface WebApi {
      * @return
      */
     @GET("msg/topic/detail")
-    Observable<MessageTopicListDataTObject> loadTopicById(@Query("id") String id);
+    Observable<MessageTopicDataTObject> loadTopicById(@Query("id") String id);
 
     /**
      * 获取消息列表

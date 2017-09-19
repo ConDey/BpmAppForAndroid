@@ -59,6 +59,8 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         initData();
         setListener();
         receivePushMessage();
+
+        getPresenter().loadTopicsByDB();
     }
 
     private void initData() {
@@ -74,7 +76,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         messageMainAdapter.notifyDataSetChanged();
         RefreshRecyclerViewUtil.initRefreshViewColorSchemeColors(messageMainListView,getResources());
 
-        getPresenter().loadTopicsByDB();
+
     }
 
     private void setListener() {

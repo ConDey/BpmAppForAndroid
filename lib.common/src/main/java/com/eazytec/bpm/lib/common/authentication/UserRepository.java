@@ -51,6 +51,8 @@ public interface UserRepository {
      */
     public String getPassword();
 
+
+
     /**
      * 设置当前用户上次请求时间
      *

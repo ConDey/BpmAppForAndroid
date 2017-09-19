@@ -71,7 +71,7 @@ public class MessageDetailAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(datas.get(position).getContent())) {
             viewHolder.contentTv.setText(datas.get(position).getContent());
         }
-        if (!StringUtils.isEmpty(datas.get(position).getCreatedTime())) {
+        if (datas.get(position).getCreatedTime() != 0){
             viewHolder.timeTv.setText(TimeUtils.showDate(new Date(datas.get(position).getCreatedTime()), true));
         }
         if(datas.get(position).getIsRead()){

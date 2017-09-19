@@ -63,15 +63,18 @@
                             android:textColor="@color/color_primary"
                             android:textSize="15sp"
                             android:text="工作信息" />
-                        <TextView
+
+
+                        <com.eazytec.bpm.appstub.view.textview.BorderTextView
                             android:id="@+id/message_detail_main_read_state"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/color_primary"
                             android:layout_alignParentRight="true"
-                            android:layout_marginRight="@dimen/message_main_item_margin"
+                            android:layout_marginLeft="10dp"
                             android:textSize="15sp"
-                            android:text="未读" />
+                            android:text=""
+                            />
 
                     </RelativeLayout>
 

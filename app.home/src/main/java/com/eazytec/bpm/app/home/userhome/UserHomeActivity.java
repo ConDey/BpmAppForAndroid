@@ -87,6 +87,12 @@ public class UserHomeActivity extends CommonActivity implements BottomNavigation
         if (fragmentManager != null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+            if (!BundleApplication.isDebug()) {
+                Fragment homeMessageFragment = Small.createObject("fragment-v4", "app.message/forhomefragment", UserHomeActivity.this);
+                fragmentTransaction.add(R.id.fl_content, homeMessageFragment, HOME_MESSAGE_FRAGMENT);
+                fragments.add(homeMessageFragment);
+            }
+
             HomeAppFragment homeAppFragment = new HomeAppFragment();
             fragmentTransaction.add(R.id.fl_content, homeAppFragment, HOME_APP_FRAGMENT);
             fragments.add(homeAppFragment);
@@ -122,7 +128,7 @@ public class UserHomeActivity extends CommonActivity implements BottomNavigation
     @Override public void onMenuItemSelect(@IdRes int itemId, int position) {
         switch (itemId) {
             case R.id.bbn_userhome_message_item:
-                toolbarTitleTextView.setText(Small.getContext().getString(R.string.app_name));
+                toolbarTitleTextView.setText(getString(R.string.userhome_message));
                 switchContentFragment(HOME_MESSAGE_FRAGMENT);
                 break;
             case R.id.bbn_userhome_app_item:

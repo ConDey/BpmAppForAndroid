@@ -23,4 +23,8 @@
     <!--singlegridview的分割线-->
     <color name="single_divider_color">#e0e0e0</color>
 
+    <!--toolbar的ya颜色-->
+    <color name="color_common_toolbar">#f4f5f6</color>
+    <color name="color_common_black_primary">#2d2d2d</color>
+    <color name="color_common_grey_primary">#8f8f8f</color>
 </resources>

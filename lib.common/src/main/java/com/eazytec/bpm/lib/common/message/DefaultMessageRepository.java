@@ -34,7 +34,7 @@ public class DefaultMessageRepository implements MessageRepository {
                     .messageId(message.getId())
                     .content(message.getContent())
                     .clickUrl(message.getClickUrl())
-                    .gmtCreate(message.getCreatedTime())
+                    .gmtCreate(String.valueOf(message.getCreatedTime()))
                     .title(message.getTitle())
                     .topic(message.getTopicId())
                     .needPush(transBool2Str(message.isNeedPush()))
@@ -47,11 +47,11 @@ public class DefaultMessageRepository implements MessageRepository {
             if (getMessageById(message.getId()) != null) {
                 if (getMessageById(message.getId()).size() <= 0) {
                     mDatabase.insert(DBMessage.TABLE_MESSAGE, values);
-                    CurrentTopic.getCurrentTopic().updateLatestTime(String.valueOf(message.getTopicId()), message.getCreatedTime());
+                    CurrentTopic.getCurrentTopic().updateLatestTime(String.valueOf(message.getTopicId()), String.valueOf(message.getCreatedTime()));
                 }
             } else {
                 mDatabase.insert(DBMessage.TABLE_MESSAGE, values);
-                CurrentTopic.getCurrentTopic().updateLatestTime(String.valueOf(message.getTopicId()), message.getCreatedTime());
+                CurrentTopic.getCurrentTopic().updateLatestTime(String.valueOf(message.getTopicId()), String.valueOf(message.getCreatedTime()));
             }
 
         }
@@ -106,7 +106,7 @@ public class DefaultMessageRepository implements MessageRepository {
                 message.setId(DB.getString(cursor, DBMessage.COLUMN_MESSAGE_ID));
                 message.setContent(DB.getString(cursor, DBMessage.COLUMN_CONTENT));
                 message.setClickUrl(DB.getString(cursor, DBMessage.COLUMN_CLICKURL));
-                message.setCreatedTime(DB.getString(cursor, DBMessage.COLUMN_GMTCREATE));
+                message.setCreatedTime(Long.valueOf(DB.getString(cursor, DBMessage.COLUMN_GMTCREATE)));
                 message.setTitle(DB.getString(cursor, DBMessage.COLUMN_TITLE));
                 message.setTopicId(DB.getString(cursor, DBMessage.COLUMN_TOPIC));
                 message.setNeedPush(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_NEEDPUSH)));

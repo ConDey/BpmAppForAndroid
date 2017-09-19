@@ -34,11 +34,11 @@ import java.util.List;
  * @author Beckett_W
  * @version Id: MessageFragemnt, v 0.1 2017/9/15 15:25 Beckett_W Exp $$
  */
-public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> implements MessageMainContract.View, OnRecyclerViewItemClickListener {
+public class HomeMessageFragemnt extends ContractViewFragment<MessageMainPresenter> implements MessageMainContract.View, OnRecyclerViewItemClickListener {
 
     private static final long FIVE_MINUTES_MILLS = 180000; //三分钟（毫秒）
 
-    private boolean isfirst = true;
+    private boolean isfirst = true;  //第一次请求的时候，请求5天内的
     private boolean isforward = false;
     private boolean isrefresh = false;
 
@@ -61,9 +61,7 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
         initData();
         setListener();
         receivePushMessage();
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return parentView;
     }
 
     private void initData() {
@@ -154,7 +152,7 @@ public class MessageFragemnt extends ContractViewFragment<MessageMainPresenter> 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPresenter().loadTopicsByDB();
+        getPresenter().loadTopicsByDB();  //从数据库取出数据
     }
 
     @Override

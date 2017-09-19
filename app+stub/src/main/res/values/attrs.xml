@@ -100,4 +100,12 @@
         <attr name="radius" format="dimension"/>
         <attr name="borderWidth" format="dimension"/>
     </declare-styleable>
+
+    <!--带边框的textview-->
+    <declare-styleable name="BorderTextView">
+        <attr name="borderTextView_strokeWidth" format="dimension"/>
+        <attr name="borderTextView_cornerRadius" format="dimension"/>
+        <attr name="borderTextView_strokeColor" format="color"/>
+        <attr name="borderTextView_followTextColor" format="boolean"/>
+    </declare-styleable>
 </resources>

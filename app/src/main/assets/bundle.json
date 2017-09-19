@@ -46,7 +46,10 @@
     },
     {
       "uri": "app.message",
-      "pkg": "com.eazytec.bpm.app.message"
+      "pkg": "com.eazytec.bpm.app.message",
+      "rules": {
+        "forhomefragment": "HomeMessageFragemnt"
+      }
     }
   ]
 }
