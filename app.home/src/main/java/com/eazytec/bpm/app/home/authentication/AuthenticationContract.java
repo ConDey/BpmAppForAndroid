@@ -1,6 +1,7 @@
 package com.eazytec.bpm.app.home.authentication;
 
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
+import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.lib.common.CommonContract;
 
 /**
@@ -13,10 +14,14 @@ public interface AuthenticationContract {
 
         // 跳转页面成功后执行的方法
         void loginSuccess(AuthenticationDataTObject loginData);
+
+        void getImgUrl(ImgDataTObject imgDataTObject);
     }
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
 
         void userlogin(String username, String password);
+
+        void commonconfig();
     }
 }

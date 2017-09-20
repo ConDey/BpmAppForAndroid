@@ -3,6 +3,7 @@ package com.eazytec.bpm.app.home.authentication;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.authenication.AuthenicationDataHelper;
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
+import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.app.home.webservice.WebApi;
 import com.eazytec.bpm.lib.common.RxPresenter;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
@@ -61,6 +62,36 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                             mView.loginSuccess(data);
                         } else {
                             mView.toast(ToastDelegate.TOAST_TYPE_WARINGING, mView.getContext().getString(R.string.authentication_login_error) + data.getErrorMsg());
+                        }
+                    }
+
+                    @Override public void onCompleted() {
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        mView.toast(ToastDelegate.TOAST_TYPE_ERROR, R.string.web_error);
+                    }
+                });
+        addSubscrebe(rxSubscription);
+    }
+
+    @Override
+    public void commonconfig() {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).commonConfig(Token.createDefaultSysToken().toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override public void call() {
+                    }
+                })
+                .doOnTerminate(new Action0() {
+                    @Override public void call() {
+                    }
+                })
+                .subscribe(new Observer<ImgDataTObject>() {
+                    @Override public void onNext(ImgDataTObject data) {
+                        if (data.isSuccess()) {
+                            mView.getImgUrl(data);
                         }
                     }
 

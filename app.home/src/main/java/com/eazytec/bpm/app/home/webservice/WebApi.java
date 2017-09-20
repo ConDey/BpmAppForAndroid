@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.home.webservice;
 
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
+import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
 import retrofit2.http.Field;
@@ -50,5 +51,12 @@ public interface WebApi {
      */
     @GET("menu/list")
     Observable<AppsDataTObject> menuList(@Query("commonUse") boolean commonUse);
+
+    /**
+     * 全局配置
+     * @return
+     */
+    @GET("common/config")
+    Observable<ImgDataTObject> commonConfig(@Header("token") String token);
 
 }
