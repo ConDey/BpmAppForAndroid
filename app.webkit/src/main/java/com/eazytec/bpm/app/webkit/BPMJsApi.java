@@ -298,15 +298,25 @@ public class BPMJsApi {
         }
     }
 
-    //alter功能AL
+    //alter功能AL(回调)
     @JavascriptInterface
     public void dialogShowAl(JSONObject jsonObject,CompletionHandler handler) {
             EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL, jsonObject.toString(), handler));
     }
 
-    //alter功能AC
+    //alter功能AC(新建activity)
     @JavascriptInterface
-    public void dialogShowAc(JSONObject jsonObject,CompletionHandler handler) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AC, jsonObject.toString(), handler));
+    public void dialogShowAc(JSONObject jsonObject) {
+        try {
+            String info = jsonObject.getString(API_DIALOG_INFO_Ac);
+            String type= jsonObject.getString(API_DIALOG_TYPE);
+            String dialogUrl=jsonObject.getString(API_DIALOG_INFO_HTMLURL);
+            String dialogTitle=jsonObject.getString(API_DIALOG_INFO_HTMLTITLE);
+            if (activity != null) {
+                activity.dialogShowAc(info,dialogUrl,dialogTitle,type);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

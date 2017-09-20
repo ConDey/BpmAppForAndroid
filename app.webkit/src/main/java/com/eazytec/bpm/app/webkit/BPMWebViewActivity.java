@@ -533,6 +533,10 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
+
+            /**
+             * alert回调
+             */
             case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL:
                  try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -555,49 +559,6 @@ public class BPMWebViewActivity extends WebViewActivity {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                     handler.complete(object.toString());
-                                }
-                            }).build();
-                    materialDialog.show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AC:
-                try {
-                    final JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    final CompletionHandler handler = messageEvent.getHandler();
-                    // 构造回调json数据
-                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
-                    String htmlUrl=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLURL);
-                    String title=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLTITLE);
-                    MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
-                            .title("提示")
-                            .content(jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Ac))
-                            .positiveText("确定")
-                            .negativeText("取消")
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    try {
-                                        String dialogType= jsonObject.getString(BPMJsApi.API_DIALOG_TYPE);
-                                        String dialogUrl=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLURL);
-                                        String dialogTitle=jsonObject.getString(BPMJsApi.API_DIALOG_INFO_HTMLTITLE);
-                                        if (activity!= null) {
-                                            if(dialogType.equals("restartAc")){
-                                                skipWebViewActivity(dialogUrl,dialogTitle);
-                                            }else{
-                                                startWebViewActivity(dialogUrl,dialogTitle);
-                                            }
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
                                 }
                             }).build();
                     materialDialog.show();
@@ -839,5 +800,40 @@ public class BPMWebViewActivity extends WebViewActivity {
                     break;
             }
         }
+    }
+
+    /**
+     * alter确认后新建activity
+     */
+    protected void dialogShowAc(String info, final String htmlUrl, final String title, final String dialogType){
+        MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+                .title("提示")
+                .content(info)
+                .positiveText("确定")
+                .negativeText("取消")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        if(dialogType.equals("restartAc")){
+                            skipWebViewActivity(htmlUrl,title);
+                        }else{
+                            startWebViewActivity(htmlUrl,title);
+                        }
+                    }
+                }).build();
+        materialDialog.show();
+    }
+
+    /**
+     * 进度条
+     */
+    protected void setProgress(){
+
     }
 }
