@@ -142,7 +142,7 @@ public class DragGridView extends GridView
 
         if (selectView != null)
         {
-            selectView.findViewById(R.id.iv_item_delete_homeapp).setVisibility(INVISIBLE);
+            selectView.findViewById(R.id.item_draggridview_iv_item_delete_homeapp).setVisibility(INVISIBLE);
             selectView.findViewById(R.id.item_draggridview_container).setVisibility(VISIBLE);
             selectView.findViewById(R.id.item_draggridview_container).setBackgroundColor(Color.WHITE);
         }
@@ -168,7 +168,7 @@ public class DragGridView extends GridView
              * 移动的图像背景要有区别,并显示删除按钮
              */
             selectView.findViewById(R.id.item_draggridview_container).setBackgroundColor(Color.parseColor("#f0f0f0"));
-            selectView.findViewById(R.id.iv_item_delete_homeapp).setVisibility(VISIBLE);
+            selectView.findViewById(R.id.item_draggridview_iv_item_delete_homeapp).setVisibility(VISIBLE);
 
             originPosition = position;
             currentPosition = position;
@@ -204,7 +204,7 @@ public class DragGridView extends GridView
             selectView=getChildAt(endPosition-getFirstVisiblePosition());
             selectView.findViewById(R.id.item_draggridview_container).setVisibility(INVISIBLE);
             selectView.findViewById(R.id.item_draggridview_container).setBackgroundColor(Color.parseColor("#f0f0f0"));
-            selectView.findViewById(R.id.iv_item_delete_homeapp).setVisibility(VISIBLE);
+            selectView.findViewById(R.id.item_draggridview_iv_item_delete_homeapp).setVisibility(VISIBLE);
 
             //动画显示交换过程
             animateSwap(endPosition);
@@ -421,12 +421,5 @@ public class DragGridView extends GridView
         {
             hoverCell.draw(canvas);
         }
-    }
-
-    @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
-                View.MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
     }
 }

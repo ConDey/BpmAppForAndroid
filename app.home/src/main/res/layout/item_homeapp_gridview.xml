@@ -7,7 +7,6 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/item_draggridview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,33 +17,24 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/item_draggridview_iv_item_homeapp"
+                android:id="@+id/iv_item_homeapp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"/>
 
             <TextView
-                android:id="@+id/item_draggridview_tv_item_homeapp"
+                android:id="@+id/tv_item_homeapp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/item_draggridview_iv_item_homeapp"
+                android:layout_below="@id/iv_item_homeapp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="18dp"
                 android:layout_marginTop="6dp"
                 android:maxLines="1"
-                android:textColor="@color/color_common_black_primary"
+                android:textColor="@color/color_black_primary"
                 android:textSize="13sp"/>
+
         </LinearLayout>
-        <ImageView
-            android:id="@+id/item_draggridview_iv_item_delete_homeapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:src="@mipmap/ic_delete_icon"
-            />
     </FrameLayout>
 </LinearLayout>

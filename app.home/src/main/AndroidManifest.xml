@@ -36,5 +36,7 @@
         <activity android:name=".update.UpdateActivity"
             android:theme="@style/CustomDialog"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".userhome.appsetting.HomeAppSettingActivity"/>
     </application>
 </manifest>

@@ -1,7 +1,7 @@
 package com.eazytec.bpm.app.home.userhome.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.app.home.data.app.tobject.AppDataTObjectHelper;
@@ -16,18 +18,12 @@ import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.app.home.userhome.UserHomeAppContract;
 import com.eazytec.bpm.app.home.userhome.UserHomeAppPresenter;
-import com.eazytec.bpm.app.home.userhome.adapters.HomeAllAppAdapter;
-import com.eazytec.bpm.app.home.userhome.adapters.HomeAppAdapter;
+import com.eazytec.bpm.app.home.userhome.adapters.CommonAppAdapter;
+import com.eazytec.bpm.app.home.userhome.appsetting.HomeAppSettingActivity;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.appstub.view.gridview.SingleDividerGridView;
-import com.eazytec.bpm.appstub.view.gridview.draggridview.AddDragGridView;
-import com.eazytec.bpm.appstub.view.gridview.draggridview.DragCallback;
-import com.eazytec.bpm.appstub.view.gridview.draggridview.DragGridView;
-import com.eazytec.bpm.lib.common.RxPresenter;
-import com.eazytec.bpm.lib.common.fragment.CommonFragment;
+import com.eazytec.bpm.appstub.view.gridview.ScrollGridView;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
-import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 import com.squareup.picasso.Picasso;
@@ -43,8 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
 
-import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
-
 /**
  * APP列表页的Fragment
  *
@@ -53,13 +47,11 @@ import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
  */
 public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> implements UserHomeAppContract.View {
 
-    //常用的，取消为常用，可以交换位置
-    private DragGridView appGridView;
-    private HomeAppAdapter homeAppAdapter;
+    private ScrollGridView appGridView;
+    private CommonAppAdapter homeAppAdapter;
 
-    //全部，增加为常用，不可交换位置
-    private AddDragGridView allAppGridView;
-    private HomeAllAppAdapter homeAllAppAdapter;
+    private ScrollGridView allAppGridView;
+    private CommonAppAdapter homeAllAppAdapter;
 
     private List<BPMApp> bpmApps;
 
@@ -67,26 +59,34 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
 
     private ImageView bannerIv;
 
+    private boolean longPress;
+    private boolean alongPress;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View parentView = inflater.inflate(R.layout.fragment_homeapp, container, false);
 
-        appGridView = (DragGridView) parentView.findViewById(R.id.gv_homeapp);
-        allAppGridView = (AddDragGridView) parentView.findViewById(R.id.gv_all_homeapp);
+        appGridView = (ScrollGridView) parentView.findViewById(R.id.gv_homeapp);
+        allAppGridView = (ScrollGridView) parentView.findViewById(R.id.gv_all_homeapp);
 
         bannerIv = (ImageView) parentView.findViewById(R.id.fragment_homeapp_banner);
 
         // 设置AppGridView的适配器
-        homeAppAdapter = new HomeAppAdapter(getContext());
+        homeAppAdapter = new CommonAppAdapter(getContext());
         appGridView.setAdapter(homeAppAdapter);
 
-        homeAllAppAdapter = new HomeAllAppAdapter(getContext());
+        homeAllAppAdapter = new CommonAppAdapter(getContext());
         allAppGridView.setAdapter(homeAllAppAdapter);
 
         RxAdapterView.itemClicks(appGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
+                if( longPress){
+                    longPress=false;
+                    return;
+                }else{
+                    longPress=false;
                 BPMApp bpmApp = bpmApps.get(integer);
                 // 在Debug模式下应用肯定都是没有安装的
                 if (bpmApp.installed()) {
@@ -94,47 +94,74 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
                 } else {
                     ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
                 }
+                }
             }
         });
 
-
-        allAppGridView.setDragCallback(new DragCallback()
-        {
-            @Override
-            public void startDrag(int position)
-            { //开始的时候是什么位置
-            }
-
-            @Override
-            public void endDrag(int position)
-            { //结束的时候是什么位置
-            }
-        });
-
-        //所有应用的菜单！点击跳转
         RxAdapterView.itemClicks(allAppGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
-                BPMApp bpmApp = bpmAllApps.get(integer);
+                if(alongPress){
+                    alongPress=false;
+                    return;
+                }else{
+                    alongPress=false;
+                    BPMApp bpmApp = bpmAllApps.get(integer);
                 bpmApp.getIntoApp(getContext());
                 // 在Debug模式下应用肯定都是没有安装的
                 if (bpmApp.installed()) {
                 } else {
                     ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
                 }
+                }
             }
         });
 
-        //长点击，将菜单加到常用应用里
         allAppGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                allAppGridView.startDrag(position);
+                alongPress = true;
+                new MaterialDialog.Builder(getContext())
+                        .content("想调整菜单应用，去“菜单设置”进行编辑")
+                        .cancelable(true)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //跳转
+                                getCommonActivity().startActivity(getCommonActivity(), HomeAppSettingActivity.class);
+
+                            }
+                        })
+                        .positiveText("去编辑")
+                        .positiveColor(getResources().getColor(R.color.color_primary))
+                        .negativeText("取消")
+                        .negativeColor(getResources().getColor(R.color.color_grey_primary))
+                        .show();
                 return false;
             }
         });
 
-
+        appGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                longPress = true;
+                new MaterialDialog.Builder(getContext())
+                        .content("想调整菜单应用，去“菜单设置”进行编辑")
+                        .cancelable(true)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //跳转
+                                getCommonActivity().startActivity(getCommonActivity(), HomeAppSettingActivity.class);
+                            }
+                        })
+                        .positiveText("去编辑")
+                        .negativeText("取消")
+                        .positiveColor(getResources().getColor(R.color.color_primary))
+                        .show();
+                return false;
+            }
+        });
         return parentView;
     }
 

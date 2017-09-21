@@ -9,7 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <ImageView
@@ -23,15 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
             <LinearLayout style="@style/DivideLineTheme"></LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@android:color/white">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,34 +39,23 @@
                     android:textColor="@color/color_black_primary"
                     android:textSize="14sp"/>
             </LinearLayout>
-        </LinearLayout>
-
-        <com.eazytec.bpm.appstub.view.gridview.draggridview.DragGridView
-            android:id="@+id/gv_homeapp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:horizontalSpacing="0px"
-            android:listSelector="@null"
-            android:numColumns="4"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="0px">
-        </com.eazytec.bpm.appstub.view.gridview.draggridview.DragGridView>
-
-        <!--全部应用-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
-            <LinearLayout style="@style/DivideLineTheme"></LinearLayout>
+            <com.eazytec.bpm.appstub.view.gridview.ScrollGridView
+                android:id="@+id/gv_homeapp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:horizontalSpacing="0px"
+                android:listSelector="@null"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="0px">
+            </com.eazytec.bpm.appstub.view.gridview.ScrollGridView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginTop="20dp"
                 android:background="@android:color/white">
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,20 +65,17 @@
                     android:textColor="@color/color_black_primary"
                     android:textSize="14sp"/>
             </LinearLayout>
+            <com.eazytec.bpm.appstub.view.gridview.ScrollGridView
+                android:id="@+id/gv_all_homeapp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:horizontalSpacing="0px"
+                android:listSelector="@null"
+                android:numColumns="4"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="0px">
+            </com.eazytec.bpm.appstub.view.gridview.ScrollGridView>
         </LinearLayout>
-
-        <com.eazytec.bpm.appstub.view.gridview.draggridview.AddDragGridView
-            android:id="@+id/gv_all_homeapp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:horizontalSpacing="0px"
-            android:listSelector="@null"
-            android:numColumns="4"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="0px">
-        </com.eazytec.bpm.appstub.view.gridview.draggridview.AddDragGridView>
-    </LinearLayout>
-
-
+  </LinearLayout>
 </ScrollView>

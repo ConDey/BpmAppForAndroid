@@ -2,9 +2,11 @@ package com.eazytec.bpm.app.home.userhome.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import com.eazytec.bpm.app.home.HomeApplicaton;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox;
 import com.eazytec.bpm.appstub.view.gridview.draggridview.DragAdapterInterface;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.ViewHolder;
@@ -24,13 +27,15 @@ import java.util.List;
  * @author Beckett_W
  * @version Id: HomeAllAppAdapter, v 0.1 2017/9/20 15:15 Beckett_W Exp $$
  */
-public class HomeAllAppAdapter extends BaseAdapter implements DragAdapterInterface {
+public class AllAppSettingAdapter extends BaseAdapter implements DragAdapterInterface {
 
     private List<BPMApp> items;
     private Context context;
+    private List<String> haschooseitems;
 
-    public HomeAllAppAdapter(Context context) {
+    public AllAppSettingAdapter(Context context) {
         this.items = new ArrayList<>();
+        this.haschooseitems = new ArrayList<>();
         this.context = context;
     }
 
@@ -86,10 +91,18 @@ public class HomeAllAppAdapter extends BaseAdapter implements DragAdapterInterfa
                 textView.setText(appitem.getDisplayName());
             }
 
-            ImageView addbtn = ViewHolder.get(convertView,R.id.iv_item_all_add_homeapp);
-
-
-
+            SmoothCheckBox checkBox = ViewHolder.get(convertView, R.id.iv_item_all_add_homeapp);
+            if (haschooseitems.contains(items.get(position).getId())) {
+                checkBox.setChecked(true);
+                isEnabled(position);
+            } else {
+                checkBox.setChecked(false);
+            }
+            checkBox.setOnTouchListener(new View.OnTouchListener() {
+                @Override public boolean onTouch(View v, MotionEvent event) {
+                    return true; // 禁止checkBox的点击事件交给item去处理
+                }
+            });
         }
 
 
@@ -99,13 +112,13 @@ public class HomeAllAppAdapter extends BaseAdapter implements DragAdapterInterfa
     public void setItems(List<BPMApp> items) {
         this.items = new ArrayList<>();
         this.items.addAll(items);
-        if (items != null && items.size() % 4 != 0) {
-            // 补全 items.size() % 4
-            for (int index = 0; ; index++) {
-                this.items.add(new BPMApp()); // 占位用
-                if (this.items.size() % 4 == 0) {
-                    break;
-                }
+    }
+
+    public void resetHasChooseList(List<BPMApp> list) {
+        haschooseitems.clear();
+        if (list != null && list.size() > 0) {
+            for (BPMApp ob : list) {
+                haschooseitems.add(ob.getId());
             }
         }
     }

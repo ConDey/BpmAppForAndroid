@@ -423,12 +423,5 @@ public class AddDragGridView extends GridView
             hoverCell.draw(canvas);
         }
     }
-
-    @Override
-    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
-                View.MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
-    }
 }
 
