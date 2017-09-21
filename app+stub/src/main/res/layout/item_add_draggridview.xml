@@ -38,7 +38,7 @@
                 android:textSize="13sp"/>
             <!--这里还要加个角标-->
         </LinearLayout>
-        <Sm
+        <com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox
             android:id="@+id/iv_item_all_add_homeapp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
