@@ -38,6 +38,13 @@ public class BPMJsApi {
 //     */
 //    public static final String API_PARAM_PROGRESSBAR_VISIBLE = "visible";
     /**
+     * 右边按钮
+     */
+    public static final String API_RIGHT_BTN_TYPE="rightBtnType";
+    public static final String API_IMAGE_TYPE = "imgType";
+    public static final String API_IMAGE_URL = "imgUrl";
+    public static final String API_AC_TITLE = "acTitle";
+    /**
      * 设置titlebar背景颜色
      */
     public static final String API_PARAM_TITLEBAR_BGCOLOR = "bgColor";
@@ -85,8 +92,11 @@ public class BPMJsApi {
     public static final String API_DIALOG_TYPE="dialogType";
     public static final String API_DIALOG_INFO_HTMLURL="dialogUrl";
     public static final String API_DIALOG_INFO_HTMLTITLE="dialogTitle";
+    public static final String API_PROGRASS_VISIBLE = "prograssVis";
+
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
+
     /**
      * 选择本地图片
      */
@@ -126,16 +136,16 @@ public class BPMJsApi {
 
     @JavascriptInterface
     public void setTitlebarRightBtn(JSONObject jsonObject, CompletionHandler handler) {
-        String imgUrl = "";
+        String imgType = "";
         try {
-            imgUrl = jsonObject.getString(URL);
+            imgType = jsonObject.getString(API_IMAGE_TYPE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (!StringUtils.isEmpty(imgUrl)) {
+        if (!StringUtils.isEmpty(imgType)) {
             try {
                 try {
-                    Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
+                    Drawable image = Drawable.createFromStream(new URL(imgType).openStream(), "image");
                     EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -314,6 +324,19 @@ public class BPMJsApi {
             String dialogTitle=jsonObject.getString(API_DIALOG_INFO_HTMLTITLE);
             if (activity != null) {
                 activity.dialogShowAc(info,dialogUrl,dialogTitle,type);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //progress显示
+    @JavascriptInterface
+    public void progressVis(JSONObject jsonObject){
+        try {
+            String info = jsonObject.getString(API_TOAST_INFO);
+            if(activity != null){
+                activity.progressVis();
             }
         } catch (JSONException e) {
             e.printStackTrace();

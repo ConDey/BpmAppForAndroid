@@ -33,6 +33,7 @@ public class BPMJsMsgEvent {
     public static final String JS_USER_CHOOSE = "JS_USER_CHOOSE";
 
     public static final String  JS_SET_DIALOG_SHOW_AL="JS_SET_DIALOG_SHOW_AL";
+    public static final String JS_SET_PROGRASS_VISIBLE = "JS_SET_PROGRASS_VISIBLE";
 
     private String id;
     private String message;
@@ -100,7 +101,8 @@ public class BPMJsMsgEvent {
             JS_BIND_BACKBTN,
             JS_UNBIND_BACKBTN,
             JS_USER_CHOOSE,
-            JS_SET_DIALOG_SHOW_AL})
+            JS_SET_DIALOG_SHOW_AL,
+            JS_SET_PROGRASS_VISIBLE})
     public @interface BPM_JS_ID {
     }
 }

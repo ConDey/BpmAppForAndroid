@@ -1,18 +1,24 @@
 package com.eazytec.bpm.app.webkit;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -53,6 +59,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
+import static android.R.attr.type;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -220,16 +229,6 @@ public class BPMWebViewActivity extends WebViewActivity {
 
         handler.complete(result);
     }
-//
-//    /**
-//     * 设置progress的显示和取消
-//     */
-//    private void setProgressBar(Boolean isVisible,CompletionHandler handler,String result){
-//        ProgressBar progressBar;
-//        progressBar=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);
-//        progressBar.setMax(100);
-//        progressBar.setProgress(50);
-//    }
 
 
 
@@ -269,11 +268,13 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 设置titlebar右边按钮的Callback
      */
-    private void setTitleBarRightBtnCallback(final CompletionHandler handler, final String result) {
+    private void setTitleBarRightBtnCallback(final CompletionHandler handler, final JSONObject object, final String acTitle) {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handler.complete(result);
+                dialogShowAl(acTitle,handler,object);
+                //ToastDelegate.info(getContext(),"jhib");
+
             }
         });
     }
@@ -530,7 +531,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
                 break;
 
@@ -539,35 +540,45 @@ public class BPMWebViewActivity extends WebViewActivity {
              */
             case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL:
                  try {
-                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    final CompletionHandler handler = messageEvent.getHandler();
-                    // 构造回调json数据
+                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                     final CompletionHandler handler = messageEvent.getHandler();
+                     // 构造回调json数据
                      BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                      final JSONObject object = new JSONObject(callbackBean.toJson());
-                     MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
-                           .title("提示")
-                            .content(jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al))
-                             .positiveText("确定")
-                             .negativeText("取消")
-                             .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                 @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                     dialog.dismiss();
-                                }
-                            })
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    handler.complete(object.toString());
-                                }
-                            }).build();
-                    materialDialog.show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                     String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al);
+                     dialogShowAl(info,handler,object);
+
+                 }catch (JSONException e){
+                     e.printStackTrace();
+                 }
                 break;
         }
 
+    }
+
+    /**
+     * Dialog的callback
+     */
+
+    private void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
+        MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+                .title("提示")
+                .content(info)
+                .positiveText("确定")
+                .negativeText("取消")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        handler.complete(object.toString());
+                    }
+                }).build();
+        materialDialog.show();
     }
 
     /**
@@ -590,14 +601,25 @@ public class BPMWebViewActivity extends WebViewActivity {
 
             case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
                 Drawable img = messageEvent.getImage();
-                CompletionHandler handlerIv = messageEvent.getHandler();
                 setTitleBarRightBtnBgImage(img);
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    final CompletionHandler handlerRt = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBeanRt = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject objectRt = new JSONObject(callbackBeanRt.toJson());
 
-                // 构造回调json数据
-                BaseCallbackBean callbackBeanIv = new BaseCallbackBean(true, StringUtils.blank());
-                JSONObject objectIv = new JSONObject(callbackBeanIv.toJson());
+//                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
+//                    String imgType=jsonObject.getString(BPMJsApi.API_IMAGE_TYPE);
+                       String acTitle=jsonObject.getString(BPMJsApi.API_AC_TITLE);
+//                    String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+//                      setTitleBarRightBtnCallback(imgUrl,imgType,rightBtnType,acTitle);
+                      setTitleBarRightBtnCallback(handlerRt,objectRt,acTitle);
+//                    dialogShowAl(acTitle,handlerRt,objectRt);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                setTitleBarRightBtnCallback(handlerIv, objectIv.toString());
                 break;
         }
     }
@@ -606,6 +628,9 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 新建webview的回调方法
      */
+
+
+
     public void startWebViewActivity(String htmlUrl, String title) {
         Intent it = new Intent(this, BPMWebViewActivity.class);
 
@@ -830,10 +855,14 @@ public class BPMWebViewActivity extends WebViewActivity {
         materialDialog.show();
     }
 
-    /**
-     * 进度条
-     */
-    protected void setProgress(){
 
+    /**
+     * 设置progress的显示和取消
+     */
+    protected void progressVis(){
+        ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置成圆形进度条
+        dialog.setTitle("提示");
+        dialog.show();
     }
 }
