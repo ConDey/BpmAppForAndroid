@@ -23,8 +23,8 @@
 </head>
 
 <body>
-<div class="mui-content">
-    <div class="mui-content-padded">
+<br class="mui-content">
+    <br class="mui-content-padded">
         <button type="button" class="mui-btn mui-btn-outlined" onclick="closewindow()">
             关闭页面
         </button>
@@ -72,7 +72,15 @@
 
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
                 onclick="setTitleBarRightBtn()">
-            设置标题栏右边按钮
+            设置标题栏右边按钮弹框
+        </button>
+
+        </br>
+        </br>
+
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="setTitleBarRightBtnAc()">
+            设置标题栏右边按钮新建Activity
         </button>
         </br>
         </br>
@@ -189,9 +197,18 @@
                });
         }
 
-        // 设置标题栏右边按钮
+        // 设置标题栏右边按钮,弹框
+        //imgUrl:图片(可本地，可网络),acTitle:dialog的内容
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {imgUrl: "http://58.215.198.212:8080/images/logo/logo.png",rightBtnType:"handle",htmlUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",acTitle:"XXXX"},function(result){
+            bpmbridget.call("setTitlebarRightBtn", {imgUrl: "http://58.215.198.212:8080/images/logo/logo.png",acTitle:"XXXX"},function(result){
+              alert(result);
+            });
+        }
+
+        // 设置标题栏右边按钮,跳转页面rightBtnType:restartAc,startAc
+        //imageUrl:图片(可本地，可网络),rightBtnType:确认后的事件类型,htmlUrl:跳转界面的地址,title:网页标题
+        function setTitleBarRightBtnAc() {
+            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",title:"PPPP",htmlUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",rightBtnType:"restartAc"},function(result){
               alert(result);
             });
         }
@@ -311,6 +328,7 @@
        }
 
        //Alter确认框显示AC type:restartAc,startAc
+       //dialogAc:dialog框内的提示内容,dialogUrl:跳转页面的地址,dialog:网页的title,dialogType:确认后的事件
        function dialogShowAc(){
           bpmbridget.call("dialogShowAc",{dialogAc:"好奇害死喵",dialogUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",dialogTitle: "hello",dialogType:"restartAc"});
        }

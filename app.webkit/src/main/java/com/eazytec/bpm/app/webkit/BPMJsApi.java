@@ -40,9 +40,11 @@ public class BPMJsApi {
     /**
      * 右边按钮
      */
-    public static final String API_RIGHT_BTN_TYPE="rightBtnType";
-    public static final String API_IMAGE_URL = "imgUrl";
     public static final String API_HTML_URL = "htmlUrl";
+    public static final String API_RIGHT_BTN_TYPE="rightBtnType";
+    public static final String API_RIGHT_AC_TITLE="title";
+    public static final String API_RIGHT_IMAGE_URL="imageUrl";
+    public static final String API_IMAGE_URL = "imgUrl";
     public static final String API_AC_TITLE = "acTitle";
     /**
      * 设置titlebar背景颜色
@@ -92,7 +94,6 @@ public class BPMJsApi {
     public static final String API_DIALOG_TYPE="dialogType";
     public static final String API_DIALOG_INFO_HTMLURL="dialogUrl";
     public static final String API_DIALOG_INFO_HTMLTITLE="dialogTitle";
-    public static final String API_PROGRASS_VISIBLE = "prograssVis";
 
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
@@ -138,17 +139,17 @@ public class BPMJsApi {
 
     @JavascriptInterface
     public void setTitlebarRightBtn(JSONObject jsonObject, CompletionHandler handler) {
-        String imgType = "";
+        String imgUrl = "";
         try {
-            imgType = jsonObject.getString(API_IMAGE_URL);
+            imgUrl = jsonObject.getString(API_IMAGE_URL);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (!StringUtils.isEmpty(imgType)) {
+        if (!StringUtils.isEmpty(imgUrl)) {
             try {
                 try {
-                    Drawable image = Drawable.createFromStream(new URL(imgType).openStream(), "image");
-                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image));
+                    Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image,jsonObject.toString()));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Log.e("TAG", "resolve image url failed.");
@@ -157,6 +158,10 @@ public class BPMJsApi {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setTitlebarRightBtnAc(JSONObject jsonObject, CompletionHandler handler){
+
     }
 
     @JavascriptInterface

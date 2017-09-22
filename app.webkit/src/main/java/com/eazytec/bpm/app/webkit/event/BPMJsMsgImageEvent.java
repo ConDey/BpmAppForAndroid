@@ -23,6 +23,13 @@ public class BPMJsMsgImageEvent extends BPMJsMsgEvent {
         this.image = img;
     }
 
+    public BPMJsMsgImageEvent(@BPM_JS_ID String id, CompletionHandler handler, Drawable img,String message) {
+        setId(id);
+        setHandler(handler);
+        this.image = img;
+        setMessage(message);
+    }
+
     public Drawable getImage() {
         return image;
     }

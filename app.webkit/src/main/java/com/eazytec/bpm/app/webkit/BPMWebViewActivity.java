@@ -601,16 +601,17 @@ public class BPMWebViewActivity extends WebViewActivity {
                 Drawable img = messageEvent.getImage();
                 setTitleBarRightBtnBgImage(img);
                 try {
+
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                     rightButtonhandler = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBeanRt = new BaseCallbackBean(true, StringUtils.blank());
                     rightobject  = new JSONObject(callbackBeanRt.toJson());
 
-                    String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
-                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
+                   /* String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
+                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);*/
                     rightBtnAcTitle =jsonObject.getString(BPMJsApi.API_AC_TITLE);
-                    String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+                   /* String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);*/
 
                 } catch (JSONException e) {
                     e.printStackTrace();
