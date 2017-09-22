@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_item_draggridview"
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/item_add_draggridview_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,24 +19,34 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/iv_item_homeapp"
+                android:id="@+id/iv_item_all_homeapp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="18dp"/>
 
             <TextView
-                android:id="@+id/tv_item_homeapp"
+                android:id="@+id/tv_item_all_homeapp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_item_homeapp"
+                android:layout_below="@id/iv_item_all_homeapp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="18dp"
                 android:layout_marginTop="6dp"
                 android:maxLines="1"
-                android:textColor="@color/color_black_primary"
+                android:textColor="@color/color_common_black_primary"
                 android:textSize="13sp"/>
-
+            <!--这里还要加个角标-->
         </LinearLayout>
+        <com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox
+            android:id="@+id/iv_item_all_add_homeapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:focusable="false"
+            app:color_checked="@color/color_primary"/>
     </FrameLayout>
 </LinearLayout>

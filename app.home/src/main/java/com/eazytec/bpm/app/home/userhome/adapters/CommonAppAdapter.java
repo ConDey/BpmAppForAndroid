@@ -1,13 +1,11 @@
 package com.eazytec.bpm.app.home.userhome.adapters;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.home.HomeApplicaton;
@@ -18,23 +16,20 @@ import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.ViewHolder;
 import com.squareup.picasso.Picasso;
 
-import net.wequick.small.Small;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BPM APP所表现的Gridview的适配器
- *
- * @author ConDey
- * @version Id: HomeAppAdapter, v 0.1 2017/5/17 下午1:32 ConDey Exp $$
+ * 最基本展示app的gridview
+ * @author Beckett_W
+ * @version Id: CommonAppAdapter, v 0.1 2017/9/21 7:55 Beckett_W Exp $$
  */
-public class HomeAppAdapter extends BaseAdapter {
+public class CommonAppAdapter extends BaseAdapter {
 
     private List<BPMApp> items;
     private Context context;
 
-    public HomeAppAdapter(Context context) {
+    public CommonAppAdapter(Context context) {
         this.items = new ArrayList<>();
         this.context = context;
     }
@@ -97,14 +92,6 @@ public class HomeAppAdapter extends BaseAdapter {
     public void setItems(List<BPMApp> items) {
         this.items = new ArrayList<>();
         this.items.addAll(items);
-        if (items != null && items.size() % 4 != 0) {
-            // 补全 items.size() % 4
-            for (int index = 0; ; index++) {
-                this.items.add(new BPMApp()); // 占位用
-                if (this.items.size() % 4 == 0) {
-                    break;
-                }
-            }
-        }
     }
 }
+

@@ -1,5 +1,10 @@
 package com.eazytec.bpm.app.home;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.resourcesloader.BpmResourcesLoader;
 import com.eazytec.bpm.lib.common.bundle.BundleApplication;
 import com.eazytec.bpm.lib.utils.Utils;
 
@@ -13,6 +18,10 @@ import com.eazytec.bpm.lib.utils.Utils;
  */
 public class HomeApplicaton extends BundleApplication {
 
+    public static Bitmap picLoginBgBitmap;
+
+    public static Bitmap picAppBannerBitmap;
+
     private static HomeApplicaton instance;
 
     public static HomeApplicaton getInstance() {
@@ -24,5 +33,13 @@ public class HomeApplicaton extends BundleApplication {
         super.onCreate();
 
         instance = this;
+
+        initPicRes();
     }
+
+    private  void initPicRes(){
+        picLoginBgBitmap = BitmapFactory.decodeResource(getResources(), BpmResourcesLoader.getBpmResourcesLoader(getApplicationContext()).getDrawableID("bg_authentication"));
+        picAppBannerBitmap = BitmapFactory.decodeResource(getResources(), BpmResourcesLoader.getBpmResourcesLoader(getApplicationContext()).getDrawableID("ic_homeapp_banner"));
+    }
+
 }

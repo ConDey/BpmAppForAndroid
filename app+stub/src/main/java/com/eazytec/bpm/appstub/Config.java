@@ -3,6 +3,7 @@ package com.eazytec.bpm.appstub;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 
 /**
  * 系统级别的常量定义
@@ -53,4 +54,5 @@ public abstract class Config {
      * 数据库名字
      */
     public static String DB_NAME;
+
 }

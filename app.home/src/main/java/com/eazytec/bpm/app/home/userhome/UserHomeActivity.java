@@ -65,7 +65,7 @@ public class UserHomeActivity extends CommonActivity implements BottomNavigation
         initFragments(); // 初始化Fragments
 
         bottomNavigation.setDefaultSelectedIndex(0);
-        toolbarTitleTextView.setText(Small.getContext().getString(R.string.app_name));
+        toolbarTitleTextView.setText(getString(R.string.userhome_message));
         switchContentFragment(HOME_MESSAGE_FRAGMENT);
 
         // 执行更新操作

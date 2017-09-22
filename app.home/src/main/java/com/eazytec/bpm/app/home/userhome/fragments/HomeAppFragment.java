@@ -1,26 +1,32 @@
 package com.eazytec.bpm.app.home.userhome.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.app.home.data.app.tobject.AppDataTObjectHelper;
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
+import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.app.home.userhome.UserHomeAppContract;
 import com.eazytec.bpm.app.home.userhome.UserHomeAppPresenter;
-import com.eazytec.bpm.app.home.userhome.adapters.HomeAppAdapter;
+import com.eazytec.bpm.app.home.userhome.adapters.CommonAppAdapter;
+import com.eazytec.bpm.app.home.userhome.appsetting.HomeAppSettingActivity;
+import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.appstub.view.gridview.SingleDividerGridView;
-import com.eazytec.bpm.lib.common.RxPresenter;
-import com.eazytec.bpm.lib.common.fragment.CommonFragment;
+import com.eazytec.bpm.appstub.view.gridview.ScrollGridView;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
-import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
+import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,8 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
 
-import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
-
 /**
  * APP列表页的Fragment
  *
@@ -43,25 +47,46 @@ import static com.eazytec.bpm.app.home.data.app.BPMApp.APP_TYPE_REMOTE;
  */
 public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> implements UserHomeAppContract.View {
 
-    private SingleDividerGridView appGridView;
-    private HomeAppAdapter homeAppAdapter;
+    private ScrollGridView appGridView;
+    private CommonAppAdapter homeAppAdapter;
+
+    private ScrollGridView allAppGridView;
+    private CommonAppAdapter homeAllAppAdapter;
 
     private List<BPMApp> bpmApps;
+
+    private List<BPMApp> bpmAllApps;
+
+    private ImageView bannerIv;
+
+    private boolean longPress;
+    private boolean alongPress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View parentView = inflater.inflate(R.layout.fragment_homeapp, container, false);
 
-        appGridView = (SingleDividerGridView) parentView.findViewById(R.id.gv_homeapp);
+        appGridView = (ScrollGridView) parentView.findViewById(R.id.gv_homeapp);
+        allAppGridView = (ScrollGridView) parentView.findViewById(R.id.gv_all_homeapp);
+
+        bannerIv = (ImageView) parentView.findViewById(R.id.fragment_homeapp_banner);
 
         // 设置AppGridView的适配器
-        homeAppAdapter = new HomeAppAdapter(getContext());
+        homeAppAdapter = new CommonAppAdapter(getContext());
         appGridView.setAdapter(homeAppAdapter);
+
+        homeAllAppAdapter = new CommonAppAdapter(getContext());
+        allAppGridView.setAdapter(homeAllAppAdapter);
 
         RxAdapterView.itemClicks(appGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
+                if( longPress){
+                    longPress=false;
+                    return;
+                }else{
+                    longPress=false;
                 BPMApp bpmApp = bpmApps.get(integer);
                 // 在Debug模式下应用肯定都是没有安装的
                 if (bpmApp.installed()) {
@@ -69,10 +94,78 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
                 } else {
                     ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
                 }
+                }
+            }
+        });
+
+        RxAdapterView.itemClicks(allAppGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer integer) {
+                if(alongPress){
+                    alongPress=false;
+                    return;
+                }else{
+                    alongPress=false;
+                    BPMApp bpmApp = bpmAllApps.get(integer);
+                bpmApp.getIntoApp(getContext());
+                // 在Debug模式下应用肯定都是没有安装的
+                if (bpmApp.installed()) {
+                } else {
+                    ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
+                }
+                }
+            }
+        });
+
+        allAppGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                alongPress = true;
+                new MaterialDialog.Builder(getContext())
+                        .content("想调整菜单应用，去“菜单设置”进行编辑")
+                        .cancelable(true)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //跳转
+                                getCommonActivity().startActivity(getCommonActivity(), HomeAppSettingActivity.class);
+
+                            }
+                        })
+                        .positiveText("去编辑")
+                        .positiveColor(getResources().getColor(R.color.color_primary))
+                        .negativeText("取消")
+                        .negativeColor(getResources().getColor(R.color.color_grey_primary))
+                        .show();
+                return false;
+            }
+        });
+
+        appGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                longPress = true;
+                new MaterialDialog.Builder(getContext())
+                        .content("想调整菜单应用，去“菜单设置”进行编辑")
+                        .cancelable(true)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //跳转
+                                getCommonActivity().startActivity(getCommonActivity(), HomeAppSettingActivity.class);
+                            }
+                        })
+                        .positiveText("去编辑")
+                        .negativeText("取消")
+                        .positiveColor(getResources().getColor(R.color.color_primary))
+                        .show();
+                return false;
             }
         });
         return parentView;
     }
+
+
 
 
     @Override
@@ -81,6 +174,9 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
 
         getPresenter().loadApps(); // 初始化apps
 
+        getPresenter().commonconfig(); //改变banner
+
+        getPresenter().loadAllApps();
         // 这里的代码是用的加载app.json的默认模式
         //this.bpmApps = getBpmApps();
         //homeAppAdapter.setItems(this.bpmApps);
@@ -95,6 +191,21 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         this.bpmApps = AppDataTObjectHelper.createBpmAppsByTObjects(appsDataTObject.getApps());
         homeAppAdapter.setItems(this.bpmApps);
         homeAppAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadAllAppsSuccess(AppsDataTObject appsDataTObject) {
+        this.bpmAllApps = AppDataTObjectHelper.createBpmAppsByTObjects(appsDataTObject.getApps());
+        homeAllAppAdapter.setItems(this.bpmAllApps);
+        homeAllAppAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getImgUrl(ImgDataTObject imgDataTObject) {
+        if(!StringUtils.isEmpty(imgDataTObject.getAppBackgroundImg())){
+            String url = Config.WEB_URL+imgDataTObject.getAppBackgroundImg();
+        Picasso.with(getContext()).load(url).placeholder(R.mipmap.ic_homeapp_banner).error(R.mipmap.ic_homeapp_banner).into(bannerIv);
+        }
     }
 
     /**
