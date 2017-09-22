@@ -93,6 +93,11 @@ public class BPMWebViewActivity extends WebViewActivity {
     private String url;
     private BPMWebViewActivity activity;
 
+    private String rightBtnCallBack = "";
+    private String rightBtnAcTitle = "";
+    private CompletionHandler rightButtonhandler;
+    private JSONObject rightobject;
+
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
     // 图片下载
@@ -128,6 +133,13 @@ public class BPMWebViewActivity extends WebViewActivity {
                         finish();
                     }
                 }
+            }
+        });
+
+        toolbarRightIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogShowAl(rightBtnAcTitle,rightButtonhandler,rightobject);
             }
         });
 
@@ -265,19 +277,6 @@ public class BPMWebViewActivity extends WebViewActivity {
         }
     }
 
-    /**
-     * 设置titlebar右边按钮的Callback
-     */
-    private void setTitleBarRightBtnCallback(final CompletionHandler handler, final JSONObject object, final String acTitle) {
-        toolbarRightIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogShowAl(acTitle,handler,object);
-                //ToastDelegate.info(getContext(),"jhib");
-
-            }
-        });
-    }
 
     /**
      * 设置Toolbar的标题
@@ -341,7 +340,6 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
-
             case BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -560,7 +558,7 @@ public class BPMWebViewActivity extends WebViewActivity {
      * Dialog的callback
      */
 
-    private void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
+     public void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
         MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
                 .title("提示")
                 .content(info)
@@ -604,23 +602,22 @@ public class BPMWebViewActivity extends WebViewActivity {
                 setTitleBarRightBtnBgImage(img);
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    final CompletionHandler handlerRt = messageEvent.getHandler();
+                    rightButtonhandler = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBeanRt = new BaseCallbackBean(true, StringUtils.blank());
-                    JSONObject objectRt = new JSONObject(callbackBeanRt.toJson());
+                    rightobject  = new JSONObject(callbackBeanRt.toJson());
 
-//                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
-//                    String imgType=jsonObject.getString(BPMJsApi.API_IMAGE_TYPE);
-                       String acTitle=jsonObject.getString(BPMJsApi.API_AC_TITLE);
-//                    String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
-//                      setTitleBarRightBtnCallback(imgUrl,imgType,rightBtnType,acTitle);
-                      setTitleBarRightBtnCallback(handlerRt,objectRt,acTitle);
-//                    dialogShowAl(acTitle,handlerRt,objectRt);
+                    String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
+                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
+                    rightBtnAcTitle =jsonObject.getString(BPMJsApi.API_AC_TITLE);
+                    String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 break;
+
         }
     }
 

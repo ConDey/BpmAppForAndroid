@@ -191,7 +191,7 @@
 
         // 设置标题栏右边按钮
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {imgType: "http://58.215.198.212:8080/images/logo/logo.png",rightBtnType:"handle",imgUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",acTitle:"XXXX"},function(result){
+            bpmbridget.call("setTitlebarRightBtn", {imgUrl: "http://58.215.198.212:8080/images/logo/logo.png",rightBtnType:"handle",htmlUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",acTitle:"XXXX"},function(result){
               alert(result);
             });
         }
@@ -319,10 +319,11 @@
            bpmbridget.call("progressVis");
            }
 
-        function progressInvisible(){
-           bpmbridget.call("progressVis",{visible: false}, function(result){
-                    alert(result););
-           }
+       function progressInvisible(){
+          bpmbridget.call("progressVis",{visible: false},function(result){
+                    alert(result);
+          });
+       }
 
 </script>
 </html>
