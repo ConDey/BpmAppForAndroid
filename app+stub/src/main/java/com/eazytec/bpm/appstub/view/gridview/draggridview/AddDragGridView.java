@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 修改后可以保持checkbox的状态交换
  * @author Beckett_W
  * @version Id: AddDragGridView, v 0.1 2017/9/20 16:38 Beckett_W Exp $$
  */
@@ -54,6 +55,8 @@ public class AddDragGridView extends GridView
     private boolean isDrag;
     private boolean isSwap;
 
+    private boolean startChecked;
+    private boolean endChecked;
 
     private DragCallback dragCallback;
 
@@ -143,7 +146,7 @@ public class AddDragGridView extends GridView
 
         if (selectView != null)
         {
-            selectView.findViewById(R.id.iv_item_all_add_homeapp).setVisibility(INVISIBLE);
+            selectView.findViewById(R.id.iv_item_all_add_homeapp).setVisibility(VISIBLE);
             selectView.findViewById(R.id.item_add_draggridview_container).setVisibility(VISIBLE);
             selectView.findViewById(R.id.item_add_draggridview_container).setBackgroundColor(Color.WHITE);
         }
@@ -156,7 +159,7 @@ public class AddDragGridView extends GridView
             return;
         }
 
-        //恢复之前的图像,改变背景,去除删除按钮
+        //保持图片状态
         resumeView();
 
         selectView = getChildAt(position - getFirstVisiblePosition());
@@ -165,11 +168,11 @@ public class AddDragGridView extends GridView
             isDrag = true;
             isEdit = true;
 
-            /**
-             * 移动的图像背景要有区别,并显示删除按钮
-             */
+
             selectView.findViewById(R.id.item_add_draggridview_container).setBackgroundColor(Color.parseColor("#f0f0f0"));
             selectView.findViewById(R.id.iv_item_all_add_homeapp).setVisibility(VISIBLE);
+
+
 
             originPosition = position;
             currentPosition = position;
@@ -191,6 +194,7 @@ public class AddDragGridView extends GridView
 
     private void swapItems(int x, int y)
     {
+        //结束的位置
         int endPosition = pointToPosition(x, y);
 
         if (endPosition != INVALID_POSITION && endPosition != currentPosition)

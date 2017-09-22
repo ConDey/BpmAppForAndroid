@@ -14,6 +14,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.GridView;
 
 import com.eazytec.bpm.appstub.R;
+import com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -142,7 +143,7 @@ public class DragGridView extends GridView
 
         if (selectView != null)
         {
-            selectView.findViewById(R.id.item_draggridview_iv_item_delete_homeapp).setVisibility(INVISIBLE);
+            selectView.findViewById(R.id.item_draggridview_iv_item_delete_homeapp).setVisibility(VISIBLE);
             selectView.findViewById(R.id.item_draggridview_container).setVisibility(VISIBLE);
             selectView.findViewById(R.id.item_draggridview_container).setBackgroundColor(Color.WHITE);
         }
