@@ -23,6 +23,7 @@ import com.eazytec.bpm.appstub.view.gridview.draggridview.DragCallback;
 import com.eazytec.bpm.appstub.view.gridview.draggridview.DragGridView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,6 +46,11 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
     private AddDragGridView allGridView;
     private List<BPMApp>  allApps;
     private AllAppSettingAdapter allAdapter;
+
+    private boolean longPress;
+
+    private int startPosition;
+    private int endPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +108,12 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                if( longPress){
+                    longPress=false;
+                    return;
+                }else{
+                    longPress=false;
+
                 SmoothCheckBox checkBox = (SmoothCheckBox) view.findViewById(R.id.iv_item_all_add_homeapp);
 
                 if (checkBox.isChecked()) {
@@ -133,6 +145,45 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
                 allAdapter.resetHasChooseList(commonApps);
                 commonAdapter.setItems(commonApps);
                 commonAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        allGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                longPress=true;
+                allGridView.startDrag(position); //没有这个就不能拖动
+                return false;
+            }
+        });
+
+        //拖动的回调
+        allGridView.setDragCallback(new DragCallback() {
+            @Override
+            public void startDrag(int i) {
+                   startPosition = i;
+            }
+
+            @Override
+            public void endDrag(int i) {
+                   endPosition = i;
+                   //把数据换了
+                BPMApp temp = allApps.get(startPosition);
+                if(startPosition < endPosition){
+                    for(int j=startPosition; j<endPosition; j++){
+                        Collections.swap(allApps, j, j+1);
+                    }
+                }else if(startPosition > endPosition){
+                    for(int j=startPosition; j>endPosition; j--){
+                        Collections.swap(allApps, j, j-1);
+                    }
+                 }
+                   allApps.set(endPosition, temp);
+                   allAdapter.resetHasChooseList(commonApps);
+                   allAdapter.notifyDataSetChanged();
+                   //进行一次网络请求交换菜单！
 
             }
         });

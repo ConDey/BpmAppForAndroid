@@ -10,6 +10,10 @@
         android:id="@+id/item_add_draggridview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="1dp"
         >
 
         <LinearLayout
@@ -40,12 +44,11 @@
         </LinearLayout>
         <com.eazytec.bpm.appstub.view.checkbox.SmoothCheckBox
             android:id="@+id/iv_item_all_add_homeapp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="right"
-            android:paddingTop="5dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:focusable="false"
             app:color_checked="@color/color_primary"/>
     </FrameLayout>

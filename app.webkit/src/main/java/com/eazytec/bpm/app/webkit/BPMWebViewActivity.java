@@ -340,6 +340,23 @@ public class BPMWebViewActivity extends WebViewActivity {
                     e.printStackTrace();
                 }
                 break;
+
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    rightButtonhandler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    rightBtnCallBack = jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+                    if(rightButtonhandler != null){
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    rightobject = new JSONObject(callbackBean.toJson());
+                    rightBtnAcTitle = jsonObject.getString(BPMJsApi.API_AC_TITLE) ;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             case BPMJsMsgEvent.JS_SET_TITLEBAR_BGCOLOR:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -596,28 +613,30 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                 setTitleBarBgImage(image, handler, object.toString());
                 break;
-
+/**
             case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
                 Drawable img = messageEvent.getImage();
                 setTitleBarRightBtnBgImage(img);
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    rightButtonhandler = messageEvent.getHandler();
+                    final CompletionHandler handlerRt = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBeanRt = new BaseCallbackBean(true, StringUtils.blank());
-                    rightobject  = new JSONObject(callbackBeanRt.toJson());
+                    JSONObject objectRt = new JSONObject(callbackBeanRt.toJson());
 
-                    String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
-                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
-                    rightBtnAcTitle =jsonObject.getString(BPMJsApi.API_AC_TITLE);
-                    String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
-
+//                    String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);
+//                    String imgType=jsonObject.getString(BPMJsApi.API_IMAGE_TYPE);
+                       String acTitle=jsonObject.getString(BPMJsApi.API_AC_TITLE);
+                   String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+                      setTitleBarRightBtnCallback(imgUrl,imgType,rightBtnType,acTitle);
+                      setTitleBarRightBtnCallback(handlerRt,objectRt,acTitle);
+                   dialogShowAl(acTitle,handlerRt,objectRt);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 break;
-
+ **/
         }
     }
 

@@ -41,8 +41,8 @@ public class BPMJsApi {
      * 右边按钮
      */
     public static final String API_RIGHT_BTN_TYPE="rightBtnType";
+    public static final String API_IMAGE_TYPE = "imgType";
     public static final String API_IMAGE_URL = "imgUrl";
-    public static final String API_HTML_URL = "htmlUrl";
     public static final String API_AC_TITLE = "acTitle";
     /**
      * 设置titlebar背景颜色
@@ -104,8 +104,6 @@ public class BPMJsApi {
     protected static final String API_PARAM_IMAGE_SELECTOR_USERS = "users";
     private BPMWebViewActivity activity;
 
-
-
     /**
      * 必须注入Activity
      *
@@ -140,7 +138,7 @@ public class BPMJsApi {
     public void setTitlebarRightBtn(JSONObject jsonObject, CompletionHandler handler) {
         String imgType = "";
         try {
-            imgType = jsonObject.getString(API_IMAGE_URL);
+            imgType = jsonObject.getString(API_IMAGE_TYPE);
         } catch (JSONException e) {
             e.printStackTrace();
         }

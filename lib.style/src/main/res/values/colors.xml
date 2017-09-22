@@ -15,5 +15,6 @@
 
     <color name="color_divider">@color/grey_300</color>
     <color name="color_none">#00000000</color>
+    <color name="white">#ffffffff</color>
 
 </resources>
