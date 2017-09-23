@@ -33,7 +33,7 @@
         </android.support.design.widget.CoordinatorLayout>
 
         <FrameLayout
-            android:id="@+id/fl_content"
+            android:id="@+id/userhome_fl_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/cl_userhome_bottomnav"

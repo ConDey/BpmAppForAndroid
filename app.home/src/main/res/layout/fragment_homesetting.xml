@@ -166,13 +166,15 @@
         android:visibility="gone"></include>
 
     <RelativeLayout
+        android:id="@+id/homesetting_menu_setting_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/drawer_listview_item_bg"
         android:clickable="true"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -182,7 +184,7 @@
             android:drawableLeft="@mipmap/ic_setting_setting"
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
-            android:text="设置"
+            android:text="菜单设置"
             android:textColor="@color/color_black_primary"
             android:textSize="15sp"/>
 

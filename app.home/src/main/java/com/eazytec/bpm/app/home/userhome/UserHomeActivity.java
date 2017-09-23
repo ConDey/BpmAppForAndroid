@@ -89,23 +89,23 @@ public class UserHomeActivity extends CommonActivity implements BottomNavigation
 
             if (!BundleApplication.isDebug()) {
                 Fragment homeMessageFragment = Small.createObject("fragment-v4", "app.message/forhomefragment", UserHomeActivity.this);
-                fragmentTransaction.add(R.id.fl_content, homeMessageFragment, HOME_MESSAGE_FRAGMENT);
+                fragmentTransaction.add(R.id.userhome_fl_content, homeMessageFragment, HOME_MESSAGE_FRAGMENT);
                 fragments.add(homeMessageFragment);
             }
 
             HomeAppFragment homeAppFragment = new HomeAppFragment();
-            fragmentTransaction.add(R.id.fl_content, homeAppFragment, HOME_APP_FRAGMENT);
+            fragmentTransaction.add(R.id.userhome_fl_content, homeAppFragment, HOME_APP_FRAGMENT);
             fragments.add(homeAppFragment);
 
             // 这段代码最好能Mock掉，侵入性太强了
             if (!BundleApplication.isDebug()) {
                 Fragment homeContractFragment = Small.createObject("fragment-v4", "app.contact/forhomefragment", UserHomeActivity.this);
-                fragmentTransaction.add(R.id.fl_content, homeContractFragment, HOME_CONTACT_FRAGMENT);
+                fragmentTransaction.add(R.id.userhome_fl_content, homeContractFragment, HOME_CONTACT_FRAGMENT);
                 fragments.add(homeContractFragment);
             }
 
             HomeSettingFragment homeSettingFragment = new HomeSettingFragment();
-            fragmentTransaction.add(R.id.fl_content, homeSettingFragment, HOME_SETTING_FRAGMENT);
+            fragmentTransaction.add(R.id.userhome_fl_content, homeSettingFragment, HOME_SETTING_FRAGMENT);
             fragments.add(homeSettingFragment);
 
             fragmentTransaction.commit();

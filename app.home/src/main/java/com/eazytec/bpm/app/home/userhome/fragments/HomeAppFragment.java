@@ -267,5 +267,11 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         return bpmApps;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        //刷新菜单！
+        getPresenter().loadAllApps();
+        getPresenter().loadApps();
+    }
 }

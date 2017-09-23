@@ -52,6 +52,8 @@ public interface WebApi {
     @GET("menu/list")
     Observable<AppsDataTObject> menuList(@Query("commonUse") boolean commonUse);
 
+    @GET("menu/list")
+    Observable<AppsDataTObject> menuALLList(@Query("commonUse") String all);
     /**
      * 全局配置
      * @return

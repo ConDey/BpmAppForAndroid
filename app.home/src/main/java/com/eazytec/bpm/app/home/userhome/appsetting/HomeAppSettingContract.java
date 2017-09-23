@@ -23,7 +23,7 @@ public interface HomeAppSettingContract {
 
         void orderMenu(String id,String id2);
 
-        void setCommonUse(String id , boolean commonUse);
+        void setCommonUse(String id);
 
         void cancelCommonUse(String id);
     }

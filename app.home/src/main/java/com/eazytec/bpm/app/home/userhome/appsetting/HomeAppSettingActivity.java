@@ -60,9 +60,6 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
-        rightbutton = (Button) findViewById(R.id.contactchoose_submit);
-        rightbutton.setText("完成");
-        rightbutton.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitleTextView.setText("菜单设置");
@@ -95,18 +92,19 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
         commonGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getPresenter().cancelCommonUse(commonApps.get(position).getId());  //这个要在之前！
                 commonApps.remove(position);
                 commonAdapter.setItems(commonApps);
                 commonAdapter.notifyDataSetChanged();
                 allAdapter.resetHasChooseList(commonApps);
                 allAdapter.notifyDataSetChanged();
                 //同时，要删掉这个常用，设置为flase
-                getPresenter().cancelCommonUse(String.valueOf(position));
+
 
             }
         });
 
-        //全部菜单
+        //全部菜单，点击增加
         allGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -132,6 +130,7 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
                         }
                     }
                     if (needRemoteObject != null) {
+                        getPresenter().cancelCommonUse(needRemoteObject.getId()); //原本是选中的，但是下面取消了，那也得取消
                         commonApps.remove(needRemoteObject);
                     }
 
@@ -140,6 +139,7 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
                         checkBox.setChecked(true);
                         BPMApp needAddObject = allApps.get(position);
                         commonApps.add(needAddObject);
+                        getPresenter().setCommonUse(needAddObject.getId());
                     } else{
                         checkBox.setChecked(false);
                         return;
@@ -172,33 +172,18 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
             @Override
             public void endDrag(int i) {
                    endPosition = i;
-                   //把数据换了
-                BPMApp temp = allApps.get(startPosition);
-                if(startPosition < endPosition){
-                    for(int j=startPosition; j<endPosition; j++){
-                        Collections.swap(allApps, j, j+1);
-                    }
-                }else if(startPosition > endPosition){
-                    for(int j=startPosition; j>endPosition; j--){
-                        Collections.swap(allApps, j, j-1);
-                    }
-                 }
-                   allApps.set(endPosition, temp);
+                 //在显示数据换了前，先要交换顺序
+                   getPresenter().orderMenu(allApps.get(startPosition).getId(),allApps.get(endPosition).getId());
+                   BPMApp temp = allApps.get(startPosition);
+                   Collections.swap(allApps, endPosition, startPosition);
+                   allAdapter.setItems(allApps);
                    allAdapter.resetHasChooseList(commonApps);
                    allAdapter.notifyDataSetChanged();
                    //进行一次网络请求交换菜单！
-                   getPresenter().orderMenu(String.valueOf(startPosition),String.valueOf(endPosition));
+
 
             }
         });
-
-        rightbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSubmit();
-            }
-        });
-
 
     }
 
@@ -222,22 +207,5 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
         this.allApps = AppDataTObjectHelper.createBpmAppsByTObjects(appsDataTObject.getApps());
         allAdapter.setItems(this.allApps);
         allAdapter.notifyDataSetChanged();
-    }
-
-    public void doSubmit(){
-
-        String  commonUseId = "";
-        if(commonApps!=null){
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i<commonApps.size();i++) {
-                if (i > 0) {
-                    sb.append(",");
-                }
-                sb.append(commonApps.get(i).getId());
-            }
-            commonUseId = sb.substring(0,sb.length()).toString();
-         getPresenter().setCommonUse(commonUseId,true);
-         HomeAppSettingActivity.this.finish();
-    }
     }
 }

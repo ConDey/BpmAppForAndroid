@@ -38,6 +38,14 @@
                     android:text="常用应用"
                     android:textColor="@color/color_black_primary"
                     android:textSize="14sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="(长按可以调整菜单设置)"
+                    android:textColor="@color/color_grey_primary"
+                    android:textSize="14sp"/>
             </LinearLayout>
             <com.eazytec.bpm.appstub.view.gridview.ScrollGridView
                 android:id="@+id/gv_homeapp"

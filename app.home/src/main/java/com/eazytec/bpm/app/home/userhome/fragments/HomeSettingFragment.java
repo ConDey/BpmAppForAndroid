@@ -11,6 +11,7 @@ import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.authentication.AuthenticationActivity;
 import com.eazytec.bpm.app.home.update.UpdateHelper;
 import com.eazytec.bpm.app.home.updatepwd.UpdatePwdActivity;
+import com.eazytec.bpm.app.home.userhome.appsetting.HomeAppSettingActivity;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.fragment.CommonFragment;
 import com.jakewharton.rxbinding.view.RxView;
@@ -34,6 +35,7 @@ public class HomeSettingFragment extends CommonFragment {
     private RelativeLayout updateApkLayout;
     private RelativeLayout updatePwdLayout;
     private RelativeLayout loginoutLayout;
+    private RelativeLayout setmenuLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class HomeSettingFragment extends CommonFragment {
         updateApkLayout = (RelativeLayout) parentView.findViewById(R.id.homesetting_updateapk_layout);
         updatePwdLayout = (RelativeLayout) parentView.findViewById(R.id.homesetting_updatepwd_layout);
         loginoutLayout = (RelativeLayout) parentView.findViewById(R.id.homesetting_loginout_layout);
+        setmenuLayout = (RelativeLayout) parentView.findViewById(R.id.homesetting_menu_setting_layout);
 
         nameTextView.setText(CurrentUser.getCurrentUser().getUserDetails().getFullName());
         departmentNameTextView.setText(CurrentUser.getCurrentUser().getUserDetails().getDepartmentName());
@@ -78,13 +81,17 @@ public class HomeSettingFragment extends CommonFragment {
                         getCommonActivity().startActivity(getCommonActivity(), UpdatePwdActivity.class);
                     }
                 });
+
+        //设置菜单
+        RxView.clicks(this.setmenuLayout).throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        getCommonActivity().startActivity(getCommonActivity(),HomeAppSettingActivity.class);
+                    }
+                });
+
         return parentView;
     }
-
-
-
-
-
-
 
 }

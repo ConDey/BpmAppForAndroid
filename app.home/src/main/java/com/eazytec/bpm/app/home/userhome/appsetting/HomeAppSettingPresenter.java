@@ -56,7 +56,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
 
     @Override
     public void loadAllApps() {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuList(false)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuALLList("")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -96,15 +96,21 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
                     @Override public void call() {
+                        mView.showProgress();
                     }
                 })
                 .doOnTerminate(new Action0() {
                     @Override public void call() {
+                        mView.dismissProgress();
                     }
                 })
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
-                            //排序成功就不报提示了，无感知的,进度条也去掉
+                        if (data.isSuccess()) {
+                            mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "菜单排序成功");
+                        } else {
+                            mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "排序失败:" + data.getErrorMsg());
+                        }
                     }
 
                     @Override public void onCompleted() {
@@ -119,8 +125,8 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
     }
 
     @Override
-    public void setCommonUse(String id, boolean commonUse) {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id,commonUse)
+    public void setCommonUse(String id) {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id,true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -136,7 +142,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
                         if (data.isSuccess()) {
-                            mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "设置成功");
+                            mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "设置常用菜单成功");
                         } else {
                             mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "设置失败:" + data.getErrorMsg());
                         }
@@ -174,8 +180,11 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 })
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
-                      //设置不常用无感知，单个设置就可以了，和排序一样
-                        mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "取消成功");
+                        if(data.isSuccess()){
+                        mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "取消常用应用成功");
+                        }else{
+                         mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "取消失败:" + data.getErrorMsg());
+                        }
                     }
 
                     @Override public void onCompleted() {

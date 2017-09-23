@@ -125,6 +125,11 @@ public class AuthenticationActivity extends ContractViewActivity<AuthenticationP
 
             @Override
             public void onPrepareLoad(final Drawable placeHolderDrawable) {
+                if (android.os.Build.VERSION.SDK_INT > 15) {
+                    bgRelativeLayout.setBackground(new BitmapDrawable(getResources(), picLoginBitmap));
+                } else {
+                    bgRelativeLayout.setBackgroundDrawable(new BitmapDrawable(getResources(), picLoginBitmap));
+                }
             }
         });
         }

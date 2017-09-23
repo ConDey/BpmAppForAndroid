@@ -61,7 +61,7 @@ public class UserHomeAppPresenter extends RxPresenter<UserHomeAppContract.View> 
 
     @Override
     public void loadAllApps() {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuList(false)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuALLList("")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
