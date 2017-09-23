@@ -20,5 +20,11 @@ public interface HomeAppSettingContract {
         void loadApps();
 
         void loadAllApps();
+
+        void orderMenu(String id,String id2);
+
+        void setCommonUse(String id , boolean commonUse);
+
+        void cancelCommonUse(String id);
     }
 }

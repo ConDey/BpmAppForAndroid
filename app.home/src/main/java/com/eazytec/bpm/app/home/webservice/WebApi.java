@@ -59,4 +59,20 @@ public interface WebApi {
     @GET("common/config")
     Observable<ImgDataTObject> commonConfig(@Header("token") String token);
 
+
+    /**
+     *设置常用，取消常用
+     *
+     */
+    @GET("menu/setCommonUse")
+    Observable<WebDataTObject> menuCommonUse(@Query("id") String id ,@Query("commonUse") boolean commonUse);
+
+
+    /**
+     *菜单排序
+     *
+     */
+    @GET("menu/order")
+    Observable<WebDataTObject> menuOrder(@Query("id") String id ,@Query("id2") String id2);
+
 }

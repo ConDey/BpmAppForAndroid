@@ -27,6 +27,14 @@
                 android:text="编辑常用应用"
                 android:textColor="@color/color_black_primary"
                 android:textSize="14sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="(点击可直接删除常用应用)"
+                android:textColor="@color/color_grey_primary"
+                android:textSize="14sp"/>
         </LinearLayout>
         <!--直接减号就在上面，点击就是减掉了-->
         <GridView
@@ -66,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:text="(按住拖动调整排序)"
+                android:text="(按住拖动可直接调整菜单排序)"
                 android:textColor="@color/color_grey_primary"
                 android:textSize="14sp"/>
         </LinearLayout>

@@ -53,6 +53,7 @@ public class UserHomeAppPresenter extends RxPresenter<UserHomeAppContract.View> 
 
                     @Override public void onError(Throwable e) {
                         mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "远程应用列表加载失败:网络错误,请稍后再试");
+                        mView.dismissProgress();
                     }
                 });
         addSubscrebe(rxSubscription);
@@ -87,6 +88,7 @@ public class UserHomeAppPresenter extends RxPresenter<UserHomeAppContract.View> 
 
                     @Override public void onError(Throwable e) {
                         mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "远程应用列表加载失败:网络错误,请稍后再试");
+                        mView.dismissProgress();
                     }
                 });
         addSubscrebe(rxSubscription);

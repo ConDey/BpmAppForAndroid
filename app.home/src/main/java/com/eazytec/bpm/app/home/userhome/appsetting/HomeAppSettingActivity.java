@@ -100,6 +100,9 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
                 commonAdapter.notifyDataSetChanged();
                 allAdapter.resetHasChooseList(commonApps);
                 allAdapter.notifyDataSetChanged();
+                //同时，要删掉这个常用，设置为flase
+                getPresenter().cancelCommonUse(String.valueOf(position));
+
             }
         });
 
@@ -184,9 +187,18 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
                    allAdapter.resetHasChooseList(commonApps);
                    allAdapter.notifyDataSetChanged();
                    //进行一次网络请求交换菜单！
+                   getPresenter().orderMenu(String.valueOf(startPosition),String.valueOf(endPosition));
 
             }
         });
+
+        rightbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSubmit();
+            }
+        });
+
 
     }
 
@@ -210,5 +222,22 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
         this.allApps = AppDataTObjectHelper.createBpmAppsByTObjects(appsDataTObject.getApps());
         allAdapter.setItems(this.allApps);
         allAdapter.notifyDataSetChanged();
+    }
+
+    public void doSubmit(){
+
+        String  commonUseId = "";
+        if(commonApps!=null){
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i<commonApps.size();i++) {
+                if (i > 0) {
+                    sb.append(",");
+                }
+                sb.append(commonApps.get(i).getId());
+            }
+            commonUseId = sb.substring(0,sb.length()).toString();
+         getPresenter().setCommonUse(commonUseId,true);
+         HomeAppSettingActivity.this.finish();
+    }
     }
 }

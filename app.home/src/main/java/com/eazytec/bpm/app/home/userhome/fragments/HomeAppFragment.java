@@ -158,6 +158,7 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
                         .positiveText("去编辑")
                         .negativeText("取消")
                         .positiveColor(getResources().getColor(R.color.color_primary))
+                        .negativeColor(getResources().getColor(R.color.color_grey_primary))
                         .show();
                 return false;
             }
