@@ -107,6 +107,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     // 人员选择
     private CompletionHandler userchooseHandler;
 
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -854,13 +856,18 @@ public class BPMWebViewActivity extends WebViewActivity {
     }
 
 
+
     /**
      * 设置progress的显示和取消
      */
-    protected void progressVis(){
-        ProgressDialog dialog=new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//设置成圆形进度条
+    public void progressShow(){
         dialog.setTitle("提示");
+        dialog.setCancelable(false);
         dialog.show();
     }
+
+    public void progressDismiss(){
+        dialog.dismiss();
+    }
+
 }

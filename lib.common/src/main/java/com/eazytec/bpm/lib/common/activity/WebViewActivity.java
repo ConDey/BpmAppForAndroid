@@ -1,5 +1,6 @@
 package com.eazytec.bpm.lib.common.activity;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,7 +44,6 @@ public abstract class WebViewActivity extends CommonActivity {
      * 进度条提示控件，可以为空
      */
     protected ProgressBar progressBar;
-
 
     @Override @CallSuper
     protected void onCreate(Bundle savedInstanceState) {

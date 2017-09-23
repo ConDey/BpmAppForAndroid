@@ -161,11 +161,11 @@
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="progressVisible()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="progressShow()">
             请求显示
         </button>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="progressInvisible()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="progressCancle()">
             请求取消
         </button>
 
@@ -333,14 +333,12 @@
           bpmbridget.call("dialogShowAc",{dialogAc:"好奇害死喵",dialogUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",dialogTitle: "hello",dialogType:"restartAc"});
        }
 
-       function progressVisible(){
-           bpmbridget.call("progressVis");
+       function progressShow(){
+           bpmbridget.call("progressShow");
            }
 
-       function progressInvisible(){
-          bpmbridget.call("progressVis",{visible: false},function(result){
-                    alert(result);
-          });
+       function progressCancle(){
+           bpmbridget.call("progressCancle");
        }
 
 </script>

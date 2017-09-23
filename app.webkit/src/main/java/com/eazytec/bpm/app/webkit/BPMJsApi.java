@@ -339,14 +339,18 @@ public class BPMJsApi {
 
     //progress显示
     @JavascriptInterface
-    public void progressVis(JSONObject jsonObject){
-        try {
-            String info = jsonObject.getString(API_TOAST_INFO);
+    public void progressShow(JSONObject jsonObject){
             if(activity != null){
-                activity.progressVis();
+                activity.progressShow();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
+
+    @JavascriptInterface
+    public void progressCancle(JSONObject jsonObject){
+
+            if(activity != null){
+                activity.progressDismiss();
+            }
+    }
+
 }
