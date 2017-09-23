@@ -17,6 +17,7 @@ public class BPMJsMsgEvent {
      */
     public static final String JS_SET_TITLEBAR_VISIBLE = "JS_SET_TITLEBAR_VISIBLE";
     public static final String JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE = "JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE";
+    public static final String JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC = "JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC";
     public static final String JS_SET_TITLEBAR_BGCOLOR = "JS_SET_TITLEBAR_BGCOLOR";
     public static final String JS_SET_TITLEBAR_BGIMAGE = "JS_SET_TITLEBAR_BGIMAGE";
     public static final String JS_SET_TITLE = "JS_SET_TITLE";
@@ -102,7 +103,8 @@ public class BPMJsMsgEvent {
             JS_UNBIND_BACKBTN,
             JS_USER_CHOOSE,
             JS_SET_DIALOG_SHOW_AL,
-            JS_SET_PROGRASS_VISIBLE})
+            JS_SET_PROGRASS_VISIBLE,
+            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC })
     public @interface BPM_JS_ID {
     }
 }

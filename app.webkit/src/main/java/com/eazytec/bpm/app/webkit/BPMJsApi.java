@@ -146,10 +146,32 @@ public class BPMJsApi {
             e.printStackTrace();
         }
         if (!StringUtils.isEmpty(imgUrl)) {
+        try {
+            try {
+                Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
+                EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image,jsonObject.toString()));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Log.e("TAG", "resolve image url failed.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+    public void setTitlebarRightBtnAc(JSONObject jsonObject, CompletionHandler handler){
+        String imgUrl = "";
+        try {
+            imgUrl = jsonObject.getString(API_RIGHT_IMAGE_URL);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (!StringUtils.isEmpty(imgUrl)) {
             try {
                 try {
                     Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
-                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE, handler, image,jsonObject.toString()));
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC, handler, image,jsonObject.toString()));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Log.e("TAG", "resolve image url failed.");
@@ -158,10 +180,34 @@ public class BPMJsApi {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void setTitlebarRightBtnAc(JSONObject jsonObject, CompletionHandler handler){
-
+       /* String imgUrl = "";
+        Drawable image;
+        String rightBtnAcTitle = "";
+        String rightBtnHtmlUrl = "";
+        String rightBtnAcType = "";
+        try {
+            imgUrl = jsonObject.getString(API_RIGHT_IMAGE_URL);
+            rightBtnAcTitle =jsonObject.getString(BPMJsApi.API_AC_TITLE);
+            rightBtnHtmlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
+            rightBtnAcType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (!StringUtils.isEmpty(imgUrl)) {
+            try {
+                try {
+                    image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
+                    if (activity != null) {
+                        activity.setTitleRightBtnAc(image,rightBtnHtmlUrl,rightBtnAcTitle,rightBtnAcType);
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Log.e("TAG", "resolve image url failed.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 
     @JavascriptInterface

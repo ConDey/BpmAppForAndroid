@@ -208,9 +208,7 @@
         // 设置标题栏右边按钮,跳转页面rightBtnType:restartAc,startAc
         //imageUrl:图片(可本地，可网络),rightBtnType:确认后的事件类型,htmlUrl:跳转界面的地址,title:网页标题
         function setTitleBarRightBtnAc() {
-            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",title:"PPPP",htmlUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",rightBtnType:"restartAc"},function(result){
-              alert(result);
-            });
+            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",title:"PPPP",htmlUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",rightBtnType:"restartAc"});
         }
 
         // 设置标题栏背景颜色

@@ -11,6 +11,8 @@ import com.eazytec.bpm.lib.common.webkit.CompletionHandler;
 public class BPMJsMsgImageEvent extends BPMJsMsgEvent {
 
     private Drawable image;
+    public BPMJsMsgImageEvent(){
+    }
 
     public BPMJsMsgImageEvent(@BPM_JS_ID String id, Drawable img) {
         setId(id);

@@ -93,10 +93,12 @@ public class BPMWebViewActivity extends WebViewActivity {
     private String url;
     private BPMWebViewActivity activity;
 
-    private String rightBtnCallBack = "";
-    private String rightBtnAcTitle = "";
+    private String rightBtnHtmlUrl="";
+    private String rightBtnAcType="";
+    private String rightBtnAcTitle="";
     private CompletionHandler rightButtonhandler;
     private JSONObject rightobject;
+    private String rightBtnInfo="";
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -109,6 +111,9 @@ public class BPMWebViewActivity extends WebViewActivity {
 
     private ProgressDialog dialog;
 
+    /**
+     * toolbar的事件全在里面
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +146,13 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogShowAl(rightBtnAcTitle,rightButtonhandler,rightobject);
+                if (rightBtnAcType.equals("restartAc")){
+                    skipWebViewActivity(rightBtnHtmlUrl,rightBtnAcTitle);
+                }else if (rightBtnAcType.equals("startAc")){
+                    startWebViewActivity(rightBtnHtmlUrl,rightBtnAcTitle);
+                }else{
+                    dialogShowAl(rightBtnInfo,rightButtonhandler,rightobject);
+                }
             }
         });
 
@@ -174,6 +185,8 @@ public class BPMWebViewActivity extends WebViewActivity {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
         initWebView();
+
+        dialog = new ProgressDialog(this);
     }
 
     @Override
@@ -612,7 +625,7 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                    /* String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
                     String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);*/
-                    rightBtnAcTitle =jsonObject.getString(BPMJsApi.API_AC_TITLE);
+                    rightBtnInfo =jsonObject.getString(BPMJsApi.API_AC_TITLE);
                    /* String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);*/
 
                 } catch (JSONException e) {
@@ -621,8 +634,34 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                 break;
 
+            case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC:
+                Drawable rimg = messageEvent.getImage();
+                setTitleBarRightBtnBgImage(rimg);
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    rightBtnAcType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+                    rightBtnAcTitle=jsonObject.getString(BPMJsApi.API_RIGHT_AC_TITLE);
+                    rightBtnHtmlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         }
     }
+
+
+    /*public void setTitleRightBtnAc(Drawable img,final String htmlUrl,final String title,final String type){
+        setTitleBarRightBtnBgImage(img);
+        toolbarRightIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (type.equals("restart")){
+                    skipWebViewActivity(htmlUrl,title);
+                }else {
+                    startWebViewActivity(htmlUrl, title);
+                }
+            }
+        });
+    }*/
 
 
     /**
@@ -864,10 +903,11 @@ public class BPMWebViewActivity extends WebViewActivity {
         dialog.setTitle("提示");
         dialog.setCancelable(false);
         dialog.show();
+
     }
 
     public void progressDismiss(){
-        dialog.dismiss();
+        dialog.cancel();
     }
 
 }
