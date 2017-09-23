@@ -9,7 +9,7 @@ public class MessageDataTObject {
     private String id;
     private String content;
     private String clickUrl;
-    private long createdTime;
+    private String createdTime;
     private String title;
     private boolean needPush;
     private boolean canClick;
@@ -48,11 +48,11 @@ public class MessageDataTObject {
         this.clickUrl = clickUrl;
     }
 
-    public long getCreatedTime() {
+    public String getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(long createdTime) {
+    public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
     }
 

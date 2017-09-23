@@ -71,8 +71,9 @@ public class MessageDetailAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(datas.get(position).getContent())) {
             viewHolder.contentTv.setText(datas.get(position).getContent());
         }
-        if (datas.get(position).getCreatedTime() != 0){
-            viewHolder.timeTv.setText(TimeUtils.showDate(new Date(datas.get(position).getCreatedTime()), true));
+        if (!StringUtils.isEmpty(datas.get(position).getCreatedTime())){
+            long date = TimeUtils.string2Millis(datas.get(position).getCreatedTime());
+            viewHolder.timeTv.setText(TimeUtils.showDate(new Date(date), true));
         }
         if(datas.get(position).getIsRead()){
             viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.color_primary));

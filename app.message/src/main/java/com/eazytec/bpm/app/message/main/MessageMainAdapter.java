@@ -19,6 +19,8 @@ import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.TimeUtils;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +60,8 @@ public class MessageMainAdapter extends RecyclerView.Adapter<MessageMainAdapter.
             }
             viewHolder.contentTv.setText(datas.get(position).getLatestMessage());
             if (!StringUtils.isEmpty(datas.get(position).getLatestUpdateTime())) {
-                String mDate = TimeUtils.showDate(new Date(Long.valueOf(datas.get(position).getLatestUpdateTime())), false);
+                long date = TimeUtils.string2Millis(datas.get(position).getLatestUpdateTime());
+                String mDate = TimeUtils.showDate(new Date(date), false);
                 viewHolder.timeTv.setText(mDate);
             }
             // 加载图片
