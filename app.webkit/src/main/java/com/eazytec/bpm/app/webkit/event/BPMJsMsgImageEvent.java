@@ -32,6 +32,12 @@ public class BPMJsMsgImageEvent extends BPMJsMsgEvent {
         setMessage(message);
     }
 
+    public BPMJsMsgImageEvent(@BPM_JS_ID String id, Drawable img,String message) {
+        setId(id);
+        this.image = img;
+        setMessage(message);
+    }
+
     public Drawable getImage() {
         return image;
     }

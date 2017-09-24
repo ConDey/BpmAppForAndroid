@@ -160,7 +160,8 @@ public class BPMJsApi {
     }
 }
 
-    public void setTitlebarRightBtnAc(JSONObject jsonObject, CompletionHandler handler){
+    @JavascriptInterface
+    public void setTitlebarRightBtnAc(JSONObject jsonObject){
         String imgUrl = "";
         try {
             imgUrl = jsonObject.getString(API_RIGHT_IMAGE_URL);
@@ -171,7 +172,7 @@ public class BPMJsApi {
             try {
                 try {
                     Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
-                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC, handler, image,jsonObject.toString()));
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC,image,jsonObject.toString()));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                     Log.e("TAG", "resolve image url failed.");
