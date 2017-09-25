@@ -45,6 +45,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+           // buildConfigField("String", "WEB_URL", "\"http://192.168.2.58:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
             buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider\"")
@@ -72,6 +73,7 @@ android {
             minifyEnabled false
             buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+            //buildConfigField("String", "WEB_URL", "\"http://192.168.2.58:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
             buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider.debug\"")

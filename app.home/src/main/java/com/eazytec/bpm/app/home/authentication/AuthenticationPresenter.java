@@ -1,5 +1,8 @@
 package com.eazytec.bpm.app.home.authentication;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.authenication.AuthenicationDataHelper;
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
@@ -13,6 +16,8 @@ import com.eazytec.bpm.lib.common.authentication.UserDetails;
 import com.eazytec.bpm.lib.common.webservice.BPMRetrofit;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.utils.StringUtils;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 
 import rx.Observer;
 import rx.Subscription;
@@ -26,7 +31,9 @@ import rx.schedulers.Schedulers;
  */
 public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.View> implements AuthenticationContract.Presenter<AuthenticationContract.View> {
 
-    @Override public void userlogin(String username, String password) {
+    private final static String PUSH_ALIAS_TYPE = "BPM";
+
+    @Override public void userlogin(final Context context, String username, String password) {
 
         if (StringUtils.isSpace(username)) {
             mView.toast(ToastDelegate.TOAST_TYPE_WARINGING, R.string.authentication_username_cannot_empty);
@@ -38,7 +45,7 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
             return;
         }
 
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).authentication(Token.createDefaultSysToken().toString(), username, password)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).authentication(Token.createDefaultSysToken().toString(), username, password,"android")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -52,13 +59,30 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                     }
                 })
                 .subscribe(new Observer<AuthenticationDataTObject>() {
-                    @Override public void onNext(AuthenticationDataTObject data) {
+                    @Override public void onNext(final AuthenticationDataTObject data) {
                         if (data.isSuccess()) {
                             UserDetails userDetails = AuthenicationDataHelper.createUserDetailsByDTO(data);
                             UserAuthority userAuthority = AuthenicationDataHelper.createUserAuthorityByDTO(data);
                             Token token = AuthenicationDataHelper.createTokenByDTO(data);
 
                             CurrentUser.getCurrentUser().updateCurrentUser(userDetails, userAuthority, token);
+
+                            final PushAgent mPushAgent = PushAgent.getInstance(context);
+
+                            // 先remove alias再添加alias
+                            mPushAgent.removeAlias(data.getUsername(), PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
+                                @Override
+                                public void onMessage(boolean b, String s) {
+                                    Log.i("REMOVE_ALIAS", s);
+                                    mPushAgent.addAlias(data.getUsername(), PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
+                                        @Override
+                                        public void onMessage(boolean b, String s) {
+                                            Log.i("ADD_ALIAS", s);
+                                        }
+                                    });
+                                }
+                            });
+
                             mView.loginSuccess(data);
                         } else {
                             mView.toast(ToastDelegate.TOAST_TYPE_WARINGING, mView.getContext().getString(R.string.authentication_login_error) + data.getErrorMsg());

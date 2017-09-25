@@ -66,7 +66,7 @@ public class AuthenticationActivity extends ContractViewActivity<AuthenticationP
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        getPresenter().userlogin(usernameEditText.getText().toString(),
+                        getPresenter().userlogin(getContext(),usernameEditText.getText().toString(),
                                 passwordEditText.getText().toString());
                     }
                 });

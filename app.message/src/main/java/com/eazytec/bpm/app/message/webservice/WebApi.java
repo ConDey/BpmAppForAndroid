@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.message.webservice;
 
 import com.eazytec.bpm.lib.common.message.dataobject.MessageListDataTObject;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
+import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -30,5 +31,12 @@ public interface WebApi {
      */
     @GET("msg/list")
     Observable<MessageListDataTObject> loadMessages(@Query("date") String date);
+
+    /**
+     * 设置PC端内部消息为已读
+     * @return
+     */
+    @GET("msg/setInternalMessageReaded")
+    Observable<WebDataTObject> setReaded(@Query("internalMessageId") String id);
 
 }

@@ -27,7 +27,7 @@ public interface WebApi {
      */
     @FormUrlEncoded
     @POST("common/logon")
-    Observable<AuthenticationDataTObject> authentication(@Header("token") String token, @Field("username") String username, @Field("password") String password);
+    Observable<AuthenticationDataTObject> authentication(@Header("token") String token, @Field("username") String username, @Field("password") String password,@Field("clientType") String type);
 
 
     /**

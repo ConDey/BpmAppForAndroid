@@ -21,5 +21,7 @@ public interface MessageDetailContract {
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
         void loadMessages(String topicId, int pageNo, int pageSize);
+
+        void setReaded(String id);
     }
 }

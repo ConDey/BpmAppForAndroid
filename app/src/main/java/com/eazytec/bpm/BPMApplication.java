@@ -1,8 +1,12 @@
 package com.eazytec.bpm;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
+import com.eazytec.bpm.applaunch.AppInfo;
+import com.eazytec.bpm.applaunch.AppLaunchActivity;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.db.DBConstants;
 import com.eazytec.bpm.appstub.db.DBHelper;
@@ -13,6 +17,8 @@ import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 
 import net.wequick.small.Small;
+
+import java.util.List;
 
 /**
  * /**
@@ -72,6 +78,21 @@ public class BPMApplication extends Application {
             public void launchApp(Context var1, UMessage var2) {
 
                 //app的跳转，最后解决吧，先放着！
+                if (AppInfo.isAppForeground()) {
+                    //如果APP在前台，那我们就忽略
+                    return;
+                }
+
+                  // Intent intent = new Intent();
+                  // intent.setClass(var1, AppLaunchActivity.class);
+                  //  Small.openUri("app.home",getApplicationContext());
+                  // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                  // var1.startActivity(intent);
+
+                Intent intent = new Intent();
+                intent.setClassName(var1, "com.eazytec.bpm.app.home.userhome.UserHomeActivity");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                var1.startActivity(intent);
 
             }
     };
@@ -101,5 +122,20 @@ public class BPMApplication extends Application {
         Config.UPDATE_APK_URL = BuildConfig.UPDATE_APK_URL;
         Config.APK_PROVIDER_ID = BuildConfig.APK_PROVIDER_ID;
         Config.DB_NAME = BuildConfig.DB_NAME;
+    }
+
+    public static boolean isBackground(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(context.getPackageName())) {
+                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }

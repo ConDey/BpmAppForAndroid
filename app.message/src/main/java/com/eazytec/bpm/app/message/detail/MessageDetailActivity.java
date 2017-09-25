@@ -19,10 +19,15 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.message.MessageConstant;
 import com.eazytec.bpm.app.message.R;
+import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.common.message.CurrentMessage;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
+import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
+
+import net.wequick.small.Small;
 
 import java.util.List;
 
@@ -149,13 +154,30 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
                         //未读需要去数据库更为已读
                         if(!messageDataTObject.getIsRead()){
                         CurrentMessage.getCurrentMessage().upDateMessageIsReadState(topicId,messageDataTObject.getId());
-                        //要给接口传已读，暂时没有这个接口
+                        //要给接口传已读，暂时没有这个接口，传送已读
+                        getPresenter().setReaded(messageDataTObject.getId());
                         }
                         //根据url跳转
-                        String url = messageDataTObject.getClickUrl();
-
-
-
+                        String url;
+                        String clicklurl = messageDataTObject.getClickUrl();
+                        if(!StringUtils.isEmpty(clicklurl)){
+                        if(clicklurl.startsWith("native")){
+                         clicklurl = clicklurl.replace("native:","");
+                         Small.openUri(clicklurl, getContext());
+                        }else{
+                         clicklurl = clicklurl.replace("h5:","");
+                         if (clicklurl.startsWith("http:") ||
+                                clicklurl.startsWith("https:") ||
+                                clicklurl.startsWith("file:")) {
+                            url = EncodeUtils.urlEncode(clicklurl).toString();
+                        } else {
+                            url = EncodeUtils.urlEncode(Config.WEB_SERVICE_URL + clicklurl).toString();
+                        }
+                            Small.openUri("app.webkit?url=" + url + "&title=" +messageDataTObject.getTitle(), getContext());
+                        }
+                    }else{
+                            ToastDelegate.error(getContext(),"消息出错，请联系管理员！");
+                        }
                     }
                 }
             }

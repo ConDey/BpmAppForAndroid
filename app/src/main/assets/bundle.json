@@ -31,7 +31,10 @@
     },
     {
       "uri": "app.notice",
-      "pkg": "com.eazytec.bpm.app.notice"
+      "pkg": "com.eazytec.bpm.app.notice",
+      "rules": {
+        "fornoticedetail": ".notice.detail.NoticeDetailActivity"
+      }
     },
     {
       "uri": "app.photo",
@@ -50,6 +53,10 @@
       "rules": {
         "forhomefragment": "HomeMessageFragemnt"
       }
+    },
+    {
+      "uri": "app.calendar",
+      "pkg": "com.eazytec.bpm.app.calendar"
     }
   ]
 }

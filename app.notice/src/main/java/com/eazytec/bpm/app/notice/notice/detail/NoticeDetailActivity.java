@@ -1,5 +1,6 @@
 package com.eazytec.bpm.app.notice.notice.detail;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +11,12 @@ import com.eazytec.bpm.app.notice.R;
 import com.eazytec.bpm.app.notice.data.AttachmentsDataTObject;
 import com.eazytec.bpm.app.notice.data.NoticeDetailDataTObject;
 import com.eazytec.bpm.app.notice.notice.download.DownloadActivity;
+import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.textview.htmltextview.HtmlTextView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
+import com.eazytec.bpm.lib.utils.StringUtils;
+
+import net.wequick.small.Small;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +65,16 @@ public class NoticeDetailActivity  extends ContractViewActivity<NoticeDetailPres
 
 
         id = getIntent().getStringExtra("id");
+
+        Uri uri = Small.getUri(this);
+        if (uri != null) {
+            String numstring = uri.getQueryParameter("notice_id");
+            if (!StringUtils.isSpace(numstring)) {
+                id = numstring;
+            }else{
+                ToastDelegate.error(getContext(),"公告内容有问题，请联系管理员！");
+            }
+        }
 
         /**
         RxView.clicks(this.attachmentsTextView).throttleFirst(2, TimeUnit.SECONDS)
