@@ -1,8 +1,9 @@
 package com.eazytec.bpm.app.webkit;
 
+import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -40,11 +43,13 @@ import com.eazytec.bpm.lib.common.webkit.WebViewUtil;
 import com.eazytec.bpm.lib.common.webservice.DownloadHelper;
 import com.eazytec.bpm.lib.common.webservice.UploadHelper;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
+import com.eazytec.bpm.lib.utils.MIMETypeUtil;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.compress.Luban;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.permissions.RxPermissions;
 
 import net.wequick.small.Small;
 
@@ -60,6 +65,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.SafeObserver;
 
 import static android.R.attr.type;
 
@@ -429,6 +437,25 @@ public class BPMWebViewActivity extends WebViewActivity {
                 }
                 break;
 
+            case BPMJsMsgEvent.JS_OPEN_FILE:
+                try {
+                    JSONObject jsonObject=new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler=messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    JSONObject object = new JSONObject(callbackBean.toJson());
+                    String filePath=jsonObject.getString(BPMJsApi.API_PARAM_OPEN_FILE_PATH);
+                    File file=new File(filePath);
+                    if (!file.exists()){
+                        handler.complete(object.toString());
+                    }else {
+                        openFile(file);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             case BPMJsMsgEvent.JS_GET_IMAGES:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
@@ -647,21 +674,6 @@ public class BPMWebViewActivity extends WebViewActivity {
                 }
         }
     }
-
-
-    /*public void setTitleRightBtnAc(Drawable img,final String htmlUrl,final String title,final String type){
-        setTitleBarRightBtnBgImage(img);
-        toolbarRightIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (type.equals("restart")){
-                    skipWebViewActivity(htmlUrl,title);
-                }else {
-                    startWebViewActivity(htmlUrl, title);
-                }
-            }
-        });
-    }*/
 
 
     /**
@@ -909,5 +921,40 @@ public class BPMWebViewActivity extends WebViewActivity {
     public void progressDismiss(){
         dialog.cancel();
     }
+
+    /**
+     * 文件打开安卓系统判断
+     */
+    public void openFile(final File file){
+        RxPermissions rxPermissions=new RxPermissions(BPMWebViewActivity.this);
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            if(aBoolean){
+                                if (Build.VERSION.SDK_INT >= 24) {
+                                    // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
+                                    PackageInfo packageInfo = new PackageInfo();
+                                    Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_PROVIDER_ID, file);
+                                    Intent intent = new Intent("android.intent.action.VIEW");
+                                    intent.addCategory("android.intent.category.DEFAULT");
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                    activity.startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent("android.intent.action.VIEW");
+                                    intent.addCategory("android.intent.category.DEFAULT");
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    Uri uri = Uri.fromFile(file);
+                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                    activity.startActivity(intent);
+                                }
+                            }else {
+                                ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                            }
+                        }
+                    });
+    }
+
 
 }

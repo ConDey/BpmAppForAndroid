@@ -109,6 +109,10 @@
                 onclick="fileSelector()">
             文件选择
         </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
+                onclick="openFile()">
+            文件打开
+        </button>
 
         </br>
         </br>
@@ -251,7 +255,7 @@
 
         // 文件上传
         function uploadFile() {
-               bpmbridget.call("uploadFile",{filePath: "/storage/emulated/0/1.pdf"}, function(result){
+               bpmbridget.call("uploadFile",{filePath: "storage/emulated/0/1.pdf"}, function(result){
                     alert(result);
                });
         }
@@ -262,6 +266,14 @@
                     alert(result);
                });
         }
+
+        //文件打开
+        function openFile(){
+                bpmbridget.call("openFile",{openFilePath:"/Photo/3.doc"},function(result){
+                      alert(result);
+                });
+         }
+
 
         //[sync] 获得当前用户信息
         function getUser() {

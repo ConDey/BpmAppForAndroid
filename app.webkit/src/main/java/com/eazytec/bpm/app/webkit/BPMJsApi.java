@@ -85,6 +85,10 @@ public class BPMJsApi {
      */
     public static final String API_PARAM_FILE_NUM = "selectNum";
     /**
+     * 文件打开
+     */
+    public static final String API_PARAM_OPEN_FILE_PATH = "openFilePath";
+    /**
      * Toast,Alert显示
      * */
     public static final String API_TOAST_INFO = "toast";
@@ -285,6 +289,12 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_FILE_SELECT, jsonObject.toString(), handler));
     }
 
+    //文件打开
+    @JavascriptInterface
+    public void openFile(JSONObject jsonObject,CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_OPEN_FILE,jsonObject.toString(),handler));
+    }
+
     /**
      * 获得当前用户信息
      */
@@ -391,7 +401,7 @@ public class BPMJsApi {
                 activity.progressShow();
             }
     }
-
+     //progress取消
     @JavascriptInterface
     public void progressCancle(JSONObject jsonObject){
 
