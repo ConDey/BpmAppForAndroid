@@ -24,6 +24,7 @@ public class BPMJsMsgEvent {
     public static final String JS_DOWNLOAD_FILE = "JS_DOWNLOAD_FILE";
     public static final String JS_UPLOAD_FILE = "JS_UPLOAD_FILE";
     public static final String JS_FILE_SELECT = "JS_FILE_SELECT";
+    public static final String JS_OPEN_FILE="JS_OPEN_FILE";
     public static final String JS_GET_USER = "JS_GET_USER";
     public static final String JS_GET_TOKEN = "JS_GET_TOKEN";
     public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
@@ -95,6 +96,7 @@ public class BPMJsMsgEvent {
             JS_DOWNLOAD_FILE,
             JS_UPLOAD_FILE,
             JS_FILE_SELECT,
+            JS_OPEN_FILE,
             JS_GET_USER,
             JS_GET_TOKEN,
             JS_GET_IMAGES,
