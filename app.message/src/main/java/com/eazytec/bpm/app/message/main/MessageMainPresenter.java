@@ -63,7 +63,7 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
                                 // 在这里开一个线程执行插数据耗时操作
                                 new Thread() {
                                     public void run() {
-                                        CurrentTopic.getCurrentTopic().saveTopicIntoDB(getLatestTopics(data.getDatas()));
+                                     //   CurrentTopic.getCurrentTopic().saveTopicIntoDB(getLatestTopics(data.getDatas()));
                                         CurrentMessage.getCurrentMessage().saveMessagesIntoDB(data.getDatas());
                                         Message msg = handler.obtainMessage();
                                         msg.obj = "DB";
@@ -84,11 +84,13 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
 
     }
 
+   /**
     @Override
     public void loadTopicsByDB() {
 
         mView.loadSuccessFromDB(CurrentTopic.getCurrentTopic().getTopicFromDB());
     }
+    **/
 
     /**
      * 获取当前每条message的topic
@@ -96,6 +98,7 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
      * @param messages
      * @return
      */
+    /**
     private List<MessageTopicDataTObject> getLatestTopics(List<MessageDataTObject> messages) {
         List<MessageTopicDataTObject> topics = new ArrayList<>();
         for (int i = 0; i < messages.size(); i++) {
@@ -107,5 +110,6 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
         }
         return topics;
     }
+     **/
 
 }

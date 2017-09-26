@@ -70,6 +70,7 @@ public abstract class DBConstants {
                 .append(DBMessage.COLUMN_ISREAD).append(" TEXT,")
                 .append(DBMessage.COLUMN_UPDATETIME).append(" TEXT,")
                 .append(DBMessage.COLUMN_USERNAME).append(" TEXT,")
+                .append(DBMessage.COLUMN_TOPIC_ICON).append(" TEXT,")
                 .append(DBMessage.COLUMN_UPDATE_MSGID).append(" TEXT")
                 .append(")").toString();
     }

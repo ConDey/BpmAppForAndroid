@@ -51,7 +51,7 @@
       "uri": "app.message",
       "pkg": "com.eazytec.bpm.app.message",
       "rules": {
-        "forhomefragment": "HomeMessageFragemnt"
+        "forhomefragment": "HomeTabMessageFragment"
       }
     },
     {

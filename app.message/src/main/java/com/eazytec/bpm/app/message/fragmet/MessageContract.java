@@ -1,4 +1,4 @@
-package com.eazytec.bpm.app.message.detail;
+package com.eazytec.bpm.app.message.fragmet;
 
 import com.eazytec.bpm.lib.common.CommonContract;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
@@ -7,10 +7,9 @@ import java.util.List;
 
 /**
  * @author Beckett_W
- * @version Id: MessageDetailContract, v 0.1 2017/9/18 15:00 Beckett_W Exp $$
+ * @version Id: MessageContract, v 0.1 2017/9/26 13:42 Beckett_W Exp $$
  */
-public interface MessageDetailContract {
-
+public interface MessageContract {
     interface View extends CommonContract.CommonView {
 
         void loadSuccess(List<MessageDataTObject> messages);
@@ -20,7 +19,8 @@ public interface MessageDetailContract {
     }
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
-        void loadMessages(String topicId, int pageNo, int pageSize);
+
+        void loadMessages(String isRead, int pageNo, int pageSize);
 
         void setReaded(String id);
     }

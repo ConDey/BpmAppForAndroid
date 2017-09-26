@@ -34,5 +34,5 @@ public interface MessageRepository {
      * 分页查询消息
      *
      */
-    public List<MessageDataTObject> selectMessageByPage(String topicId, int pageIndex, int pageSize);
+    public List<MessageDataTObject> selectMessageByPage(String isRead, int pageIndex, int pageSize);
 }

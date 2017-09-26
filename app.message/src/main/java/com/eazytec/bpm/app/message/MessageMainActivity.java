@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
-import com.eazytec.bpm.app.message.detail.MessageDetailActivity;
 import com.eazytec.bpm.app.message.main.MessageMainAdapter;
 import com.eazytec.bpm.app.message.main.MessageMainContract;
 import com.eazytec.bpm.app.message.main.MessageMainPresenter;
@@ -60,7 +59,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         setListener();
         receivePushMessage();
 
-        getPresenter().loadTopicsByDB();
+     //   getPresenter().loadTopicsByDB();
     }
 
     private void initData() {
@@ -115,7 +114,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
                 if ((TimeUtils.getNowMills() - lastRequestTime) > FIVE_MINUTES_MILLS) {
                     loadTopicFromNetworks();
                 }else {
-                    getPresenter().loadTopicsByDB();
+                  //  getPresenter().loadTopicsByDB();
                 }
             }
         }
@@ -164,7 +163,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         it.putString(MessageConstant.TOPIC_ID, dataTObject.getId());
         it.putString(MessageConstant.TOPIC_NAME, dataTObject.getName());
         it.putString(MessageConstant.TOPIC_TYPE, dataTObject.getTopic());
-        startActivity(MessageMainActivity.this, MessageDetailActivity.class,it);
+      //  startActivity(MessageMainActivity.this, MessageDetailActivity.class,it);
     }
 
     @Override
@@ -175,6 +174,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         messageMainAdapter.notifyDataSetChanged();
     }
 
+    /**
     @Override
     public void loadSuccessFromDB(List<MessageTopicDataTObject> data) {
         datas = data;
@@ -188,6 +188,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
             }
         }, 1000);//1秒后执行Runnable中的run方法
     }
+    **/
 
     private void loadTopicFromNetworks() {
         getPresenter().loadTopics();

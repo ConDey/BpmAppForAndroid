@@ -1,4 +1,4 @@
-package com.eazytec.bpm.app.message.detail;
+package com.eazytec.bpm.app.message.fragmet;
 
 import com.eazytec.bpm.app.message.webservice.WebApi;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
@@ -18,16 +18,17 @@ import rx.schedulers.Schedulers;
 
 /**
  * @author Beckett_W
- * @version Id: MessageDetailPresenter, v 0.1 2017/9/18 15:00 Beckett_W Exp $$
+ * @version Id: MessagePresenter, v 0.1 2017/9/26 13:43 Beckett_W Exp $$
  */
-public class MessageDetailPresenter extends RxPresenter<MessageDetailContract.View> implements MessageDetailContract.Presenter<MessageDetailContract.View> {
+public class MessagePresenter extends RxPresenter<MessageContract.View> implements MessageContract.Presenter<MessageContract.View> {
 
     /**
      * 从数据库中取出message
      */
     @Override
-    public void loadMessages(String topicId, int pageNo, int pageSize) {
-        List<MessageDataTObject> messages = CurrentMessage.getCurrentMessage().getMessagesByPage(topicId, pageNo, pageSize);
+    public void loadMessages(String isRead, int pageNo, int pageSize) {
+        //根据已读，未读取出数据！
+        List<MessageDataTObject> messages = CurrentMessage.getCurrentMessage().getMessagesByPage(isRead, pageNo, pageSize);
         if (messages != null) {
             mView.loadSuccess(messages);
         }
@@ -68,3 +69,4 @@ public class MessageDetailPresenter extends RxPresenter<MessageDetailContract.Vi
         addSubscrebe(rxSubscription);
     }
 }
+

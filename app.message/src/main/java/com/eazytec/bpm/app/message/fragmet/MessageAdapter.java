@@ -1,18 +1,20 @@
-package com.eazytec.bpm.app.message.detail;
+package com.eazytec.bpm.app.message.fragmet;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.message.R;
+import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.TimeUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,18 +24,18 @@ import java.util.List;
  * @author Beckett_W
  * @version Id: MessageDetailAdapter, v 0.1 2017/9/18 15:00 Beckett_W Exp $$
  */
-public class MessageDetailAdapter extends BaseAdapter {
+public class MessageAdapter extends BaseAdapter {
 
     private Context context;
     private List<MessageDataTObject> datas;
 
-    public MessageDetailAdapter(Context context, List<MessageDataTObject> datas) {
+    public MessageAdapter(Context context, List<MessageDataTObject> datas) {
         super();
         this.context = context;
         this.datas = datas;
     }
 
-    public MessageDetailAdapter(Context context) {
+    public MessageAdapter(Context context) {
         super();
         this.context = context;
         this.datas = new ArrayList<>();
@@ -56,13 +58,11 @@ public class MessageDetailAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_message_detail_recycler_view, null);
             viewHolder.mainTitleTv = (TextView)convertView.findViewById(R.id.message_detail_main_title_tv);
             viewHolder.contentTv = (TextView)convertView.findViewById(R.id.message_detail_content_tv);
-            viewHolder.timeTv = (TextView)convertView.findViewById(R.id.message_detail_time_tv);
-            viewHolder.canClickll = (LinearLayout)convertView.findViewById(R.id.message_detail_can_click_ll);
-            viewHolder.stateTv = (TextView) convertView.findViewById(R.id.message_detail_main_read_state);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.item_message_detail_recycler_view_imageview);
+            viewHolder.timeTv = (TextView) convertView.findViewById(R.id.item_message_detail_item_time_tv);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
-            viewHolder.canClickll.setVisibility(View.GONE);
         }
 
         if (!StringUtils.isEmpty(datas.get(position).getTitle())) {
@@ -71,23 +71,15 @@ public class MessageDetailAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(datas.get(position).getContent())) {
             viewHolder.contentTv.setText(datas.get(position).getContent());
         }
-        if (!StringUtils.isEmpty(datas.get(position).getCreatedTime())){
-            long date = TimeUtils.string2Millis(datas.get(position).getCreatedTime());
-            viewHolder.timeTv.setText(TimeUtils.showDate(new Date(date), true));
+        // 加载图片
+        String photoUrl = Config.WEB_URL + datas.get(position).getTopicIcon();
+        String photo = datas.get(position).getTopicIcon();
+        if (!StringUtils.isSpace(photo)) {
+            Picasso.with(context).load(photoUrl).placeholder(R.mipmap.ic_message_default).into(viewHolder.imageView);
         }
-        if(datas.get(position).getIsRead()){
-            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.color_primary));
-            viewHolder.stateTv.setText("已读");
-        }else {
-            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.red_400));
-            viewHolder.stateTv.setText("未读");
+        if(!StringUtils.isEmpty(datas.get(position).getCreatedTime())){
+            viewHolder.timeTv.setText(datas.get(position).getCreatedTime());
         }
-        if (!datas.get(position).isCanClick()) {
-            viewHolder.canClickll.setVisibility(View.GONE);
-        }else {
-            viewHolder.canClickll.setVisibility(View.VISIBLE);
-        }
-
         return convertView;
     }
 
@@ -105,12 +97,10 @@ public class MessageDetailAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-
+        private ImageView imageView;
         private TextView mainTitleTv;
         private TextView contentTv;
         private TextView timeTv;
-        private TextView stateTv;
-        private LinearLayout canClickll;
 
     }
 

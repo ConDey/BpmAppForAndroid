@@ -26,6 +26,7 @@ public class DBMessage {
     public static final String COLUMN_UPDATETIME = "updatetime";
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_UPDATE_MSGID = "internalMsgId";
+    public static final String COLUMN_TOPIC_ICON = "topicIcon";
 
     public static final class Builder {
         private final ContentValues values = new ContentValues();
@@ -102,6 +103,11 @@ public class DBMessage {
 
         public Builder updateid(String updateid) {
             values.put(COLUMN_UPDATE_MSGID, updateid);
+            return this;
+        }
+
+        public Builder topicicon(String topicIcon) {
+            values.put(COLUMN_TOPIC_ICON, topicIcon);
             return this;
         }
 

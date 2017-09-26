@@ -1,28 +1,24 @@
-package com.eazytec.bpm.app.message.detail;
+package com.eazytec.bpm.app.message.fragmet;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.eazytec.bpm.app.message.MessageConstant;
 import com.eazytec.bpm.app.message.R;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
-import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
-import com.eazytec.bpm.lib.common.message.CurrentMessage;
+import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
@@ -32,26 +28,20 @@ import net.wequick.small.Small;
 import java.util.List;
 
 /**
+ * 已读的fragment
  * @author Beckett_W
- * @version Id: MessageDetailActivity, v 0.1 2017/9/18 14:59 Beckett_W Exp $$
+ * @version Id: ReadMessageActivity, v 0.1 2017/9/26 13:42 Beckett_W Exp $$
  */
-public class MessageDetailActivity extends ContractViewActivity<MessageDetailPresenter> implements AbsListView.OnScrollListener, MessageDetailContract.View {
+public class ReadMessageFragment extends ContractViewFragment<MessagePresenter> implements AbsListView.OnScrollListener, MessageContract.View{
+
 
     private static final int PAGE_STARTING = 0; // 代表起始页
 
-    private Toolbar toolbar;
-    private TextView titleTv;
-    private TextView subTitleTv;
-
     private ListView mListView;
-    private MessageDetailAdapter messageDetailAdapter;
+    private MessageAdapter messageDetailAdapter;
     private ProgressBar loadInfo;
     private LinearLayout loadLayout;
     private int firstItem = -1;
-
-    private String topicId;
-    private String topicName;
-    private String topicType;
 
     // 分页部分
     private int pageNo;
@@ -62,63 +52,42 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
     //空view
     private LinearLayout emptyLinearLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message_detail);
 
-        toolbar = (Toolbar) findViewById(R.id.message_detail_toolbar);
-        titleTv = (TextView) findViewById(R.id.message_detail_toolbar_title);
-        subTitleTv = (TextView) findViewById(R.id.message_detail_toolbar_sub_title);
-        emptyLinearLayout = (LinearLayout) findViewById(R.id.message_detail_list_empty_view);
-        mListView = (ListView) findViewById(R.id.message_detail_listview);
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View parentView = inflater.inflate(R.layout.fragment_message_list, container, false);
+
+        emptyLinearLayout = (LinearLayout) parentView.findViewById(R.id.fragment_message_detail_list_empty_view);
+        mListView = (ListView) parentView.findViewById(R.id.fragment_message_listview);
+        // 初始化
 
         initData();
         setListener();
-
+        return parentView;
     }
 
     private void initData() {
-        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        topicId = getIntent().getStringExtra(MessageConstant.TOPIC_ID);
-        topicName = getIntent().getStringExtra(MessageConstant.TOPIC_NAME);
-        topicType = getIntent().getStringExtra(MessageConstant.TOPIC_TYPE);
-
-        if (!StringUtils.isEmpty(topicName)) {
-            titleTv.setText(topicName);
-        }
-        if (!StringUtils.isEmpty(topicType)) {
-            subTitleTv.setText(topicType);
-        }else{
-            subTitleTv.setVisibility(View.GONE);  //和易工作不一样，可能没有副标题
-        }
 
         // 创建线性布局来显示正在加载
-        loadLayout = new LinearLayout(this);
+        loadLayout = new LinearLayout(getContext());
         loadLayout.setGravity(Gravity.CENTER);
         // 定义一个progressbar表示正在加载
-        loadInfo = new ProgressBar(this, null, R.drawable.rv_load_progress_round);
+        loadInfo = new ProgressBar(getContext(), null, R.drawable.rv_load_progress_round);
         // 增加组件
         loadLayout.addView(loadInfo, new LinearLayoutCompat.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         // 增加到listview头部
         mListView.addHeaderView(loadLayout);
         mListView.setOnScrollListener(this);
 
-        messageDetailAdapter = new MessageDetailAdapter(getContext());
+        messageDetailAdapter = new MessageAdapter(getContext());
         mListView.setAdapter(messageDetailAdapter);
         messageDetailAdapter.notifyDataSetChanged();
     }
 
     private void setListener() {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         mListView.post(new Runnable() {
             @Override
@@ -151,31 +120,25 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
                 }
                 if (messageDataTObject != null) {
                     if (messageDataTObject.isCanClick()) {
-                        //未读需要去数据库更为已读
-                        if(!messageDataTObject.getIsRead()){
-                        CurrentMessage.getCurrentMessage().upDateMessageIsReadState(topicId,messageDataTObject.getId());
-                        //要给接口传已读，暂时没有这个接口，传送已读
-                        getPresenter().setReaded(messageDataTObject.getInternalMsgId());
-                        }
                         //根据url跳转
                         String url;
                         String clicklurl = messageDataTObject.getClickUrl();
                         if(!StringUtils.isEmpty(clicklurl)){
-                        if(clicklurl.startsWith("native")){
-                         clicklurl = clicklurl.replace("native:","");
-                         Small.openUri(clicklurl, getContext());
+                            if(clicklurl.startsWith("native")){
+                                clicklurl = clicklurl.replace("native:","");
+                                Small.openUri(clicklurl, getContext());
+                            }else{
+                                clicklurl = clicklurl.replace("h5:","");
+                                if (clicklurl.startsWith("http:") ||
+                                        clicklurl.startsWith("https:") ||
+                                        clicklurl.startsWith("file:")) {
+                                    url = EncodeUtils.urlEncode(clicklurl).toString();
+                                } else {
+                                    url = EncodeUtils.urlEncode(Config.WEB_SERVICE_URL + clicklurl).toString();
+                                }
+                                Small.openUri("app.webkit?url=" + url + "&title=" +messageDataTObject.getTitle(), getContext());
+                            }
                         }else{
-                         clicklurl = clicklurl.replace("h5:","");
-                         if (clicklurl.startsWith("http:") ||
-                                clicklurl.startsWith("https:") ||
-                                clicklurl.startsWith("file:")) {
-                            url = EncodeUtils.urlEncode(clicklurl).toString();
-                        } else {
-                            url = EncodeUtils.urlEncode(Config.WEB_SERVICE_URL + clicklurl).toString();
-                        }
-                            Small.openUri("app.webkit?url=" + url + "&title=" +messageDataTObject.getTitle(), getContext());
-                        }
-                    }else{
                             ToastDelegate.error(getContext(),"消息出错，请联系管理员！");
                         }
                     }
@@ -183,6 +146,8 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
             }
         });
     }
+
+
 
     @Override
     public void onScroll(AbsListView absView, int firstVisibleItem,
@@ -201,7 +166,7 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         if (!isPullRefresh) {
             pageNo = PAGE_STARTING;
             isPullRefresh = true;
-            getPresenter().loadMessages(topicId, pageNo, pageSize);
+            getPresenter().loadMessages("1", pageNo, pageSize); //根据已读未读来获取数据
         }
     }
 
@@ -209,7 +174,7 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         if (!isPullRefresh) {
             pageNo = pageNo + pageSize;
             isPullRefresh = true;
-            getPresenter().loadMessages(topicId, pageNo, pageSize);
+            getPresenter().loadMessages("1", pageNo, pageSize);
         }
     }
 
@@ -230,13 +195,7 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
     }
 
     @Override
-    protected MessageDetailPresenter createPresenter() {
-        return new MessageDetailPresenter();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        onDoRefresh();
+    protected MessagePresenter createPresenter() {
+        return new MessagePresenter();
     }
 }
