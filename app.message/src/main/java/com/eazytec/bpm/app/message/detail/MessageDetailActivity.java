@@ -155,7 +155,7 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
                         if(!messageDataTObject.getIsRead()){
                         CurrentMessage.getCurrentMessage().upDateMessageIsReadState(topicId,messageDataTObject.getId());
                         //要给接口传已读，暂时没有这个接口，传送已读
-                        getPresenter().setReaded(messageDataTObject.getId());
+                        getPresenter().setReaded(messageDataTObject.getInternalMsgId());
                         }
                         //根据url跳转
                         String url;
@@ -232,5 +232,11 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
     @Override
     protected MessageDetailPresenter createPresenter() {
         return new MessageDetailPresenter();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onDoRefresh();
     }
 }

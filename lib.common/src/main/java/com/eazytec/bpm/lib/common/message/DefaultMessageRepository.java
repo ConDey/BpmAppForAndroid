@@ -38,11 +38,13 @@ public class DefaultMessageRepository implements MessageRepository {
                     .title(message.getTitle())
                     .topic(message.getTopicId())
                     .needPush(transBool2Str(message.isNeedPush()))
+                    .updateTime(String.valueOf(TimeUtils.getNowMills()))
                     .pushed(transBool2Str(message.isPushed()))
                     .canClick(transBool2Str(message.isCanClick()))
                     .isRead("0") //默认未读状态
-                    .updateTime(String.valueOf(TimeUtils.getNowMills()))
-                    .username(CurrentUser.getCurrentUser().getUserDetails().getUsername()).build();
+                    .username(CurrentUser.getCurrentUser().getUserDetails().getUsername())
+                    .updateid(message.getInternalMsgId())
+                    .build();
 
             if (getMessageById(message.getId()) != null) {
                 if (getMessageById(message.getId()).size() <= 0) {
@@ -114,6 +116,7 @@ public class DefaultMessageRepository implements MessageRepository {
                 message.setCanClick(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_CANCLICK)));
                 message.setIsRead(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_ISREAD)));
                 message.setUsername(DB.getString(cursor, DBMessage.COLUMN_USERNAME));
+                message.setInternalMsgId(DB.getString(cursor,DBMessage.COLUMN_UPDATE_MSGID));
                 messages.add(message);
             }
             return messages;

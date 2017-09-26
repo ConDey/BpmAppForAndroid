@@ -108,4 +108,11 @@
         <attr name="borderTextView_strokeColor" format="color"/>
         <attr name="borderTextView_followTextColor" format="boolean"/>
     </declare-styleable>
+
+    <!--仿钉钉和小米日历控件-->
+    <attr name="cbd_calendar_row" format="integer"/>
+
+    <declare-styleable name="CalendarDateView">
+        <attr name="cbd_calendar_row"/>
+    </declare-styleable>
 </resources>
