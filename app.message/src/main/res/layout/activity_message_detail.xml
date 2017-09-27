@@ -40,6 +40,7 @@
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/color_grey_primary"
                     android:textSize="14sp"
+                    android:visibility="gone"
                     android:text=""/>
 
             </LinearLayout>
@@ -53,8 +54,8 @@
         android:id="@+id/message_detail_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/transparent"
-        android:listSelector="@color/transparent"
+        android:divider="#00000000"
+        android:listSelector="#00000000"
         android:background="@color/grey_300">
     </ListView>
 

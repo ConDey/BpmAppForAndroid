@@ -2,81 +2,131 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/drawer_listview_item_bg"
-    >
-    <!--新的消息样式-->
+    android:layout_height="wrap_content">
+
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical">
+        android:layout_marginTop="@dimen/message_main_item_margin"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="@dimen/message_main_item_margin"
+        android:paddingBottom="20dp">
 
-        <ImageView
-            android:id="@+id/item_message_detail_recycler_view_imageview"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/message_detail_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="@drawable/bg_message_detail_time"
+            android:textSize="13sp"
+            android:text="昨天 22:00"
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginTop="3dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_message_detail_click">
 
-                <TextView
-                    android:id="@+id/message_detail_main_title_tv"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/color_black_primary"
-                    android:text=""
-                    android:singleLine="true"
-                    android:maxWidth="250dp"/>
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/message_main_item_margin"
+                    android:layout_marginRight="@dimen/message_main_item_margin"
+                    android:layout_marginLeft="@dimen/message_main_item_margin"
+                    android:layout_marginBottom="@dimen/message_main_item_margin">
 
-            </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                    <TextView
+                        android:id="@+id/message_detail_main_title_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_primary"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:text=""
+                        android:maxLines="1"
+                        android:layout_marginRight="3dp"
+                        android:textSize="15sp"
+                        />
+                    <com.eazytec.bpm.appstub.view.textview.BorderTextView
+                        android:id="@+id/message_detail_main_state_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:textSize="15sp"
+                        />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/message_detail_content_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/message_main_item_margin"
+                        android:textSize="14sp"
+                        android:text="万煜东完成了易工作一期项目的开发工作"/>
 
-            <TextView
-                android:id="@+id/message_detail_content_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="13sp"
-                android:text=""
-                android:singleLine="true"/>
+                    <LinearLayout
+                        android:id="@+id/message_detail_can_click_ll"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"/>
+                        <include layout="@layout/bpm_single_line"/>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical">
+                        <RelativeLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/item_message_detail_item_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text=""
-                android:singleLine="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:textColor="@color/color_black_primary"
+                                android:textSize="13sp"
+                                android:text="查看详情" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/ic_right_arrow"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <include layout="@layout/bpm_single_line"></include>
 
 </LinearLayout>

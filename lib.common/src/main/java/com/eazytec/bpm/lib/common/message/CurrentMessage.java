@@ -49,9 +49,9 @@ public class CurrentMessage {
         return new ArrayList<>();
     }
 
-    public List<MessageDataTObject> getMessagesByPage(String isRead, int pageIndex, int pageSize) {
+    public List<MessageDataTObject> getMessagesByPage(String  topicId, int pageIndex, int pageSize) {
         if (this.build.messageRepository != null) {
-            return this.build.messageRepository.selectMessageByPage(isRead, pageIndex, pageSize);
+            return this.build.messageRepository.selectMessageByPage(topicId, pageIndex, pageSize);
         }
         // 返还一个空数组
         return new ArrayList<>();

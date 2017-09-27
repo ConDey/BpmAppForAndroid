@@ -74,8 +74,8 @@ public class DefaultMessageRepository implements MessageRepository {
 
     // 分页查询
     @Override
-    public List<MessageDataTObject> selectMessageByPage(String isRead, int pageIndex, int pageSize) {
-        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBMessage.TABLE_MESSAGE + " where " + DBMessage.COLUMN_ISREAD + " == '" + isRead + "' and " + DBMessage.COLUMN_USERNAME + " == '" + CurrentUser.getCurrentUser().getUserDetails().getUsername() + "' order by " + DBMessage.COLUMN_GMTCREATE + " desc limit " + pageIndex + " , " + pageSize, null);
+    public List<MessageDataTObject> selectMessageByPage(String topicId, int pageIndex, int pageSize) {
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBMessage.TABLE_MESSAGE + " where " + DBMessage.COLUMN_TOPIC + " == '" + topicId + "' and " + DBMessage.COLUMN_USERNAME + " == '" + CurrentUser.getCurrentUser().getUserDetails().getUsername() + "' order by " + DBMessage.COLUMN_GMTCREATE + " desc limit " + pageIndex + " , " + pageSize, null);
         return convert(cursor);
     }
 

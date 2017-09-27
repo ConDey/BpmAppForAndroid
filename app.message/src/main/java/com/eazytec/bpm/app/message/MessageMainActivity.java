@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 
+import com.eazytec.bpm.app.message.detail.MessageDetailActivity;
 import com.eazytec.bpm.app.message.main.MessageMainAdapter;
 import com.eazytec.bpm.app.message.main.MessageMainContract;
 import com.eazytec.bpm.app.message.main.MessageMainPresenter;
@@ -163,7 +164,7 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         it.putString(MessageConstant.TOPIC_ID, dataTObject.getId());
         it.putString(MessageConstant.TOPIC_NAME, dataTObject.getName());
         it.putString(MessageConstant.TOPIC_TYPE, dataTObject.getTopic());
-      //  startActivity(MessageMainActivity.this, MessageDetailActivity.class,it);
+        startActivity(MessageMainActivity.this, MessageDetailActivity.class,it);
     }
 
     @Override
@@ -172,6 +173,11 @@ public class MessageMainActivity extends ContractViewActivity<MessageMainPresent
         datas = data;
         messageMainAdapter.resetList(datas);
         messageMainAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadSuccessFromDB(List<MessageTopicDataTObject> data) {
+
     }
 
     /**
