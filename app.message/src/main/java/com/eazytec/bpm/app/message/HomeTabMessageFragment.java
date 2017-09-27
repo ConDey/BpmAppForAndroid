@@ -46,6 +46,7 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
 
     private static final long FIVE_MINUTES_MILLS = 180000; //三分钟（毫秒）
 
+
     private boolean isfirst = true;  //第一次请求的时候，请求5天内的
     private boolean isforward = false;
     private boolean isrefresh = false;
@@ -64,18 +65,17 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
         messageViewpager = (ViewPager) parentView.findViewById(R.id.activity_message_tab_main_tablayout_viewpager);
 
         initData();
-        receivePushMessage();
+         receivePushMessage();
         // 初始化
         return parentView;
     }
+
 
     @Override
     public void onPause() {
         super.onPause();
         isforward = false;
     }
-
-
 
     @Override
     public void onResume() {
@@ -87,10 +87,10 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
             long lastRequestTime = Long.valueOf(CurrentUser.getCurrentUser().getLastRequestTime(false));
             if (CommonParams.getCommonParams().getIsRefresh().equals(CommonParams.IS_REFRESH_TRUE)) {
                 CommonParams.getCommonParams().updateIsRefresh(CommonParams.IS_REFRESH_FALSE);
-                loadTopicFromNetworks();
+                getPresenter().loadTopics();
             } else {
                 if ((TimeUtils.getNowMills() - lastRequestTime) > FIVE_MINUTES_MILLS) {
-                    loadTopicFromNetworks();
+                    getPresenter().loadTopics();
                 }
             }
         }
@@ -139,13 +139,14 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getPresenter().loadTopics();  //一进去先请求一次
+        getPresenter().loadTopics();  //初次进入先请求一次
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
+
 
     private void receivePushMessage() {
         mPushAgent = PushAgent.getInstance(getCommonActivity());
@@ -160,7 +161,7 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
                 if (isforward) {
                     // 这里有个问题，会有竞争，会造成多次请求出现资源的浪费，如果要解决这个问题，要判断一下上次请求时间跟本次请求时间的间隔要大于1-2秒
                     // 如果有推送，就获取网络数据，更新数据库
-                    loadTopicFromNetworks();
+                    getPresenter().loadTopics();
                 } else {
                     CommonParams.getCommonParams().updateIsRefresh(CommonParams.IS_REFRESH_TRUE);
                 }
@@ -169,15 +170,8 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
         mPushAgent.setMessageHandler(handler);
     }
 
-
-    private void loadTopicFromNetworks() {
-        getPresenter().loadTopics();
-    }
-
     @Override
     public void loadSuccess(List<MessageTopicDataTObject> data) {
-        //要刷新两个Fragment
-
     }
 
     @Override

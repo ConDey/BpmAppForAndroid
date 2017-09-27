@@ -52,7 +52,7 @@ android {
             buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             signingConfig signingConfigs.release
             ndk {
-                abiFilters  "armeabi"
+                abiFilters "x86", "armeabi"
             }
             // 批量打包
             applicationVariants.all { variant ->

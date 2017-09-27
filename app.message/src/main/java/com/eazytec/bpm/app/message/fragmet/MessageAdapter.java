@@ -1,6 +1,9 @@
 package com.eazytec.bpm.app.message.fragmet;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,9 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.message.R;
 import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.view.badgeview.BadgeView;
+import com.eazytec.bpm.appstub.view.recyclerview.OnRecyclerViewItemClickListener;
+import com.eazytec.bpm.appstub.view.recyclerview.RefreshViewHolder;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.TimeUtils;
@@ -78,11 +84,27 @@ public class MessageAdapter extends BaseAdapter {
             Picasso.with(context).load(photoUrl).placeholder(R.mipmap.ic_message_default).into(viewHolder.imageView);
         }
         if(!StringUtils.isEmpty(datas.get(position).getCreatedTime())){
-            viewHolder.timeTv.setText(datas.get(position).getCreatedTime());
+            long date = TimeUtils.string2Millis(datas.get(position).getCreatedTime());
+            String mDate = TimeUtils.showDate(new Date(date), false);
+            viewHolder.timeTv.setText(mDate);
+        }
+
+        // 添加角标
+        if (viewHolder.messageBadgeView == null) {
+            viewHolder.messageBadgeView = new BadgeView(context, viewHolder.imageView);
+        }
+        //未读
+        if (!datas.get(position).getIsRead()) {
+            viewHolder.messageBadgeView.setText(""); //小圆点提示
+            viewHolder.messageBadgeView.setHeight(20);
+            viewHolder.messageBadgeView.setWidth(20);
+            viewHolder.messageBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+            viewHolder.messageBadgeView.show();
+        }else {
+            viewHolder.messageBadgeView.hide();
         }
         return convertView;
     }
-
     @Override
     public Object getItem(int position) {
         if (position < datas.size()) {
@@ -96,12 +118,12 @@ public class MessageAdapter extends BaseAdapter {
         return position;
     }
 
-    public static class ViewHolder {
+    public static class ViewHolder{
         private ImageView imageView;
         private TextView mainTitleTv;
         private TextView contentTv;
         private TextView timeTv;
-
+        private BadgeView messageBadgeView;
     }
 
     public void resetList(List<MessageDataTObject> messages) {

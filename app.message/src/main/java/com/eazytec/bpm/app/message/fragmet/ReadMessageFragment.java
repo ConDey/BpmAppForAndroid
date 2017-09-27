@@ -20,6 +20,7 @@ import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
+import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
@@ -34,6 +35,8 @@ import java.util.List;
  */
 public class ReadMessageFragment extends ContractViewFragment<MessagePresenter> implements AbsListView.OnScrollListener, MessageContract.View{
 
+    private boolean isfirst = true;
+    private boolean isforward = false;
 
     private static final int PAGE_STARTING = 0; // 代表起始页
 
@@ -147,6 +150,24 @@ public class ReadMessageFragment extends ContractViewFragment<MessagePresenter> 
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        isforward = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isforward = true;
+        if (isfirst) {
+            isfirst = false;
+        } else {
+            getPresenter().refreshMessages("1", 0, pageSize);//从数据库获取第一页的数据刷新一下
+
+        }
+    }
+
 
 
     @Override
@@ -178,6 +199,11 @@ public class ReadMessageFragment extends ContractViewFragment<MessagePresenter> 
         }
     }
 
+    @Override
+    public void loadTopicSuccess(List<MessageTopicDataTObject> data) {
+
+    }
+
     public void loadSuccess(List<MessageDataTObject> messages) {
         messageDetailAdapter.addList(messages);
         if (messages.size() < pageSize) {
@@ -187,6 +213,17 @@ public class ReadMessageFragment extends ContractViewFragment<MessagePresenter> 
         messageDetailAdapter.notifyDataSetChanged();
         mListView.setSelectionFromTop(messages.size(), 0);
 
+    }
+
+    @Override
+    public void refreshSuccess(List<MessageDataTObject> messages) {
+        messageDetailAdapter.resetList(messages);
+        if (messages.size() < pageSize) {
+            mListView.removeHeaderView(loadLayout);
+            canRefresh = false;
+        }
+        messageDetailAdapter.notifyDataSetChanged();
+        mListView.setSelectionFromTop(messages.size(), 0);
     }
 
     @Override

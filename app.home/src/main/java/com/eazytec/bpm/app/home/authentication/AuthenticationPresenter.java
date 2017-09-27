@@ -123,7 +123,7 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                     }
 
                     @Override public void onError(Throwable e) {
-                        mView.toast(ToastDelegate.TOAST_TYPE_ERROR, R.string.web_error);
+                    //    mView.toast(ToastDelegate.TOAST_TYPE_ERROR, R.string.web_error);
                     }
                 });
         addSubscrebe(rxSubscription);

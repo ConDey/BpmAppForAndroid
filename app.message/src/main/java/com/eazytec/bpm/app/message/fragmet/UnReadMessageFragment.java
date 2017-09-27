@@ -1,8 +1,11 @@
 package com.eazytec.bpm.app.message.fragmet;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +19,24 @@ import android.widget.ProgressBar;
 import com.eazytec.bpm.app.message.R;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.message.CurrentMessage;
+import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
+import com.eazytec.bpm.lib.common.message.dataobject.MessageTopicDataTObject;
 import com.eazytec.bpm.lib.utils.EncodeUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
+import com.eazytec.bpm.lib.utils.TimeUtils;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 
 import net.wequick.small.Small;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * 未读
@@ -33,6 +45,8 @@ import java.util.List;
  */
 public class UnReadMessageFragment extends ContractViewFragment<MessagePresenter> implements AbsListView.OnScrollListener, MessageContract.View{
 
+    private boolean isfirst = true;
+    private boolean isforward = false;
 
     private static final int PAGE_STARTING = 0; // 代表起始页
 
@@ -151,6 +165,27 @@ public class UnReadMessageFragment extends ContractViewFragment<MessagePresenter
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        isforward = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isforward = true;
+        if (isfirst) {
+            isfirst = false;
+        } else {
+            getPresenter().refreshMessages("0", 0, pageSize);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 
     @Override
@@ -182,6 +217,11 @@ public class UnReadMessageFragment extends ContractViewFragment<MessagePresenter
         }
     }
 
+    @Override
+    public void loadTopicSuccess(List<MessageTopicDataTObject> data) {
+       getPresenter().refreshMessages("0", 0, pageSize);
+    }
+
     public void loadSuccess(List<MessageDataTObject> messages) {
         messageDetailAdapter.addList(messages);
         if (messages.size() < pageSize) {
@@ -191,6 +231,18 @@ public class UnReadMessageFragment extends ContractViewFragment<MessagePresenter
         messageDetailAdapter.notifyDataSetChanged();
         mListView.setSelectionFromTop(messages.size(), 0);
 
+    }
+
+    @Override
+    public void refreshSuccess(List<MessageDataTObject> messages) {
+        //把数据清掉，然后重新加载一遍最新的消息
+        messageDetailAdapter.resetList(messages);
+        if (messages.size() < pageSize) {
+            mListView.removeHeaderView(loadLayout);
+            canRefresh = false;
+        }
+        messageDetailAdapter.notifyDataSetChanged();
+        mListView.setSelectionFromTop(messages.size(), 0);
     }
 
     @Override
