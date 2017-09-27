@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_schedule_list_main"
     >
     <include layout="@layout/bpm_toolbar"></include>
 
@@ -110,6 +111,8 @@
         <ListView
             android:id="@+id/schedule_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            />
     </com.eazytec.bpm.appstub.view.calendar.CalendarLayout>
 </LinearLayout>

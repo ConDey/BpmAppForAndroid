@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_schedule_list);
 
         calendarDateView = (CalendarDateView) findViewById(R.id.schedule_list_calendarDateView);
-        dateTv = (TextView) findViewById(R.id.item_calendar_text);
+        dateTv = (TextView) findViewById(R.id.schedule_list_date);
         listView  = (ListView) findViewById(R.id.schedule_list);
 
         initDate();
@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
                     ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(px(48), px(48));
                     convertView.setLayoutParams(params);
                 }
-                view = (TextView) convertView.findViewById(R.id.text);
+                view = (TextView) convertView.findViewById(R.id.item_calendar_text);
 
                 view.setText("" + bean.day);
                 if (bean.mothFlag != 0) {
