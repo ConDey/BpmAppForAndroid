@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
                 }
                 view = (TextView) convertView.findViewById(R.id.item_calendar_text);
 
-                view.setText("" + bean.day);
+                view.setText(String.valueOf(bean.day));
                 if (bean.mothFlag != 0) {
                     view.setTextColor(0xff9299a1);
                 } else {

@@ -107,9 +107,9 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
                 }else{
                     alongPress=false;
                     BPMApp bpmApp = bpmAllApps.get(integer);
-                bpmApp.getIntoApp(getContext());
                 // 在Debug模式下应用肯定都是没有安装的
                 if (bpmApp.installed()) {
+                    bpmApp.getIntoApp(getContext());
                 } else {
                     ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
                 }
