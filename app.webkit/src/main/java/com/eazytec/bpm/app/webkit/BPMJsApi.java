@@ -403,7 +403,7 @@ public class BPMJsApi {
     }
      //progress取消
     @JavascriptInterface
-    public void progressCancle(JSONObject jsonObject){
+    public void progressCancel(JSONObject jsonObject){
 
             if(activity != null){
                 activity.progressDismiss();

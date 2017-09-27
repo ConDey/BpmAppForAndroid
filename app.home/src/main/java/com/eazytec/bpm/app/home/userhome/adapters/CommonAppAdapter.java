@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * 最基本展示app的gridview
+ *
  * @author Beckett_W
  * @version Id: CommonAppAdapter, v 0.1 2017/9/21 7:55 Beckett_W Exp $$
  */
@@ -92,6 +93,16 @@ public class CommonAppAdapter extends BaseAdapter {
     public void setItems(List<BPMApp> items) {
         this.items = new ArrayList<>();
         this.items.addAll(items);
+
+        if (items != null && items.size() % 4 != 0) {
+            // 补全 items.size() % 4
+            for (int index = 0; ; index++) {
+                this.items.add(new BPMApp()); // 占位用
+                if (this.items.size() % 4 == 0) {
+                    break;
+                }
+            }
+        }
     }
 }
 
