@@ -75,28 +75,20 @@ public class BPMApplication extends Application {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
 
             @Override
-            public void launchApp(Context var1, UMessage var2) {
-
-                //app的跳转，最后解决吧，先放着！
+            public void launchApp(Context context, UMessage uMessage) {
+                super.launchApp(context, uMessage);
                 if (AppInfo.isAppForeground()) {
                     //如果APP在前台，那我们就忽略
                     return;
                 }
 
-                  // Intent intent = new Intent();
-                  // intent.setClass(var1, AppLaunchActivity.class);
-                  //  Small.openUri("app.home",getApplicationContext());
-                  // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                  // var1.startActivity(intent);
-                /**没有效果
                 Intent intent = new Intent();
-                intent.setClassName(var1, "com.eazytec.bpm.app.home.userhome.UserHomeActivity");
+                intent.setClassName(context, "com.eazytec.bpm.app.home.userhome.UserHomeActivity");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                var1.startActivity(intent);
-                **/
+                context.startActivity(intent);
 
             }
-    };
+        };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
         // 注册推送服务，每次调用register都会回调该接口
