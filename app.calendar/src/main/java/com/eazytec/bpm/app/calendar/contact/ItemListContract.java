@@ -7,7 +7,7 @@ import com.eazytec.bpm.lib.common.CommonContract;
  * Created by Vivi on 2017/9/27.
  */
 
-public class ItemListContract {
+public interface ItemListContract {
     public interface View extends CommonContract.CommonView {
 
         void loadItemList(EventListDataObject eventListDataObject);

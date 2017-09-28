@@ -1,10 +1,12 @@
 package com.eazytec.bpm.app.calendar.dataobject;
 
+import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
+
 /**
  * Created by Vivi on 2017/9/26.
  */
 
-public class EventDetailDataObject {
+public class EventDetailDataObject extends WebDataTObject {
 
 
     private String startTime;

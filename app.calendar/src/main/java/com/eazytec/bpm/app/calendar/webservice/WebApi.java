@@ -1,5 +1,6 @@
 package com.eazytec.bpm.app.calendar.webservice;
 
+import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
 
 import retrofit2.http.GET;
@@ -25,5 +26,11 @@ public interface WebApi {
     Observable<EventListDataObject> loadItEventType(@Query("eventType") String eventType);
     Observable<EventListDataObject> loadItId(@Query("id") String id);
 */
+    /**
+     * 获得事件详情
+     */
+    @GET("schedule/detail")
+    Observable<EventDetailDataObject> getEventDetail(@Query("evenId") String evenId);
+
 
 }

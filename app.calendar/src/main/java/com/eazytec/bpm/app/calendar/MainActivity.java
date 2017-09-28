@@ -47,7 +47,6 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_list);
-        String name = getIntent().getStringExtra("name");
         calendarDateView = (CalendarDateView) findViewById(R.id.schedule_list_calendarDateView);
         dateTv = (TextView) findViewById(R.id.schedule_list_date);
         todayListView  = (ListView) findViewById(R.id.schedule_list);
@@ -57,7 +56,7 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitleTextView.setText(name);
+        toolbarTitleTextView.setText("日程表");
         initDate();
         setListener();
     }
@@ -150,8 +149,8 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent();
-                /*intent.putExtra();
-                intent.setClassName(getContext(),);*/
+                String eventId = eventListDataObjectList.get(position).getId();
+                intent.putExtra("eventid",eventId);
                 startActivity(intent);
 
             }

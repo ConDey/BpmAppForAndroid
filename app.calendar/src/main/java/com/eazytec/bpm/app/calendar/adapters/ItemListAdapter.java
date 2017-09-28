@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.calendar.R;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
-import com.eazytec.bpm.lib.utils.ScreenUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -57,13 +56,11 @@ public class ItemListAdapter extends BaseAdapter {
         if (convertView==null){
             viewHolder=new ViewHolder();
             convertView= LayoutInflater.from(context).inflate(R.layout.item_list,null);
-            viewHolder.id=(TextView) convertView.findViewById(R.id.it_id);
             viewHolder.startDate=(TextView) convertView.findViewById(R.id.it_startDate);
             viewHolder.startTime=(TextView) convertView.findViewById(R.id.it_startTime);
             viewHolder.endDate=(TextView) convertView.findViewById(R.id.it_endDate);
             viewHolder.endTime=(TextView) convertView.findViewById(R.id.it_endTime);
             viewHolder.location=(TextView) convertView.findViewById(R.id.it_location);
-            viewHolder.description=(TextView) convertView.findViewById(R.id.it_description);
             viewHolder.eventName=(TextView) convertView.findViewById(R.id.it_eventName);
             viewHolder.eventType=(TextView) convertView.findViewById(R.id.it_eventType);
             convertView.setTag(viewHolder);
@@ -96,11 +93,6 @@ public class ItemListAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(location)){
             viewHolder.location.setText(location);
         }
-        //事件描述
-        String description=item.getDescription();
-        if (!StringUtils.isEmpty(description)){
-            viewHolder.description.setText(description);
-        }
         //事件名称
         String eventName=item.getEventName();
         if (!StringUtils.isEmpty(eventName)){
@@ -111,11 +103,6 @@ public class ItemListAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(eventType)){
             viewHolder.eventType.setText(eventType);
         }
-        //事件编号
-        String id=item.getId();
-        if (!StringUtils.isEmpty(id)){
-            viewHolder.id.setText(id);
-        }
         return convertView;
     }
 
@@ -125,10 +112,8 @@ public class ItemListAdapter extends BaseAdapter {
         TextView endTime;
         TextView endDate;
         TextView location;
-        TextView description;
         TextView eventName;
         TextView eventType;
-        TextView id;
 
     }
     public void resetList(List<EventListDataObject> list){
