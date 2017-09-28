@@ -41,6 +41,7 @@ public interface WebApi {
                                            @Query("endData") String endData, @Query("description") String description, @Query("location") String location,
                                            @Query("eventName") String eventName, @Query("eventType") String eventType, @Query("id") String id, @Query("token")String token);
 
-
+    @GET("schedule/delete")
+    Observable<WebDataTObject> deleteDetail(@Query("id") String evenId);
 
 }
