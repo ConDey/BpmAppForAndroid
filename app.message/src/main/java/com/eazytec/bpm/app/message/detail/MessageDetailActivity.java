@@ -34,6 +34,10 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
 
     private static final int PAGE_STARTING = 0; // 代表起始页
 
+
+    private boolean isfirst = true;
+    private boolean isforward = false;
+
     private Toolbar toolbar;
     private TextView titleTv;
     private TextView subTitleTv;
@@ -103,9 +107,25 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         messageDetailAdapter = new MessageDetailAdapter(getContext());
         mListView.setAdapter(messageDetailAdapter);
         messageDetailAdapter.notifyDataSetChanged();
+    }
 
-        // 更新已读状态
-       // CurrentMessage.getCurrentMessage().upDateMessageIsReadState(topicId);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isforward = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isforward = true;
+        if (isfirst) {
+            isfirst = false;
+        } else {
+           isPullRefresh = false;
+           canRefresh = true;
+           onDoRefresh();
+        }
     }
 
     @Override
