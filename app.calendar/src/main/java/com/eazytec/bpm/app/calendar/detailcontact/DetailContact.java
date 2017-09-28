@@ -12,8 +12,11 @@ public interface DetailContact {
     interface View extends CommonContract.CommonView{
         void loadSuccess(EventDetailDataObject eventDetailDataObject);
 
+        void deleteSuccess();
     }
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
         void loadDetail(String deId);
+
+        void deleteDetail(String deId);
     }
 }

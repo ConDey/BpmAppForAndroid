@@ -6,6 +6,7 @@ import com.eazytec.bpm.app.calendar.webservice.WebApi;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.RxPresenter;
 import com.eazytec.bpm.lib.common.webservice.BPMRetrofit;
+import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 import com.eazytec.bpm.lib.utils.ToastUtils;
 
 import io.reactivex.Scheduler;
@@ -44,6 +45,34 @@ public class DetailPresenter extends RxPresenter<DetailContact.View> implements 
                               mView.loadSuccess(eventDetailDataObject);
                         }else {
                             mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"信息加载失败："+eventDetailDataObject.getErrorMsg());
+                        }
+                    }
+                });
+        addSubscrebe(rxSubscription);
+    }
+
+    @Override
+    public void deleteDetail(String deId) {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).deleteDetail(deId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WebDataTObject>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        ToastUtils.showLong("网络问题，稍后再试！");
+                    }
+
+                    @Override
+                    public void onNext(WebDataTObject eventDetailDataObject) {
+                        if (eventDetailDataObject.isSuccess()){
+                            mView.deleteSuccess();
+                        }else {
+                            mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"删除失败："+eventDetailDataObject.getErrorMsg());
                         }
                     }
                 });

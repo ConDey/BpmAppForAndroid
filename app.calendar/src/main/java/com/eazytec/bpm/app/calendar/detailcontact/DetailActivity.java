@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.eazytec.bpm.app.calendar.R;
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
+import com.eazytec.bpm.app.calendar.savecontact.SaveAvtivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.utils.StringUtils;
@@ -59,13 +60,14 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
         shEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent();
+                intent.putExtra("id",eventId);
             }
         });
         shDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getPresenter().deleteDetail(eventId);
             }
         });
     }
@@ -89,5 +91,11 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
         shEndTime.setText(eventDetailDataObject.getEndTime());
         shDescription.setText(eventDetailDataObject.getDescription());
         shLocation.setText(eventDetailDataObject.getLoaction());
+    }
+
+    @Override
+    public void deleteSuccess() {
+        ToastDelegate.success(getContext(),"删除成功！");
+        DetailActivity.this.finish();
     }
 }
