@@ -162,8 +162,7 @@
     </RelativeLayout>
 
     <include
-        layout="@layout/bpm_single_line"
-        android:visibility="gone"></include>
+        layout="@layout/bpm_single_line"></include>
 
     <RelativeLayout
         android:id="@+id/homesetting_menu_setting_layout"
@@ -173,7 +172,6 @@
         android:clickable="true"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:visibility="gone"
         >
 
         <TextView

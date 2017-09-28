@@ -91,7 +91,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
 
     @Override
     public void orderMenu(String id, String id2) {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuOrder(id,id2)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuOrder(id, id2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -107,7 +107,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
                         if (data.isSuccess()) {
-                            mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "菜单排序成功");
+                            //mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "菜单排序成功");
                         } else {
                             mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "排序失败:" + data.getErrorMsg());
                         }
@@ -126,7 +126,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
 
     @Override
     public void setCommonUse(String id) {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id,true)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id, true)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -142,7 +142,7 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
                         if (data.isSuccess()) {
-                            mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "设置常用菜单成功");
+                            //mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "设置常用菜单成功");
                         } else {
                             mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "设置失败:" + data.getErrorMsg());
                         }
@@ -161,11 +161,12 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
 
     /**
      * 不常用
+     *
      * @param id
      */
     @Override
     public void cancelCommonUse(String id) {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id,false)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuCommonUse(id, false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
@@ -180,10 +181,10 @@ public class HomeAppSettingPresenter extends RxPresenter<HomeAppSettingContract.
                 })
                 .subscribe(new Observer<WebDataTObject>() {
                     @Override public void onNext(WebDataTObject data) {
-                        if(data.isSuccess()){
-                        mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "取消常用应用成功");
-                        }else{
-                         mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "取消失败:" + data.getErrorMsg());
+                        if (data.isSuccess()) {
+                            //mView.toast(ToastDelegate.TOAST_TYPE_SUCCESS, "取消常用应用成功");
+                        } else {
+                            mView.toast(ToastDelegate.TOAST_TYPE_ERROR, "取消失败:" + data.getErrorMsg());
                         }
                     }
 

@@ -1,41 +1,38 @@
-package com.eazytec.bpm.app.message.fragmet;
+package com.eazytec.bpm.app.message.detail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.eazytec.bpm.app.message.R;
-import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.view.textview.BorderTextView;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.TimeUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Beckett_W
- * @version Id: MessageDetailAdapter, v 0.1 2017/9/18 15:00 Beckett_W Exp $$
- */
-public class MessageAdapter extends BaseAdapter {
+
+public class MessageDetailAdapter extends BaseAdapter{
 
     private Context context;
     private List<MessageDataTObject> datas;
 
-    public MessageAdapter(Context context, List<MessageDataTObject> datas) {
+    public MessageDetailAdapter(Context context, List<MessageDataTObject> datas) {
         super();
         this.context = context;
         this.datas = datas;
     }
 
-    public MessageAdapter(Context context) {
+    public MessageDetailAdapter(Context context) {
         super();
         this.context = context;
         this.datas = new ArrayList<>();
@@ -58,11 +55,13 @@ public class MessageAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_message_detail_recycler_view, null);
             viewHolder.mainTitleTv = (TextView)convertView.findViewById(R.id.message_detail_main_title_tv);
             viewHolder.contentTv = (TextView)convertView.findViewById(R.id.message_detail_content_tv);
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.item_message_detail_recycler_view_imageview);
-            viewHolder.timeTv = (TextView) convertView.findViewById(R.id.item_message_detail_item_time_tv);
+            viewHolder.timeTv = (TextView)convertView.findViewById(R.id.message_detail_time_tv);
+            viewHolder.canClickll = (LinearLayout)convertView.findViewById(R.id.message_detail_can_click_ll);
+            viewHolder.stateTv = (BorderTextView) convertView.findViewById(R.id.message_detail_main_state_tv);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder.canClickll.setVisibility(View.GONE);
         }
 
         if (!StringUtils.isEmpty(datas.get(position).getTitle())) {
@@ -71,15 +70,24 @@ public class MessageAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(datas.get(position).getContent())) {
             viewHolder.contentTv.setText(datas.get(position).getContent());
         }
-        // 加载图片
-        String photoUrl = Config.WEB_URL + datas.get(position).getTopicIcon();
-        String photo = datas.get(position).getTopicIcon();
-        if (!StringUtils.isSpace(photo)) {
-            Picasso.with(context).load(photoUrl).placeholder(R.mipmap.ic_message_default).into(viewHolder.imageView);
+        if (!StringUtils.isEmpty(datas.get(position).getCreatedTime())) {
+            long date = TimeUtils.string2Millis(datas.get(position).getCreatedTime());
+            viewHolder.timeTv.setText(TimeUtils.showDate(new Date(date), true));
         }
-        if(!StringUtils.isEmpty(datas.get(position).getCreatedTime())){
-            viewHolder.timeTv.setText(datas.get(position).getCreatedTime());
+        if (!datas.get(position).isCanClick()) {
+            viewHolder.canClickll.setVisibility(View.GONE);
+        }else {
+            viewHolder.canClickll.setVisibility(View.VISIBLE);
         }
+
+        if(!datas.get(position).getIsRead()){
+            viewHolder.stateTv.setText("未读");
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.color_primary));
+        }else{
+            viewHolder.stateTv.setText("已读");
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.red_400));
+        }
+
         return convertView;
     }
 
@@ -97,10 +105,12 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder {
-        private ImageView imageView;
+
         private TextView mainTitleTv;
         private TextView contentTv;
         private TextView timeTv;
+        private LinearLayout canClickll;
+        private BorderTextView stateTv;
 
     }
 
@@ -134,4 +144,3 @@ public class MessageAdapter extends BaseAdapter {
     }
 
 }
-

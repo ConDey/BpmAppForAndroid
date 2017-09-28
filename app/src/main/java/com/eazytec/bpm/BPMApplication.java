@@ -88,11 +88,12 @@ public class BPMApplication extends Application {
                   //  Small.openUri("app.home",getApplicationContext());
                   // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                   // var1.startActivity(intent);
-
+                /**没有效果
                 Intent intent = new Intent();
                 intent.setClassName(var1, "com.eazytec.bpm.app.home.userhome.UserHomeActivity");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 var1.startActivity(intent);
+                **/
 
             }
     };

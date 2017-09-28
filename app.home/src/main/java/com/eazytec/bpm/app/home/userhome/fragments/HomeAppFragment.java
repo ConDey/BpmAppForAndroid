@@ -50,6 +50,8 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     private ScrollGridView appGridView;
     private CommonAppAdapter homeAppAdapter;
 
+    public static boolean needRefresh = true;
+
     private ScrollGridView allAppGridView;
     private CommonAppAdapter homeAllAppAdapter;
 
@@ -82,18 +84,18 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         RxAdapterView.itemClicks(appGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
-                if( longPress){
-                    longPress=false;
+                if (longPress) {
+                    longPress = false;
                     return;
-                }else{
-                    longPress=false;
-                BPMApp bpmApp = bpmApps.get(integer);
-                // 在Debug模式下应用肯定都是没有安装的
-                if (bpmApp.installed()) {
-                    bpmApp.getIntoApp(getContext());
                 } else {
-                    ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
-                }
+                    longPress = false;
+                    BPMApp bpmApp = bpmApps.get(integer);
+                    // 在Debug模式下应用肯定都是没有安装的
+                    if (bpmApp.installed()) {
+                        bpmApp.getIntoApp(getContext());
+                    } else {
+                        ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
+                    }
                 }
             }
         });
@@ -101,18 +103,18 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         RxAdapterView.itemClicks(allAppGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
             public void call(Integer integer) {
-                if(alongPress){
-                    alongPress=false;
+                if (alongPress) {
+                    alongPress = false;
                     return;
-                }else{
-                    alongPress=false;
-                    BPMApp bpmApp = bpmAllApps.get(integer);
-                // 在Debug模式下应用肯定都是没有安装的
-                if (bpmApp.installed()) {
-                    bpmApp.getIntoApp(getContext());
                 } else {
-                    ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
-                }
+                    alongPress = false;
+                    BPMApp bpmApp = bpmAllApps.get(integer);
+                    // 在Debug模式下应用肯定都是没有安装的
+                    if (bpmApp.installed()) {
+                        bpmApp.getIntoApp(getContext());
+                    } else {
+                        ToastDelegate.warning(getContext(), getString(R.string.userhome_app_is_not_installed));
+                    }
                 }
             }
         });
@@ -167,17 +169,11 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     }
 
 
-
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getPresenter().loadApps(); // 初始化apps
-
         getPresenter().commonconfig(); //改变banner
-
-        getPresenter().loadAllApps();
         // 这里的代码是用的加载app.json的默认模式
         //this.bpmApps = getBpmApps();
         //homeAppAdapter.setItems(this.bpmApps);
@@ -203,9 +199,9 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
 
     @Override
     public void getImgUrl(ImgDataTObject imgDataTObject) {
-        if(!StringUtils.isEmpty(imgDataTObject.getAppBackgroundImg())){
-            String url = Config.WEB_URL+imgDataTObject.getAppBackgroundImg();
-        Picasso.with(getContext()).load(url).placeholder(R.mipmap.ic_homeapp_banner).error(R.mipmap.ic_homeapp_banner).into(bannerIv);
+        if (!StringUtils.isEmpty(imgDataTObject.getAppBackgroundImg())) {
+            String url = Config.WEB_URL + imgDataTObject.getAppBackgroundImg();
+            Picasso.with(getContext()).load(url).placeholder(R.mipmap.ic_homeapp_banner).error(R.mipmap.ic_homeapp_banner).into(bannerIv);
         }
     }
 
@@ -268,10 +264,13 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        //刷新菜单！
-        getPresenter().loadAllApps();
-        getPresenter().loadApps();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser && needRefresh) {
+            getPresenter().loadAllApps();
+            getPresenter().loadApps();
+            needRefresh = false;
+        }
     }
 }

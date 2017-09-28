@@ -1,27 +1,21 @@
 package com.eazytec.bpm.app.webkit;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -64,12 +58,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.SafeObserver;
-
-import static android.R.attr.type;
 
 /**
  * BPM自带的远程webview插件，用于加载远程web页面
@@ -101,12 +91,12 @@ public class BPMWebViewActivity extends WebViewActivity {
     private String url;
     private BPMWebViewActivity activity;
 
-    private String rightBtnHtmlUrl="";
-    private String rightBtnAcType="";
-    private String rightBtnAcTitle="";
+    private String rightBtnHtmlUrl = "";
+    private String rightBtnAcType = "";
+    private String rightBtnAcTitle = "";
     private CompletionHandler rightButtonhandler;
     private JSONObject rightobject;
-    private String rightBtnInfo="";
+    private String rightBtnInfo = "";
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -117,7 +107,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     // 人员选择
     private CompletionHandler userchooseHandler;
 
-    private ProgressDialog dialog;
+    private MaterialDialog progressDialog;
 
     /**
      * toolbar的事件全在里面
@@ -154,12 +144,12 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rightBtnAcType.equals("restartAc")){
-                    skipWebViewActivity(rightBtnHtmlUrl,rightBtnAcTitle);
-                }else if (rightBtnAcType.equals("startAc")){
-                    startWebViewActivity(rightBtnHtmlUrl,rightBtnAcTitle);
-                }else{
-                    dialogShowAl(rightBtnInfo,rightButtonhandler,rightobject);
+                if (rightBtnAcType.equals("restartAc")) {
+                    skipWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
+                } else if (rightBtnAcType.equals("startAc")) {
+                    startWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
+                } else {
+                    dialogShowAl(rightBtnInfo, rightButtonhandler, rightobject);
                 }
             }
         });
@@ -193,8 +183,6 @@ public class BPMWebViewActivity extends WebViewActivity {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
         initWebView();
-
-        dialog = new ProgressDialog(this);
     }
 
     @Override
@@ -264,7 +252,6 @@ public class BPMWebViewActivity extends WebViewActivity {
 
         handler.complete(result);
     }
-
 
 
     /**
@@ -439,16 +426,16 @@ public class BPMWebViewActivity extends WebViewActivity {
 
             case BPMJsMsgEvent.JS_OPEN_FILE:
                 try {
-                    JSONObject jsonObject=new JSONObject(messageEvent.getMessage());
-                    CompletionHandler handler=messageEvent.getHandler();
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
-                    String filePath=jsonObject.getString(BPMJsApi.API_PARAM_OPEN_FILE_PATH);
-                    File file=new File(filePath);
-                    if (!file.exists()){
+                    String filePath = jsonObject.getString(BPMJsApi.API_PARAM_OPEN_FILE_PATH);
+                    File file = new File(filePath);
+                    if (!file.exists()) {
                         handler.complete(object.toString());
-                    }else {
+                    } else {
                         openFile(file);
                     }
 
@@ -579,18 +566,18 @@ public class BPMWebViewActivity extends WebViewActivity {
              * alert回调
              */
             case BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL:
-                 try {
-                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                     final CompletionHandler handler = messageEvent.getHandler();
-                     // 构造回调json数据
-                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
-                     final JSONObject object = new JSONObject(callbackBean.toJson());
-                     String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al);
-                     dialogShowAl(info,handler,object);
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    final CompletionHandler handler = messageEvent.getHandler();
+                    // 构造回调json数据
+                    BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                    final JSONObject object = new JSONObject(callbackBean.toJson());
+                    String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al);
+                    dialogShowAl(info, handler, object);
 
-                 }catch (JSONException e){
-                     e.printStackTrace();
-                 }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
@@ -600,8 +587,8 @@ public class BPMWebViewActivity extends WebViewActivity {
      * Dialog的callback
      */
 
-     public void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
-        MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+    public void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getContext())
                 .title("提示")
                 .content(info)
                 .positiveText("确定")
@@ -648,11 +635,11 @@ public class BPMWebViewActivity extends WebViewActivity {
                     rightButtonhandler = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBeanRt = new BaseCallbackBean(true, StringUtils.blank());
-                    rightobject  = new JSONObject(callbackBeanRt.toJson());
+                    rightobject = new JSONObject(callbackBeanRt.toJson());
 
                    /* String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
                     String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);*/
-                    rightBtnInfo =jsonObject.getString(BPMJsApi.API_AC_TITLE);
+                    rightBtnInfo = jsonObject.getString(BPMJsApi.API_AC_TITLE);
                    /* String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);*/
 
                 } catch (JSONException e) {
@@ -666,9 +653,9 @@ public class BPMWebViewActivity extends WebViewActivity {
                 setTitleBarRightBtnBgImage(rimg);
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    rightBtnAcType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
-                    rightBtnAcTitle=jsonObject.getString(BPMJsApi.API_RIGHT_AC_TITLE);
-                    rightBtnHtmlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
+                    rightBtnAcType = jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);
+                    rightBtnAcTitle = jsonObject.getString(BPMJsApi.API_RIGHT_AC_TITLE);
+                    rightBtnHtmlUrl = jsonObject.getString(BPMJsApi.API_HTML_URL);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -679,7 +666,6 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 新建webview的回调方法
      */
-
 
 
     public void startWebViewActivity(String htmlUrl, String title) {
@@ -713,8 +699,8 @@ public class BPMWebViewActivity extends WebViewActivity {
 
     /**
      * toast显示
-     * */
-    public void toastInfo(String info,String type) {
+     */
+    public void toastInfo(String info, String type) {
         switch (type) {
             case "info":
                 ToastDelegate.info(getContext(), info);
@@ -733,8 +719,6 @@ public class BPMWebViewActivity extends WebViewActivity {
                 break;
         }
     }
-
-
 
 
     /**
@@ -881,8 +865,8 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * alter确认后新建activity
      */
-    protected void dialogShowAc(String info, final String htmlUrl, final String title, final String dialogType){
-        MaterialDialog materialDialog=new MaterialDialog.Builder(getContext())
+    protected void dialogShowAc(String info, final String htmlUrl, final String title, final String dialogType) {
+        MaterialDialog materialDialog = new MaterialDialog.Builder(getContext())
                 .title("提示")
                 .content(info)
                 .positiveText("确定")
@@ -896,64 +880,70 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if(dialogType.equals("restartAc")){
-                            skipWebViewActivity(htmlUrl,title);
-                        }else{
-                            startWebViewActivity(htmlUrl,title);
+                        if (dialogType.equals("restartAc")) {
+                            skipWebViewActivity(htmlUrl, title);
+                        } else {
+                            startWebViewActivity(htmlUrl, title);
                         }
                     }
                 }).build();
         materialDialog.show();
     }
 
-
-
     /**
      * 设置progress的显示和取消
      */
-    public void progressShow(){
-        dialog.setTitle("提示");
-        dialog.setCancelable(false);
-        dialog.show();
+    public void progressShow() {
+        if (progressDialog == null) {
+            progressDialog = new MaterialDialog.Builder(this)
+                    .content("系统正在处理，请稍后")
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(true)
+                    .cancelable(true)
+                    .build();
+        }
+        progressDialog.show();
 
     }
 
-    public void progressDismiss(){
-        dialog.cancel();
+    public void progressDismiss() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     /**
      * 文件打开安卓系统判断
      */
-    public void openFile(final File file){
-        RxPermissions rxPermissions=new RxPermissions(BPMWebViewActivity.this);
+    public void openFile(final File file) {
+        RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
         rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean aBoolean) throws Exception {
-                            if(aBoolean){
-                                if (Build.VERSION.SDK_INT >= 24) {
-                                    // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
-                                    PackageInfo packageInfo = new PackageInfo();
-                                    Uri uri = FileProvider.getUriForFile(activity.getContext(),Config.APK_PROVIDER_ID, file);
-                                    Intent intent = new Intent("android.intent.action.VIEW");
-                                    intent.addCategory("android.intent.category.DEFAULT");
-                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                    activity.startActivity(intent);
-                                } else {
-                                    Intent intent = new Intent("android.intent.action.VIEW");
-                                    intent.addCategory("android.intent.category.DEFAULT");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    Uri uri = Uri.fromFile(file);
-                                    intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                    activity.startActivity(intent);
-                                }
-                            }else {
-                                ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            if (Build.VERSION.SDK_INT >= 24) {
+                                // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
+                                PackageInfo packageInfo = new PackageInfo();
+                                Uri uri = FileProvider.getUriForFile(activity.getContext(), Config.APK_PROVIDER_ID, file);
+                                Intent intent = new Intent("android.intent.action.VIEW");
+                                intent.addCategory("android.intent.category.DEFAULT");
+                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                activity.startActivity(intent);
+                            } else {
+                                Intent intent = new Intent("android.intent.action.VIEW");
+                                intent.addCategory("android.intent.category.DEFAULT");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Uri uri = Uri.fromFile(file);
+                                intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
+                                activity.startActivity(intent);
                             }
+                        } else {
+                            ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
                         }
-                    });
+                    }
+                });
     }
 
 
