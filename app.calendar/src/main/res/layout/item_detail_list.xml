@@ -40,8 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="1990-00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,8 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,8 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="1990-00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,8 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,8 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="其他"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,8 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="XXXXXX"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -149,8 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/font_16"
-                android:text="XXXXXX"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -160,7 +153,6 @@
                 android:id="@+id/sh_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/sh_delete"
                 android:textSize="@dimen/font_16"
                 android:text="修改"/>
             <Button

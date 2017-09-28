@@ -18,6 +18,7 @@ import com.eazytec.bpm.app.calendar.adapters.ItemListAdapter;
 import com.eazytec.bpm.app.calendar.contact.ItemListContract;
 import com.eazytec.bpm.app.calendar.contact.ItemListPresenter;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
+import com.eazytec.bpm.app.calendar.detailcontact.DetailActivity;
 import com.eazytec.bpm.appstub.view.calendar.CaledarAdapter;
 import com.eazytec.bpm.appstub.view.calendar.CalendarBean;
 import com.eazytec.bpm.appstub.view.calendar.CalendarDateView;
@@ -150,7 +151,8 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent();
                 String eventId = eventListDataObjectList.get(position).getId();
-                intent.putExtra("eventid",eventId);
+                intent.putExtra("eventId",eventId);
+                intent.setClass(MainActivity.this, DetailActivity.class);
                 startActivity(intent);
 
             }

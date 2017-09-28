@@ -41,7 +41,7 @@ public class DetailPresenter extends RxPresenter<DetailContact.View> implements 
                     @Override
                     public void onNext(EventDetailDataObject eventDetailDataObject) {
                         if (eventDetailDataObject.isSuccess()){
-
+                              mView.loadSuccess(eventDetailDataObject);
                         }else {
                             mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"信息加载失败："+eventDetailDataObject.getErrorMsg());
                         }
