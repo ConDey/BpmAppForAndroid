@@ -204,15 +204,15 @@
         // 设置标题栏右边按钮,弹框
         //imgUrl:图片(可本地，可网络),acTitle:dialog的内容
         function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {imgUrl: "http://58.215.198.212:8080/images/logo/logo.png",acTitle:"XXXX"},function(result){
+            bpmbridget.call("setTitlebarRightBtn", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",dialogTitle:"标题",dialogInfo:"XXXXXXX"},function(result){
               alert(result);
             });
         }
 
-        // 设置标题栏右边按钮,跳转页面rightBtnType:restartAc,startAc
-        //imageUrl:图片(可本地，可网络),rightBtnType:确认后的事件类型,htmlUrl:跳转界面的地址,title:网页标题
+        // 设置标题栏右边按钮,跳转页面windowType:startWindow,skipWindow
+        //imageUrl:图片(可本地，可网络),windowType:确认后的事件类型,windowUrl:跳转界面的地址,windowTitle:新建窗体标题
         function setTitleBarRightBtnAc() {
-            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",title:"PPPP",htmlUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",rightBtnType:"restartAc"});
+            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",windowTitle:"PPPP",windowUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",windowType:"startWindow"});
         }
 
         // 设置标题栏背景颜色
@@ -269,7 +269,7 @@
 
         //文件打开
         function openFile(){
-                bpmbridget.call("openFile",{openFilePath:"/Photo/3.doc"},function(result){
+                bpmbridget.call("openFile",{openFilePath:"storage/emulated/0/1.png"},function(result){
                       alert(result);
                 });
          }
@@ -332,15 +332,15 @@
 
        //Alter确认框显示AL
        function dialogShowAl(){
-          bpmbridget.call("dialogShowAl",{dialogAl:"好奇害死喵"},function(result){
+          bpmbridget.call("dialogShowAl",{dialogTitle:"标题",dialogInfo:"内容"},function(result){
                     alert(result);
           });
        }
 
        //Alter确认框显示AC type:restartAc,startAc
-       //dialogAc:dialog框内的提示内容,dialogUrl:跳转页面的地址,dialog:网页的title,dialogType:确认后的事件
+       //弹框：新建窗体startWindow，新建窗体并结束当前窗体skipWindow
        function dialogShowAc(){
-          bpmbridget.call("dialogShowAc",{dialogAc:"好奇害死喵",dialogUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",dialogTitle: "hello",dialogType:"restartAc"});
+          bpmbridget.call("dialogShowAc",{dialogTitle:"标题",dialogInfo:"内容",windowUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",windowTitle: "hello",windowType:"startWindow"});
        }
 
        function progressShow(){

@@ -97,6 +97,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     private CompletionHandler rightButtonhandler;
     private JSONObject rightobject;
     private String rightBtnInfo = "";
+    private String rightBtnTitle = "";
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -106,6 +107,9 @@ public class BPMWebViewActivity extends WebViewActivity {
     private CompletionHandler fileHandler;
     // 人员选择
     private CompletionHandler userchooseHandler;
+
+    //打开文件五福
+    private CompletionHandler openHandler;
 
     private MaterialDialog progressDialog;
 
@@ -144,12 +148,12 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rightBtnAcType.equals("restartAc")) {
+                if (rightBtnAcType.equals("skipWindow")) {
                     skipWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
-                } else if (rightBtnAcType.equals("startAc")) {
+                } else if (rightBtnAcType.equals("startWindow")) {
                     startWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
                 } else {
-                    dialogShowAl(rightBtnInfo, rightButtonhandler, rightobject);
+                    dialogShowAl(rightBtnTitle,rightBtnInfo, rightButtonhandler, rightobject);
                 }
             }
         });
@@ -378,10 +382,22 @@ public class BPMWebViewActivity extends WebViewActivity {
                     mHandler = handler;
                     //result = object.toString();
 
-                    String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
-                    String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
-                    boolean isAutoOpen = jsonObject.getBoolean(BPMJsApi.API_PARAM_AUTO_OPEN);
-                    DownloadHelper.download(this, id, name, isAutoOpen, mHandler);
+                    final String id = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_ID);
+                    final String name = jsonObject.getString(BPMJsApi.API_PARAM_ATTACHMENT_NAME);
+                    final boolean isAutoOpen = jsonObject.getBoolean(BPMJsApi.API_PARAM_AUTO_OPEN);
+
+                    RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
+                    rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .subscribe(new Consumer<Boolean>() {
+                                @Override
+                                public void accept(Boolean aBoolean) throws Exception {
+                                    if(aBoolean){
+                                        DownloadHelper.download(BPMWebViewActivity.this, id, name, isAutoOpen, mHandler);
+                                    }else{
+                                        ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                                    }
+                                }
+                            });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -398,12 +414,23 @@ public class BPMWebViewActivity extends WebViewActivity {
                     //result = object.toString();
 
                     String filePath = jsonObject.getString(BPMJsApi.API_PARAM_FILE_PATH);
-                    File file = new File(filePath);
+                    final File file = new File(filePath);
                     if (!file.exists()) {
                         ToastDelegate.error(this, "文件不存在");
                         return;
                     }
-                    UploadHelper.upload(this, file, mHandler);
+                    RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
+                    rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .subscribe(new Consumer<Boolean>() {
+                                @Override
+                                public void accept(Boolean aBoolean) throws Exception {
+                                    if(aBoolean){
+                                        UploadHelper.upload(BPMWebViewActivity.this, file, mHandler);
+                                    }else{
+                                        ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                                    }
+                                }
+                            });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -414,10 +441,22 @@ public class BPMWebViewActivity extends WebViewActivity {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
                     CompletionHandler handler = messageEvent.getHandler();
                     int selectNum = jsonObject.getInt(BPMJsApi.API_PARAM_FILE_NUM);
-                    String selectNumStr = String.valueOf(selectNum);
+                    final String selectNumStr = String.valueOf(selectNum);
                     fileHandler = handler;
+                    //获取权限
+                    RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
+                    rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            .subscribe(new Consumer<Boolean>() {
+                                @Override
+                                public void accept(Boolean aBoolean) throws Exception {
+                                    if(aBoolean){
+                                        Small.openUri("app.filepicker/forfilepicker?CUSTOM_MAX_COUNT=" + selectNumStr, getContext());
+                                    }else{
+                                        ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                                    }
+                                }
+                            });
 
-                    Small.openUri("app.filepicker/forfilepicker?CUSTOM_MAX_COUNT=" + selectNumStr, getContext());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -427,16 +466,29 @@ public class BPMWebViewActivity extends WebViewActivity {
             case BPMJsMsgEvent.JS_OPEN_FILE:
                 try {
                     JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
-                    CompletionHandler handler = messageEvent.getHandler();
+                    final CompletionHandler handler = messageEvent.getHandler();
                     // 构造回调json数据
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     JSONObject object = new JSONObject(callbackBean.toJson());
+                    openHandler = handler;
                     String filePath = jsonObject.getString(BPMJsApi.API_PARAM_OPEN_FILE_PATH);
-                    File file = new File(filePath);
+                    final File file = new File(filePath);
                     if (!file.exists()) {
-                        handler.complete(object.toString());
+                        ToastDelegate.error(getContext(),"文件不存在！");
+                        return;
                     } else {
-                        openFile(file);
+                        RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
+                        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .subscribe(new Consumer<Boolean>() {
+                                    @Override
+                                    public void accept(Boolean aBoolean) throws Exception {
+                                        if(aBoolean){
+                                        openFile(file,handler);
+                                        }else{
+                                            ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
+                                        }
+                                    }
+                                });
                     }
 
                 } catch (JSONException e) {
@@ -572,8 +624,9 @@ public class BPMWebViewActivity extends WebViewActivity {
                     // 构造回调json数据
                     BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
                     final JSONObject object = new JSONObject(callbackBean.toJson());
-                    String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO_Al);
-                    dialogShowAl(info, handler, object);
+                    String title = jsonObject.getString(BPMJsApi.API_DIALOG_Title);
+                    String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO);
+                    dialogShowAl(title,info, handler, object);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -587,9 +640,9 @@ public class BPMWebViewActivity extends WebViewActivity {
      * Dialog的callback
      */
 
-    public void dialogShowAl(String info, final CompletionHandler handler, final JSONObject object) {
+    public void dialogShowAl(String title,String info, final CompletionHandler handler, final JSONObject object) {
         MaterialDialog materialDialog = new MaterialDialog.Builder(getContext())
-                .title("提示")
+                .title(title)
                 .content(info)
                 .positiveText("确定")
                 .negativeText("取消")
@@ -639,9 +692,9 @@ public class BPMWebViewActivity extends WebViewActivity {
 
                    /* String htemlUrl=jsonObject.getString(BPMJsApi.API_HTML_URL);
                     String imgUrl=jsonObject.getString(BPMJsApi.API_IMAGE_URL);*/
-                    rightBtnInfo = jsonObject.getString(BPMJsApi.API_AC_TITLE);
+                    rightBtnInfo = jsonObject.getString(BPMJsApi.API_DIALOG_INFO);
                    /* String rightBtnType=jsonObject.getString(BPMJsApi.API_RIGHT_BTN_TYPE);*/
-
+                    rightBtnTitle = jsonObject.getString(BPMJsApi.API_DIALOG_Title);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -865,9 +918,9 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * alter确认后新建activity
      */
-    protected void dialogShowAc(String info, final String htmlUrl, final String title, final String dialogType) {
+    protected void dialogShowAc(String dialogtitle,String info, final String htmlUrl, final String title, final String dialogType) {
         MaterialDialog materialDialog = new MaterialDialog.Builder(getContext())
-                .title("提示")
+                .title(dialogtitle)
                 .content(info)
                 .positiveText("确定")
                 .negativeText("取消")
@@ -880,10 +933,10 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (dialogType.equals("restartAc")) {
-                            skipWebViewActivity(htmlUrl, title);
-                        } else {
+                        if (dialogType.equals("startWindow")) {
                             startWebViewActivity(htmlUrl, title);
+                        } else {
+                            skipWebViewActivity(htmlUrl, title);
                         }
                     }
                 }).build();
@@ -915,36 +968,50 @@ public class BPMWebViewActivity extends WebViewActivity {
     /**
      * 文件打开安卓系统判断
      */
-    public void openFile(final File file) {
-        RxPermissions rxPermissions = new RxPermissions(BPMWebViewActivity.this);
-        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
+    public void openFile(final File file ,final CompletionHandler handler) {
+                            openHandler = handler;
+                            if(openHandler != null){
+                            fileHandler(true, null, openHandler);
+                            }
                             if (Build.VERSION.SDK_INT >= 24) {
                                 // Android 7.0 需要用FileProvider的方式来将uri给外部应用使用
                                 PackageInfo packageInfo = new PackageInfo();
-                                Uri uri = FileProvider.getUriForFile(activity.getContext(), Config.APK_PROVIDER_ID, file);
+                                Uri uri = FileProvider.getUriForFile(getContext(), Config.APK_PROVIDER_ID, file);
                                 Intent intent = new Intent("android.intent.action.VIEW");
                                 intent.addCategory("android.intent.category.DEFAULT");
                                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                activity.startActivity(intent);
+                                startActivity(intent);
                             } else {
                                 Intent intent = new Intent("android.intent.action.VIEW");
                                 intent.addCategory("android.intent.category.DEFAULT");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 Uri uri = Uri.fromFile(file);
                                 intent.setDataAndType(uri, MIMETypeUtil.getMIMEType(file));
-                                activity.startActivity(intent);
+                                startActivity(intent);
                             }
-                        } else {
-                            ToastDelegate.error(getContext(), "您没有授权存储权限，请到设置里设置权限！");
                         }
-                    }
-                });
+
+    public static void fileHandler(boolean isSuccess, JSONObject jsonObject, CompletionHandler handler) {
+        if (jsonObject == null) {
+            jsonObject = new JSONObject();
+        }
+        if (isSuccess) {
+            try {
+                jsonObject.put("success", true);
+                jsonObject.put("errorMsg", "");
+                handler.complete(jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                jsonObject.put("success", false);
+                jsonObject.put("errorMsg", "");
+                handler.complete(jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-
-}
+    }

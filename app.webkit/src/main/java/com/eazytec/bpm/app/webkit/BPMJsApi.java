@@ -40,12 +40,12 @@ public class BPMJsApi {
     /**
      * 右边按钮
      */
-    public static final String API_HTML_URL = "htmlUrl";
-    public static final String API_RIGHT_BTN_TYPE="rightBtnType";
-    public static final String API_RIGHT_AC_TITLE="title";
+    public static final String API_HTML_URL = "windowUrl";
+    public static final String API_RIGHT_BTN_TYPE="windowType";
+    public static final String API_RIGHT_AC_TITLE="windowTitle";
     public static final String API_RIGHT_IMAGE_URL="imageUrl";
-    public static final String API_IMAGE_URL = "imgUrl";
-    public static final String API_AC_TITLE = "acTitle";
+    public static final String API_IMAGE_URL = "imageUrl";
+    public static final String API_AC_TITLE = "dialogTitle";
     /**
      * 设置titlebar背景颜色
      */
@@ -93,11 +93,14 @@ public class BPMJsApi {
      * */
     public static final String API_TOAST_INFO = "toast";
     public static final String API_TOAST_TYPE = "toastType";
-    public static final String API_DIALOG_INFO_Al="dialogAl";
-    public static final String API_DIALOG_INFO_Ac="dialogAc";
-    public static final String API_DIALOG_TYPE="dialogType";
-    public static final String API_DIALOG_INFO_HTMLURL="dialogUrl";
-    public static final String API_DIALOG_INFO_HTMLTITLE="dialogTitle";
+    public static final String API_DIALOG_INFO_Al="dialogInfo";
+
+    //alter
+    public static final String API_DIALOG_Title="dialogTitle";
+    public static final String API_DIALOG_INFO="dialogInfo";
+    public static final String API_DIALOG_INFO_HTMLURL="windowUrl";
+    public static final String API_DIALOG_INFO_HTMLTITLE="windowTitle";
+    public static final String API_DIALOG_INFO_HTMLTYPE="windowType";
 
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
@@ -382,12 +385,13 @@ public class BPMJsApi {
     @JavascriptInterface
     public void dialogShowAc(JSONObject jsonObject) {
         try {
-            String info = jsonObject.getString(API_DIALOG_INFO_Ac);
-            String type= jsonObject.getString(API_DIALOG_TYPE);
-            String dialogUrl=jsonObject.getString(API_DIALOG_INFO_HTMLURL);
-            String dialogTitle=jsonObject.getString(API_DIALOG_INFO_HTMLTITLE);
+            String dialogTitle = jsonObject.getString(API_DIALOG_Title);
+            String dialogInfo = jsonObject.getString(API_DIALOG_INFO);
+            String type= jsonObject.getString(API_DIALOG_INFO_HTMLTYPE);
+            String windowUrl=jsonObject.getString(API_DIALOG_INFO_HTMLURL);
+            String windowTitle=jsonObject.getString(API_DIALOG_INFO_HTMLTITLE);
             if (activity != null) {
-                activity.dialogShowAc(info,dialogUrl,dialogTitle,type);
+                activity.dialogShowAc(dialogTitle,dialogInfo,windowUrl,windowTitle,type);
             }
         } catch (JSONException e) {
             e.printStackTrace();
