@@ -46,21 +46,23 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
     private EditText edEventName;
     private EditText edLocation;
     private EditText edDescription;
-    //类型
+
+
+    //spinner控件
     private Spinner edEventType;
-    private String  edEventTypeInfo;
-    private List<EventTypeObject>  eventTypeObjectList;
     private ArrayAdapter spinnerAdapter;
-    private int position;
-    private String strEventType;
-    private int typePosition;
+    private List<EventTypeObject>  eventTypeBean;
+    private List<String> eventTypeList;
+    private int position = 0;
 
-
+    //要提交的参数,命名自己修改一下
     private String saveEventId;
     private String editStartTime;
     private String editStartDate;
     private String editEndTime;
     private String editEndDate;
+    private String typeCode;
+    private String typeName;
     private Button edSave;
     private LinearLayout edStartDateANDTimeLayout;
     private LinearLayout edEndDateANDTimeLayout;
@@ -97,15 +99,19 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
                 ToastDelegate.info(getContext(),"工作编号为空");
             }
         }
-        getPresenter().loadSaveDetails(saveEventId);
-        //时间控件选择，spinner选择
+
+        eventTypeList = new ArrayList<>();
+
+        getPresenter().loadEventType();
+
+        getPresenter().loadSaveDetails(saveEventId); //加载详情
+
         setListener();
-        //页面取值，提交
-        setSave();
 
     }
 
-    private void setSave() {
+    //获取上传参数，并校验，校验部分未写
+    private void doSubmint() {
         //从页面获取值
         String startTimeANDDate=edStartDateANDTime.getText().toString();
         String[] tempStart=startTimeANDDate.split(" ");
@@ -119,16 +125,8 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         final String description=edDescription.getText().toString();
         final String EventName=edEventName.getText().toString();
         final String eventid=saveEventId;
-        typePosition=eventTypeObjectList.indexOf(strEventType);
-        final String eventTypeSelection=eventTypeObjectList.get(typePosition).getCode();
 
-
-        edSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,description,location,EventName,eventTypeSelection,eventid);
-            }
-        });
+        getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,description,location,EventName,typeCode,eventid);
 
     }
 
@@ -201,11 +199,24 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         });
 
         //下拉框选择
-        edEventType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        edEventType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                strEventType=(String)edEventType.getItemAtPosition(position);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                typeCode = eventTypeBean.get(position).getCode();
+                typeName = eventTypeBean.get(position).getName();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //点击提交
+        edSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doSubmint();
             }
         });
 
@@ -233,9 +244,19 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         edEventName.setText(eventDetailDataObject.getEventName());
         edLocation.setText(eventDetailDataObject.getLocation());
         edDescription.setText(eventDetailDataObject.getDescription());
-        edEventTypeInfo=eventDetailDataObject.getEventType();
-        position=eventTypeObjectList.indexOf(edEventTypeInfo);
-        edEventType.setSelection(position);
+
+        String typeInfo=eventDetailDataObject.getEventType();
+
+
+        for (int i=0; i<eventTypeBean.size(); i++) {
+            EventTypeObject typeBean = eventTypeBean.get(i);
+            if (typeBean.getName().equals(typeInfo)) {
+                position = i;  //用来确定初始的位置
+            }else{
+                position = 0;
+            }
+        }
+        edEventType.setSelection(position, true);
     }
 
     @Override
@@ -250,8 +271,15 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
 
     @Override
     public void loadEventType(EventTypeObject eventTypeObject) {
-        eventTypeObjectList=eventTypeObject.getDatas();
-        spinnerAdapter =new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,eventTypeObjectList);
+        //加载type成功！
+        if(eventTypeObject.getDatas()!=null && eventTypeObject.getDatas().size()>0){
+            eventTypeBean = eventTypeObject.getDatas();
+            for(EventTypeObject mBean : eventTypeBean){
+               eventTypeList.add(mBean.getName());
+            }
+        }
+        spinnerAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, eventTypeList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edEventType.setAdapter(spinnerAdapter);
     }
 
