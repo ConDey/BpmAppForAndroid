@@ -19,6 +19,7 @@ import com.eazytec.bpm.app.message.MessageConstant;
 import com.eazytec.bpm.app.message.R;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
+import com.eazytec.bpm.appstub.view.textview.BorderTextView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.common.message.CurrentMessage;
 import com.eazytec.bpm.lib.common.message.dataobject.MessageDataTObject;
@@ -122,11 +123,23 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
         if (isfirst) {
             isfirst = false;
         } else {
-           isPullRefresh = false;
-           canRefresh = true;
-           onDoRefresh();
+            //刷新数据
+            /**
+            finish();
+            Intent it = new Intent(MessageDetailActivity.this, MessageDetailActivity.class);
+            it.putExtra(MessageConstant.TOPIC_ID, topicId);
+            it.putExtra(MessageConstant.TOPIC_NAME, topicName);
+            it.putExtra(MessageConstant.TOPIC_TYPE, topicType);
+            startActivity(it);
+             **/
+            messageDetailAdapter.updateAdapter();
+            messageDetailAdapter.notifyDataSetChanged();
+            isPullRefresh = false;
+            canRefresh = true;
+            onDoRefresh();
         }
     }
+
 
     @Override
     protected MessageDetailPresenter createPresenter() {
@@ -175,6 +188,7 @@ public class MessageDetailActivity extends ContractViewActivity<MessageDetailPre
                             CurrentMessage.getCurrentMessage().upDateMessageIsReadState(messageDataTObject.getTopicId(),messageDataTObject.getId());
                             //要给接口传已读，暂时没有这个接口，传送已读
                             getPresenter().setReaded(messageDataTObject.getInternalMsgId());
+
                         }
                         //根据url跳转
                         String url;

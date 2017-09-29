@@ -114,9 +114,8 @@ public class MessageDetailAdapter extends BaseAdapter{
 
     }
 
-    public void resetList(List<MessageDataTObject> messages) {
+    public void updateAdapter() {
         datas.clear();
-        datas.addAll(convertTheListOrder(messages));
     }
 
     public void addList(List<MessageDataTObject> messages) {
