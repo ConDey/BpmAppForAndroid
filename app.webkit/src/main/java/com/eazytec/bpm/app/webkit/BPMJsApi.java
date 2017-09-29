@@ -105,6 +105,8 @@ public class BPMJsApi {
     protected static final String CALL_BACK = "callback";
     protected static final String URL = "url";
 
+    protected static final String OPEN_FILE_PATH = "openFilePath";
+
     /**
      * 选择本地图片
      */
@@ -294,8 +296,16 @@ public class BPMJsApi {
 
     //文件打开
     @JavascriptInterface
-    public void openFile(JSONObject jsonObject,CompletionHandler handler) {
-        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_OPEN_FILE,jsonObject.toString(),handler));
+    public void openFile(JSONObject jsonObject) {
+        try {
+            String file = jsonObject.getString(OPEN_FILE_PATH);
+            if(activity != null){
+                activity.openFile(file);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
