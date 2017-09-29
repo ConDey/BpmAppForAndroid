@@ -21,7 +21,7 @@
                 android:text="事件名称："/>
             <EditText
                 android:id="@+id/ed_eventName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"
@@ -77,9 +77,10 @@
                 android:text="事件类型："/>
             <Spinner
                 android:id="@+id/ed_eventType"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:spinnerMode="dropdown"
                 android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
@@ -94,7 +95,7 @@
                 android:text="事件地点："/>
             <EditText
                 android:id="@+id/ed_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"
@@ -113,7 +114,7 @@
                 android:text="事件描述："/>
             <EditText
                 android:id="@+id/ed_description"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="10dp"

@@ -45,6 +45,7 @@ public interface WebApi {
     @GET("schedule/delete")
     Observable<WebDataTObject> deleteDetail(@Query("id") String evenId);
 
+    //下拉类型
     @GET("schedule/typeList")
     Observable<EventTypeObject> getEventType();
 }

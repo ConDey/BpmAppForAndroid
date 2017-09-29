@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.calendar.savecontact;
 
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
+import com.eazytec.bpm.app.calendar.dataobject.EventTypeObject;
 import com.eazytec.bpm.app.calendar.webservice.WebApi;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.RxPresenter;
@@ -74,4 +75,32 @@ public class SavePresenter  extends RxPresenter<SaveContact.View> implements Sav
                 });
         addSubscrebe(rxSubscription);
     }
+
+    @Override
+    public void loadEventType() {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(com.eazytec.bpm.app.calendar.webservice.WebApi.class).getEventType()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<EventTypeObject>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"信息加载失败:网络错误,请稍后再试");
+                    }
+
+                    @Override
+                    public void onNext(EventTypeObject eventTypeObject) {
+                        if (eventTypeObject.isSuccess()) {
+                            mView.loadEventType(eventTypeObject);
+                        } else {
+                            mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"信息加载失败："+eventTypeObject.getErrorMsg());
+                        }
+                    }
+                });
+    }
+
 }

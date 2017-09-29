@@ -1,12 +1,14 @@
 package com.eazytec.bpm.app.calendar.dataobject;
 
+import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
+
 import java.util.List;
 
 /**
  * Created by Vivi on 2017/9/29.
  */
 
-public class EventTypeObject {
+public class EventTypeObject extends WebDataTObject{
     public String getCode() {
         return code;
     }
