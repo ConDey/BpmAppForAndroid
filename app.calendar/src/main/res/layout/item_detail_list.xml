@@ -34,24 +34,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_16"
-                android:text="开始日期："/>
+                android:text="开始时间："/>
             <TextView
                 android:id="@+id/sh_startDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_16"
-                android:text="开始时间："/>
             <TextView
                 android:id="@+id/sh_startTime"
                 android:layout_width="wrap_content"
@@ -68,24 +57,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_16"
-                android:text="结束日期："/>
+                android:text="结束时间："/>
             <TextView
                 android:id="@+id/sh_endDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_16"
-                android:text="结束时间："/>
             <TextView
                 android:id="@+id/sh_endTime"
                 android:layout_width="wrap_content"

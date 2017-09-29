@@ -62,6 +62,8 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.putExtra("id",eventId);
+                intent.setClass(getContext(),SaveAvtivity.class);
+                startActivity(intent);
             }
         });
         shDelete.setOnClickListener(new View.OnClickListener() {

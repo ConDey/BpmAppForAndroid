@@ -40,5 +40,6 @@ public class ItemListPresenter extends RxPresenter<ItemListContract.View> implem
                         }
                     }
                 });
+        addSubscrebe(rxSubscription);
     }
 }

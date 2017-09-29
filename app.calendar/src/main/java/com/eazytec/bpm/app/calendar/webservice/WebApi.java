@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.calendar.webservice;
 
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
+import com.eazytec.bpm.app.calendar.dataobject.EventTypeObject;
 import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
 import retrofit2.http.GET;
@@ -37,11 +38,13 @@ public interface WebApi {
      * 事件更新/保存
      */
     @GET("schedule/save")
-    Observable<WebDataTObject>  saceDetail(@Query("startTime") String startTime, @Query("startData") String startData, @Query("endTime") String endTime,
-                                           @Query("endData") String endData, @Query("description") String description, @Query("location") String location,
-                                           @Query("eventName") String eventName, @Query("eventType") String eventType, @Query("id") String id, @Query("token")String token);
+    Observable<WebDataTObject>  saveDetail(@Query("startTime") String startTime, @Query("startDate") String startData, @Query("endTime") String endTime,
+                                           @Query("endDate") String endData, @Query("description") String description, @Query("location") String location,
+                                           @Query("eventName") String eventName, @Query("eventType") String eventType, @Query("id") String id);
 
     @GET("schedule/delete")
     Observable<WebDataTObject> deleteDetail(@Query("id") String evenId);
 
+    @GET("schedule/typeList")
+    Observable<EventTypeObject> getEventType();
 }

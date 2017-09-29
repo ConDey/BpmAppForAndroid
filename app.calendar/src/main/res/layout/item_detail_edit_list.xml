@@ -28,25 +28,7 @@
                 android:background="@null"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_16"
-                android:text="开始日期："/>
-            <EditText
-                android:id="@+id/ed_startDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="1990-00-00"
-                android:background="@null"/>
-        </LinearLayout>
-        <LinearLayout
+            android:id="@+id/ed_startDateANDTimeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -56,35 +38,16 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_16"
                 android:text="开始时间："/>
-            <EditText
-                android:id="@+id/ed_startTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="00-00"
-                android:background="@null"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp" >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_16"
-                android:text="结束日期："/>
-            <EditText
-                android:id="@+id/ed_endDate"
+                android:id="@+id/ed_startDateANDTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"
-                android:text="1990-00-00"
-                android:background="@null"/>
+                android:text="1990-00-00"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ed_endDateANDTimeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -94,14 +57,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_16"
                 android:text="结束时间："/>
-            <EditText
-                android:id="@+id/ed_endTime"
+            <TextView
+                android:id="@+id/ed_endDateANDTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"
-                android:text="00-00"
-                android:background="@null"/>
+                android:text="1990-00-00"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
