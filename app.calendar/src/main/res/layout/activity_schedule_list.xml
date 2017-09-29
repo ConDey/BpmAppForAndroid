@@ -122,6 +122,8 @@
             android:layout_gravity="center"
             android:text="没有工作安排！"
             android:textSize="@dimen/font_14"
+            android:textColor="@color/black"
+            android:background="@color/white"
             android:visibility="gone"
             />
     </com.eazytec.bpm.appstub.view.calendar.CalendarLayout>

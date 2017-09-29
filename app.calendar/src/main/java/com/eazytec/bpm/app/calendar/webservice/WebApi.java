@@ -27,7 +27,7 @@ public interface WebApi {
      * 获得事件详情
      */
     @GET("schedule/detail")
-    Observable<EventDetailDataObject> getEventDetail(@Query("id") String evenId);
+    Observable<EventDetailDataObject> getEventDetail(@Query("id") String id);
 
     /**
      * 事件更新/保存

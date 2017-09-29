@@ -13,9 +13,9 @@ public class EventDetailDataObject extends WebDataTObject {
 
     private String id;
 
-    private String startData;
+    private String startDate;
 
-    private String loaction;
+    private String location;
 
     private String description;
 
@@ -44,20 +44,20 @@ public class EventDetailDataObject extends WebDataTObject {
         this.id = id;
     }
 
-    public String getStartData() {
-        return startData;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStartData(String startData) {
-        this.startData = startData;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getLoaction() {
-        return loaction;
+    public String getLocation() {
+        return location;
     }
 
-    public void setLoaction(String loaction) {
-        this.loaction = loaction;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getDescription() {

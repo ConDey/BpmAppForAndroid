@@ -59,7 +59,7 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
         shEdit=(Button)findViewById(R.id.sh_edit);
         shDelete=(Button)findViewById(R.id.sh_delete);
         if(getIntent()!=null){
-            eventId = getIntent().getStringExtra("eventId");
+            eventId = getIntent().getStringExtra("id");
             if (StringUtils.isEmpty(eventId)) {
                 ToastDelegate.info(getContext(),"工作编号为空");
             }
@@ -106,13 +106,13 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     @Override
     public void loadSuccess(EventDetailDataObject eventDetailDataObject) {
         shStartTime.setText(eventDetailDataObject.getStartTime());
-        shStartDate.setText(eventDetailDataObject.getStartData());
+        shStartDate.setText(eventDetailDataObject.getStartDate());
         shEventType.setText(eventDetailDataObject.getEventType());
         shEventName.setText(eventDetailDataObject.getEventName());
         shEndDate.setText(eventDetailDataObject.getEndDate());
         shEndTime.setText(eventDetailDataObject.getEndTime());
         shDescription.setText(eventDetailDataObject.getDescription());
-        shLocation.setText(eventDetailDataObject.getLoaction());
+        shLocation.setText(eventDetailDataObject.getLocation());
     }
 
     @Override

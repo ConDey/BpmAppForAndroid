@@ -129,7 +129,7 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent();
                 String eventId = eventListDataObjectList.get(position).getId();
-                intent.putExtra("eventId",eventId);
+                intent.putExtra("id",eventId);
                 intent.setClass(MainActivity.this, DetailActivity.class);
                 startActivity(intent);
 

@@ -98,7 +98,9 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
             }
         }
         getPresenter().loadSaveDetails(saveEventId);
+        //时间控件选择，spinner选择
         setListener();
+        //页面取值，提交
         setSave();
 
     }
@@ -192,12 +194,13 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
                             ToastDelegate.info(getContext(),"所选时间不得小于当前时间");
                             return;
                         }
-
                     }
                 });
                 dialog.show();
             }
         });
+
+        //下拉框选择
         edEventType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -219,7 +222,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
     @Override
     public void loadSuccess(EventDetailDataObject eventDetailDataObject) {
         //开始时间
-        editStartDate=eventDetailDataObject.getStartData();
+        editStartDate=eventDetailDataObject.getStartDate();
         editStartTime=eventDetailDataObject.getStartTime();
         edStartDateANDTime.setText(editStartDate+" "+editStartTime);
         //结束时间
@@ -228,7 +231,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         edEndDateANDTime.setText(editEndDate+" "+editEndTime);
 
         edEventName.setText(eventDetailDataObject.getEventName());
-        edLocation.setText(eventDetailDataObject.getLoaction());
+        edLocation.setText(eventDetailDataObject.getLocation());
         edDescription.setText(eventDetailDataObject.getDescription());
         edEventTypeInfo=eventDetailDataObject.getEventType();
         position=eventTypeObjectList.indexOf(edEventTypeInfo);

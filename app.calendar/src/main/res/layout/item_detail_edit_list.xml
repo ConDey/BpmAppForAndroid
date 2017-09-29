@@ -43,8 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="1990-00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ed_endDateANDTimeLayout"
@@ -62,8 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="@dimen/font_16"
-                android:text="1990-00-00"/>
+                android:textSize="@dimen/font_16"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:textSize="@dimen/font_16"
-                android:text="XXXXXX"
                 android:background="@null"/>
         </LinearLayout>
         <LinearLayout
@@ -119,7 +116,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="10dp"
                 android:textSize="@dimen/font_16"
-                android:text="XXXXXX"
                 android:background="@null"/>
         </LinearLayout>
         <RelativeLayout
