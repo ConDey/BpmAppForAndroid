@@ -14,20 +14,15 @@ import rx.Observable;
  */
 
 public interface WebApi {
-    @GET("schedule/list")
-    Observable<EventListDataObject> loadItInfo(@Query("datas") String datas);
 
-    /*@GET("schedule/detail")
-    Observable<EventListDataObject> loadItStartTime(@Query("startTime") String startTime);
-    Observable<EventListDataObject> loadItStartData(@Query("startData") String startData);
-    Observable<EventListDataObject> loadItEndTime(@Query("endTime") String endTime);
-    Observable<EventListDataObject> loadItEndData(@Query("endData") String endData);
-    Observable<EventListDataObject> loadItDescription(@Query("description") String description);
-    Observable<EventListDataObject> loadItLocation(@Query("location") String location);
-    Observable<EventListDataObject> loadItEventName(@Query("eventName") String eventName);
-    Observable<EventListDataObject> loadItEventType(@Query("eventType") String eventType);
-    Observable<EventListDataObject> loadItId(@Query("id") String id);
-*/
+    /**
+     * 获得事件列表
+     * @param date
+     * @return
+     */
+    @GET("schedule/list")
+    Observable<EventListDataObject> loadScheduleList(@Query("date") String date);
+
     /**
      * 获得事件详情
      */

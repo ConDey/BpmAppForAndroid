@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.calendar.detailcontact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,9 @@ import com.eazytec.bpm.lib.utils.StringUtils;
 
 public class DetailActivity extends ContractViewActivity<DetailPresenter> implements DetailContact.View {
 
+    private Toolbar toolbar;
+    private TextView toolbarTitleTextView;
+
     private TextView shStartTime;
     private TextView shStartDate;
     private TextView shEndTime;
@@ -35,6 +39,15 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_detail_list);
+
+        toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
+        toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitleTextView.setText("日程详情");
+
+
         shStartDate=(TextView)findViewById(R.id.sh_startDate);
         shStartTime=(TextView)findViewById(R.id.sh_startTime);
         shEndDate=(TextView)findViewById(R.id.sh_endDate);
@@ -70,6 +83,13 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
             @Override
             public void onClick(View v) {
                 getPresenter().deleteDetail(eventId);
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailActivity.this.finish();
             }
         });
     }

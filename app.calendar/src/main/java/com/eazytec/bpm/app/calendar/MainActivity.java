@@ -25,7 +25,9 @@ import com.eazytec.bpm.appstub.view.calendar.CalendarDateView;
 import com.eazytec.bpm.appstub.view.calendar.CalendarView;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends ContractViewActivity<ItemListPresenter> implements ItemListContract.View {
@@ -38,11 +40,11 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
     private ListView todayListView;
 
-    private TextView emptyTv;
-
     private List<EventListDataObject>  eventListDataObjectList;
 
     private ItemListAdapter itemListAdapter;
+
+    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,12 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
         setContentView(R.layout.activity_schedule_list);
         calendarDateView = (CalendarDateView) findViewById(R.id.schedule_list_calendarDateView);
         dateTv = (TextView) findViewById(R.id.schedule_list_date);
+
+
         todayListView  = (ListView) findViewById(R.id.schedule_list);
-        emptyTv=(TextView)findViewById(R.id.schedule_list_empty);
+        View emptyView = findViewById(R.id.schedule_list_empty);
+        todayListView.setEmptyView(emptyView);
+
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
@@ -68,6 +74,11 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
     }
 
     private void initDate(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentTime = sdf.format(curDate);
+
+        dateTv.setText(currentTime);
 
         itemListAdapter=new ItemListAdapter(getContext());
         todayListView.setAdapter(itemListAdapter);
@@ -95,44 +106,11 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
                 } else {
                     view.setTextColor(0xffffffff);
                 }
-
                 return convertView;
             }
         });
-        String todaydate=dateTv.getText().toString();
-        getPresenter().loadItemById(todaydate);
-
-
-
-       /* //这样重写的啊，只是示例
-        listView.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 100;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(MainActivity.this).inflate(android.R.layout.simple_list_item_1, null);
-                }
-
-                TextView textView = (TextView) convertView;
-                textView.setText("position:" + position);
-
-                return convertView;
-            }
-        });*/
+        //定位到当天
+        getPresenter().loadItemById(currentTime);
     }
 
 
@@ -140,8 +118,8 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
         calendarDateView.setOnItemClickListener(new CalendarView.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int postion, CalendarBean bean) {
-                dateTv.setText(bean.year + "/" + getDisPlayNumber(bean.moth) + "/" + getDisPlayNumber(bean.day));
-                String date = bean.year + "/" + getDisPlayNumber(bean.moth) + "/" + getDisPlayNumber(bean.day);
+                dateTv.setText(bean.year + "-" + getDisPlayNumber(bean.moth) + "-" + getDisPlayNumber(bean.day));
+                String date = bean.year + "-" + getDisPlayNumber(bean.moth) + "-" + getDisPlayNumber(bean.day);
                 getPresenter().loadItemById(date);
             }
         });
@@ -172,14 +150,9 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
     @Override
     public void loadItemList(EventListDataObject eventListDataObject) {
-        if (eventListDataObject.getDatas()!=null&& eventListDataObject.getDatas().size()>0){
-            emptyTv.setVisibility(View.GONE);
             eventListDataObjectList=eventListDataObject.getDatas();
             itemListAdapter.resetList(eventListDataObjectList);
             itemListAdapter.notifyDataSetChanged();
-        }else {
-            emptyTv.setVisibility(View.VISIBLE);
-        }
-    }
 
+    }
 }

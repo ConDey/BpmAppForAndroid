@@ -2,6 +2,7 @@ package com.eazytec.bpm.app.calendar.savecontact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +37,10 @@ import java.util.List;
  */
 
 public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implements SaveContact.View{
+
+    private Toolbar toolbar;
+    private TextView toolbarTitleTextView;
+
     private TextView edStartDateANDTime;
     private TextView edEndDateANDTime;
     private EditText edEventName;
@@ -68,6 +73,15 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_detail_edit_list);
+
+        toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
+        toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
+        toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarTitleTextView.setText("修改日程");
+
+
         edStartDateANDTime=(TextView)findViewById(R.id.ed_startDateANDTime);
         edEndDateANDTime=(TextView)findViewById(R.id.ed_endDateANDTime);
         edEventName=(EditText)findViewById(R.id.ed_eventName);
@@ -191,6 +205,14 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
 
             }
         });
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveAvtivity.this.finish();
+            }
+        });
+
     }
 
 

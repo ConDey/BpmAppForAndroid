@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 public class ItemListPresenter extends RxPresenter<ItemListContract.View> implements ItemListContract.Presenter<ItemListContract.View> {
     @Override
     public void loadItemById(String datas) {
-        Subscription rxSubscription = BPMRetrofit.retrofit().create(com.eazytec.bpm.app.calendar.webservice.WebApi.class).loadItInfo(datas)
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(com.eazytec.bpm.app.calendar.webservice.WebApi.class).loadScheduleList(datas)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<EventListDataObject>() {
