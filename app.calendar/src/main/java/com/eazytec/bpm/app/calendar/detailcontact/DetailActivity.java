@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.calendar.R;
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
-import com.eazytec.bpm.app.calendar.savecontact.SaveAvtivity;
+import com.eazytec.bpm.app.calendar.savecontact.UpdateAvtivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.utils.StringUtils;
@@ -76,7 +75,7 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
             public void onClick(View v) {
                 Intent intent=new Intent();
                 intent.putExtra("id",eventId);
-                intent.setClass(getContext(),SaveAvtivity.class);
+                intent.setClass(getContext(),UpdateAvtivity.class);
                 startActivity(intent);
             }
         });

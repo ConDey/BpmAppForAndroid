@@ -1,6 +1,5 @@
 package com.eazytec.bpm.app.calendar.savecontact;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.eazytec.bpm.app.calendar.MainActivity;
 import com.eazytec.bpm.app.calendar.R;
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
 import com.eazytec.bpm.app.calendar.dataobject.EventTypeObject;
@@ -32,7 +30,7 @@ import java.util.List;
  * Created by Vivi on 2017/9/28.
  */
 
-public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implements SaveContact.View{
+public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implements SaveContact.View{
 
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
@@ -81,7 +79,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbarTitleTextView.setText("修改日程");
+        toolbarTitleTextView.setText("更新日程");
 
 
         edStartDateANDTime=(TextView)findViewById(R.id.ed_startDateANDTime);
@@ -123,7 +121,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         editEventName=edEventName.getText().toString();
         editEventid=saveEventId;
 
-
+        //还差校验
 
 
 
@@ -224,7 +222,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveAvtivity.this.finish();
+                UpdateAvtivity.this.finish();
             }
         });
 

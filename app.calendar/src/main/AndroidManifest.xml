@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".detailcontact.DetailActivity"></activity>
-        <activity android:name=".savecontact.SaveAvtivity"
+        <activity android:name=".savecontact.UpdateAvtivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             ></activity>
     </application>
