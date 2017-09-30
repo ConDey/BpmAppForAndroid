@@ -33,12 +33,12 @@ public interface WebApi {
      * 事件更新/保存
      */
     @GET("schedule/save")
-    Observable<WebDataTObject>  saveDetail(@Query("startTime") String startTime, @Query("startDate") String startData, @Query("endTime") String endTime,
-                                           @Query("endDate") String endData, @Query("description") String description, @Query("location") String location,
+    Observable<WebDataTObject>  saveDetail(@Query("startTime") String startTime, @Query("startDate") String startDate, @Query("endTime") String endTime,
+                                           @Query("endDate") String endDate, @Query("description") String description, @Query("location") String location,
                                            @Query("eventName") String eventName, @Query("eventType") String eventType, @Query("id") String id);
 
     @GET("schedule/delete")
-    Observable<WebDataTObject> deleteDetail(@Query("id") String evenId);
+    Observable<WebDataTObject> deleteDetail(@Query("id") String id);
 
     //下拉类型
     @GET("schedule/typeList")

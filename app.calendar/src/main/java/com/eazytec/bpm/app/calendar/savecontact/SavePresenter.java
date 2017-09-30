@@ -101,6 +101,7 @@ public class SavePresenter  extends RxPresenter<SaveContact.View> implements Sav
                         }
                     }
                 });
+        addSubscrebe(rxSubscription);
     }
 
 }

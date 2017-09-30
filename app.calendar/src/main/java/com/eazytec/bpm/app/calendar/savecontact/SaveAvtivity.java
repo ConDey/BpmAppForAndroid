@@ -61,6 +61,10 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
     private String editStartDate;
     private String editEndTime;
     private String editEndDate;
+    private String editLocation;
+    private String editDescription;
+    private String editEventName;
+    private String editEventid;
     private String typeCode;
     private String typeName;
     private Button edSave;
@@ -121,12 +125,12 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         String[] tempEnd=endTimeANDDate.split(" ");
         editEndDate=tempEnd[0];
         editEndTime=tempEnd[1];
-        final String location=edLocation.getText().toString();
-        final String description=edDescription.getText().toString();
-        final String EventName=edEventName.getText().toString();
-        final String eventid=saveEventId;
+        editLocation=edLocation.getText().toString();
+        editDescription=edDescription.getText().toString();
+        editEventName=edEventName.getText().toString();
+        editEventid=saveEventId;
 
-        getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,description,location,EventName,typeCode,eventid);
+        getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,editDescription,editLocation,editEventName,typeCode,editEventid);
 
     }
 

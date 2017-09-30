@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/font_14"
-            android:text="事件分类:"/>
+            android:text="事件类型:"/>
         <TextView
             android:id="@+id/it_eventType"
             android:layout_marginLeft="8dp"
