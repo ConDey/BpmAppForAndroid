@@ -33,12 +33,6 @@
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 >
-            
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_detail_info_name" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +41,7 @@
                 android:text="事件名称："
                 android:layout_gravity="center"
                 android:textColor="@color/color_black_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/sh_eventName"
@@ -56,7 +50,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center"
                 android:textColor="@color/color_black_primary"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
             </LinearLayout>
             <include layout="@layout/bpm_single_line"></include>
         </LinearLayout>
@@ -77,12 +71,6 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_time" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -90,7 +78,7 @@
                         android:text="开始时间："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_startDate"
@@ -98,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_startTime"
@@ -107,7 +95,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -126,12 +114,6 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_time" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -140,7 +122,7 @@
                         android:text="结束时间："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_endDate"
@@ -148,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_endTime"
@@ -157,7 +139,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -176,12 +158,7 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_classify" />
+                    
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +167,7 @@
                         android:text="事件类型："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_eventType"
@@ -199,7 +176,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -218,12 +195,6 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_loc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -232,7 +203,7 @@
                         android:text="事件地点："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_location"
@@ -241,7 +212,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -262,12 +233,6 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_content" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -275,7 +240,7 @@
                         android:text="事件描述："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/sh_description"
@@ -284,7 +249,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -337,7 +302,7 @@
                     android:singleLine="true"
                     android:text="修改"
                     android:textColor="@color/color_black_primary"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -373,7 +338,7 @@
                     android:singleLine="true"
                     android:text="删除"
                     android:textColor="@color/color_black_primary"
-                    android:textSize="14sp"  />
+                    android:textSize="12sp"  />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

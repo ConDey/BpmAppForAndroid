@@ -21,6 +21,7 @@ import com.eazytec.bpm.appstub.view.timepick.bean.DateType;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -121,8 +122,28 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
         editEventName=edEventName.getText().toString();
         editEventid=saveEventId;
 
-        //还差校验
+        if(StringUtils.isEmpty(editEventName)){
+            ToastDelegate.info(getContext(),"请填写事件名称！");
+            return;
+        }
 
+
+        boolean judgeTime = compare_date(startTimeANDDate,endTimeANDDate);
+
+        if(judgeTime){
+            ToastDelegate.info(getContext(),"结束时间不得小于开始时间");
+            return;
+        }
+
+        if(StringUtils.isEmpty(editDescription)){
+            ToastDelegate.info(getContext(),"请填写事件描述！");
+            return;
+        }
+
+        if(StringUtils.isEmpty(editLocation)){
+            ToastDelegate.info(getContext(),"请填写事件地点！");
+            return;
+        }
 
 
         getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,editDescription,editLocation,editEventName,typeCode,editEventid);
@@ -266,7 +287,7 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
 
     @Override
     public void postSuccess() {
-        ToastDelegate.info(getContext(),"保存成功");
+        ToastDelegate.info(getContext(),"更新成功");
         finish();
 
     }
@@ -290,5 +311,25 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
     @Override
     protected SavePresenter createPresenter() {
         return new SavePresenter();
+    }
+
+
+    //判断时间
+    public static boolean compare_date(String DATE1, String DATE2) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        try {
+            Date dt1 = df.parse(DATE1);
+            Date dt2 = df.parse(DATE2);
+            if (dt1.getTime() >= dt2.getTime()) {
+                System.out.println("dt1 在dt2前");
+                return true;
+            } else {
+                System.out.println("dt1在dt2后");
+                return false;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
     }
 }

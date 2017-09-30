@@ -25,6 +25,9 @@
         <activity android:name=".savecontact.UpdateAvtivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             ></activity>
+        <activity android:name=".savecontact.AddActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            ></activity>
     </application>
 
 </manifest>

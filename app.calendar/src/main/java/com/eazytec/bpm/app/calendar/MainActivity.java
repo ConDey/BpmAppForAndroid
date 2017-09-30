@@ -21,6 +21,7 @@ import com.eazytec.bpm.app.calendar.contact.ItemListContract;
 import com.eazytec.bpm.app.calendar.contact.ItemListPresenter;
 import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
 import com.eazytec.bpm.app.calendar.detailcontact.DetailActivity;
+import com.eazytec.bpm.app.calendar.savecontact.AddActivity;
 import com.eazytec.bpm.appstub.view.calendar.CaledarAdapter;
 import com.eazytec.bpm.appstub.view.calendar.CalendarBean;
 import com.eazytec.bpm.appstub.view.calendar.CalendarDateView;
@@ -152,6 +153,9 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
             @Override
             public void onClick(View v) {
                 //跳转到增加页面
+                Intent intent=new Intent();
+                intent.setClass(MainActivity.this, AddActivity.class);
+                startActivity(intent);
             }
         });
     }

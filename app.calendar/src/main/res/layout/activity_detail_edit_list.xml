@@ -31,11 +31,6 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_name" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -44,19 +39,19 @@
                         android:text="事件名称："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         />
 
                     <EditText
                         android:id="@+id/ed_eventName"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:background="@null"
-                        android:hint="请填写事件名称"
+                        android:hint=""
                         android:textColorHint="@color/color_grey_primary"
                         />
                 </LinearLayout>
@@ -80,20 +75,14 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_time" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="开始时间（点击修改）："
+                        android:text="开始时间："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/ed_startDateANDTime"
@@ -101,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -121,20 +110,15 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_time" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="结束时间（点击修改）："
+                        android:text="结束时间："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/ed_endDateANDTime"
@@ -142,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <include layout="@layout/bpm_single_line"></include>
             </LinearLayout>
@@ -162,12 +146,6 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_classify" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -175,14 +153,14 @@
                         android:text="事件类型："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                     <Spinner
                         android:id="@+id/ed_eventType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:spinnerMode="dropdown"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:layout_gravity="center"
                         />
                 </LinearLayout>
@@ -204,12 +182,6 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_loc" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -217,16 +189,16 @@
                         android:text="事件地点："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/ed_location"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:background="@null"
                         android:hint="请填写事件地点"
                         android:textColorHint="@color/color_grey_primary"
@@ -247,11 +219,6 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal"
                     >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/ic_detail_info_content" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -260,7 +227,7 @@
                         android:text="事件描述："
                         android:layout_gravity="center"
                         android:textColor="@color/color_black_primary"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <EditText
@@ -272,7 +239,7 @@
                     android:minHeight="80dp"
                     android:textColor="@color/color_black_primary"
                     android:layout_below="@+id/activity_detail_edit_content"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:hint="请填写事件描述"
                     android:textColorHint="@color/color_grey_primary"
                     android:background="@null"
@@ -283,11 +250,11 @@
             <Button
                 android:id="@+id/ed_save"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="更新"
                 android:textStyle="bold"
                 android:background="@drawable/bg_common_btn"

@@ -35,6 +35,9 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     private RelativeLayout shDelete;
     private String eventId;
 
+    private boolean isfirst = true;
+    private boolean isforward = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,5 +119,23 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     public void deleteSuccess() {
         ToastDelegate.success(getContext(),"删除成功！");
         DetailActivity.this.finish();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isforward = false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isforward = true;
+        if (isfirst) {
+            isfirst = false;
+        } else {
+            getPresenter().loadDetail(eventId);
+        }
     }
 }
