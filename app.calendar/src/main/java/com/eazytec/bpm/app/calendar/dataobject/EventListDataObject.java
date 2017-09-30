@@ -28,6 +28,8 @@ public class EventListDataObject extends WebDataTObject{
 
     private String endTime;
 
+    private String eventTypeName;
+
     private List<EventListDataObject> datas;
 
     public List<EventListDataObject> getDatas() {
@@ -108,5 +110,13 @@ public class EventListDataObject extends WebDataTObject{
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
     }
 }

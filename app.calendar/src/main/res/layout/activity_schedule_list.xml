@@ -114,17 +114,5 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             />
-        <TextView
-            android:id="@+id/schedule_list_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="没有工作安排！"
-            android:textSize="@dimen/font_14"
-            android:textColor="@color/black"
-            android:background="@color/white"
-            android:visibility="gone"
-            />
     </com.eazytec.bpm.appstub.view.calendar.CalendarLayout>
 </LinearLayout>

@@ -27,6 +27,8 @@ public class EventDetailDataObject extends WebDataTObject {
 
     private String endTime;
 
+    private String eventTypeName;
+
 
     public String getStartTime() {
         return startTime;
@@ -98,5 +100,13 @@ public class EventDetailDataObject extends WebDataTObject {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getEventTypeName() {
+        return eventTypeName;
+    }
+
+    public void setEventTypeName(String eventTypeName) {
+        this.eventTypeName = eventTypeName;
     }
 }

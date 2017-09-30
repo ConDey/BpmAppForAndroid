@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/bpm_toolbar"></include>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="事件名称："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp"
+                        />
+
+                    <EditText
+                        android:id="@+id/ed_eventName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp"
+                        android:background="@null"
+                        android:hint="请填写事件名称"
+                        android:textColorHint="@color/color_grey_primary"
+                        />
+                </LinearLayout>
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ed_startDateANDTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_time" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="开始时间（点击修改）："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/ed_startDateANDTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ed_endDateANDTimeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_time" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="结束时间（点击修改）："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/ed_endDateANDTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_classify" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="事件类型："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+                    <Spinner
+                        android:id="@+id/ed_eventType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:spinnerMode="dropdown"
+                        android:textSize="14sp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_loc" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="事件地点："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/ed_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp"
+                        android:background="@null"
+                        android:hint="请填写事件地点"
+                        android:textColorHint="@color/color_grey_primary"
+                        />
+                </LinearLayout>
+                <include layout="@layout/bpm_single_line"></include>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+                <LinearLayout
+                    android:id="@+id/activity_detail_edit_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_detail_info_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="事件描述："
+                        android:layout_gravity="center"
+                        android:textColor="@color/color_black_primary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/ed_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:minHeight="80dp"
+                    android:textColor="@color/color_black_primary"
+                    android:layout_below="@+id/activity_detail_edit_content"
+                    android:textSize="14sp"
+                    android:hint="请填写事件描述"
+                    android:textColorHint="@color/color_grey_primary"
+                    android:background="@null"
+                    />
+                <include layout="@layout/bpm_single_line"></include>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/ed_save"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="保存修改"
+                android:textStyle="bold"
+                android:background="@drawable/bg_common_btn"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

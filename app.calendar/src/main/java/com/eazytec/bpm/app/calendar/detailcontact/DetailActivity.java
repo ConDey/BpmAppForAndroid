@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.calendar.R;
@@ -31,14 +32,14 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     private TextView shDescription;
     private TextView shEventName;
     private TextView shEventType;
-    private Button  shEdit;
-    private Button shDelete;
+    private RelativeLayout shEdit;
+    private RelativeLayout shDelete;
     private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_detail_list);
+        setContentView(R.layout.activity_detail_list);
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
@@ -56,16 +57,16 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
         shDescription=(TextView)findViewById(R.id.sh_description);
         shEventName=(TextView)findViewById(R.id.sh_eventName);
         shEventType=(TextView)findViewById(R.id.sh_eventType);
-        shEdit=(Button)findViewById(R.id.sh_edit);
-        shDelete=(Button)findViewById(R.id.sh_delete);
+        shEdit=(RelativeLayout)findViewById(R.id.sh_edit);
+        shDelete=(RelativeLayout)findViewById(R.id.sh_delete);
         if(getIntent()!=null){
             eventId = getIntent().getStringExtra("id");
             if (StringUtils.isEmpty(eventId)) {
                 ToastDelegate.info(getContext(),"工作编号为空");
             }
         }
-        initData();
         setListener();
+        getPresenter().loadDetail(eventId);
     }
 
     private void setListener() {
@@ -94,9 +95,6 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
         });
     }
 
-    private void initData() {
-        getPresenter().loadDetail(eventId);
-    }
 
     @Override
     protected DetailPresenter createPresenter() {
@@ -107,7 +105,7 @@ public class DetailActivity extends ContractViewActivity<DetailPresenter> implem
     public void loadSuccess(EventDetailDataObject eventDetailDataObject) {
         shStartTime.setText(eventDetailDataObject.getStartTime());
         shStartDate.setText(eventDetailDataObject.getStartDate());
-        shEventType.setText(eventDetailDataObject.getEventType());
+        shEventType.setText(eventDetailDataObject.getEventTypeName());
         shEventName.setText(eventDetailDataObject.getEventName());
         shEndDate.setText(eventDetailDataObject.getEndDate());
         shEndTime.setText(eventDetailDataObject.getEndTime());

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,9 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
     private Toolbar toolbar;
     private TextView toolbarTitleTextView;
+
+    private Button addBtn;
+
     private CalendarDateView calendarDateView;
 
     private TextView dateTv;
@@ -47,6 +51,9 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
 
+    //代替空view
+    private View headerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +63,19 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
 
         todayListView  = (ListView) findViewById(R.id.schedule_list);
-        View emptyView = findViewById(R.id.schedule_list_empty);
-        todayListView.setEmptyView(emptyView);
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
+        addBtn = (Button) findViewById(R.id.contactchoose_submit);
+        addBtn.setVisibility(View.VISIBLE);
+        addBtn.setText("新增日程");
         toolbarTitleTextView = (TextView) findViewById(R.id.bpm_toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbarTitleTextView.setText("日程表");
+
+        headerView = LayoutInflater.from(getContext()).inflate(R.layout.list_header_view, null);
+
         initDate();
         setListener();
     }
@@ -136,6 +147,13 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
             }
         });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到增加页面
+            }
+        });
     }
 
     
@@ -151,9 +169,14 @@ public class MainActivity extends ContractViewActivity<ItemListPresenter> implem
 
     @Override
     public void loadItemList(EventListDataObject eventListDataObject) {
-            eventListDataObjectList=eventListDataObject.getDatas();
-            itemListAdapter.resetList(eventListDataObjectList);
-            itemListAdapter.notifyDataSetChanged();
-
+        if(eventListDataObject.getDatas().size()>0 && eventListDataObject.getDatas() !=null){
+            todayListView.removeHeaderView(headerView);
+        }else{
+            todayListView.removeHeaderView(headerView); //先移除之前的，再增加空的
+            todayListView.addHeaderView(headerView,null,false);
+        }
+        eventListDataObjectList = eventListDataObject.getDatas();
+        itemListAdapter.resetList(eventListDataObjectList);
+        itemListAdapter.notifyDataSetChanged();
     }
 }

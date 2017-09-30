@@ -62,10 +62,17 @@ public class ItemListAdapter extends BaseAdapter {
             viewHolder.endTime=(TextView) convertView.findViewById(R.id.it_endTime);
             viewHolder.location=(TextView) convertView.findViewById(R.id.it_location);
             viewHolder.eventName=(TextView) convertView.findViewById(R.id.it_eventName);
-            viewHolder.eventType=(TextView) convertView.findViewById(R.id.it_eventType);
+            viewHolder.eventType=(TextView) convertView.findViewById(R.id.it_type);
             convertView.setTag(viewHolder);
         }else {
             viewHolder=(ViewHolder)convertView.getTag();
+            viewHolder.startDate.setText("");
+            viewHolder.startTime.setText("");
+            viewHolder.endDate.setText("");
+            viewHolder.endTime.setText("");
+            viewHolder.location.setText("");
+            viewHolder.eventName.setText("");
+            viewHolder.eventType.setText("");
         }
         EventListDataObject item=items.get(position);
         //开始日期
@@ -98,8 +105,8 @@ public class ItemListAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(eventName)){
             viewHolder.eventName.setText(eventName);
         }
-        //事件类型
-        String eventType=item.getEventType();
+        //事件类型名字
+        String eventType=item.getEventTypeName();
         if (!StringUtils.isEmpty(eventType)){
             viewHolder.eventType.setText(eventType);
         }

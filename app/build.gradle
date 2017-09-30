@@ -12,7 +12,7 @@ android {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 2
-        versionName "1.1Release"
+        versionName "2.0Beta"
     }
     /**
      * 多渠道的不同配置
@@ -60,7 +60,7 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         //输出apk名称为：渠道名_版本名_时间.apk
-                        def fileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        def fileName = "${variant.productFlavors[0].name}_v${defaultConfig.versionName}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }

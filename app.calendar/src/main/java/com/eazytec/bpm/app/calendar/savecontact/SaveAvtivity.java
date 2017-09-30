@@ -10,25 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.calendar.MainActivity;
 import com.eazytec.bpm.app.calendar.R;
 import com.eazytec.bpm.app.calendar.dataobject.EventDetailDataObject;
-import com.eazytec.bpm.app.calendar.dataobject.EventListDataObject;
 import com.eazytec.bpm.app.calendar.dataobject.EventTypeObject;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.timepick.DatePickDialog;
 import com.eazytec.bpm.appstub.view.timepick.OnSureLisener;
 import com.eazytec.bpm.appstub.view.timepick.bean.DateType;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
-import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 import com.eazytec.bpm.lib.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -78,7 +74,7 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_detail_edit_list);
+        setContentView(R.layout.activity_detail_edit_list);
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
@@ -107,9 +103,6 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         eventTypeList = new ArrayList<>();
 
         getPresenter().loadEventType();
-
-        getPresenter().loadSaveDetails(saveEventId); //加载详情
-
         setListener();
 
     }
@@ -129,6 +122,10 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         editDescription=edDescription.getText().toString();
         editEventName=edEventName.getText().toString();
         editEventid=saveEventId;
+
+
+
+
 
         getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,editDescription,editLocation,editEventName,typeCode,editEventid);
 
@@ -245,16 +242,22 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         editEndTime=eventDetailDataObject.getEndTime();
         edEndDateANDTime.setText(editEndDate+" "+editEndTime);
 
+        if(!StringUtils.isEmpty(eventDetailDataObject.getEventName())){
         edEventName.setText(eventDetailDataObject.getEventName());
+        }
+        if(!StringUtils.isEmpty(eventDetailDataObject.getLocation())){
         edLocation.setText(eventDetailDataObject.getLocation());
+        }
+        if(!StringUtils.isEmpty(eventDetailDataObject.getDescription())){
         edDescription.setText(eventDetailDataObject.getDescription());
+        }
 
         String typeInfo=eventDetailDataObject.getEventType();
 
 
         for (int i=0; i<eventTypeBean.size(); i++) {
             EventTypeObject typeBean = eventTypeBean.get(i);
-            if (typeBean.getName().equals(typeInfo)) {
+            if (typeBean.getCode().equals(typeInfo)) {
                 position = i;  //用来确定初始的位置
             }else{
                 position = 0;
@@ -266,9 +269,6 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
     @Override
     public void postSuccess() {
         ToastDelegate.info(getContext(),"保存成功");
-        Intent intent=new Intent();
-        intent.setClass(getContext(),MainActivity.class);
-        startActivity(intent);
         finish();
 
     }
@@ -285,6 +285,8 @@ public class SaveAvtivity  extends ContractViewActivity<SavePresenter> implement
         spinnerAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, eventTypeList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edEventType.setAdapter(spinnerAdapter);
+
+        getPresenter().loadSaveDetails(saveEventId); //加载详情
     }
 
     @Override

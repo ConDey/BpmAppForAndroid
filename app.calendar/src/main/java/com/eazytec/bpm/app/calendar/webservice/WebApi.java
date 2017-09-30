@@ -6,6 +6,7 @@ import com.eazytec.bpm.app.calendar.dataobject.EventTypeObject;
 import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -32,7 +33,7 @@ public interface WebApi {
     /**
      * 事件更新/保存
      */
-    @GET("schedule/save")
+    @POST("schedule/save")
     Observable<WebDataTObject>  saveDetail(@Query("startTime") String startTime, @Query("startDate") String startDate, @Query("endTime") String endTime,
                                            @Query("endDate") String endDate, @Query("description") String description, @Query("location") String location,
                                            @Query("eventName") String eventName, @Query("eventType") String eventType, @Query("id") String id);
