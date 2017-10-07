@@ -174,6 +174,9 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         super.onViewCreated(view, savedInstanceState);
 
         getPresenter().commonconfig(); //改变banner
+
+        getPresenter().loadAllApps();
+        getPresenter().loadApps();
         // 这里的代码是用的加载app.json的默认模式
         //this.bpmApps = getBpmApps();
         //homeAppAdapter.setItems(this.bpmApps);

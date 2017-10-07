@@ -125,6 +125,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:visibility="gone"
                             >
                             <TextView
                                 android:layout_width="wrap_content"
@@ -132,7 +133,8 @@
                                 android:textSize="13sp"
                                 android:layout_marginTop="10dp"
                                 android:textColor="@color/color_grey_primary"
-                                android:text="地点:"/>
+                                android:text="地点:"
+                                />
                             <TextView
                                 android:id="@+id/it_location"
                                 android:layout_marginLeft="8dp"

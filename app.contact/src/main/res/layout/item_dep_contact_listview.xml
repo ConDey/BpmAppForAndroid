@@ -4,40 +4,74 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/drawer_listview_item_bg"
-    android:orientation="vertical"
-    android:paddingLeft="15dp">
+    android:orientation="vertical">
 
+    <!--部门栏目样式-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center"
         android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp">
 
-        <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
-            android:id="@+id/item_contact_imageview"
-            android:layout_width="40dp"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="40dp"
-            app:aiv_ShowBoarder="false"
-            app:aiv_TextSizeRatio="0.4"
-            />
-
-        <TextView
-            android:id="@+id/item_contact_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxLines="1"
-            android:textColor="@color/color_black_primary"
-            android:textSize="14sp"
+            android:layout_weight="6"
+            android:orientation="horizontal"
+            >
+            <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
+                android:id="@+id/item_contact_imageview"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:aiv_ShowBoarder="false"
+                app:aiv_TextSizeRatio="0.4"
+                />
+            <TextView
+                android:id="@+id/item_contact_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textColor="@color/color_black_primary"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/item_contact_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:textColor="@color/color_grey_primary"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_right_arrow"
             />
-
+        </LinearLayout>
     </LinearLayout>
-
-
     <include layout="@layout/bpm_single_line"></include>
-
 </LinearLayout>

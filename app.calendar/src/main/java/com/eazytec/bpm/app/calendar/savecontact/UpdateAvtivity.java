@@ -108,15 +108,6 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
 
     //获取上传参数，并校验，校验部分未写
     private void doSubmint() {
-        //从页面获取值
-        String startTimeANDDate=edStartDateANDTime.getText().toString();
-        String[] tempStart=startTimeANDDate.split(" ");
-        editStartDate=tempStart[0];
-        editStartTime=tempStart[1];
-        String endTimeANDDate=edEndDateANDTime.getText().toString();
-        String[] tempEnd=endTimeANDDate.split(" ");
-        editEndDate=tempEnd[0];
-        editEndTime=tempEnd[1];
         editLocation=edLocation.getText().toString();
         editDescription=edDescription.getText().toString();
         editEventName=edEventName.getText().toString();
@@ -126,6 +117,28 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
             ToastDelegate.info(getContext(),"请填写事件名称！");
             return;
         }
+        //从页面获取值
+        String startTimeANDDate=edStartDateANDTime.getText().toString();
+        if(startTimeANDDate.contains("-")){
+            String[] tempStart=startTimeANDDate.split(" ");
+            editStartDate=tempStart[0];
+            editStartTime=tempStart[1];
+        }else{
+            ToastDelegate.info(getContext(),"选择开始时间！");
+            return;
+        }
+
+        String endTimeANDDate=edEndDateANDTime.getText().toString();
+        if(endTimeANDDate.contains("-")){
+            String[] tempEnd=endTimeANDDate.split(" ");
+            editEndDate=tempEnd[0];
+            editEndTime=tempEnd[1];
+        }else{
+            ToastDelegate.info(getContext(),"选择结束时间！");
+            return;
+        }
+
+
 
 
         boolean judgeTime = compare_date(startTimeANDDate,endTimeANDDate);
@@ -134,17 +147,6 @@ public class UpdateAvtivity extends ContractViewActivity<SavePresenter> implemen
             ToastDelegate.info(getContext(),"结束时间不得小于开始时间");
             return;
         }
-
-        if(StringUtils.isEmpty(editDescription)){
-            ToastDelegate.info(getContext(),"请填写事件描述！");
-            return;
-        }
-
-        if(StringUtils.isEmpty(editLocation)){
-            ToastDelegate.info(getContext(),"请填写事件地点！");
-            return;
-        }
-
 
         getPresenter().editDetail(editStartTime,editStartDate,editEndTime,editEndDate,editDescription,editLocation,editEventName,typeCode,editEventid);
 
