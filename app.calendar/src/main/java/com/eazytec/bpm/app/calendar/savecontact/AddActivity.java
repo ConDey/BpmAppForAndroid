@@ -173,7 +173,7 @@ public class AddActivity extends ContractViewActivity<SavePresenter> implements 
                         //选择时间，不得小于当前日期，要判断
                         if((curDate.getTime()-date.getTime())<=0) {
                             edStartDateANDTime.setText(pushTime);
-                            edEndDateANDTime.setTextColor(getResources().getColor(R.color.color_black_primary));
+                            edStartDateANDTime.setTextColor(getResources().getColor(R.color.color_black_primary));
                             startDate = date;
                         } else{
                             ToastDelegate.info(getContext(),"所选时间不得小于当前时间");
