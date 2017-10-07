@@ -62,14 +62,14 @@ public class DefaultCommonParamsRepository implements CommonParamsRepository {
                         }
                     }
                     // 如果上次请求时间为0 或 不存在，则默认取五天前的时间
-                    return CommonParams.getCommonParams().getFiveDaysAgoTime(isDateFormat);
+                    return null;
                 }
         }catch (Exception e) {
             e.printStackTrace();
         }finally {
             cursor.close();
         }
-        return CommonParams.getCommonParams().getFiveDaysAgoTime(isDateFormat);
+        return null;
     }
 
     @Override

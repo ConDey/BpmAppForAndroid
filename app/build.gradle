@@ -26,6 +26,16 @@ android {
             // 修改 AndroidManifest.xml 里友盟的渠道变量
             manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf"]
         }
+
+
+        bpm_debug{
+            applicationId "com.eazytec.bpm.debug"
+            // app名字，在 string.xml 不能有这个字段，会重名！！！改这个，名字就改了
+            resValue "string", "app_name", "bpm调试版"
+            // 修改 AndroidManifest.xml 里友盟的渠道变量,这个参数不能去掉
+            manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf"]
+        }
+
     }
     /**
      * 签名设置
