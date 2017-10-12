@@ -415,6 +415,12 @@ public class BPMJsApi {
             EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_SET_DIALOG_SHOW_AL, jsonObject.toString(), handler));
     }
 
+    //ALTER触发js事件
+    @JavascriptInterface
+    public void bindAlter(JSONObject jsonObject,CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_BIND_ALTER, jsonObject.toString(), handler));
+    }
+
     //alter功能AC(新建activity)
     @JavascriptInterface
     public void dialogShowAc(JSONObject jsonObject) {

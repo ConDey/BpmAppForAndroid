@@ -99,7 +99,6 @@ public class DepartmentActivity extends ContractViewActivity<DepartmentPresenter
                         DepartmentDataTObject dataTObject = departmentDataTObjects.get(integer);
 
                         if (dataTObject.getChildCount() == 0 && dataTObject.getUserCount() == 0) {
-                            ToastDelegate.info(getContext(),"此部门下面没有相关信息");
                             return;
                         }
 

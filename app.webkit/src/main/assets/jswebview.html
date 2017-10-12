@@ -147,12 +147,8 @@
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="dialogShowAl()">
-            Alert确认框AL
-        </button>
-
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="dialogShowAc()">
-            Alert确认框AC
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="alterShow()">
+            Alert弹窗触发Js事件
         </button>
 
         </br>
@@ -165,6 +161,8 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="progressCancle()">
             请求取消
         </button>
+        </br>
+        </br>
 
     </div>
 </div>
@@ -333,18 +331,27 @@
                bpmbridget.call("toastShow",{toast:"5",toastType:"info"});
         }
 
-       //Alter确认框显示AL
-       function dialogShowAl(){
-          bpmbridget.call("dialogShowAl",{dialogTitle:"标题",dialogInfo:"内容"},function(result){
+
+        //Alter确认框触发js事件
+         function alterShow() {
+              bpmbridget.call("bindAlter", {dialogTitle:"标题",dialogInfo:"内容",callback: "toastShow"}, function(result) {
                     alert(result);
-          });
-       }
+               });
+        }
+
+
+       //Alter确认框显示AL
+     //  function dialogShowAl(){
+       //   bpmbridget.call("dialogShowAl",{dialogTitle:"标题",dialogInfo:"内容"},function(result){
+      //              alert(result);
+      //    });
+    //   }
 
        //Alter确认框显示AC type:restartAc,startAc
        //弹框：新建窗体startWindow，新建窗体并结束当前窗体skipWindow
-       function dialogShowAc(){
-          bpmbridget.call("dialogShowAc",{dialogTitle:"标题",dialogInfo:"内容",windowUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",windowTitle: "hello",windowType:"startWindow"});
-       }
+      // function dialogShowAc(){
+       //   bpmbridget.call("dialogShowAc",{dialogTitle:"标题",dialogInfo:"内容",windowUrl: "https://58.215.198.210:9997/bpmapp/newjswebview.html",windowTitle: "hello",windowType:"startWindow"});
+     //  }
 
        function progressShow(){
            bpmbridget.call("progressShow");

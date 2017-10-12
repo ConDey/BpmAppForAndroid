@@ -99,6 +99,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     private String rightBtnInfo = "";
     private String rightBtnTitle = "";
     private String rightBtnCallBack = "";
+    private String alterCallBack = "";
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -590,13 +591,32 @@ public class BPMWebViewActivity extends WebViewActivity {
                     String title = jsonObject.getString(BPMJsApi.API_DIALOG_Title);
                     String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO);
                     dialogShowAl(title,info, handler, object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
 
+            /**
+             * alter触发js
+             */
+            case BPMJsMsgEvent.JS_BIND_ALTER:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    final CompletionHandler handler = messageEvent.getHandler();
+                    alterCallBack = jsonObject.getString(BPMJsApi.CALL_BACK);
+                    if(handler!= null){
+                        BaseCallbackBean callbackBean = new BaseCallbackBean(true, StringUtils.blank());
+                        final JSONObject object = new JSONObject(callbackBean.toJson());
+                        String title = jsonObject.getString(BPMJsApi.API_DIALOG_Title);
+                        String info = jsonObject.getString(BPMJsApi.API_DIALOG_INFO);
+                        dialogShowAl(title,info, handler, object);
+                    }
+                    // 构造回调json数据
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
         }
-
     }
 
     /**
@@ -609,6 +629,7 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .content(info)
                 .positiveText("确定")
                 .negativeText("取消")
+                .negativeColor(Color.RED)
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -618,7 +639,9 @@ public class BPMWebViewActivity extends WebViewActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        handler.complete(object.toString());
+                        if(!StringUtils.isSpace(alterCallBack)){
+                            jsWebView.callHandler(alterCallBack, new Object[]{});
+                        }
                     }
                 }).build();
         materialDialog.show();
