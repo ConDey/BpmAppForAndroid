@@ -50,7 +50,8 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     private ScrollGridView appGridView;
     private CommonAppAdapter homeAppAdapter;
 
-    public static boolean needRefresh = true;
+    private boolean isfirst = true;
+    private boolean isforward = false;
 
     private ScrollGridView allAppGridView;
     private CommonAppAdapter homeAllAppAdapter;
@@ -267,13 +268,13 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && needRefresh) {
+    public void onResume() {
+        super.onResume();
+        if(isfirst){
+            isfirst = false;
+        }else{
             getPresenter().loadAllApps();
             getPresenter().loadApps();
-            needRefresh = false;
         }
     }
 }

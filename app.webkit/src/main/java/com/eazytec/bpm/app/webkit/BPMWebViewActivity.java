@@ -98,6 +98,7 @@ public class BPMWebViewActivity extends WebViewActivity {
     private JSONObject rightobject;
     private String rightBtnInfo = "";
     private String rightBtnTitle = "";
+    private String rightBtnCallBack = "";
 
     // 单独为文件上传下载服务
     private CompletionHandler mHandler;
@@ -145,13 +146,10 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbarRightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rightBtnAcType.equals("skipWindow")) {
-                    skipWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
-                } else if (rightBtnAcType.equals("startWindow")) {
-                    startWebViewActivity(rightBtnHtmlUrl, rightBtnAcTitle);
-                } else {
-                    dialogShowAl(rightBtnTitle,rightBtnInfo, rightButtonhandler, rightobject);
-                }
+             if(!StringUtils.isSpace(rightBtnCallBack)){
+
+                 jsWebView.callHandler(rightBtnCallBack, new Object[]{});
+             }
             }
         });
 
@@ -644,6 +642,23 @@ public class BPMWebViewActivity extends WebViewActivity {
                 setTitleBarBgImage(image, handler, object.toString());
                 break;
 
+            case BPMJsMsgEvent.JS_BIND_RIGHTBTN:
+                Drawable imageRight = messageEvent.getImage();
+                setTitleBarRightBtnBgImage(imageRight);
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handlerEvent = messageEvent.getHandler();
+                    rightBtnCallBack = jsonObject.getString(BPMJsApi.CALL_BACK);
+                    if (handlerEvent != null) {
+                        BaseCallbackBean callback = new BaseCallbackBean(true, StringUtils.blank());
+                        JSONObject jsonObj = new JSONObject(callback.toJson());
+                        handlerEvent.complete(jsonObj.toString());
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
             case BPMJsMsgEvent.JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE:
                 Drawable img = messageEvent.getImage();
                 setTitleBarRightBtnBgImage(img);

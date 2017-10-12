@@ -62,12 +62,7 @@ public class DepartmentViewAdapter extends BaseAdapter {
         if (position < items.size() && items.get(position) != null) {
             ((AvatarImageView) ViewHolder.get(convertView, R.id.item_contact_imageview)).setText(items.get(position).getName().substring(0, 1));
             ((TextView) ViewHolder.get(convertView, R.id.item_contact_title)).setText(items.get(position).getName());
-             int num = items.get(position).getUserCount();
-             if(num >0 ) {
-                 ((TextView) ViewHolder.get(convertView, R.id.item_contact_num)).setText(items.get(position).getUserCount() + "人"); //员工人数
-             }else{
-                 ((TextView) ViewHolder.get(convertView, R.id.item_contact_num)).setText("");
-             }
+            ((TextView) ViewHolder.get(convertView, R.id.item_contact_num)).setText(items.get(position).getUserCount() + "人"); //员工人数
         }
         return convertView;
     }

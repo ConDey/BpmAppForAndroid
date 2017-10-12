@@ -17,6 +17,7 @@ import com.eazytec.bpm.lib.utils.ViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -60,38 +61,42 @@ public class CommonAppAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_homeapp_gridview, parent, false);
-        }
-
+        ViewHolder viewHolder;
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_homeapp_gridview, parent, false);
+        viewHolder = new ViewHolder();
+        viewHolder.textView = (TextView) convertView.findViewById(R.id.tv_item_homeapp);
+        viewHolder.imageView = (ImageView) convertView.findViewById(R.id.iv_item_homeapp);
+        convertView.setTag(viewHolder);
         if (position < items.size() && items.get(position) != null) {
             BPMApp appitem = items.get(position);
             if (!StringUtils.isSpace(appitem.getId())) {
 
                 // 设置显示图片
                 String imageurl = appitem.getImageUrl();
-                ImageView imageView = ViewHolder.get(convertView, R.id.iv_item_homeapp);
                 if (StringUtils.equals(appitem.getImageUrlType(), BPMApp.IMAGE_URL_TYPE_INNER)) {
                     int imageRes = context.getResources().getIdentifier(imageurl, "mipmap", HomeApplicaton.getInstance().getPackageName());
                     if (imageRes != 0x0) {
-                        imageView.setImageResource(imageRes);
+                        viewHolder.imageView.setImageResource(imageRes);
                     }
                 } else if (StringUtils.equals(appitem.getImageUrlType(), BPMApp.IMAGE_URL_TYPE_REMOTE)) {
 
                     imageurl = Config.WEB_URL + imageurl;
-                    Picasso.with(context).load(imageurl).placeholder(R.mipmap.ic_homeapp_stub).into(imageView);
+                    Picasso.with(context).load(imageurl).placeholder(R.mipmap.ic_homeapp_stub).into(viewHolder.imageView);
                 }
                 // 设置显示文字
-                TextView textView = ViewHolder.get(convertView, R.id.tv_item_homeapp);
-                textView.setText(appitem.getDisplayName());
+                   viewHolder.textView.setText(appitem.getDisplayName());
             }
         }
         return convertView;
     }
 
+    final static class ViewHolder {
+        TextView textView;
+        ImageView imageView;
+    }
+
     public void setItems(List<BPMApp> items) {
-        this.items = new ArrayList<>();
+        this.items.clear();
         this.items.addAll(items);
 
         if (items != null && items.size() % 4 != 0) {

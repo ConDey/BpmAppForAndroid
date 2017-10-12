@@ -371,6 +371,30 @@ public class BPMJsApi {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_UNBIND_BACKBTN, jsonObject.toString(), handler));
     }
 
+    @JavascriptInterface
+    public void bindRightBtn(JSONObject jsonObject, CompletionHandler handler) {
+        String imgUrl = "";
+        try {
+            imgUrl = jsonObject.getString(API_IMAGE_URL);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (!StringUtils.isEmpty(imgUrl)) {
+            try {
+                try {
+                    Drawable image = Drawable.createFromStream(new URL(imgUrl).openStream(), "image");
+                    EventBus.getDefault().post(new BPMJsMsgImageEvent(BPMJsMsgEvent.JS_BIND_RIGHTBTN, handler, image,jsonObject.toString()));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Log.e("TAG", "resolve image url failed.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     //Toast功能显示
     @JavascriptInterface
     public void toastShow(JSONObject jsonObject) {

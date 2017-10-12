@@ -102,7 +102,7 @@ public class AuthenticationActivity extends ContractViewActivity<AuthenticationP
         if(!StringUtils.isEmpty(imgDataTObject.getLoginBackgroundImg())){
             String url = Config.WEB_URL+imgDataTObject.getLoginBackgroundImg();
 
-            Picasso.with(getContext()).load(url).placeholder(R.mipmap.bg_authentication).error(R.mipmap.ic_homeapp_banner).into(bgImageview);
+            Picasso.with(getContext()).load(url).placeholder(R.mipmap.bg_authentication).error(R.mipmap.bg_authentication).into(bgImageview);
         }
     }
 }

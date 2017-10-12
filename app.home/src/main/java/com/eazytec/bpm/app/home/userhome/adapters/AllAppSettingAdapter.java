@@ -110,7 +110,7 @@ public class AllAppSettingAdapter extends BaseAdapter implements DragAdapterInte
     }
 
     public void setItems(List<BPMApp> items) {
-        this.items = new ArrayList<>();
+        this.items.clear();
         this.items.addAll(items);
     }
 

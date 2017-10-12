@@ -71,17 +71,10 @@
 
 
         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
-                onclick="setTitleBarRightBtn()">
-            设置标题栏右边按钮弹框
+                onclick="registerRightBtn()">
+            设置标题栏右边按钮图片并触发js事件
         </button>
 
-        </br>
-        </br>
-
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"
-                onclick="setTitleBarRightBtnAc()">
-            设置标题栏右边按钮新建Activity
-        </button>
         </br>
         </br>
 
@@ -201,19 +194,30 @@
                });
         }
 
+        //设置标题栏右边按钮图片并触发js事件
+         function registerRightBtn() {
+              bpmbridget.call("bindRightBtn", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",callback: "rightJs"}, function(result) {
+                    alert(result);
+               });
+        }
+        function rightJs() {
+             alert(1);
+        }
+
+
         // 设置标题栏右边按钮,弹框
         //imgUrl:图片(可本地，可网络),acTitle:dialog的内容
-        function setTitleBarRightBtn() {
-            bpmbridget.call("setTitlebarRightBtn", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",dialogTitle:"标题",dialogInfo:"XXXXXXX"},function(result){
-              alert(result);
-            });
-        }
+       // function setTitleBarRightBtn() {
+        //    bpmbridget.call("setTitlebarRightBtn", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",dialogTitle:"标题",dialogInfo:"XXXXXXX"},function(result){
+         //     alert(result);
+         //   });
+      //  }
 
         // 设置标题栏右边按钮,跳转页面windowType:startWindow,skipWindow
         //imageUrl:图片(可本地，可网络),windowType:确认后的事件类型,windowUrl:跳转界面的地址,windowTitle:新建窗体标题
-        function setTitleBarRightBtnAc() {
-            bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",windowTitle:"PPPP",windowUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",windowType:"startWindow"});
-        }
+        //function setTitleBarRightBtnAc() {
+         //   bpmbridget.call("setTitlebarRightBtnAc", {imageUrl: "http://58.215.198.212:8080/images/logo/logo.png",windowTitle:"PPPP",windowUrl:"https://58.215.198.210:9997/bpmapp/newjswebview.html",windowType:"startWindow"});
+       // }
 
         // 设置标题栏背景颜色
         function setTitlebarBgColor() {ild

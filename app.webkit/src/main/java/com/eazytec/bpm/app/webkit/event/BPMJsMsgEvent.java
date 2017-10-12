@@ -36,6 +36,8 @@ public class BPMJsMsgEvent {
     public static final String  JS_SET_DIALOG_SHOW_AL="JS_SET_DIALOG_SHOW_AL";
     public static final String JS_SET_PROGRASS_VISIBLE = "JS_SET_PROGRASS_VISIBLE";
 
+    public static final String JS_BIND_RIGHTBTN = "JS_BIND_RIGHTBTN";
+
     private String id;
     private String message;
     private CompletionHandler handler;
@@ -104,7 +106,9 @@ public class BPMJsMsgEvent {
             JS_USER_CHOOSE,
             JS_SET_DIALOG_SHOW_AL,
             JS_SET_PROGRASS_VISIBLE,
-            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC })
+            JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC,
+            JS_BIND_RIGHTBTN
+    })
     public @interface BPM_JS_ID {
     }
 }

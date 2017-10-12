@@ -59,8 +59,6 @@ public class HomeAppSettingActivity extends ContractViewActivity<HomeAppSettingP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homeapp_setting);
 
-        // 进入这个页面默认就是要刷新
-        HomeAppFragment.needRefresh = true;
 
         toolbar = (Toolbar) findViewById(R.id.bpm_toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_common_left_back);
