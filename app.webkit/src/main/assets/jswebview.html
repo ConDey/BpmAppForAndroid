@@ -147,7 +147,7 @@
         </br>
         </br>
 
-        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="alterShow()">
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined"  onclick="alertShow()">
             Alert弹窗触发Js事件
         </button>
 
@@ -332,9 +332,9 @@
         }
 
 
-        //Alter确认框触发js事件
-         function alterShow() {
-              bpmbridget.call("bindAlter", {dialogTitle:"标题",dialogInfo:"内容",callback: "toastShow"}, function(result) {
+        //Alert确认框触发js事件
+         function alertShow() {
+              bpmbridget.call("bindAlert", {dialogTitle:"标题",dialogInfo:"内容",callback: "toastShow"}, function(result) {
                     alert(result);
                });
         }

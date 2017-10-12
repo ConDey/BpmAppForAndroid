@@ -417,7 +417,7 @@ public class BPMJsApi {
 
     //ALTER触发js事件
     @JavascriptInterface
-    public void bindAlter(JSONObject jsonObject,CompletionHandler handler) {
+    public void bindAlert(JSONObject jsonObject,CompletionHandler handler) {
         EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_BIND_ALTER, jsonObject.toString(), handler));
     }
 
