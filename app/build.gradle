@@ -11,8 +11,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 2
-        versionName "2.0Beta"
+        versionCode 3
+        versionName "2.0Stable"
     }
     /**
      * 多渠道的不同配置
