@@ -82,10 +82,10 @@ public class MessageDetailAdapter extends BaseAdapter{
 
         if(!datas.get(position).getIsRead()){
             viewHolder.stateTv.setText("未读");
-            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.color_primary));
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.red_400));
         }else{
             viewHolder.stateTv.setText("已读");
-            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.red_400));
+            viewHolder.stateTv.setTextColor(context.getResources().getColor(R.color.color_primary));
         }
 
         return convertView;
