@@ -164,6 +164,10 @@
         </br>
         </br>
 
+        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" onclick="getLocation()">
+          获得定位信息
+        </button>
+
     </div>
 </div>
 </body>
@@ -360,6 +364,13 @@
        function progressCancel(){
            bpmbridget.call("progressCancel");
        }
+
+       //[sync] 获得定位信息
+        function getLocation() {
+               bpmbridget.call("getLocation", function(result){
+                    alert(result);
+               });
+        }
 
 </script>
 </html>

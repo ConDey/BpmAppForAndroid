@@ -57,6 +57,10 @@
     {
       "uri": "app.calendar",
       "pkg": "com.eazytec.bpm.app.calendar"
+    },
+    {
+      "uri": "app.map",
+      "pkg": "com.eazytec.bpm.app.map"
     }
   ]
 }

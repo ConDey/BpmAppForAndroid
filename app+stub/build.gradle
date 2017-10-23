@@ -5,6 +5,7 @@ android {
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
+        multiDexEnabled true
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
@@ -34,9 +35,7 @@ dependencies {
     compile rootProject.ext.supportDesign
     compile rootProject.ext.supportRecyclerView
     compile rootProject.ext.supportCardView
-
     compile rootProject.ext.eventBus
-
     // RxAndroid 响应式编程
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
@@ -48,23 +47,18 @@ dependencies {
     compile rootProject.ext.rxBindingSupportRecyclerView
     compile rootProject.ext.rxLifecycle
     compile rootProject.ext.rxLifecycleComponents
-
     // Retrofit2 网络请求框架
     compile rootProject.ext.retrofit
     compile rootProject.ext.retrofitConverterGson
     compile rootProject.ext.retrofitAdapterRxJava
-
     compile rootProject.ext.materialDialog
-
     compile 'com.github.GrenderG:Toasty:1.2.5'
-
     // 图片引擎
     compile rootProject.ext.imageloader
     compile rootProject.ext.picasso
-
-
     compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.1.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':push')
     compile rootProject.ext.sqlbrite
+    compile project(':map')
 }

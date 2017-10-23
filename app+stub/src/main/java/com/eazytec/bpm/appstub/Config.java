@@ -55,4 +55,9 @@ public abstract class Config {
      */
     public static String DB_NAME;
 
+    /**
+     * 是否需要开启百度定位功能
+     */
+    public static boolean IS_OPEN_LOCATION;
+
 }

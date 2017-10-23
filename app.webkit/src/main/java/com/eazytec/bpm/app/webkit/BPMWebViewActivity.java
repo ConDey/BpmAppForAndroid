@@ -19,8 +19,14 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.eazytec.bpm.app.webkit.data.BaseCallbackBean;
 import com.eazytec.bpm.app.webkit.data.FileCallbackBean;
+import com.eazytec.bpm.app.webkit.data.LocationCallbackBean;
 import com.eazytec.bpm.app.webkit.data.MediaCallbackBean;
 import com.eazytec.bpm.app.webkit.data.UserChooseCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
@@ -109,8 +115,15 @@ public class BPMWebViewActivity extends WebViewActivity {
     private CompletionHandler fileHandler;
     // 人员选择
     private CompletionHandler userchooseHandler;
+    //定位信息
+    private CompletionHandler locationHandler;
 
     private MaterialDialog progressDialog;
+
+
+    // 定位相关
+    private LocationClient mLocationClient;
+    private boolean isFirstLocation = true;
 
     /**
      * toolbar的事件全在里面
@@ -578,6 +591,21 @@ public class BPMWebViewActivity extends WebViewActivity {
                 }
                 break;
 
+            //获得定位信息
+            case BPMJsMsgEvent.JS_GET_LOCATION:
+                try {
+                    JSONObject jsonObject = new JSONObject(messageEvent.getMessage());
+                    CompletionHandler handler = messageEvent.getHandler();
+                    locationHandler = handler;
+                    if (handler != null) {
+                        isFirstLocation = true;
+                        initLocation();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                break;
             /**
              * alert回调
              */
@@ -1006,4 +1034,41 @@ public class BPMWebViewActivity extends WebViewActivity {
                         }
                     });
          }
+
+
+    private void initLocation(){
+        // 定位客户端的设置
+        mLocationClient = LocationUtil.initLocationClient(this, new MyLocationListener());
+        mLocationClient.start();
     }
+
+    /**
+     *  定位监听程序
+     */
+    public class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+
+            LatLng nowLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MyLocationData locData = new MyLocationData.Builder().accuracy(0).latitude(nowLatLng.latitude).longitude(nowLatLng.longitude).direction(location.getDirection()).build();
+            if (locData.latitude == 0 || locData.longitude == 0) {
+                ToastDelegate.info(getContext(), "定位失败");
+                return;
+            }
+            if (isFirstLocation){
+                isFirstLocation = false;
+                LocationCallbackBean locationCallbackBean = new LocationCallbackBean(true,"",String.valueOf(locData.latitude),String.valueOf(locData.longitude));
+                JSONObject jsonObject = new JSONObject(locationCallbackBean.toJson());
+
+                if (locationHandler != null) {
+                    locationHandler.complete(jsonObject.toString());
+                    locationHandler = null;
+                }
+            }
+        }
+    }
+
+
+
+}

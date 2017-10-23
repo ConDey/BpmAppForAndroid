@@ -28,6 +28,7 @@ public class BPMJsMsgEvent {
     public static final String JS_GET_TOKEN = "JS_GET_TOKEN";
     public static final String JS_GET_IMAGES = "JS_GET_IMAGES";
     public static final String JS_GET_VIDEOS = "JS_GET_VIDEOS";
+    public static final String JS_GET_LOCATION = "JS_GET_LOCATION";
 
     public static final String JS_BIND_BACKBTN = "JS_BIND_BACKBTN";
     public static final String JS_UNBIND_BACKBTN = "JS_UNBIND_BACKBTN";
@@ -109,7 +110,8 @@ public class BPMJsMsgEvent {
             JS_SET_PROGRASS_VISIBLE,
             JS_SET_TITLEBAR_RIGHT_IV_BGIMAGE_SEC,
             JS_BIND_RIGHTBTN,
-            JS_BIND_ALTER
+            JS_BIND_ALTER,
+            JS_GET_LOCATION
     })
     public @interface BPM_JS_ID {
     }

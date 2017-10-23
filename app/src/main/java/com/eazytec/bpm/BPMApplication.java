@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
+import com.baidu.mapapi.CoordType;
+import com.baidu.mapapi.SDKInitializer;
 import com.eazytec.bpm.applaunch.AppInfo;
 import com.eazytec.bpm.applaunch.AppLaunchActivity;
 import com.eazytec.bpm.appstub.Config;
@@ -69,6 +71,10 @@ public class BPMApplication extends Application {
 
         DBConstants.createBriteDatabase(new DBHelper(this)); // 初始化SQLLite
 
+        //假如需要百度地图功能
+        SDKInitializer.initialize(getApplicationContext()); //初始化百度地图
+        SDKInitializer.setCoordType(CoordType.BD09LL);
+
         //推送
         PushAgent mPushAgent = PushAgent.getInstance(this);
 
@@ -115,6 +121,7 @@ public class BPMApplication extends Application {
         Config.UPDATE_APK_URL = BuildConfig.UPDATE_APK_URL;
         Config.APK_PROVIDER_ID = BuildConfig.APK_PROVIDER_ID;
         Config.DB_NAME = BuildConfig.DB_NAME;
+        Config.IS_OPEN_LOCATION = transStr2Bool(BuildConfig.IS_OPEN_LOCATION);
     }
 
     public static boolean isBackground(Context context) {
@@ -131,4 +138,13 @@ public class BPMApplication extends Application {
         }
         return false;
     }
+
+    private boolean transStr2Bool(String s) {
+        if (s.equals("false")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

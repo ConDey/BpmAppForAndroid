@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
+import com.eazytec.bpm.app.webkit.data.LocationCallbackBean;
 import com.eazytec.bpm.app.webkit.data.TokenCallbackBean;
 import com.eazytec.bpm.app.webkit.data.UserCallbackBean;
 import com.eazytec.bpm.app.webkit.event.BPMJsMsgEvent;
@@ -324,6 +325,15 @@ public class BPMJsApi {
         JSONObject jsonObj = new JSONObject(callbackBean.toJson());
         handler.complete(jsonObj.toString());
     }
+
+    /**
+     * 获得定位信息
+     */
+    @JavascriptInterface
+    public void getLocation(JSONObject jsonObject, CompletionHandler handler) {
+        EventBus.getDefault().post(new BPMJsMsgEvent(BPMJsMsgEvent.JS_GET_LOCATION, jsonObject.toString(), handler));
+    }
+
 
     /**
      * 获得Token
