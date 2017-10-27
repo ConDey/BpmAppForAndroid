@@ -57,7 +57,10 @@ public class DownloadListAdapter extends BaseAdapter {
         if (position < items.size() && items.get(position) != null) {
 
             String type;
-            String fName = items.get(position).getName().trim();
+            String fName = items.get(position).getName();
+            if(items.get(position).getName()!=null){
+            fName = fName.trim();
+            }
             int dotIndex = fName.lastIndexOf(".");
             if (dotIndex < 0) {
             type = "*/*";    //不认识的

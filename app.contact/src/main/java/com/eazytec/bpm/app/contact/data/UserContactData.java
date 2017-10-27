@@ -30,8 +30,12 @@ public class UserContactData implements Comparable<UserContactData>{
     }
 
 
-    public String getName() {
+    public String getName()
+
+    {
+        if(name!=null){
         return name.trim();
+        }else return null;
     }
 
     public void setName(String name) {
