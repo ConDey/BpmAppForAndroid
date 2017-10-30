@@ -61,12 +61,14 @@ public class UserViewAdapter extends BaseAdapter {
         }
         int length = items.get(position).getFullName().length();
         if (position < items.size() && items.get(position) != null) {
+             if(items.get(position).getFullName()!=null&& items.get(position).getFullName().length()>0){
              if(length<3){
               ((AvatarImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setText(items.get(position).getFullName());
              }else{
             ((AvatarImageView) ViewHolder.get(convertView, R.id.item_user_contact_imageview)).setText(items.get(position).getFullName().substring(length-2));
              }
             ((TextView) ViewHolder.get(convertView, R.id.item_user_contact_title)).setText(items.get(position).getFullName());
+             }
         }
         return convertView;
     }

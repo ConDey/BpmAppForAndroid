@@ -38,6 +38,7 @@ public class UserContactPresenter extends RxPresenter<UserContactContract.View> 
                     @Override public void onNext(DepartmentDataTObject data) {
                         if (data.isSuccess()) {
                             mView.loadDepSuccess(data);
+                            mView.dismissProgress();
                         }
                     }
 
@@ -46,6 +47,7 @@ public class UserContactPresenter extends RxPresenter<UserContactContract.View> 
 
                     @Override public void onError(Throwable e) {
                         mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"未知错误，请稍后再试！");
+                        mView.dismissProgress();
                     }
                 });
         addSubscrebe(rxSubscription);

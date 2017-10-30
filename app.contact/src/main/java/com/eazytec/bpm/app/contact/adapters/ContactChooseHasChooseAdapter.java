@@ -68,11 +68,13 @@ public class ContactChooseHasChooseAdapter extends RecyclerView.Adapter<ContactC
 
         int length = items.get(position).getFullName().length();
         if (position < items.size() && items.get(position) != null) {
+            if(items.get(position).getFullName()!=null&& items.get(position).getFullName().length()>0){
             if(length<3){
                 viewHolder.imageview.setText(items.get(position).getFullName());
             }else{
                 viewHolder.imageview.setText(items.get(position).getFullName().substring(length-2));
             }
+        }
         }
         if(mOnItemClickListener != null){
             //为ItemView设置监听器
