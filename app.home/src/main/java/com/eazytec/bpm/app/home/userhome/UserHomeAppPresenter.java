@@ -118,7 +118,6 @@ public class UserHomeAppPresenter extends RxPresenter<UserHomeAppContract.View> 
                     }
 
                     @Override public void onError(Throwable e) {
-                        mView.toast(ToastDelegate.TOAST_TYPE_ERROR, R.string.web_error);
                     }
                 });
         addSubscrebe(rxSubscription);
