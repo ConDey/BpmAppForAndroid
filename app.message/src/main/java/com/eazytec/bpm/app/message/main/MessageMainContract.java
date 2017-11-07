@@ -16,6 +16,7 @@ public interface MessageMainContract {
         void loadSuccess(List<MessageTopicDataTObject> data);
 
         void loadSuccessFromDB(List<MessageTopicDataTObject> data);
+
     }
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {

@@ -2,6 +2,8 @@ package com.eazytec.bpm.lib.common.message;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.eazytec.bpm.appstub.db.DB;
 import com.eazytec.bpm.appstub.db.DBMessage;
@@ -74,9 +76,29 @@ public class DefaultMessageRepository implements MessageRepository {
 
     // 分页查询
     @Override
-    public List<MessageDataTObject> selectMessageByPage(String topicId, int pageIndex, int pageSize) {
-        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBMessage.TABLE_MESSAGE + " where " + DBMessage.COLUMN_TOPIC + " == '" + topicId + "' and " + DBMessage.COLUMN_USERNAME + " == '" + CurrentUser.getCurrentUser().getUserDetails().getUsername() + "' order by " + DBMessage.COLUMN_GMTCREATE + " desc limit " + pageIndex + " , " + pageSize, null);
+    public List<MessageDataTObject> selectMessageByPage(String isRead, int pageIndex, int pageSize) {
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBMessage.TABLE_MESSAGE + " where " + DBMessage.COLUMN_ISREAD+ " == '" + isRead + "' and " + DBMessage.COLUMN_USERNAME + " == '" + CurrentUser.getCurrentUser().getUserDetails().getUsername() + "' order by " + DBMessage.COLUMN_GMTCREATE + " desc limit " + pageIndex + " , " + pageSize, null);
         return convert(cursor);
+    }
+
+    //获得总条数
+    @Override
+    public long getCount(String isRead) {
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select count(*) from " + DBMessage.TABLE_MESSAGE + " where " + DBMessage.COLUMN_ISREAD+ " == '" + isRead + "' and " + DBMessage.COLUMN_USERNAME + " == '" + CurrentUser.getCurrentUser().getUserDetails().getUsername()+ "'", null);
+        cursor.moveToFirst();
+        long length = cursor.getLong(0);
+        cursor.close();
+        return length;
+    }
+
+    @Override
+    public int deleteMessageById(String topicId, String id) {
+        SQLiteDatabase sqldb = mDatabase.getReadableDatabase();
+        int result = sqldb.delete( DBMessage.TABLE_MESSAGE ,DBMessage.COLUMN_USERNAME + " == ? and " + DBMessage.COLUMN_MESSAGE_ID + " == ? and "  + DBMessage.COLUMN_TOPIC + " == ?",new String[]{CurrentUser.getCurrentUser().getUserDetails().getUsername(),id,topicId});
+        sqldb.close();
+
+        return result;
+
     }
 
 
@@ -112,13 +134,13 @@ public class DefaultMessageRepository implements MessageRepository {
                 message.setCreatedTime(DB.getString(cursor, DBMessage.COLUMN_GMTCREATE));
                 message.setTitle(DB.getString(cursor, DBMessage.COLUMN_TITLE));
                 message.setTopicId(DB.getString(cursor, DBMessage.COLUMN_TOPIC));
-                message.setTopicIcon(DB.getString(cursor,DBMessage.COLUMN_TOPIC_ICON));
+                message.setTopicIcon(DB.getString(cursor, DBMessage.COLUMN_TOPIC_ICON));
                 message.setNeedPush(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_NEEDPUSH)));
                 message.setPushed(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_PUSHED)));
                 message.setCanClick(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_CANCLICK)));
                 message.setIsRead(transStr2Bool(DB.getString(cursor, DBMessage.COLUMN_ISREAD)));
                 message.setUsername(DB.getString(cursor, DBMessage.COLUMN_USERNAME));
-                message.setInternalMsgId(DB.getString(cursor,DBMessage.COLUMN_UPDATE_MSGID));
+                message.setInternalMsgId(DB.getString(cursor, DBMessage.COLUMN_UPDATE_MSGID));
                 messages.add(message);
             }
             return messages;

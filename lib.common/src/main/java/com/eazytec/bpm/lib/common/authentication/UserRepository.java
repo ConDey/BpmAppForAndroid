@@ -51,7 +51,22 @@ public interface UserRepository {
      */
     public String getPassword();
 
+    /**
+     * 设置用户名
+     *
+     * @param details
+     */
+    public void saveUserDetails(UserDetails details);
 
+    /**
+     * 根据UserName获取登录信息
+     * <p>
+     * 观察者模式, 异步使用
+     *
+     * @param username
+     * @return
+     */
+    public UserDetails getUserDetailsByUsername(String username);
 
     /**
      * 设置当前用户上次请求时间

@@ -1,5 +1,7 @@
 package com.eazytec.bpm.app.contact.usercontact.department;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,10 +19,12 @@ import com.eazytec.bpm.app.contact.helper.ListViewHelper;
 import com.eazytec.bpm.app.contact.usercontact.userdetail.UserDetailActivity;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.lib.common.activity.ContractViewActivity;
+import com.eazytec.bpm.lib.utils.IntentUtils;
+import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -125,6 +129,8 @@ public class DepartmentActivity extends ContractViewActivity<DepartmentPresenter
                     }
                 });
 
+
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +138,55 @@ public class DepartmentActivity extends ContractViewActivity<DepartmentPresenter
             }
         });
 
+        userViewAdapter.setOnItemCallClickListener(new UserViewAdapter.onItemCallListener() {
+            @Override
+            public void onCallClick(int i) {
 
+                final String tel = userDetailDataTObjects.get(i).getMobile().toString();
+                if (!StringUtils.isEmpty(tel)) {
+                    RxPermissions rxPermissions = new RxPermissions(DepartmentActivity.this);
+                    rxPermissions.request(Manifest.permission.CALL_PHONE)
+                            .subscribe(new Action1<Boolean>() {
+                                @Override
+                                public void call(Boolean aBoolean) {
+                                    if(aBoolean){
+                                        Intent intent = IntentUtils.getCallIntent(tel);
+                                        startActivity(intent);
+                                    }else{
+                                        ToastDelegate.info(getContext(), "您没有授权拨打电话");
+                                    }
+                                }
+                            });
+                } else {
+                    ToastDelegate.info(getContext(), "该用户没有电话号码");
+                }
+            }
+        });
+
+        userViewAdapter.setOnItemMsgClickListener(new UserViewAdapter.onItemMsgListener() {
+            @Override
+            public void onMsgClick(int i) {
+                final String tel = userDetailDataTObjects.get(i).getMobile().toString();
+                if (!StringUtils.isEmpty(tel)) {
+                    RxPermissions rxPermissions = new RxPermissions(DepartmentActivity.this);
+                    rxPermissions.request(Manifest.permission.SEND_SMS)
+                            .subscribe(new Action1<Boolean>() {
+                                @Override
+                                public void call(Boolean aBoolean) {
+                                    if(aBoolean){
+                                        Intent intent = IntentUtils.getSendSmsIntent(tel,"");
+                                        startActivity(intent);
+                                    }else{
+                                        ToastDelegate.info(getContext(), "您没有授权发送短信");
+                                    }
+                                }
+                            });
+                } else {
+                    ToastDelegate.info(getContext(), "该用户没有手机号码");
+                }
+
+            }
+        });
     }
 
     @Override

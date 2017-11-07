@@ -28,11 +28,23 @@ public interface MessageRepository {
      *
      * @param topicId
      */
-    public void updateMessageIsReadState(String topicId , String id);
+    public void updateMessageIsReadState(String topicId, String id);
 
     /**
      * 分页查询消息
      *
      */
-    public List<MessageDataTObject> selectMessageByPage(String topicId, int pageIndex, int pageSize);
+    public List<MessageDataTObject> selectMessageByPage(String isRead, int pageIndex, int pageSize);
+
+    /**
+     * 得到总条数
+     */
+      public  long getCount(String isRead);
+
+    /**
+     * 删除某一条消息
+     *
+     * @param topicId
+     */
+    public int deleteMessageById(String topicId, String id);
 }

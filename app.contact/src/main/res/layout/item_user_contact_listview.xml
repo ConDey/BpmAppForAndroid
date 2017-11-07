@@ -2,18 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/drawer_listview_item_bg"
     android:orientation="vertical"
     android:paddingLeft="15dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:paddingBottom="10dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        >
+    <LinearLayout
+        android:id="@+id/item_user_contact_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.eazytec.bpm.appstub.view.imageview.AvatarImageView
             android:id="@+id/item_user_contact_imageview"
@@ -25,7 +31,7 @@
 
         <TextView
             android:id="@+id/item_user_contact_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
             android:ellipsize="end"
@@ -34,8 +40,34 @@
             android:textColor="@color/color_black_primary"
             android:textSize="14sp"
             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/item_user_contact_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@mipmap/ic_tel"
+            />
+        <ImageView
+            android:id="@+id/item_user_contact_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_msg"
+            android:background="@color/white"
+            />
+
 
     </LinearLayout>
+    </RelativeLayout>
  <include layout="@layout/bpm_single_line"></include>
 
 </LinearLayout>

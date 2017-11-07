@@ -27,7 +27,7 @@ import rx.schedulers.Schedulers;
  * @author Beckett_W
  * @version Id: MessageMainPresenter, v 0.1 2017/9/18 13:11 Beckett_W Exp $$
  */
-public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> implements MessageMainContract.Presenter<MessageMainContract.View> {
+public class MessageMainPresenter  extends RxPresenter<MessageMainContract.View> implements MessageMainContract.Presenter<MessageMainContract.View> {
     @Override
     public void loadTopics() {
         // 获取上次请求时间
@@ -38,7 +38,6 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
                 .subscribe(new Observer<MessageListDataTObject>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -84,10 +83,8 @@ public class MessageMainPresenter extends RxPresenter<MessageMainContract.View> 
 
     }
 
-
     @Override
     public void loadTopicsByDB() {
-
         mView.loadSuccessFromDB(CurrentTopic.getCurrentTopic().getTopicFromDB());
     }
 

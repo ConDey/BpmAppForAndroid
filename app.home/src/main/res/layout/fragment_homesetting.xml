@@ -192,6 +192,33 @@
     <include layout="@layout/bpm_single_line"></include>
 
     <RelativeLayout
+        android:id="@+id/homesetting_clean_cache_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/drawer_listview_item_bg"
+        android:clickable="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/ic_setting_clean"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:text="清除缓存"
+            android:textColor="@color/color_black_primary"
+            android:textSize="15sp"/>
+
+    </RelativeLayout>
+
+
+    <include layout="@layout/bpm_single_line"></include>
+
+    <RelativeLayout
         android:id="@+id/homesetting_loginout_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"

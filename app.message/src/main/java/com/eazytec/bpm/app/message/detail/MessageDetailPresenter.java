@@ -23,14 +23,21 @@ public class MessageDetailPresenter extends RxPresenter<MessageDetailContract.Vi
      */
 
     @Override
-    public void loadMessages(String topicId, int pageNo, int pageSize) {
+    public void loadMessages(String isRead, int pageNo, int pageSize) {
 
-        List<MessageDataTObject> messages = CurrentMessage.getCurrentMessage().getMessagesByPage(topicId, pageNo, pageSize);
+        List<MessageDataTObject> messages = CurrentMessage.getCurrentMessage().getMessagesByPage(isRead, pageNo, pageSize);
         if (messages != null) {
             mView.loadSuccess(messages);
         }
         mView.completeLoading();
     }
+
+
+    @Override
+    public void deleteMessage(String topicid, String id) {
+       int result = CurrentMessage.getCurrentMessage().deleteMessageById(topicid,id); //删除这条消息
+    }
+
 
     @Override
     public void setReaded(String id) {
@@ -65,5 +72,6 @@ public class MessageDetailPresenter extends RxPresenter<MessageDetailContract.Vi
                 });
         addSubscrebe(rxSubscription);
     }
+
 
 }

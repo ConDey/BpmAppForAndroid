@@ -49,9 +49,9 @@ public class CurrentMessage {
         return new ArrayList<>();
     }
 
-    public List<MessageDataTObject> getMessagesByPage(String  topicId, int pageIndex, int pageSize) {
+    public List<MessageDataTObject> getMessagesByPage(String  isRead, int pageIndex, int pageSize) {
         if (this.build.messageRepository != null) {
-            return this.build.messageRepository.selectMessageByPage(topicId, pageIndex, pageSize);
+            return this.build.messageRepository.selectMessageByPage(isRead, pageIndex, pageSize);
         }
         // 返还一个空数组
         return new ArrayList<>();
@@ -66,6 +66,28 @@ public class CurrentMessage {
         if (this.build.messageRepository != null) {
             this.build.messageRepository.updateMessageIsReadState(topicId ,id);
         }
+    }
+
+    /**
+     * 获得总条数
+     */
+    public  long getCount(String isRead){
+        if (this.build.messageRepository != null) {
+            return  this.build.messageRepository.getCount(isRead);
+        }
+        return  0;
+    }
+
+    /**
+     * 删除某条消息
+     *
+     * @param topicId
+     */
+    public int deleteMessageById(String topicId ,String id) {
+        if (this.build.messageRepository != null) {
+            return this.build.messageRepository.deleteMessageById(topicId ,id);
+        }
+        return 0;
     }
 
     public static class Build {

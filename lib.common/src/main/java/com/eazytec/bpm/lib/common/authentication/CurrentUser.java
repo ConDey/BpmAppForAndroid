@@ -38,7 +38,7 @@ public final class CurrentUser {
     }
 
     public void updateLastRequestTime() {
-        // 获取当前时间
+        //
         String lastRequestTime = String.valueOf(System.currentTimeMillis());
         String username = CurrentUser.getCurrentUser().getUserDetails().getUsername();
         if (!StringUtils.isEmpty(username)) {
@@ -56,6 +56,7 @@ public final class CurrentUser {
             }
         }
         return CommonParams.getCommonParams().getFiveDaysAgoTime(isDateFormat);
+
     }
 
     private boolean isLogin = false;  // 是否已经登录
@@ -85,6 +86,7 @@ public final class CurrentUser {
         if (this.build.userRepository != null) {
             this.build.userRepository.saveUsername(userDetails.getUsername());
             this.build.userRepository.savePassword(userDetails.getPassword());
+            this.build.userRepository.saveUserDetails(userDetails);
         }
         this.isLogin = true;
     }

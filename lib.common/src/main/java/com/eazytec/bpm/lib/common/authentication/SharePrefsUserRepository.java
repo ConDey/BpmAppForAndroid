@@ -8,6 +8,7 @@ import com.eazytec.bpm.appstub.db.DBLoginUser;
 import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
 import com.eazytec.bpm.lib.utils.SPUtils;
 import com.eazytec.bpm.lib.utils.StringUtils;
+import com.eazytec.bpm.lib.utils.TimeUtils;
 import com.squareup.sqlbrite.BriteDatabase;
 
 import java.io.BufferedInputStream;
@@ -75,7 +76,43 @@ public class SharePrefsUserRepository implements UserRepository {
         return sharePrefsUtil.getString(PARAM_PASSWORD);
     }
 
+    @Override
+    public void saveUserDetails(UserDetails details) {
+        if (details == null) {
+            return;
+        }
+        if (getUserDetailsByUsername(details.getUsername()) == null) {
+            ContentValues loginUser = new DBLoginUser.Builder()
+                    .username(details.getUsername())
+                    .password(details.getPassword())
+                    .fullname(details.getFullName())
+                    .orgfullname(details.getDepartmentName())
+                    .position(details.getPosition())
+                    .email(details.getEmail())
+                    .mobile(details.getMobile())
+                  //  .photoserviceurl(details.getPhoto())
+                    .createtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(TimeUtils.getNowMills())))
+                    .build();
+            mDatabase.insert(DBLoginUser.TABLE_LOGIN_USER, loginUser);
+        } else {
+            ContentValues loginUser = new DBLoginUser.Builder()
+                    .username(details.getUsername())
+                    .password(details.getPassword())
+                    .fullname(details.getFullName())
+                    .orgfullname(details.getDepartmentName())
+                    .position(details.getPosition())
+                    .email(details.getEmail())
+                    .mobile(details.getMobile())
+                  //  .photoserviceurl(details.getPhoto())
+                    .build();
+            mDatabase.update(DBLoginUser.TABLE_LOGIN_USER, loginUser, DBLoginUser.COLUMN_USERNAME + " == ?", details.getUsername());
+        }
+    }
 
+    @Override public UserDetails getUserDetailsByUsername(String username) {
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery("select * from " + DBLoginUser.TABLE_LOGIN_USER + " where " + DBLoginUser.COLUMN_USERNAME + " == '" + username + "'", null);
+        return convert(cursor);
+    }
     @Override
     public void setLastRequestTimeByUsername(String username, String lastRequestTime) {
         ContentValues values = new DBLoginUser.Builder().lastrequesttime(lastRequestTime).build();
@@ -102,5 +139,38 @@ public class SharePrefsUserRepository implements UserRepository {
             cursor.close();
         }
         return CommonParams.getCommonParams().getFiveDaysAgoTime(isDateFormat);
+    }
+
+    /**
+     * 数据转换逻辑,只取第一条数据，原则上没有更多的数据了
+     * <p>
+     * 就算有的话也没关系，数据都会一致更新的
+     *
+     * @param cursor
+     * @return
+     */
+    private UserDetails convert(Cursor cursor) {
+        if (null == cursor) {
+            return null;
+        }
+        try {
+            while (cursor.moveToNext()) {
+                UserDetails userDetails = new UserDetails();
+                userDetails.setUsername(DB.getString(cursor, DBLoginUser.COLUMN_USERNAME));
+                userDetails.setPassword(DB.getString(cursor, DBLoginUser.COLUMN_PASSWORD));
+                userDetails.setFullName(DB.getString(cursor, DBLoginUser.COLUMN_FULLNAME));
+                userDetails.setEmail(DB.getString(cursor, DBLoginUser.COLUMN_EMAIL));
+                userDetails.setMobile(DB.getString(cursor, DBLoginUser.COLUMN_MOBILE));
+                userDetails.setDepartmentName(DB.getString(cursor, DBLoginUser.COLUMN_ORGFULLNAME));
+              //  userDetails.setPhoto(DB.getString(cursor, DBLoginUser.COLUMN_PHOTOSERVICEURL));
+                userDetails.setPosition(DB.getString(cursor, DBLoginUser.COLUMN_POSITION));
+                return userDetails;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            cursor.close();
+        }
+        return null;
     }
 }

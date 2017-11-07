@@ -4,19 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.eazytec.bpm.app.message.detail.MessageDetailActivity;
-import com.eazytec.bpm.app.message.main.MessageMainAdapter;
 import com.eazytec.bpm.app.message.main.MessageMainContract;
 import com.eazytec.bpm.app.message.main.MessageMainPresenter;
-import com.eazytec.bpm.app.message.utils.RefreshRecyclerViewUtil;
-import com.eazytec.bpm.appstub.view.recyclerview.OnRecyclerViewItemClickListener;
-import com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView;
 import com.eazytec.bpm.lib.common.authentication.CurrentUser;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.common.message.commonparams.CommonParams;
@@ -26,27 +21,27 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 消息改为tab样式！
- * 每几分钟，或者是有推送，更新数据库
  * @author Beckett_W
  * @version Id: HomeTabMessageFragment, v 0.1 2017/9/26 13:29 Beckett_W Exp $$
  */
-public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPresenter> implements MessageMainContract.View,OnRecyclerViewItemClickListener {
+public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPresenter> implements MessageMainContract.View{
 
-    private static final long FIVE_MINUTES_MILLS = 180000; //三分钟（毫秒）
+    private static final long FIVE_MINUTES_MILLS = 300000; //五分钟（毫秒）
 
     private boolean isfirst = true;
     private boolean isforward = false;
     private boolean isrefresh = false;
 
-    private RefreshRecyclerView messageMainListView;
-    private MessageMainAdapter messageMainAdapter;
 
-    private List<MessageTopicDataTObject> datas;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    private MessageMainTabAdapter messageMainTabAdapter;
+
     private PushAgent mPushAgent;
 
 
@@ -57,10 +52,11 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
         View parentView = inflater.inflate(R.layout.activity_message_main, container, false);
 
         // 初始化
-        messageMainListView = (RefreshRecyclerView) parentView.findViewById(R.id.message_main_listview);
+        tabLayout = (TabLayout) parentView.findViewById(R.id.message_main_tab_layout);
+        viewPager = (ViewPager) parentView.findViewById(R.id.message_main_viewpager);
 
         initData();
-        setListener();
+
         receivePushMessage();
 
         return parentView;
@@ -73,34 +69,10 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
     }
 
     private void initData() {
-        datas = new ArrayList<>();
-
-        messageMainAdapter = new MessageMainAdapter(getContext());
-        messageMainListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        messageMainAdapter.resetList(datas);
-        messageMainListView.setRefreshEnable(true);
-        messageMainListView.setRefreshing(true);
-        messageMainListView.setAdapter(messageMainAdapter);
-        messageMainAdapter.setListener(this);
-        messageMainAdapter.notifyDataSetChanged();
-        RefreshRecyclerViewUtil.initRefreshViewColorSchemeColors(messageMainListView,getResources());
-
-
-    }
-
-    private void setListener() {
-        messageMainListView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageMainListView.refreshComplete();
-                    }
-                },1000); // 默认刷新一秒
-            }
-        });
+        messageMainTabAdapter = new MessageMainTabAdapter(getFragmentManager(),getContext());
+        viewPager.setAdapter(messageMainTabAdapter);
+        viewPager.setOffscreenPageLimit(2);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -124,7 +96,7 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
                 if ((TimeUtils.getNowMills() - lastRequestTime) > FIVE_MINUTES_MILLS) {
                     loadTopicFromNetworks();
                 }else {
-                      getPresenter().loadTopicsByDB();
+                    getPresenter().loadTopicsByDB();
                 }
             }
         }
@@ -165,38 +137,22 @@ public class HomeTabMessageFragment extends ContractViewFragment<MessageMainPres
     }
 
     @Override
-    public void onItemClick(View view, Object data) {
-        //跳到消息详情页面
-        MessageTopicDataTObject dataTObject = (MessageTopicDataTObject)data;
-
-        Bundle it = new Bundle();
-        it.putString(MessageConstant.TOPIC_ID, dataTObject.getId());
-        it.putString(MessageConstant.TOPIC_NAME, dataTObject.getName());
-        it.putString(MessageConstant.TOPIC_TYPE, dataTObject.getTopic());
-        getCommonActivity().startActivity(getCommonActivity(), MessageDetailActivity.class,it);
+    public void loadSuccess(List<MessageTopicDataTObject> data) {
+        //有推送，刷新viewpager，更新两个fragmnet的数据
+        messageMainTabAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void loadSuccess(List<MessageTopicDataTObject> data) {
-        messageMainListView.refreshComplete();
-        datas = data;
-        messageMainAdapter.resetList(datas);
-        messageMainAdapter.notifyDataSetChanged();
-    }
+    public void loadSuccessFromDB(List<MessageTopicDataTObject> data) {
 
-     @Override
-     public void loadSuccessFromDB(List<MessageTopicDataTObject> data) {
-     datas = data;
-     messageMainAdapter.resetList(datas);
-     messageMainAdapter.notifyDataSetChanged();
-     Handler handler = new Handler();
-     handler.postDelayed(new Runnable() {
-     @Override
-     public void run() {
-     loadTopicFromNetworks();
-     }
-     }, 1000);//1秒后执行Runnable中的run方法
-     }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadTopicFromNetworks();
+            }
+        }, 1000);//1秒后执行Runnable中的run方法
+    }
 
     private void loadTopicFromNetworks() {
         getPresenter().loadTopics();

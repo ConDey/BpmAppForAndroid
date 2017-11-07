@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.compat.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -49,6 +50,8 @@ public class DownloadHelper {
 
     private static CompletionHandler mHandler;
 
+    private static String apkName = AppUtils.getAppName();
+
     public static void download(final CommonActivity activity, final String id, final String name, final boolean isAutoOpen, final CompletionHandler handler) {
 
         mHandler = handler;
@@ -85,7 +88,12 @@ public class DownloadHelper {
                                                 @Override public void onNext(ResponseBody response) {
                                                     try {
                                                         InputStream is = response.byteStream();
-                                                        File file = new File(Environment.getExternalStorageDirectory(), name);
+                                                        File dir=new File(Environment.getExternalStorageDirectory()+"/"+apkName);
+                                                        if(!dir.exists())
+                                                        {
+                                                            dir.mkdirs();
+                                                        }
+                                                        File file = new File(dir, name);
                                                         FileOutputStream fos = new FileOutputStream(file);
                                                         BufferedInputStream bis = new BufferedInputStream(is);
                                                         byte[] buffer = new byte[1024];

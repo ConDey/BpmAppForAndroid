@@ -18,12 +18,16 @@ public class MessageDetailContract {
 
         //完成加载
         void completeLoading();
+
     }
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
 
-        void loadMessages(String topicId, int pageNo, int pageSize);
+        void loadMessages(String isRead, int pageNo, int pageSize);
 
         void setReaded(String id);
+
+        void deleteMessage(String topicid, String id);
+
     }
 }

@@ -5,13 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.eazytec.bpm.app.message.MessageMainActivity">
     <!--消息推送的列表-->
-    <com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView
-        android:id="@+id/message_main_listview"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/message_main_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@null">
-    </com.eazytec.bpm.appstub.view.recyclerview.RefreshRecyclerView>
+        android:layout_height="50dp"
+        android:background="@color/grey_0"
+        android:gravity="center"
+        app:tabGravity="fill"
+        app:tabMinWidth="100dp"
+        app:tabIndicatorColor="@color/color_primary"
+        app:tabSelectedTextColor="@color/color_primary"
+        app:tabTextColor="@color/grey_500"
+        app:tabMode="fixed">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/message_main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

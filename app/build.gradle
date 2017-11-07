@@ -12,15 +12,15 @@ android {
         multiDexEnabled true
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 6
-        versionName "2.3Stable"
+        versionCode 7
+        versionName "2.4Beta"
     }
     /**
      * 多渠道的不同配置
      */
     productFlavors {
         bpm_release{
-            // 每个环境包名不同
+            // 每个新的项目包名要不同
             applicationId "com.eazytec.bpm"
             // app名字，在 string.xml 不能有这个字段，会重名！！！改这个，名字就改了
             resValue "string", "app_name", "bpm演示版"
@@ -31,7 +31,7 @@ android {
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
-            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider\"")
+            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.provider\"")   //provider必须是applicaitonid+provider！！！！！不然下载打开不能用的！！！！！
             buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             buildConfigField("String", "IS_OPEN_LOCATION", "\"true\"")
         }
@@ -50,7 +50,7 @@ android {
             buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
-            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.app.provider.debug\"")
+            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.provider\"")
             buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             buildConfigField("String", "IS_OPEN_LOCATION", "\"true\"")
         }
