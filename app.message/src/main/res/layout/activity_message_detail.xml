@@ -21,25 +21,9 @@
         android:background="@color/white"
         >
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@mipmap/ic_empty_toast_info"
-            />
-
-        <TextView
-            android:id="@+id/listview_empty_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#E0E0E0"
-            android:text="尚无信息"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content"
-            android:textColor="#E0E0E0"
-            android:text="点击页面重新加载数据"
+            android:src="@mipmap/ic_message_empty"
             />
     </LinearLayout>
 

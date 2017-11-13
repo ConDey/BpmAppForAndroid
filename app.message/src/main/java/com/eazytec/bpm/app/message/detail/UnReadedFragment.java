@@ -102,19 +102,6 @@ public class UnReadedFragment extends ContractViewFragment<MessageDetailPresente
             }
         });
 
-
-        //点击刷新
-        emptyLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                refreshRecyclerView.setVisibility(View.VISIBLE);
-                emptyLinearLayout.setVisibility(View.GONE);
-                refreshRecyclerView.setRefreshing(true);
-                onDoRefresh();
-            }
-        });
-
         messageDetailAdapter.setOnLongItemClickListener(new MessageDetailAdapter.OnRecyclerViewLongItemClickListener() {
             @Override
             public void onLongItemClick(View view, final int position, final Object data) {
@@ -227,6 +214,13 @@ public class UnReadedFragment extends ContractViewFragment<MessageDetailPresente
 
     @Override
     public void loadSuccess(List<MessageDataTObject> messages) {
+
+        if(this.pageNo == PAGE_STARTING && messages.size() == 0){
+            refreshRecyclerView.setVisibility(View.GONE);
+            emptyLinearLayout.setVisibility(View.VISIBLE);
+            return;
+            //要做空view处理
+        }
 
         if(this.pageNo == PAGE_STARTING){
             messageDetailAdapter.resetList(messages);
