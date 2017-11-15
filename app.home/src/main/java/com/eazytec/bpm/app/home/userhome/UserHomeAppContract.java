@@ -1,5 +1,7 @@
 package com.eazytec.bpm.app.home.userhome;
 
+import com.eazytec.bpm.app.home.data.NoticeListDataTObject;
+import com.eazytec.bpm.app.home.data.app.AppIconDataTObject;
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.lib.common.CommonContract;
@@ -18,6 +20,10 @@ public interface UserHomeAppContract {
         void loadAllAppsSuccess(AppsDataTObject appsDataTObject);
 
         void getImgUrl(ImgDataTObject imgDataTObject);
+
+        void loadSuccess(NoticeListDataTObject dataTObject);
+
+        void loadIconSuccess(AppIconDataTObject appIconDataTObject);
     }
 
     interface Presenter<T> extends CommonContract.CommonPresenter<T> {
@@ -27,5 +33,9 @@ public interface UserHomeAppContract {
         void loadAllApps();
 
         void commonconfig();
+
+        void loadNoticeList(int pageNo, int pageSize, String title);
+
+        void loadAppIcon();
     }
 }

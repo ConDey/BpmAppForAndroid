@@ -11,6 +11,8 @@ import com.eazytec.bpm.app.notice.R;
 import com.eazytec.bpm.app.notice.data.NoticeDetailDataTObject;
 import com.eazytec.bpm.appstub.view.recyclerview.OnRecyclerViewItemClickListener;
 import com.eazytec.bpm.appstub.view.recyclerview.RefreshViewHolder;
+import com.eazytec.bpm.appstub.view.textview.BorderTextView;
+import com.eazytec.bpm.lib.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +40,35 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
         return new ViewHolder(view, viewType);
     }
 
-    @Override public void onBindViewHolder(ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(final ViewHolder holder, final int position) {
         NoticeDetailDataTObject item = items.get(position);
 
+        if(!StringUtils.isEmpty(item.getTitle())){
         holder.titleTextView.setText(item.getTitle());
+        }
+        if(!StringUtils.isEmpty(item.getCreatedBy())){
         holder.authorTextView.setText(item.getCreatedBy());
+        }
+        if(!StringUtils.isEmpty(item.getCreatedTime())){
         holder.timeTextView.setText(item.getCreatedTime());
+        }
+
+        if(item.getStatus()==0){
+            holder.stateTv.setVisibility(View.VISIBLE);
+            holder.stateTv.setText("未读");
+            holder.stateTv.setTextColor(context.getResources().getColor(R.color.red_400));
+        }else{
+            holder.stateTv.setVisibility(View.GONE);
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener != null){
+                    holder.stateTv.setVisibility(View.GONE);
+                    listener.onItemClick(v, items.get(position));
+                }
+            }
+        });
         holder.itemView.setTag(item);
     }
 
@@ -66,12 +91,14 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
         public TextView titleTextView;
         public TextView authorTextView;
         public TextView timeTextView;
+        private BorderTextView stateTv;
 
         public ViewHolder(View itemView, int type) {
             super(itemView, type);
             titleTextView = (TextView) itemView.findViewById(R.id.item_notice_title_textview);
             authorTextView = (TextView) itemView.findViewById(R.id.item_notice_author_textview);
             timeTextView = (TextView) itemView.findViewById(R.id.item_notice_time_textview);
+            stateTv = (BorderTextView) itemView.findViewById(R.id.item_notice_read_status);
         }
     }
 

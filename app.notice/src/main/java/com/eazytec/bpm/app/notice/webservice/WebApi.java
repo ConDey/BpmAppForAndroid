@@ -17,5 +17,5 @@ public interface WebApi {
     public Observable<NoticeListDataTObject> loadNoticeList(@Query("title") String title, @Query("pageNo") String pageNo, @Query("pageSize") String pageSize);
 
     @GET("notice/detail")
-    public Observable<NoticeDetailDataTObject> loadNoticeDetail(@Query("noticId") String noticeId);
+    public Observable<NoticeDetailDataTObject> loadNoticeDetail(@Query("noticeId") String noticeId);
 }

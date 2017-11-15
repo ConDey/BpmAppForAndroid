@@ -1,6 +1,8 @@
 package com.eazytec.bpm.app.home.userhome;
 
 import com.eazytec.bpm.app.home.R;
+import com.eazytec.bpm.app.home.data.NoticeListDataTObject;
+import com.eazytec.bpm.app.home.data.app.AppIconDataTObject;
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
 import com.eazytec.bpm.app.home.updatepwd.UpdatePwdContract;
@@ -111,6 +113,58 @@ public class UserHomeAppPresenter extends RxPresenter<UserHomeAppContract.View> 
                     @Override public void onNext(ImgDataTObject data) {
                         if (data.isSuccess()) {
                             mView.getImgUrl(data);
+                        }
+                    }
+
+                    @Override public void onCompleted() {
+                    }
+
+                    @Override public void onError(Throwable e) {
+                    }
+                });
+        addSubscrebe(rxSubscription);
+    }
+
+    @Override public void loadNoticeList(int pageNo, int pageSize, String title) {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).loadNoticeList(title, String.valueOf(pageNo), String.valueOf(pageSize))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<NoticeListDataTObject>() {
+                    @Override public void onNext(NoticeListDataTObject data) {
+                        if (data.isSuccess()) {
+                            mView.loadSuccess(data);
+                        } else {
+                            mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"公告加载失败" + data.getErrorMsg());
+                        }
+                    }
+
+                    @Override public void onCompleted() {
+                    }
+
+                    @Override public void onError(Throwable e) {
+                        mView.toast(ToastDelegate.TOAST_TYPE_ERROR,"公告加载失败:网络错误,请稍后再试");
+                    }
+                });
+        addSubscrebe(rxSubscription);
+    }
+
+    @Override
+    public void loadAppIcon() {
+        Subscription rxSubscription = BPMRetrofit.retrofit().create(WebApi.class).menuIcon()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override public void call() {
+                    }
+                })
+                .doOnTerminate(new Action0() {
+                    @Override public void call() {
+                    }
+                })
+                .subscribe(new Observer<AppIconDataTObject>() {
+                    @Override public void onNext(AppIconDataTObject data) {
+                        if (data.isSuccess()) {
+                            mView.loadIconSuccess(data);
                         }
                     }
 

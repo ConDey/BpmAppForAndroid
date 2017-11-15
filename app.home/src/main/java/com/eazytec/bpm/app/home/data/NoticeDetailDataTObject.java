@@ -1,4 +1,4 @@
-package com.eazytec.bpm.app.notice.data;
+package com.eazytec.bpm.app.home.data;
 
 import com.eazytec.bpm.lib.common.webservice.WebDataTObject;
 
@@ -19,8 +19,6 @@ public class NoticeDetailDataTObject extends WebDataTObject {
     private String createdTime;
 
     private String content;
-
-    private int status;
 
     private List<AttachmentsDataTObject> attachments;
 
@@ -70,14 +68,6 @@ public class NoticeDetailDataTObject extends WebDataTObject {
 
     public void setAttachments(List<AttachmentsDataTObject> attachments) {
         this.attachments = attachments;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }
 

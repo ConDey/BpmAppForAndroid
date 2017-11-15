@@ -8,10 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eazytec.bpm.app.home.R;
+import com.eazytec.bpm.app.home.data.NoticeDetailDataTObject;
+import com.eazytec.bpm.app.home.data.NoticeListDataTObject;
+import com.eazytec.bpm.app.home.data.app.AppIconDataTObject;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.app.home.data.app.tobject.AppDataTObjectHelper;
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
@@ -23,10 +29,15 @@ import com.eazytec.bpm.app.home.userhome.appsetting.HomeAppSettingActivity;
 import com.eazytec.bpm.appstub.Config;
 import com.eazytec.bpm.appstub.delegate.ToastDelegate;
 import com.eazytec.bpm.appstub.view.gridview.ScrollGridView;
+import com.eazytec.bpm.appstub.view.marqueelayout.MarqueeLayout;
+import com.eazytec.bpm.appstub.view.marqueelayout.MarqueeLayoutAdapter;
+import com.eazytec.bpm.appstub.view.marqueelayout.OnItemClickListener;
 import com.eazytec.bpm.lib.common.fragment.ContractViewFragment;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.jakewharton.rxbinding.widget.RxAdapterView;
 import com.squareup.picasso.Picasso;
+
+import net.wequick.small.Small;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +45,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import rx.functions.Action1;
@@ -65,6 +80,17 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
     private boolean longPress;
     private boolean alongPress;
 
+    //跑马灯公告相关
+    private RelativeLayout noticeLl;
+    private MarqueeLayout mMarqueeLayout;
+    private List<String> mSrcList;
+    private MarqueeLayoutAdapter<String> mSrcAdapter;
+    private List<String> noticeId;
+
+    //角标
+    private Map<String,Object> mDatas;
+    List<HashMap<String,Object>> list = new ArrayList<HashMap<String, Object>>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -81,6 +107,9 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
 
         homeAllAppAdapter = new CommonAppAdapter(getContext());
         allAppGridView.setAdapter(homeAllAppAdapter);
+
+        mMarqueeLayout = (MarqueeLayout) parentView.findViewById(R.id.fragment_home_app_margueelayout);
+        noticeLl = (RelativeLayout) parentView.findViewById(R.id.fragment_homeapp_marqueelayout_notice);
 
         RxAdapterView.itemClicks(appGridView).throttleFirst(1, TimeUnit.SECONDS).subscribe(new Action1<Integer>() {
             @Override
@@ -166,6 +195,7 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
                 return false;
             }
         });
+
         return parentView;
     }
 
@@ -178,6 +208,8 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
 
         getPresenter().loadAllApps();
         getPresenter().loadApps();
+        getPresenter().loadNoticeList(1,5,StringUtils.blank());
+        getPresenter().loadAppIcon();
         // 这里的代码是用的加载app.json的默认模式
         //this.bpmApps = getBpmApps();
         //homeAppAdapter.setItems(this.bpmApps);
@@ -209,6 +241,70 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         }
     }
 
+    @Override
+    public void loadSuccess(NoticeListDataTObject dataTObject) {
+        if (dataTObject.getTotalPages() <= 0) {
+            //把跑马灯公告去掉
+            noticeLl.setVisibility(View.GONE);
+            return;
+        }
+        mSrcList = new ArrayList<>();
+        noticeId = new ArrayList<>();
+        for(int i=0;i<5;i++ ){
+            if(dataTObject.getDatas().get(i).getTitle()!=null&&dataTObject.getDatas().get(i).getTitle().length()>0){
+                mSrcList.add(dataTObject.getDatas().get(i).getTitle());
+                noticeId.add(dataTObject.getDatas().get(i).getId());
+            }
+        }
+        mSrcAdapter = new MarqueeLayoutAdapter<String>(mSrcList) {
+            @Override
+            public int getItemLayoutId() {
+                return R.layout.item_marquee_text;
+            }
+
+            @Override
+            public void initView(View view, int position, String item) {
+                ((TextView) view).setText(item);
+            }
+        };
+        mSrcAdapter.setItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onClick(View view, int i) {
+                 String info = noticeId.get(i);
+                if(!StringUtils.isEmpty(info)){
+                 Small.openUri("app.notice/fornoticedetail?notice_id=" + info, getContext());
+                }
+            }
+        },R.id.item_marquee_text);
+        mMarqueeLayout.setAdapter(mSrcAdapter);
+        mMarqueeLayout.start();
+    }
+
+    /**
+     * 角标
+     * @param appIconDataTObject
+     */
+    @Override
+    public void loadIconSuccess(AppIconDataTObject appIconDataTObject) {
+        if(appIconDataTObject.getDatas()!=null){
+            mDatas = appIconDataTObject.getDatas();
+            Set<Map.Entry<String, Object>> entries = mDatas.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
+                list.add(initItem(entry.getKey(),entry.getValue()));
+            }
+            homeAppAdapter.resetIcon(list);
+            homeAppAdapter.notifyDataSetChanged();
+            homeAllAppAdapter.resetIcon(list);
+            homeAllAppAdapter.notifyDataSetChanged();
+        }
+    }
+    private HashMap<String,Object> initItem(String id,Object num){
+
+        HashMap<String,Object> map = new HashMap<String , Object>();
+        map.put("id",id);
+        map.put("num",num);
+        return map;
+    }
     /**
      * 老的本地模式
      *
@@ -275,6 +371,7 @@ public class HomeAppFragment extends ContractViewFragment<UserHomeAppPresenter> 
         }else{
             getPresenter().loadAllApps();
             getPresenter().loadApps();
+            getPresenter().loadAppIcon();
         }
     }
 }

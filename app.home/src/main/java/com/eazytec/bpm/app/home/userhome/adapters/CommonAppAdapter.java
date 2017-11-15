@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eazytec.bpm.app.home.HomeApplicaton;
 import com.eazytec.bpm.app.home.R;
 import com.eazytec.bpm.app.home.data.app.BPMApp;
 import com.eazytec.bpm.appstub.Config;
+import com.eazytec.bpm.appstub.view.badgeview.BadgeView;
 import com.eazytec.bpm.lib.utils.StringUtils;
 import com.eazytec.bpm.lib.utils.ViewHolder;
 import com.squareup.picasso.Picasso;
@@ -29,10 +31,12 @@ import java.util.List;
 public class CommonAppAdapter extends BaseAdapter {
 
     private List<BPMApp> items;
+    private List<HashMap<String ,Object>> itemsIcon;
     private Context context;
 
     public CommonAppAdapter(Context context) {
         this.items = new ArrayList<>();
+        this.itemsIcon = new ArrayList<>();
         this.context = context;
     }
 
@@ -85,6 +89,30 @@ public class CommonAppAdapter extends BaseAdapter {
                 }
                 // 设置显示文字
                    viewHolder.textView.setText(appitem.getDisplayName());
+
+
+                for(int i =0 ;i<itemsIcon.size();i++){
+                 HashMap<String,Object> map = itemsIcon.get(i);
+                if (map.get("id").equals(items.get(position).getId())) {
+                   //如果相同，就有角标
+                    // 添加角标
+                    if (viewHolder.messageBadgeView == null) {
+                        viewHolder.messageBadgeView = new BadgeView(context, viewHolder.imageView);
+                    }
+                    try{
+                    int num = (int)Double.parseDouble(map.get("num").toString());
+                    if (num>0) {
+                        viewHolder.messageBadgeView.setText(String.valueOf(num));
+                        viewHolder.messageBadgeView.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+                        viewHolder.messageBadgeView.setBadgeMargin(5);
+                        viewHolder.messageBadgeView.show();
+                    }else {
+                        viewHolder.messageBadgeView.hide();
+                    }
+                    }catch (Exception e) {
+                    }
+                }
+                }
             }
         }
         return convertView;
@@ -93,6 +121,7 @@ public class CommonAppAdapter extends BaseAdapter {
     final static class ViewHolder {
         TextView textView;
         ImageView imageView;
+        BadgeView messageBadgeView; //应用APP的角标
     }
 
     public void setItems(List<BPMApp> items) {
@@ -109,5 +138,11 @@ public class CommonAppAdapter extends BaseAdapter {
             }
         }
     }
+
+    public void resetIcon(List<HashMap<String ,Object>>items) {
+        this.itemsIcon = items;
+    }
+
+
 }
 

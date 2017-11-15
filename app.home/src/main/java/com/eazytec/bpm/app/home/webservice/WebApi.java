@@ -1,5 +1,7 @@
 package com.eazytec.bpm.app.home.webservice;
 
+import com.eazytec.bpm.app.home.data.NoticeListDataTObject;
+import com.eazytec.bpm.app.home.data.app.AppIconDataTObject;
 import com.eazytec.bpm.app.home.data.app.tobject.AppsDataTObject;
 import com.eazytec.bpm.app.home.data.authenication.AuthenticationDataTObject;
 import com.eazytec.bpm.app.home.data.commonconfig.ImgDataTObject;
@@ -77,4 +79,13 @@ public interface WebApi {
     @GET("menu/order")
     Observable<WebDataTObject> menuOrder(@Query("id") String id ,@Query("id2") String id2);
 
+    @GET("notice/list")
+    public Observable<NoticeListDataTObject> loadNoticeList(@Query("title") String title, @Query("pageNo") String pageNo, @Query("pageSize") String pageSize);
+
+
+    /**
+     * 菜单menu
+     */
+    @GET("menu/badge")
+    Observable<AppIconDataTObject> menuIcon();
 }

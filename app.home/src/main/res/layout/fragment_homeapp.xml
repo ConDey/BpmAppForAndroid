@@ -18,6 +18,37 @@
             android:scaleType="fitXY"
             android:src="@mipmap/ic_homeapp_banner"/>
 
+        <RelativeLayout
+            android:id="@+id/fragment_homeapp_marqueelayout_notice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/ic_trumpet"
+                    />
+                <com.eazytec.bpm.appstub.view.marqueelayout.MarqueeLayout
+                    android:id="@+id/fragment_home_app_margueelayout"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:enableAlphaAnim="false"
+                    app:enableScaleAnim="false"
+                    app:orientation="up"/>
+            </LinearLayout>
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
