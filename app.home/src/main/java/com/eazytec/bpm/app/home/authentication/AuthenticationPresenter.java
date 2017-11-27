@@ -33,7 +33,7 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
 
     private final static String PUSH_ALIAS_TYPE = "BPM";
 
-    @Override public void userlogin(final Context context, String username, String password) {
+    @Override public void userlogin(final Context context, final String username, final String password) {
 
         if (StringUtils.isSpace(username)) {
             mView.toast(ToastDelegate.TOAST_TYPE_WARINGING, R.string.authentication_username_cannot_empty);
@@ -61,7 +61,11 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                 .subscribe(new Observer<AuthenticationDataTObject>() {
                     @Override public void onNext(final AuthenticationDataTObject data) {
                         if (data.isSuccess()) {
-                            UserDetails userDetails = AuthenicationDataHelper.createUserDetailsByDTO(data);
+                            AuthenticationDataTObject temp = new AuthenticationDataTObject();
+                            temp = data;
+                            temp.setUsername(username);
+                            temp.setPassword(password);
+                            UserDetails userDetails = AuthenicationDataHelper.createUserDetailsByDTO(temp);
                             UserAuthority userAuthority = AuthenicationDataHelper.createUserAuthorityByDTO(data);
                             Token token = AuthenicationDataHelper.createTokenByDTO(data);
 
