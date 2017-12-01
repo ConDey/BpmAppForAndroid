@@ -76,9 +76,15 @@ public class UploadHelper {
 
                             @Override
                             public void onNext(ResponseBody responseBody) {
-
-                                DownloadHelper.fileHandler(true, null, mHandler);
-
+                                String response = responseBody.toString();
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    if (mHandler != null) {
+                                        DownloadHelper.fileHandler(true, jsonObject, mHandler);
+                                    }
+                                }catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
             }
