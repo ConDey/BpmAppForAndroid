@@ -35,5 +35,5 @@ public interface WebApi {
      */
 
     @POST("attachment/upload")
-    Observable<ResponseBody> upload(@Header("fileName") String file, @Body RequestBody body);
+    Observable<UploadFileDataTObject> upload(@Header("fileName") String file, @Body RequestBody body);
 }

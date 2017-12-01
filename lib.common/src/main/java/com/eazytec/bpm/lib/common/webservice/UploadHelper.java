@@ -22,6 +22,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * 通用的上传功能
+ *
  * @version Id: UploadHelper, v 0.1 2017-7-17 15:55 16735 Exp $$
  * @auther 16735
  */
@@ -43,7 +44,7 @@ public class UploadHelper {
         ProgressHelper.setProgressHandler(new DownloadProgressHandler() {
             @Override
             protected void onProgress(long bytesRead, long contentLength, boolean done) {
-                dialog.setProgress((int) (bytesRead *100/ contentLength));
+                dialog.setProgress((int) (bytesRead * 100 / contentLength));
                 if (done) {
                     dialog.dismiss();
                 }
@@ -59,7 +60,7 @@ public class UploadHelper {
                 BPMRetrofit.downloadRetrofit().create(WebApi.class).upload(filename, fileBody)
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
-                        .subscribe(new Observer<ResponseBody>() {
+                        .subscribe(new Observer<UploadFileDataTObject>() {
                             @Override
                             public void onCompleted() {
 
@@ -70,19 +71,22 @@ public class UploadHelper {
                                 if (mHandler != null) {
                                     DownloadHelper.fileHandler(false, null, mHandler);
                                 }
-                                ToastDelegate.error(activity.getContext(),"上传文件失败，请稍后再试");
+                                ToastDelegate.error(activity.getContext(), "上传文件失败，请稍后再试");
                                 dialog.dismiss();
                             }
 
                             @Override
-                            public void onNext(ResponseBody responseBody) {
-                                String response = responseBody.toString();
+                            public void onNext(UploadFileDataTObject responseBody) {
                                 try {
-                                    JSONObject jsonObject = new JSONObject(response);
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("path", responseBody.getPath());
+                                    jsonObject.put("rename", responseBody.getRename());
+                                    jsonObject.put("name", responseBody.getName());
+                                    jsonObject.put("id", responseBody.getId());
                                     if (mHandler != null) {
                                         DownloadHelper.fileHandler(true, jsonObject, mHandler);
                                     }
-                                }catch (JSONException e) {
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
