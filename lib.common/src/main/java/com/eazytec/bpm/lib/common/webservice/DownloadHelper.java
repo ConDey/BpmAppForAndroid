@@ -107,7 +107,7 @@ public class DownloadHelper {
                                                         is.close();
 
                                                         if (mHandler != null) {
-                                                            fileHandler(true, null, mHandler);
+                                                            fileHandler(true, null,null, mHandler);
                                                         }
 
                                                         if (isAutoOpen) {
@@ -139,7 +139,7 @@ public class DownloadHelper {
 
                                                 @Override public void onError(Throwable e) {
                                                     if (mHandler != null) {
-                                                        fileHandler(false, null, mHandler);
+                                                        fileHandler(false, null,null, mHandler);
                                                     }
                                                     ToastDelegate.error(activity.getContext(), "文件下载失败，请稍后再试");
                                                     dialog.dismiss();
@@ -150,14 +150,14 @@ public class DownloadHelper {
         }).start();
     }
 
-    public static void fileHandler(boolean isSuccess, JSONObject jsonObject, CompletionHandler handler) {
+    public static void fileHandler(boolean isSuccess, JSONObject jsonObject,String error, CompletionHandler handler) {
         if (jsonObject == null) {
             jsonObject = new JSONObject();
         }
         if (isSuccess) {
             try {
                 jsonObject.put("success", true);
-                jsonObject.put("errorMsg", "");
+                jsonObject.put("errorMsg",error);
                 handler.complete(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -165,7 +165,7 @@ public class DownloadHelper {
         } else {
             try {
                 jsonObject.put("success", false);
-                jsonObject.put("errorMsg", "");
+                jsonObject.put("errorMsg", error);
                 handler.complete(jsonObject.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
