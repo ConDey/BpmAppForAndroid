@@ -96,7 +96,7 @@ public class BPMApplication extends Application {
             }
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-
+        mPushAgent.setResourcePackageName("com.eazytec.bpm");
         // 注册推送服务，每次调用register都会回调该接口
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
