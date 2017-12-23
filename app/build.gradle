@@ -28,33 +28,14 @@ android {
             manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf",BAIDU_API_KEY:"miwLNN7vDAHxzANaFpqta6vGxbNcDG2u"]
             //服务器配置
             buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
-            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+           buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+          //  buildConfigField("String", "WEB_URL", "\"http://58.215.9.187:9180\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
             buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.provider\"")   //provider必须是applicaitonid+provider！！！！！不然下载打开不能用的！！！！！
             buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
             buildConfigField("String", "IS_OPEN_LOCATION", "\"true\"")
         }
-
-
-
-        bpm_debug{
-            applicationId "com.eazytec.bpm.debug"
-            // app名字，在 string.xml 不能有这个字段，会重名！！！改这个，名字就改了
-            resValue "string", "app_name", "bpm调试版"
-            // 修改 AndroidManifest.xml 里友盟的渠道变量,这个参数不能去掉,测试版友盟想要用的话，去友盟上新建一个项目，替换APPkey和secret的值
-            manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf",BAIDU_API_KEY:"miwLNN7vDAHxzANaFpqta6vGxbNcDG2u"]
-            //服务器配置
-            buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
-           // buildConfigField("String", "WEB_URL", "\"http://192.168.2.58:8080\"")
-            buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
-            buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
-            buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")
-            buildConfigField("String", "APK_PROVIDER_ID", "\"com.eazytec.bpm.debug.provider\"")
-            buildConfigField("String", "DB_NAME", "\"eazytec.bpm.db\"")
-            buildConfigField("String", "IS_OPEN_LOCATION", "\"true\"")
-        }
-
     }
     /**
      * 签名设置,debug和release的签名配置
@@ -110,5 +91,5 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
-
+    compile 'com.android.support:multidex:1.0.1' //支持包用于5.0以下系统
 }
