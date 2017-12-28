@@ -61,11 +61,11 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                 .subscribe(new Observer<AuthenticationDataTObject>() {
                     @Override public void onNext(final AuthenticationDataTObject data) {
                         if (data.isSuccess()) {
-
+                            final String name = data.getUsername();
                             AuthenticationDataTObject temp = new AuthenticationDataTObject();
+                            temp = data;
                             temp.setUsername(username);
                             temp.setPassword(password);
-
                             UserDetails userDetails = AuthenicationDataHelper.createUserDetailsByDTO(temp);
                             UserAuthority userAuthority = AuthenicationDataHelper.createUserAuthorityByDTO(data);
                             Token token = AuthenicationDataHelper.createTokenByDTO(data);
@@ -75,11 +75,11 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                             final PushAgent mPushAgent = PushAgent.getInstance(context);
 
                             // 先remove alias再添加alias
-                            mPushAgent.removeAlias(data.getUsername(), PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
+                            mPushAgent.removeAlias(name, PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
                                 @Override
                                 public void onMessage(boolean b, String s) {
                                     Log.i("REMOVE_ALIAS", s);
-                                    mPushAgent.addAlias(data.getUsername(), PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
+                                    mPushAgent.addAlias(name, PUSH_ALIAS_TYPE, new UTrack.ICallBack() {
                                         @Override
                                         public void onMessage(boolean b, String s) {
                                             Log.i("ADD_ALIAS", s);
