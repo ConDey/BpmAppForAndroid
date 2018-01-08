@@ -12,8 +12,8 @@ android {
         multiDexEnabled true
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 9
-        versionName "2.5Beta"
+        versionCode 10
+        versionName "2.6Beta"
     }
     /**
      * 多渠道的不同配置
@@ -28,7 +28,7 @@ android {
             manifestPlaceholders = [UMENG_APPKEY: "5975b6dff29d986542000973", UMENG_MESSAGE_SECRET: "4065b389c97662ed1a6177b7da7b9cdf",BAIDU_API_KEY:"miwLNN7vDAHxzANaFpqta6vGxbNcDG2u"]
             //服务器配置
             buildConfigField("String", "DEFAULT_TOKEN", "\"EAZYTEC\"")
-           buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:8080\"")
+           buildConfigField("String", "WEB_URL", "\"http://58.215.198.212:9999\"")
           //  buildConfigField("String", "WEB_URL", "\"http://58.215.9.187:9180\"")
             buildConfigField("String", "UPDATE_URL", "\"https://58.215.198.210:9997/bpmapp/android.jsp\"")
             buildConfigField("String", "UPDATE_APK_URL", "\"https://58.215.198.210:9997/bpmapp/android.apk\"")

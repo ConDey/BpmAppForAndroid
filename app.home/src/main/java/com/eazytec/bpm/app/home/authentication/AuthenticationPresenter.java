@@ -61,6 +61,7 @@ public class AuthenticationPresenter extends RxPresenter<AuthenticationContract.
                 .subscribe(new Observer<AuthenticationDataTObject>() {
                     @Override public void onNext(final AuthenticationDataTObject data) {
                         if (data.isSuccess()) {
+
                             final String name = data.getUsername();
                             AuthenticationDataTObject temp = new AuthenticationDataTObject();
                             temp = data;
