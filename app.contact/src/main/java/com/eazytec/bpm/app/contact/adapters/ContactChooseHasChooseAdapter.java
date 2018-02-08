@@ -66,9 +66,10 @@ public class ContactChooseHasChooseAdapter extends RecyclerView.Adapter<ContactC
     @Override
     public void onBindViewHolder(final  ViewHolder viewHolder, int position) {
 
-        int length = items.get(position).getFullName().length();
+
         if (position < items.size() && items.get(position) != null) {
             if(items.get(position).getFullName()!=null&& items.get(position).getFullName().length()>0){
+            int length = items.get(position).getFullName().length();
             if(length<3){
                 viewHolder.imageview.setText(items.get(position).getFullName());
             }else{

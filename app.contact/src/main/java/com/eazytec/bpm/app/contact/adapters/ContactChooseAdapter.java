@@ -66,9 +66,10 @@ public class ContactChooseAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_contactchoose, parent, false);
         }
-        int length = items.get(position).getFullName().length();
+
         if (position < items.size() && items.get(position) != null) {
             if(items.get(position).getFullName()!=null&& items.get(position).getFullName().length()>0){
+            int length = items.get(position).getFullName().length();
             if(length<3){
                 ((AvatarImageView) ViewHolder.get(convertView, R.id.item_contactchoose_imageview)).setText(items.get(position).getFullName());
             }else{

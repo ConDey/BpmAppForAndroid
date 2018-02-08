@@ -141,6 +141,7 @@ public class BPMWebViewActivity extends WebViewActivity {
         toolbarRightIv = (ImageView) findViewById(R.id.iv_right_common_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,11 +294,7 @@ public class BPMWebViewActivity extends WebViewActivity {
      * 设置titlebar右边按钮的背景图片
      */
     private void setTitleBarRightBtnBgImage(Drawable image) {
-        if (Build.VERSION.SDK_INT > 15) {
-            toolbarRightIv.setBackground(image);
-        } else {
-            toolbarRightIv.setBackgroundDrawable(image);
-        }
+            toolbarRightIv.setImageDrawable(image);
     }
 
 
