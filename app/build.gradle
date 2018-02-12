@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-//打包时间
+//打包时间，测试新的电脑github上传
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
