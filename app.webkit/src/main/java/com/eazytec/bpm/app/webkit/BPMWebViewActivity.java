@@ -197,6 +197,7 @@ public class BPMWebViewActivity extends WebViewActivity {
             this.url = getIntent().getStringExtra(INTENT_URL);
         }
         initWebView();
+        initLocation();
     }
 
     @Override
